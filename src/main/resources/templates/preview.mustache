@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="sv-SE">
+<head>
+    {{>head}}
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="-1">
+    <link rel='stylesheet' href="./css/1.0/handsontable.full.min.css" type='text/css' media='all' />
+</head>
+
+<body class="home page page-id-15 page-template page-template-page-templates page-template-full-width page-template-page-templatesfull-width-php custom-background masthead-fixed full-width footer-widgets grid">
+
+
+<div id="main" class="site-main">
+    <div id="qterms" style="display: none;">
+        <input name="form" type="hidden" value="{{queryParms.form}}"/>
+        <input name="org" type="hidden" value="{{queryParms.org}}"/>
+        <input name="from" type="hidden" value="{{queryParms.year_from}}"/>
+        <input name="to" type="hidden" value="{{queryParms.year_to}}"/>
+        <input name="subject" type="hidden" value="{{queryParms.simple_subject}} "/><!-- skall imploderas -->
+        <input name="publtype" type="hidden" value="{{queryParms.simple_publtype}} "/><!-- skall imploderas -->
+        <input name="openaccess" type="hidden" value="{{queryParms.simple_openaccess}}"/>
+        <input name="status" type="hidden" value="{{queryParms.simple_status}}"/>
+        <input name="errortype" type="hidden" value="{{queryParms.quality_errortype}}"/><!-- skall imploderas -->
+        <input name="author" type="hidden" value="{{queryParms.author}}"/>
+        <input name="orcid" type="hidden" value="{{queryParms.orcid}}"/>
+    </div>
+
+    <div id="main-content" class="main-content">
+
+        <div id="primary" class="content-area">
+            <div id="content" class="site-content" role="main">
+
+
+                <article id="post-635" class="post-635 page type-page status-publish hentry">
+                    <header class="entry-header"><h1 class="entry-title">Uttag av data</h1></header><!-- .entry-header -->
+                    <div class="entry-content">
+                        <div class="responsive-tabs">
+                            <h2 class="tabtitle">Exportera</h2>
+                            <div class="tabcontent">
+                                <h2>Här väljer du  fält och filformat för att exportera data
+                                    <a title="Exportera" href="http://info.swepub.kb.se/utsokningar-av-data/utsokningshjalp#export">
+                                        <i class=" fa fa-info-circle alignright moreinfo" style=" font-size:48px;"></i></a></h2>
+                                <div class="btn-wrap">
+                                    <div class="tablecol">
+                                        <div class="checkbox-dropdown btn btn-default btn-lg btn-tablecol" tabindex="2">Välj fält
+                                            <ul class="checkbox-dropdown-list" id="tablecol">
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="recordid" /> Record ID</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="organisation" /> Organisation</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="publiceringsar" /> Publiceringsår</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="upphov" /> Upphov</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="titel" /> Titel</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="vardpublikation" /> Värdpublikation</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="forlag" /> Förlag</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="publikationstypoutput" /> Publikationstyp/output</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="amneniva1" /> Ämne nivå 1</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="amneniva2" /> Ämne nivå 2</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="amneniva3" /> Ämne nivå 3</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="fulltextlank" /> Fulltextlänk</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="lanktillrepository" /> Länk till repository</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="publiceringstatus" /> Publiceringstatus</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="antallokalaupphovspersoner" /> Antal lokala upphovspersoner</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="totalaantaletupphovspersoner" /> Totala antalet upphovspersoner</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="affiliation" /> Affiliation</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="lokalpersonid" /> Lokal personID</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="orcid" /> ORCID</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="isiid" /> ISI ID</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="doi" /> DOI</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="issn" /> ISSN</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="isbn" /> ISBN</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="pmid" /> PMID</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="scopusid" /> Scopus ID</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="projekt" /> Projekt</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="program" /> Program</label></li>
+                                                <li><label><input checked="checked" name="tablecol" type="checkbox" value="kontrakt" /> Kontrakt</label></li>
+                                            </ul></div>
+                                    </div>
+                                    <div class="exportdata"><!-- <label id="exportdata_label" class="" for="exportdata">Välj fält</label>[tooltip type="link" link="" target="_self" tooltip="Välj de fält som ska ingå i uttaget. En asterisk (*) innebär att det kan uppstå flera rader för en publikationspost i tabellen t.ex. pga av flera upphov, ämnen mm." style="top" ]<i class="fa fa-question-circle"></i>[/tooltip] --></p>
+                                        <div class="checkbox-dropdown btn btn-default btn-lg btn-exportdata" tabindex="2">Exportera data
+                                            <ul class="checkbox-dropdown-list" id="exportdata">
+                                                <li>
+                                                    <div class="popover_export_data">
+                                                        <div class="popover-col1">
+                                                            <ul class="" role="">
+                                                                <li>
+                                                                    <label id="filetype_label" class="" for="filetype">Välj filformat</label>
+                                                                    <a  href="" data-placement="bottom" title="Välj format för filen."  class="osc_tooltip " target="_self">
+                                                                        <i class="fa fa-question-circle"></i>
+                                                                    </a>
+                                                                </li>
+                                                                <li><input type="radio" name="filetype" value="csv" checked>CSV</option></li>
+                                                                <li><input type="radio" name="filetype" value="json">JSON</option></li>
+                                                                <li><input type="radio" name="filetype" value="xml">XML</option></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="popover-col2">
+                                                            <ul class="" role="">
+                                                                <li><label id="downloadtype_label" class="" for="downloadtype">Välj nerladdningssätt</label><a  href="" data-placement="bottom" title="Att ladda ner via webb har en maxgräns på 1 miljoner rader."  class="osc_tooltip " target="_self"><i class="fa fa-question-circle"></i></a>
+
+                                                                </li>
+                                                                <li><input type="radio" name="downloadtype" value="downloadtype_browser" checked>Ladda ner direkt via webb</option></li>
+                                                                <li><input type="radio" name="downloadtype" value="downloadtype_ftp">Ladda ner via ftp</option></li>
+                                                            </ul>
+                                                        </div>
+                                                        <div class="generatefile">
+                                                            <button class="btn btn-default generatefile" id="generatefile" tabindex="3">Skapa fil <i class="fa fa-file"></i></button>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul></div>
+                                    </div>
+                                </div>
+                                <div class="ftplink" id="ftplink"><label id="ftplink_label" class="ftplink_label" for="ftplink">Filen skapas på denna plats: </label> <a href="">&nbsp;</a>
+                                    <p>Filen börjar byggas omgående, men det kan ta upp till en timme innan den är komplett.</p>
+                                </div>
+                                <h2 style="display:inline;">Förhandsvisning<a  href="" data-placement="top" title="Här visas upp till de första 100 raderna av resultatet i en förhandsgranskning. En asterisk (*) innebär att det kan uppstå flera rader för en publikationspost i tabellen t.ex. pga av flera upphov, ämnen mm."  class="osc_tooltip " target="_self"><i class="fa fa-question-circle"></i></a>
+
+                                </h2>
+                                <div class="" style="float:right" id="loader">Data hämtas</div>
+                                <div id="sparqltable"></div>
+                                <p>   </p>
+                                <div id="hits"><button class="btn btn-default btn-sm" id="hitsbtn"><i class="fa"></i>Beräkna antal träffar</a></button>
+                                    <div id="hitscount" style="display:inline;"></div>
+                                </div>
+
+                            </div><h2 class="tabtitle">Sökfråga</h2>
+                            <div class="tabcontent">
+
+                                <form class="custform usesparql_form" action="../uttag-av-data/?target=avancerad" method="post">
+                                    <h2>Här kan du kopiera sökfrågan till avancerad utsökning för redigering<a title="Sökfråga" href="http://info.swepub.kb.se/utsokningar-av-data/utsokningshjalp#usequery"><i class=" fa fa-info-circle alignright moreinfo" style=" font-size:48px;"></i></a></h2>
+                                    <p><textarea id="sparqlcode" disabled>PREFIX mods_m: &amp;lt;http://swepub.kb.se/mods/model#&amp;gt;<br />
+SELECT DISTINCT<br />
+sql:localName(?Record) as ?RecordID<br />
+?_recordContentSourceValue<br />
+WHERE<br />
+{<br />
+?Record a mods_m:Record .<br />
+?Record mods_m:hasMods ?Mods .<br />
+?Mods mods_m:recordContentSourceValue ?_recordContentSourceValue .<br />
+}</textarea></p>
+                                    <div class="usesparql"><button class="btn btn-default btn-lg usesparql" id="usesparql">Kopiera sökfråga till avancerad utsökning <i class="fa fa-clipboard"></i></button></div>
+                                </form>
+                            </div>
+                        </div> <!-- .responsive-tabs-->
+                    </div><!-- .entry-content -->
+                </article><!-- #post-## -->
+
+            </div><!-- #content -->
+        </div><!-- #primary -->
+    </div><!-- #main-content -->
+
+    {{>scripts}}
+    <script src="./js/1.0/handsontable.full.min.js"></script>
+    <script src="./js/1.0/sprql.js"></script>
+    <script>
+        jQuery(document).ready(function(){
+            jQuery('.dropdown-toggle').dropdown();
+        });
+    </script>
+</body>
+</html>
