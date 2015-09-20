@@ -9,9 +9,13 @@ repositories {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.11','com.sparkjava:spark-core:2.2','com.sparkjava:spark-template-mustache:1.0.0'
+    compile 'org.codehaus.groovy:groovy-all:2.3.11','com.sparkjava:spark-core:2.2','com.sparkjava:spark-template-mustache:1.0.0', 'com.github.groovy-wslite:groovy-wslite:1.1.2'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
+}
+
+task webPackCreateBundle(type: Exec)    {
+    commandLine 'sh','-c','webpack ./src/main/resources/public/js/1.0/static/webPackTest.js ./src/main/resources/public/js/1.0/static/bundle.js'
 }
 
 task bowerSyncJavascript(type: Sync) {
@@ -19,6 +23,7 @@ task bowerSyncJavascript(type: Sync) {
     into "src/main/resources/public/js/1.0/bower"
     include 'jquery/dist/jquery.js'
     include 'bootstrap/dist/js/bootstrap.min.js'
+    include 'handsontable/dist/handsontable.full.js'
 
 }
 
@@ -26,8 +31,10 @@ task bowerSyncStyleSheets(type: Sync) {
     from 'bower_components'
     into "src/main/resources/public/css/1.0/bower"
     include 'bootstrap/dist/css/bootstrap.css'
+    include 'bootstrap/dist/css/bootstrap.css.map'
     include 'font-awesome/css/font-awesome.css'
     include 'font-awesome/fonts/*.*'
+    include 'handsontable/dist/handsontable.full.css'
 }
 
 
