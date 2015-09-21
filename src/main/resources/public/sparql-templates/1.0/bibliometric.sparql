@@ -1,0 +1,191 @@
+# Max Bibliometric table
+PREFIX bmc: <http://swepub.kb.se/bibliometric/model#> 
+PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+PREFIX mods_m: <http://swepub.kb.se/mods/model#> 
+PREFIX outt_m: <http://swepub.kb.se/SwePubAnalysis/OutputTypes/model#>
+PREFIX xlink: <http://www.w3.org/1999/xlink#> 
+SELECT DISTINCT
+?_workID #Work ID
+?_publicationID #Publikation ID (*) #-
+?_orgName #Organisation (*)
+?_pubYear #Publiceringsår
+?_outputType #Outputtyp (*)
+?_OA #OA typ (*) #-
+?_hsv1 #Ämne nivå 1 (*) #-
+?_hsv3 #Ämne nivå 2 (*) 
+?_hsv5 #Ämen nivå 3 (*) #-
+?_titleValue #Titel (*) #-
+?_creatorCount #Totalt antal upphovspersoner
+?_name #Upphov (*) #-
+?_fraction #Upphovspersoners andel för Organisation (*) #-
+?_orcid #ORCID (*) #-
+?_channel #Värdpublikation (*) #
+?_pissn #print ISSN (*) #-
+?_eissn #elektronisk ISSN (*) #-
+?_publisher #Förlag (*) #-
+?_fulltext #Fulltextlänk (*) #-
+?_uri #Länk till arkiv (*) #-
+?_isiValue #ISI ID (*) #-
+?_doiValue #DOI (*) #-
+?_scopusValue #Scopus ID #-
+?_pmidValue #Pubmed ID #-
+?_isbnValue #ISBN (*) #-
+?_projekt #Projekt #-
+?_program #Program #-
+?_contract #Kontrakt #-
+
+WHERE
+{
+?CreativeWork bmc:localID ?_workID .
+?Publication bmc:localID ?_publicationID .
+
+#START_<?_creatorCount>
+?CreativeWork bmc:creatorCount  ?_creatorCount .
+#END_<?_creatorCount>
+
+#START_<?_titleValue>
+#OPTIONAL { ?CreativeWork bmc:title ?_titleValue . }
+BIND ( "TBD bug" as ?_titleValue )
+#END_<?_titleValue>
+
+?Organization rdfs:label ?_orgName .
+FILTER(lang(?_orgName) = 'sv' )
+
+?Subjects a swpa_m:SubjectCodes .
+#START_<?_hsv1>
+OPTIONAL
+{ 
+?Subjects swpa_m:hsv1 ?_hsv1 .
+}
+#END_<?_hsv1>
+
+#START_<?_hsv5>
+OPTIONAL
+{ 
+?Subjects swpa_m:hsv5 ?_hsv5 .
+}
+#END_<?_hsv5>
+
+?Creator a bmc:Creator .
+#START_<?_name>
+?Creator foaf:name ?_name .
+?CreatorAffiliation bmc:fraction ?_fraction .
+#END_<?_name>
+
+#START_<?_orcid>
+OPTIONAL { ?Creator bmc:orcid ?_orcid . }
+#END_<?_orcid>
+
+#START_<?_channel>
+OPTIONAL 
+{ 
+?Publication bmc:publishedIn ?Channel .
+?Channel swpa_m:onetitle ?_channel .
+OPTIONAL{ ?Channel swpa_m:issn ?_pissn . }
+OPTIONAL{ ?Channel swpa_m:eissn ?_eissn . }
+}
+#END_<?_channel>
+
+#START_<?_publisher>
+BIND ( "TBD publisher list" as ?_publisher )
+#END_<?_publisher>
+
+#START_<?_fulltext>
+OPTIONAL{ ?Publication bmc:uriFulltext ?_fulltext . }
+#END_<?_fulltext>
+
+#START_<?_uri>
+OPTIONAL{ ?Publication bmc:uriRepository ?_uri . }
+#END_<?_uri>
+
+?CreativeWork bmc:reportedBy ?Record .
+?Record mods_m:hasMods ?Mods .
+#START_<?_doiValue>
+OPTIONAL
+{
+?Mods mods_m:hasIdentifier ?DOI .
+?DOI mods_m:doiValue ?_doiValue .
+}
+#END_<?_doiValue>
+
+#START_<?_isiValue>
+OPTIONAL
+{
+?Mods mods_m:hasIdentifier ?ISI .
+?ISI mods_m:isiValue ?_isiValue .
+}
+#END_<?_isiValue>
+
+#START_<?_scopusValue>
+OPTIONAL
+{
+?Mods mods_m:hasIdentifier ?Scopus .
+?Scopus mods_m:scopusValue ?_scopusValue .
+}
+#END_<?_scopusValue>
+
+#START_<?_pmidValue>
+OPTIONAL
+{
+?Mods mods_m:hasIdentifier ?PMID .
+?PMID mods_m:pmidValue ?_pmidValue .
+}
+#END_<?_pmidValue>
+
+#START_<?_isbnValue>
+OPTIONAL
+{ 
+?Mods mods_m:hasIdentifier ?ISBN .
+?ISBN mods_m:isbnValue ?_isbnValue .
+} 
+#END_<?_isbnValue>
+
+{
+SELECT DISTINCT ?CreativeWork ?Publication ?_pubYear ?Organization ?_outputType ?_OA ?Subjects ?_hsv3 ?CreatorAffiliation ?Creator
+WHERE
+{
+?CreativeWork a bmc:CreativeWork .
+?CreativeWork bmc:publishedAs ?Publication .
+
+#START_<?_outputType>
+?Publication bmc:hasOutputType ?OutputType .
+?OutputType outt_m:code ?_outputType .
+#END_<?_outputType>
+
+#START_<?_OA>
+OPTIONAL 
+{
+?CreativeWork bmc:hasOpenAccess ?OpenAccess .
+?OpenAccess swpa_m:oaType ?_OA .
+}
+#END_<?_OA>
+
+?CreativeWork bmc:publicationYearEarliest ?_pubYear .
+?CreativeWork bmc:hasCreatorShip ?CreatorShip .
+?CreatorShip bmc:hasAffiliation ?CreatorAffiliation .
+?CreatorAffiliation bmc:hasOrganization ?Organization .
+
+?CreativeWork bmc:hasSubject ?Subjects .
+#START_<?_hsv3>
+OPTIONAL
+{ 
+?Subjects swpa_m:hsv3 ?_hsv3 .
+}
+#END_<?_hsv3>
+
+?CreatorShip bmc:hasCreator ?Creator . 
+
+###  FILTERS START ####
+#FILTER_<?_orgCode> ( xsd:string(?_orgCode) IN ( <?_orgCode> ) ) 
+#FILTER_<?_pubYear_low> ( ?_pubYear >= <?_pubYear_low> ) 
+#FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> ) 
+#FILTER_<?_outputType> (xsd:string(?_outputType) IN ( <?_outputType> ) ) 
+#FILTER_<?_hsv3> ( xsd:int(?_hsv3) IN ( <?_hsv3> ) )
+#FILTER_<?_OA> ( BOUND(?_OA ))
+###  FILTERS END ####
+}
+LIMIT 500
+}
+}
+LIMIT 100
+
