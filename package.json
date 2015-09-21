@@ -1,0 +1,24 @@
+{
+  "name": "swepubanalysisweb",
+  "version": "1.1.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bower": "^1.5.2",
+    "webpack": "^1.12.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/libris/swepubanalys.git"
+  },
+  "author": "Theodor Tolstoy",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/libris/swepubanalys/issues"
+  },
+  "homepage": "https://github.com/libris/swepubanalys#readme"
+}
