@@ -1,0 +1,16 @@
+{
+  "name": "SwePubAnalysisWeb",
+  "version": "1.1.0",
+  "homepage": "https://github.com/libris/swepubanalys",
+  "authors": [
+    "Theodor <theodor.tolstoy@kb.se>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
