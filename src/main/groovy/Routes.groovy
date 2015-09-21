@@ -1,4 +1,4 @@
-import spark.ModelAndView
+import groovy.json.JsonOutput
 import spark.servlet.SparkApplication
 import spark.template.mustache.MustacheTemplateEngine
 import spark.ModelAndView
@@ -8,6 +8,7 @@ import static spark.Spark.*
 
 /**
  * Created by Theodor on 2015-09-09.
+ * Hanldes Routing in the application.
  */
 public class Routes implements SparkApplication {
     private final static MustacheTemplateEngine templateEngine = new MustacheTemplateEngine();
@@ -24,7 +25,18 @@ public class Routes implements SparkApplication {
         get("/uttag-av-data", { req, res -> index(req, res) }, templateEngine);
         get("/", { req, res -> index(req, res) }, templateEngine);
         post("/ladda-ner-fil", { req, res -> preview(req, res) }, templateEngine);
+        post("/api/1.0/sparql", { req, res -> sparql(req, res) })
 
+    }
+
+    static String sparql(Request request, Response response) {
+        final Map map = new HashMap();
+        final Map queryParms = request.queryParams().collectEntries {
+            it -> [it, request.queryParamsValues(it)]
+        };
+        map.put("queryParms", queryParms)
+        String s = JsonOutput.prettyPrint(JsonOutput.toJson(map))
+        return s;
     }
 
     private static ModelAndView index(final Request request, final Response response) {
@@ -36,7 +48,7 @@ public class Routes implements SparkApplication {
     private static ModelAndView preview(final Request request, final Response response){
         final Map map = new HashMap();
         final Map queryParms = request.queryParams().collectEntries {
-            it->[it, request.queryParams(it)]
+            it -> [it, request.queryParamsValues(it)]
         };
         map.put("queryParms", queryParms)
         map.put("pageTitle", "Ladda ned fil");
