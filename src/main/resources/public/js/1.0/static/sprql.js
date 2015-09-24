@@ -13,9 +13,9 @@ var sprql = {
         contextMenu: false,
         minSpareRows: 0
     },
-    url: 'http://virhp07.libris.kb.se/sparql',
+    url: '/api/1.0/sparql',
     ftpurl: 'http://beta.swepub.kb.se/Data/query',
-    templateurl: './sparql-templates/1.0',
+    templateurl: '/sparql-templates/1.0',
     template_name: '',
     form: '',
     input2cols: {},
@@ -78,11 +78,11 @@ jQuery( document ).ready( function ( $ ) {
         switch(sprql.form) {
             case 'simple':
                 tab = '#tablist1-tab1';
-                //hash = 'enkel-utsÃ¶kning';
+                //hash = 'enkel-uts&ouml;kning';
                 break;
             case 'advanced':
                 tab = '#tablist1-tab2';
-                //hash = 'avancerad-utsÃ¶kning';
+                //hash = 'avancerad-uts&ouml;kning';
                 break;
             case 'quality':
                 tab = '#tablist1-tab3';
@@ -123,7 +123,7 @@ jQuery( document ).ready( function ( $ ) {
                 }
 
                 jQuery("#hitsbtn").css('display', 'none');
-                jQuery("#hitscount").html(d + " trÃ¤ffar");
+                jQuery("#hitscount").html(d + " tr&auml;ffar");
                 sprql.counthits = 0;
             });
         }
@@ -570,7 +570,7 @@ function json2table(a, rf){
             jQuery('#sparqltable').destroy();
         }
         if ( ! jQuery("#nohits")[0] ) {
-            jQuery("#sparqltable").before("<p id=\"nohits\">INGA TRÃ„FFAR</p>");
+            jQuery("#sparqltable").before("<p id=\"nohits\">INGA TR&Auml;FFAR</p>");
         }
         jQuery("#hits").css('display', 'none');
         sprql.results=false;
