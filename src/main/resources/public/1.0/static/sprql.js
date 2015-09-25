@@ -715,14 +715,14 @@ function createSprql(limit) {
                     if ( author && orcid ) {
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_NAME_FILTER>[^]*?#END_<ONE_CREATOR_NAME_FILTER>.*?/, '');
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_ORCID_FILTER>[^]*?#END_<ONE_CREATOR_ORCID_FILTER>.*?/, '');
-                        author = "'" + author.split(/\s+/).map(function(v){return "\"" + v + "\"";}).join(' AND ') + "'"
+                        author = "'" + author.split(/\s+/).map(function(v){return "\"" + v + "\"";}).join(' AND ') + "'";
                         filters_string = filters_string.replace(/#(FILTER)_<\?_name>(.*?)<\?_name>(.*?)$/mi, "$1$2" + author + "$3" );
                         filters_string = filters_string.replace(/#(FILTER)_<\?_orcid>(.*?)<\?_orcid>(.*)$/mi, "$1$2" + "\"" + orcid + "\"" + "$3");
                     }
                     else if ( author ) {
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_TWO_FILTERS>[^]*?#END_<ONE_CREATOR_TWO_FILTERS>.*?/, '');
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_ORCID_FILTER>[^]*?#END_<ONE_CREATOR_ORCID_FILTER>.*?/, '');
-                        author = "'" + author.split(/\s+/).map(function(v){return "\"" + v + "\"";}).join(' AND ') + "'"
+                        author = "'" + author.split(/\s+/).map(function(v){return "\"" + v + "\"";}).join(' AND ') + "'";
                         filters_string = filters_string.replace(/#(FILTER)_<\?_name>(.*?)<\?_name>(.*)$/mi, "$1$2" + author + "$3");
                     }
                     else if ( orcid ) {

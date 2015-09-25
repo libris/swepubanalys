@@ -13,22 +13,27 @@ import spark.Response
 public class Routes implements SparkApplication {
     private final static MustacheTemplateEngine templateEngine = new MustacheTemplateEngine();
 
-    /*public static void main(String[] args){
+    public static void main(String[] args){
         SparkApplication app = new Routes();
         app.init();
-    }*/
+    }
 
     @Override
     void init() {
-
+        staticFileLocation("/public");
         get("/uttag-av-data", { req, res -> index(req, res) }, templateEngine);
         post("/uttag-av-data/", { req, res -> index(req, res) }, templateEngine);
         get("/", { req, res -> index(req, res) }, templateEngine);
         post("/ladda-ner-fil", { req, res -> preview(req, res) }, templateEngine);
         post("/api/1.0/sparql", { req, res -> sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> sparql(req, res) })
-        staticFileLocation("/public");
+        get("/form", { req, res -> form(req, res) })
+    }
 
+    private static ModelAndView index2(final Request request, final Response response) {
+        final Map map = new HashMap();
+        map.put("pageTitle", "Nytt formulär");
+        new ModelAndView(map, "form.mustache");
     }
 
     private static ModelAndView index(final Request request, final Response response) {

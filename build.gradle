@@ -1,3 +1,7 @@
+configurations {
+    moreLibs
+}
+
 group 'SwePubAnalysisWeb'
 version '1.1-SNAPSHOT'
 
@@ -5,8 +9,22 @@ apply plugin: 'groovy'
 apply plugin: 'war'
 
 
+
 repositories {
     mavenCentral()
+}
+
+
+
+war {
+    baseName = 'ROOT'
+    version = ''// + System.currentTimeMillis();
+    //from 'src/main/resources/public' // adds a file-set to the root of the archive
+    //into 'public'
+    //webInf { from 'src/' } // adds a file-set to the WEB-INF dir.
+    //classpath fileTree('') // adds a file-set to the WEB-INF/lib dir.
+    //classpath configurations.moreLibs // adds a configuration to the WEB-INF/lib dir.
+    webXml = file('../SwePubAnalysisWeb/WEB-INF/web.xml') // copies a file to WEB-INF/web.xml
 }
 
 dependencies {
@@ -19,28 +37,21 @@ task webPackCreateBundle(type: Exec)    {
     commandLine 'sh','-c','webpack ./src/main/resources/public/js/1.0/static/webPackTest.js ./src/main/resources/public/js/1.0/static/bundle.js'
 }
 
-task bowerSyncJavascript(type: Sync) {
+task bowerSync(type: Sync) {
     from 'bower_components'
-    into "src/main/resources/public/js/1.0/bower"
+    into "src/main/resources/public/1.0/compiled"
     include 'jquery/dist/jquery.js'
     include 'bootstrap/dist/js/bootstrap.min.js'
     include 'handsontable/dist/handsontable.full.js'
-
-}
-
-task bowerSyncStyleSheets(type: Sync) {
-    from 'bower_components'
-    into "src/main/resources/public/css/1.0/bower"
     include 'bootstrap/dist/css/bootstrap.css'
     include 'bootstrap/dist/css/bootstrap.css.map'
     include 'font-awesome/css/font-awesome.css'
     include 'font-awesome/fonts/*.*'
     include 'handsontable/dist/handsontable.full.css'
+
 }
 
 
-task bowerPackages() {
-    dependsOn bowerSyncJavascript, bowerSyncStyleSheets
-}
+
 
 
