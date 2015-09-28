@@ -1,3 +1,14 @@
+# Bower and npm packages
+bower_components/
+node_modules/
+
+# Bundled front-end code
+src/main/resources/public/
+
+# Project build files
+build/
+.gradle/
+
 *.class
 
 # Mobile Tools for Java (J2ME)
