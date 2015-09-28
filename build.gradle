@@ -34,7 +34,7 @@ dependencies {
 }
 
 task webPackCreateBundle(type: Exec)    {
-    commandLine 'sh','-c','webpack ./src/main/resources/public/js/1.0/static/webPackTest.js ./src/main/resources/public/js/1.0/static/bundle.js'
+    commandLine 'sh','-c','webpack'
 }
 
 task bowerSync(type: Sync) {

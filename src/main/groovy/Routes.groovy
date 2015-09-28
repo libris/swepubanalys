@@ -27,7 +27,7 @@ public class Routes implements SparkApplication {
         post("/ladda-ner-fil", { req, res -> preview(req, res) }, templateEngine);
         post("/api/1.0/sparql", { req, res -> sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> sparql(req, res) })
-        get("/form", { req, res -> form(req, res) })
+        get("/form", { req, res -> form(req, res) }, templateEngine)
     }
 
     private static ModelAndView index2(final Request request, final Response response) {
@@ -40,6 +40,12 @@ public class Routes implements SparkApplication {
         final Map map = new HashMap();
         map.put("pageTitle", "Uttag av data");
         new ModelAndView(map, "index.mustache");
+    }
+
+    private static ModelAndView form(final Request request, final Response response) {
+        final Map map = new HashMap();
+        map.put("pageTitle", "Uttag av data");
+        new ModelAndView(map, "form.mustache");
     }
 
     private static ModelAndView preview(final Request request, final Response response){
