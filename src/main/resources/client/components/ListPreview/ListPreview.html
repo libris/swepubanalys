@@ -1,0 +1,18 @@
+<div style="overflow-x: scroll;">
+	<table class="table">
+		<thead>
+			<th v-repeat="checkedFilterFields">
+				{{ $value }}
+			</th>
+		</thead>
+		<tbody>
+			<tr v-repeat="article in articles">
+				<td v-repeat="cell in article.fields">
+					<div style="min-width: 200px;">
+						{{ cell.value }}
+					</div>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

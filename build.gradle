@@ -45,10 +45,23 @@ task bowerSync(type: Sync) {
     include 'handsontable/dist/handsontable.full.js'
     include 'bootstrap/dist/css/bootstrap.css'
     include 'bootstrap/dist/css/bootstrap.css.map'
+    include 'kungbib-styles/dist/css/kb-style.css'
     include 'font-awesome/css/font-awesome.css'
     include 'font-awesome/fonts/*.*'
     include 'handsontable/dist/handsontable.full.css'
+}
 
+// Rename this function to something more proper
+task BowerSync2(type: Sync) {
+    from 'bower_components'
+    into "src/main/resources/public/2.0/vendor"
+    include 'bootstrap/dist/js/bootstrap.min.js'
+    include 'bootstrap/dist/css/bootstrap.min.css'
+    include 'bootstrap/dist/css/bootstrap.css.map'
+    include 'kungbib-styles/dist/css/kb-style.css'
+    include 'font-awesome/fonts/*.*'
+    include 'font-awesome/css/font-awesome.min.css'
+    include 'font-awesome/fonts/*.*'
 }
 
 
