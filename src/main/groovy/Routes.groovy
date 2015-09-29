@@ -8,7 +8,7 @@ import spark.Response
 
 /**
  * Created by Theodor on 2015-09-09.
- * Hanldes Routing in the application.
+ * Handles Routing in the application.
  */
 public class Routes implements SparkApplication {
     private final static MustacheTemplateEngine templateEngine = new MustacheTemplateEngine();
@@ -50,7 +50,6 @@ public class Routes implements SparkApplication {
 
     private static ModelAndView preview(final Request request, final Response response){
         final Map map = new HashMap();
-        def a = request.queryParams();
         final Map queryParms = request.queryParams().collectEntries {
             it -> it.endsWith(']') ? [it.substring(0, it.length() - 2), request.queryParamsValues(it).join(',')] : [it, request.queryParams(it)]
         };
@@ -62,7 +61,6 @@ public class Routes implements SparkApplication {
     static sparql(Request request, Response response) {
         def query = request.queryParams("query");
         def format = request.queryParams("format");
-
         def resp = new SparqlEndPoint().post(query, format)
         response.type(format);
         return resp;
