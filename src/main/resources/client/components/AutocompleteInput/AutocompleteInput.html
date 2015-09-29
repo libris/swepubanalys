@@ -1,0 +1,16 @@
+<select multiple="multiple" style="width: 100%;" value="{{ name }}">
+	<!-- If options prop is present, use that array -->
+	<template v-if="options">
+		<option v-repeat="option in options" value="{{ option.value }}">
+			{{ option.text }}
+		</option>
+	</template>
+	<!-- If not, and optgroups props is sent, use optgroups -->
+	<template v-if="optgroups && !options">
+		<optgroup v-repeat="optgroup in optgroups" label="{{ optgroup.name }}">
+			<option v-repeat="optgroup.options" value="{{ value }}">
+				{{ text }}
+			</option>
+		</optgroup>
+	</template>
+</select>

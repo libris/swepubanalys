@@ -1,0 +1,15 @@
+<div style="background-color: #2e2e2e; color: #bababa; padding: 55px; padding-top: 15px; margin-bottom: 0px;">
+	<div style="font-weight: bold">
+		<h3>Uttag</h3>
+	</div>
+	<div style="margin-bottom: 10px;">
+		Bacon ipsum dolor amet pork strip steak jerky, short loin flank tongue ham. Jerky ham pancetta biltong.
+	</div>
+</div>
+<div style="padding: 55px; padding-top: 15px;">
+	<search-form on-search="{{ onSearch }}"></search-form>
+	<div v-show="formModel.templateName" v-transition="expand">
+		<hr>
+		<search-result form-model="{{ formModel }}"></search-result>
+	</div>
+</div>
