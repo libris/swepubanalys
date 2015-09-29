@@ -88,38 +88,38 @@ var SearchResult = {
 		 *
 		 */
 		updateQuery: function() {
-				if(this.formModel.templateName) {
-					// *** Generate new query for query-window
-					var formModel = _cloneDeep(this.formModel);
-					formModel.filterFields = this.filterFields;
-					SparqlUtil.generateQuery({
-						limit: false,
-						formModel: formModel
-					}, function(query) {
-						this.$set('query', query);
-					}.bind(this));
-					// *** Post "Preview-query" if there are selected filterFields which does not exist in result
-					// *** Update list preview with result
-					SparqlUtil.generateQuery({
-						limit: true,
-						formModel: formModel
-					}, function(query) {
-						for(var i = 0; i < formModel.filterFields.length; i++) {
-							if(formModel.filterFields[i].checked === true) {
-								var index = _findIndex(this.result.head.vars, function(field) {
-									return '?' + field === formModel.filterFields[i].field;
-								});
-								if(index === -1) {
-									console.log('*** SearchResults.updateQuery(): New fields needed for preview. Posting query');
-									this.postQuery(query, function(result) {
-										this.$set('result', result);
-									}.bind(this));
-									return false;
-								}
+			if(this.formModel.templateName) {
+				// *** Generate new query for query-window
+				var formModel = _cloneDeep(this.formModel);
+				formModel.filterFields = this.filterFields;
+				SparqlUtil.generateQuery({
+					limit: false,
+					formModel: formModel
+				}, function(query) {
+					this.$set('query', query);
+				}.bind(this));
+				// *** Post "Preview-query" if there are selected filterFields which does not exist in result
+				// *** Update list preview with result
+				SparqlUtil.generateQuery({
+					limit: true,
+					formModel: formModel
+				}, function(query) {
+					for(var i = 0; i < formModel.filterFields.length; i++) {
+						if(formModel.filterFields[i].checked === true) {
+							var index = _findIndex(this.result.head.vars, function(field) {
+								return '?' + field === formModel.filterFields[i].field;
+							});
+							if(index === -1) {
+								console.log('*** SearchResults.updateQuery(): New fields needed for preview. Posting query');
+								this.postQuery(query, function(result) {
+									this.$set('result', result);
+								}.bind(this));
+								return false;
 							}
 						}
-					}.bind(this));
-				}
+					}
+				}.bind(this));
+			}
 		},
 		/**
 		 *
