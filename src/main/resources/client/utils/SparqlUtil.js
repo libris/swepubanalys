@@ -1,5 +1,7 @@
 'use strict';
 
+var jQuery = require('jquery');
+
 /**
  * SPARQL Utilities
  */
