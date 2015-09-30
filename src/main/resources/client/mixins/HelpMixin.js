@@ -23,7 +23,7 @@ var HelpMixin = {
 				placement: 'right',
 				template: '<div class="popover" style="margin-left: 15px; margin-top: 15px;"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
 				title: conf.title,
-				content: '<div style="max-height: 350px; overflow-y: auto">' + conf.content || ''  + '</div>',
+				content: '<div style="max-height: 550px; overflow-y: auto">' + conf.content || ''  + '</div>',
 				html: true,
 				container: 'body',
 			});

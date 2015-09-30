@@ -18,7 +18,7 @@ var SubjectInput = {
 	},
 	ready: function() {
 		this.initHelp({
-			title: 'ÄMNE',
+			title: 'FORSKNINGSÄMNE',
 			content: require('./SubjectInput.Help.html'),
 		});
 	}
