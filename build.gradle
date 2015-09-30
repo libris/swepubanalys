@@ -58,6 +58,7 @@ task BowerSync2(type: Sync) {
     include 'bootstrap/dist/js/bootstrap.min.js'
     include 'bootstrap/dist/css/bootstrap.min.css'
     include 'bootstrap/dist/css/bootstrap.css.map'
+    include 'bootstrap/dist/fonts/*.*'
     include 'kungbib-styles/dist/css/kb-style.css'
     include 'font-awesome/fonts/*.*'
     include 'font-awesome/css/font-awesome.min.css'
