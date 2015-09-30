@@ -46,7 +46,7 @@ var SearchResult = {
 				this.$set('filterFields', SparqlUtil.getFilterFields(this.formModel.templateName));
 			}
 			else {
-				this.updateQuery();
+				this.updateQuery({ formModelChanged : true });
 			}
 		},
 	},
@@ -85,19 +85,22 @@ var SearchResult = {
 			this.$set('showFilterFields', !this.showFilterFields);
 		},
 		/**
+		 * This function generates two queries. 
+		 * 
+		 * One is posted to the server, the result of which is sent as a prop to the ListPreview-component. 
+		 * However, the query is only posted if there are checked filterFields which are not stored in a 
+		 * previous result, or if the conf.formModelChanged configuration is set to true, since a changed 
+		 * formModel should result in a posted query anyway. Thus, we do not compare the data.formModel 
+		 * with to a previous result as with filterFields, and leave that to the caller. 
 		 *
+		 * The other query is set to data.query to display in the interface.
+		 * @param {Object} conf
 		 */
-		updateQuery: function() {
+		updateQuery: function(conf) {
+			var formModel = _cloneDeep(this.formModel);
+			formModel.filterFields = this.filterFields;
+			var formModelChanged = conf ? (conf.formModelChanged ? true : false) : false;
 			if(this.formModel.templateName) {
-				// *** Generate new query for query-window
-				var formModel = _cloneDeep(this.formModel);
-				formModel.filterFields = this.filterFields;
-				SparqlUtil.generateQuery({
-					limit: false,
-					formModel: formModel
-				}, function(query) {
-					this.$set('query', query);
-				}.bind(this));
 				// *** Post "Preview-query" if there are selected filterFields which does not exist in result
 				// *** Update list preview with result
 				SparqlUtil.generateQuery({
@@ -109,8 +112,8 @@ var SearchResult = {
 							var index = _findIndex(this.result.head.vars, function(field) {
 								return '?' + field === formModel.filterFields[i].field;
 							});
-							if(index === -1) {
-								console.log('*** SearchResults.updateQuery(): New fields needed for preview. Posting query');
+							if(index === -1 || formModelChanged === true) {
+								console.log('*** SearchResults.updateQuery(): Posting query');
 								this.postQuery(query, function(result) {
 									this.$set('result', result);
 								}.bind(this));
@@ -118,6 +121,13 @@ var SearchResult = {
 							}
 						}
 					}
+				}.bind(this));
+				// *** Generate new query for query-window
+				SparqlUtil.generateQuery({
+					limit: false,
+					formModel: formModel
+				}, function(query) {
+					this.$set('query', query);
 				}.bind(this));
 			}
 		},

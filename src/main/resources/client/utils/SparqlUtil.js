@@ -18,7 +18,6 @@ var SparqlUtil = {
      * @param {String} filter ('all', 'none')
 	 */
 	generateQuery: function(conf, callback) {
-		//console.log('generateQuery');
 		var formModel = conf.formModel;
 		if(!formModel) { return false; };
 		var query = Templates[formModel.templateName].template;
