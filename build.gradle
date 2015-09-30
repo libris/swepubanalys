@@ -65,6 +65,11 @@ task BowerSync2(type: Sync) {
     include 'font-awesome/fonts/*.*'
 }
 
+task CopyMissingFonts(type: Copy){
+    from('bower_components/bootstrap/fonts')
+    into('src/main/resources/public/2.0/vendor/kungbib-styles/dist/fonts')
+}
+
 
 
 
