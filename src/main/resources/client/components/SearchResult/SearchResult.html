@@ -19,13 +19,9 @@
 <div v-show="showFilterFields" v-transition="expand" style="margin-top: 10px;">
 	<div class="well">
 		<div class="row">
-			<div v-repeat="filterFields" class="col-xs-4">
-				<div class="checkbox">
-					<label>
-						<input type="checkbox" v-model="checked">
-						{{ fieldName }}
-					</label>
-				</div>
+			<div v-repeat="filterFields" class="col-xs-3">
+				<input type="checkbox" v-model="checked">
+				{{ fieldName }}
 			</div>
 		</div>
 		<hr>
