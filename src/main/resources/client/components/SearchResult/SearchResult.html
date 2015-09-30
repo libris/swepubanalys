@@ -1,38 +1,46 @@
-<h2>2. Sökresultat</h2>
-<h4>Exportering</h4>
-<div class="row">
-	<div class="col-xs-6">
-		<p>Här väljer du fält och filformat för att exportera data.</p>
-	</div>
-	<div class="col-xs-6" style="text-align: right">
-		<div class="form-group">
-			<button class="btn btn-info" v-on="click: toggleShowFilterFields">
-				<span v-show="!showFilterFields" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-				<span v-show="showFilterFields" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-				Välj fält
-			</button>
-			<button class="btn btn-success">Exportera</button>
-		</div>
+<div style="height: 25px;">
+	<div v-show="pendingUpdate === true || pendingRefresh === true" v-transition="expand" style="text-align: center">
+		<h2>Laddar...</h2>
 	</div>
 </div>
-
-<div v-show="showFilterFields" v-transition="expand" style="margin-top: 10px;">
-	<div class="well">
+<div style="min-height: 1000px">
+	<div v-show="pendingUpdate !== true">
+		<h2>2. Sökresultat</h2>
+		<h4>Exportering</h4>
 		<div class="row">
-			<div v-repeat="filterFields" class="col-xs-3">
-				<input type="checkbox" v-model="checked">
-				{{ fieldName }}
+			<div class="col-xs-6">
+				<p>Här väljer du fält och filformat för att exportera data.</p>
+			</div>
+			<div class="col-xs-6" style="text-align: right">
+				<div class="form-group">
+					<button class="btn btn-info" v-on="click: toggleShowFilterFields">
+						<span v-show="!showFilterFields" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+						<span v-show="showFilterFields" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+						Välj fält
+					</button>
+					<button class="btn btn-success">Exportera</button>
+				</div>
 			</div>
 		</div>
+		<div v-show="showFilterFields" v-transition="expand" style="margin-top: 10px;">
+			<div class="well">
+				<div class="row">
+					<div v-repeat="filterFields" class="col-xs-3">
+						<input type="checkbox" v-model="checked">
+						{{ fieldName }}
+					</div>
+				</div>
+				<hr>
+				<button class="btn btn-default" v-on="click: selectNoFilterFields">Ingen</button>
+				<button class="btn btn-default" v-on="click: selectAllFilterFields">Alla</button>
+			</div>
+		</div>
+		<hr v-show="showFilterFields">
+		<h4>Förhandsvisning</h4>
+		<list-preview result="{{ result }}" filter-fields="{{ filterFields }}"></list-preview>
 		<hr>
-		<button class="btn btn-default" v-on="click: selectNoFilterFields">Ingen</button>
-		<button class="btn btn-default" v-on="click: selectAllFilterFields">Alla</button>
+		<h4>Sökfråga</h4>
+			<pre>{{ query }}</pre>
+		</div>
 	</div>
-</div>
-<hr v-show="showFilterFields">
-<h4>Förhandsvisning</h4>
-	<list-preview result="{{ result }}" filter-fields="{{ filterFields }}"></list-preview>
-</div>
-<h4>Sökfråga</h4>
-	<pre>{{ query }}</pre>
 </div>

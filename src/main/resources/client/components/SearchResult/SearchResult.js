@@ -8,6 +8,8 @@ var _findIndex = require('lodash/array/findIndex');
 var SparqlUtil = require('utils/SparqlUtil.js');
 // Components
 var ListPreview = require('components/ListPreview/ListPreview.js');
+// CSS
+require('css/transitions.css');
 
 /**
  * Search Result-component
@@ -20,6 +22,8 @@ var SearchResult = {
 		return {
 			// UI state
 			showFilterFields: false,
+			pendingUpdate: false,
+			pendingRefresh: false,
 			// Data
 			query: '',
 			templateName: '',
@@ -36,32 +40,36 @@ var SearchResult = {
 	},
 	watch: {
 		/**
-		 *
+		 * Trigger methods.formModelChanged()
 		 */
 		'formModel': function() {
-			// If templateName has changed since update, renew filterFields list
-			if(this.formModel.templateName !== this.templateName) {
-				this.$set('templateName', this.formModel.templateName);
-				// Will also trigger updateQuery()
-				this.$set('filterFields', SparqlUtil.getFilterFields(this.formModel.templateName));
-			}
-			else {
-				this.updateQuery({ formModelChanged : true });
-			}
+			this.formModelChanged();
 		},
 	},
+	/** 
+	 * Ready hook adds deep listener to data.filterFields and triggers formModelChanged()
+	 */ 
 	ready: function() {
 		// Watch for mutation of filterFields, regenerate query if this occurs
 		this.$watch('filterFields', function() {
 			this.updateQuery();
 		}.bind(this), { deep: true });
 		// Generate query on ready hook
-		this.updateQuery();
+		this.formModelChanged();
 	},
 	components: {
 		'list-preview': ListPreview,
 	},
 	methods: {
+		/** 
+		 * Should be called if data.formModel has been received or updated. Gets appropriate filterFields according
+		 * to template name, sets them and updates query.
+		 */
+		formModelChanged: function() {
+			this.$set('templateName', this.formModel.templateName);
+			this.$set('filterFields', SparqlUtil.getFilterFields(this.formModel.templateName));
+			this.updateQuery({ formModelChanged : true });
+		},
 		/**
 		 *
 		 */
@@ -109,16 +117,24 @@ var SearchResult = {
 				}, function(query) {
 					for(var i = 0; i < formModel.filterFields.length; i++) {
 						if(formModel.filterFields[i].checked === true) {
-							var index = _findIndex(this.result.head.vars, function(field) {
-								return '?' + field === formModel.filterFields[i].field;
-							});
-							if(index === -1 || formModelChanged === true) {
-								console.log('*** SearchResults.updateQuery(): Posting query');
-								this.postQuery(query, function(result) {
-									this.$set('result', result);
-								}.bind(this));
-								return false;
+							if(this.result && this.result.head && this.result.head.vars) {
+								var index = _findIndex(this.result.head.vars, function(field) {
+									return '?' + field === formModel.filterFields[i].field;
+								});
+								if(index === -1 || formModelChanged === true) {
+									console.log('*** SearchResults.updateQuery(): Posting query');
+									this.$set(formModelChanged === true ? 'pendingUpdate' : 'pendingRefresh', true);
+									this.postQuery(query, function(result) {
+										this.$set('result', result);
+										this.$set('pendingUpdate', false);
+										this.$set('pendingRefresh', false);
+									}.bind(this));
+									break;
+								}
 							}
+							else {
+								console.error('*** SearchResult.updateQuery(): Invalid former response');
+							}							
 						}
 					}
 				}.bind(this));
@@ -135,10 +151,6 @@ var SearchResult = {
 		 *
 		 */
 		postQuery: function(query, callback) {
-			SparqlUtil.postQuery(query, function(response) {
-				// Validate response here
-				callback(response);
-			}.bind(this));
 			if(!query) {
 				console.error('*** SearchResult.postQuery(): No query argument provided');
 				return false;
@@ -147,6 +159,13 @@ var SearchResult = {
 				console.error('*** SearchResult.postQuery(): No callback provided');
 				return false;
 			}
+			SparqlUtil.postQuery(query, function(response) {
+				// Validate response here
+				callback(response);
+			}.bind(this));
+			//setTimeout(function() {
+			//	callback({});
+			//}, 1000);
 		}
 	}
 };

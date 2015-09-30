@@ -4,12 +4,14 @@
 		<p>SwePub för analys och bibliometri samlar vetenskapliga publikationer från svenska lärosäten och myndigheter. Använd tjänsten för att göra uttag för databearbetning och utsökningar till statistiska analyser.</p>
 	</div>
 </div>
-<div style="max-width: 1000px;">
+<div style="max-width: 1200px;">
 	<div style="padding: 55px; padding-top: 15px;">
 		<search-form on-search="{{ onSearch }}"></search-form>
-		<div v-show="formModel.templateName" v-transition="expand">
-			<hr>
-			<search-result form-model="{{ formModel }}"></search-result>
-		</div>
+		<template v-if="formModel.templateName" v-transition="expand">
+			<div>
+				<hr>
+				<search-result form-model="{{ formModel }}"></search-result>
+			</div>
+		</template>
 	</div>
 </div>
