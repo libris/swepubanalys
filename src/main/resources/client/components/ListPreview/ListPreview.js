@@ -14,11 +14,11 @@ var ListPreview = {
 	props: ['result', 'filterFields'],
 	data: function() {
 		return {
-			checkedFilterFields: { },
+			filterFieldKeys: { },
 		}
 	},
 	ready: function() {
-		// On update of filterFields prop, update data.checkedFilterFields
+		// On update of filterFields prop, update data.filterFieldKeys
 		this.$watch('filterFields', function() {
 			if(this.filterFields) {
 				var filterFields = this.filterFields;
@@ -30,7 +30,7 @@ var ListPreview = {
 						checked: filterFields[i].checked,
 					}
 				};
-				this.$set('checkedFilterFields', n);
+				this.$set('filterFieldKeys', n);
 			}
 			else {
 				console.error('*** ListPreview.ready(): filterFields prop required');
@@ -39,33 +39,48 @@ var ListPreview = {
 	}
 };
 
+var _find = require('lodash/collection/find');
+
 /**
  * Filter table cells on checked filterFields
  * @param {Array} cells
  * @param {Array} filterFields
  */
 Vue.filter('filterFields', function(cells, filterFields) {
-	var filteredCells = [];
-	for(var i = 0; i < cells.length; i++) {
-		if(filterFields['?' + cells[i].$key] && filterFields['?' + cells[i].$key].checked === true) {
-			filteredCells.push(cells[i]);
-		}
-	};
-	return filteredCells;
+	if(filterFields) {
+		var filteredCells = [];
+		for(var i = 0; i < filterFields.length; i++) {
+			if(filterFields[i].checked === true) {
+				var cell = _find(cells, function(cell) {
+					return '?' + cell.$key === filterFields[i].field;
+				});
+				filteredCells.push(cell ? cell : { $value: { value: '' }});
+			}
+		};
+		return filteredCells;
+	}
+	else {
+		return [];
+	}
 });
 
 /**
  * Filter filterFields and return only checked ones
  * @param {Array} filterFields
  */
-Vue.filter('onlyCheckedFilterFields', function(filterFields) {
-	var checkedFilterFields = [];
-	for(var i = 0; i < filterFields.length; i++) {
-		if(filterFields[i].$value.checked === true) {
-			checkedFilterFields.push(filterFields[i]);
-		}
-	};
-	return checkedFilterFields;
+Vue.filter('onlyCheckedFilterFields', function(filterFieldKeys) {
+	if(filterFieldKeys) {
+		var checkedFilterFields = [];
+		for(var i = 0; i < filterFieldKeys.length; i++) {
+			if(filterFieldKeys[i].$value.checked === true) {
+				checkedFilterFields.push(filterFieldKeys[i]);
+			}
+		};
+		return checkedFilterFields;
+	}
+	else {
+		return [];
+	}
 });
 
 module.exports = ListPreview;
