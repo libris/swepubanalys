@@ -24,8 +24,8 @@ var SearchResult = {
 			formModelHasChanged: false, // To let methods.updateQuery() know that formModel has changed and that a POST should be performed
 			// UI state
 			showFilterFields: false,
-			pendingUpdate: false,
-			pendingRefresh: false,
+			pendingUpdate: true,
+			pendingRefresh: true,
 			// Data
 			query: '',
 			filterFields: [],
@@ -49,7 +49,9 @@ var SearchResult = {
 		}.bind(this));
 		// Watch for deep mutation of filterFields, regenerate query if this occurs
 		this.$watch('filterFields', function() {
-			this.filterFieldsChanged();
+			// Call after current stack has finished executing, so the GUI may update before
+			// queries are generated etc...
+			setTimeout(function() { this.filterFieldsChanged(); }.bind(this), 0);
 		}.bind(this), { deep: true });
 		// Generate query on ready hook
 		this.formModelChanged();
@@ -113,7 +115,6 @@ var SearchResult = {
 			formModel.filterFields = this.filterFields;
 			var formModelChanged = this.formModelHasChanged;
 			if(formModelChanged === true) { this.$set('formModelHasChanged', false); };
-			console.log(this.formModelHasChanged);
 			if(this.formModel.templateName) {
 				// *** Post "Preview-query" if there are selected filterFields which does not exist in result
 				// *** Update list preview with result

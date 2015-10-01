@@ -1,13 +1,13 @@
 <div style="max-height: 450px; overflow-y: scroll; overflow-x: scroll;">
 	<table class="table" style="max-width: 100%">
 		<thead>
-			<th v-repeat="checkedFilterFields">
-				{{ $value }}
+			<th v-repeat="field in checkedFilterFields | onlyCheckedFilterFields">
+				{{ field.fieldName }}
 			</th>
 		</thead>
 		<tbody>
-			<tr v-repeat="article in articles">
-				<td v-repeat="cell in article.fields">
+			<tr v-repeat="article in result.results.bindings">
+				<td v-repeat="cell in article | filterFields checkedFilterFields">
 					<div style="min-width: 200px;">
 						{{ cell.value }}
 					</div>

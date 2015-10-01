@@ -1,6 +1,7 @@
 'use strict';
 
 // Vendor
+var Vue = require('vue');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 
 /**
@@ -13,8 +14,6 @@ var ListPreview = {
 	props: ['result', 'filterFields'],
 	data: function() {
 		return {
-			fields: [],
-			articles: [],
 			checkedFilterFields: { },
 		}
 	},
@@ -22,60 +21,51 @@ var ListPreview = {
 		// On update of filterFields prop, update data.checkedFilterFields
 		this.$watch('filterFields', function() {
 			if(this.filterFields) {
-				// Get currently checked filterFields
-				var checkedFilterFields = _cloneDeep(this.filterFields).filter(function(filterField) {
-					return filterField.checked === true;
-				});
-				// Make array to object in order to access through index
-				var filterFields = {};
-				checkedFilterFields.map(function(filterField) {
-					filterFields[filterField.field] = filterField.fieldName;
-				});
-				this.$set('checkedFilterFields', filterFields);
-				this.update();
+				var filterFields = this.filterFields;
+				// Turn arr into object for access through index
+				var n = {};
+				for(var i = 0; i < filterFields.length; i++) {
+					n[filterFields[i].field] = {
+						fieldName: filterFields[i].fieldName,
+						checked: filterFields[i].checked,
+					}
+				};
+				this.$set('checkedFilterFields', n);
 			}
 			else {
-				console.error('*** ListPreview.ready(): Invalid filterFields prop');
+				console.error('*** ListPreview.ready(): filterFields prop required');
 			}
 		}.bind(this), { deep: true });
-	},
-	watch: {
-		/**
-		 * On update result prop, trigger update of list
-		 */
-		'result': function() {
-			this.update();
-		},
-	},
-	methods: {
-		/**
-		 * Makes use of result prop and data.checkedFilterFields to set data.articles which is
-		 * rendered in view.
-		 */
-		update: function() {
-			if(this.result && this.result.results && this.result.results.bindings && this.result.head && this.result.head.vars) {
-				var previewList = this.result.results.bindings.map(function(article, i) {
-					var fields = this.result.head.vars.filter(function(field) {
-						return this.checkedFilterFields['?' + field] ? true : false;
-					}.bind(this));
-					fields = fields.map(function(field) {
-						return {
-							field: field,
-							value: article[field] ? article[field].value : '',
-						}
-					});
-					return {
-						article: i,
-						fields: fields,
-					}
-				}.bind(this));
-				this.$set('articles', previewList);
-			}
-			else {
-				console.error('*** ListPreview.update(): Invalid result prop');
-			}
-		}
 	}
 };
+
+/**
+ * Filter table cells on checked filterFields
+ * @param {Array} cells
+ * @param {Array} filterFields
+ */
+Vue.filter('filterFields', function(cells, filterFields) {
+	var filteredCells = [];
+	for(var i = 0; i < cells.length; i++) {
+		if(filterFields['?' + cells[i].$key] && filterFields['?' + cells[i].$key].checked === true) {
+			filteredCells.push(cells[i]);
+		}
+	};
+	return filteredCells;
+});
+
+/**
+ * Filter filterFields and return only checked ones
+ * @param {Array} filterFields
+ */
+Vue.filter('onlyCheckedFilterFields', function(filterFields) {
+	var checkedFilterFields = [];
+	for(var i = 0; i < filterFields.length; i++) {
+		if(filterFields[i].$value.checked === true) {
+			checkedFilterFields.push(filterFields[i]);
+		}
+	};
+	return checkedFilterFields;
+});
 
 module.exports = ListPreview;

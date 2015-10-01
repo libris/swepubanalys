@@ -36,7 +36,14 @@
 		</div>
 		<hr v-show="showFilterFields">
 		<h4>Förhandsvisning</h4>
-		<list-preview result="{{ result }}" filter-fields="{{ filterFields }}"></list-preview>
+		<div style="min-height: 480px;">
+			<div v-show="pendingRefresh !== true">
+				<list-preview result="{{ result }}" filter-fields="{{ filterFields }}"></list-preview>
+			</div>
+			<div v-show="pendingRefresh == true" style="text-align: center">
+				<h2>Hämtar förhandsvisning...</h2>
+			</div>
+		</div>
 		<hr>
 		<h4>Sökfråga</h4>
 			<pre>{{ query }}</pre>
