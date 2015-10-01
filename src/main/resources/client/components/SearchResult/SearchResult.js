@@ -20,13 +20,14 @@ var SearchResult = {
 	props: ['formModel'],
 	data: function() {
 		return {
+			// Flags
+			formModelHasChanged: false, // To let methods.updateQuery() know that formModel has changed and that a POST should be performed
 			// UI state
 			showFilterFields: false,
 			pendingUpdate: false,
 			pendingRefresh: false,
 			// Data
 			query: '',
-			templateName: '',
 			filterFields: [],
 			result: {
 				head: {
@@ -38,21 +39,17 @@ var SearchResult = {
 			},
 		};
 	},
-	watch: {
-		/**
-		 * Trigger methods.formModelChanged()
-		 */
-		'formModel': function() {
-			this.formModelChanged();
-		},
-	},
 	/** 
 	 * Ready hook adds deep listener to data.filterFields and triggers formModelChanged()
 	 */ 
 	ready: function() {
-		// Watch for mutation of filterFields, regenerate query if this occurs
+		// Watch for mutation of formModel, regenerate query if this occurs
+		this.$watch('formModel', function() {
+			this.formModelChanged();
+		}.bind(this));
+		// Watch for deep mutation of filterFields, regenerate query if this occurs
 		this.$watch('filterFields', function() {
-			this.updateQuery();
+			this.filterFieldsChanged();
 		}.bind(this), { deep: true });
 		// Generate query on ready hook
 		this.formModelChanged();
@@ -62,16 +59,23 @@ var SearchResult = {
 	},
 	methods: {
 		/** 
-		 * Should be called if data.formModel has been received or updated. Gets appropriate filterFields according
-		 * to template name, sets them and updates query.
+		 * Should be called if props.formModel has been received or updated. Gets appropriate filterFields according
+		 * to template name and updates data.filterFields accordingly
 		 */
 		formModelChanged: function() {
-			this.$set('templateName', this.formModel.templateName);
-			this.$set('filterFields', SparqlUtil.getFilterFields(this.formModel.templateName));
-			this.updateQuery({ formModelChanged : true });
+			this.$set('formModelHasChanged', true);
+			this.$set('filterFields', SparqlUtil.getFilterFields(this.formModel.templateName)); // Will in turn trigger updateQuery()
 		},
 		/**
-		 *
+		 * Should be called if data.filterFields has been mutated. This can be triggered either by the user interacting
+		 * with the GUI or if formModelChanged(). We subsequently updateQuery(), and let that function decide whether
+		 * to do a POST or not
+		 */
+		filterFieldsChanged: function() {
+			this.updateQuery();
+		},
+		/**
+		 * User wants to select no filterFields
 		 */
 		selectNoFilterFields: function() {
 			_each(this.filterFields, function(field) {
@@ -79,7 +83,7 @@ var SearchResult = {
 			});
 		},
 		/**
-		 *
+		 * User wants to select all filterFields
 		 */
 		selectAllFilterFields: function() {
 			_each(this.filterFields, function(field) {
@@ -87,7 +91,7 @@ var SearchResult = {
 			});
 		},
 		/**
-		 *
+		 * User wants to see filterFields
 		 */
 		toggleShowFilterFields: function() {
 			this.$set('showFilterFields', !this.showFilterFields);
@@ -104,10 +108,12 @@ var SearchResult = {
 		 * The other query is set to data.query to display in the interface.
 		 * @param {Object} conf
 		 */
-		updateQuery: function(conf) {
+		updateQuery: function() {
 			var formModel = _cloneDeep(this.formModel);
 			formModel.filterFields = this.filterFields;
-			var formModelChanged = conf ? (conf.formModelChanged ? true : false) : false;
+			var formModelChanged = this.formModelHasChanged;
+			if(formModelChanged === true) { this.$set('formModelHasChanged', false); };
+			console.log(this.formModelHasChanged);
 			if(this.formModel.templateName) {
 				// *** Post "Preview-query" if there are selected filterFields which does not exist in result
 				// *** Update list preview with result
@@ -148,7 +154,9 @@ var SearchResult = {
 			}
 		},
 		/**
-		 *
+		 * Posts a query to the server
+		 * @param {String} query
+		 * @param {Function} callback
 		 */
 		postQuery: function(query, callback) {
 			if(!query) {
@@ -163,9 +171,6 @@ var SearchResult = {
 				// Validate response here
 				callback(response);
 			}.bind(this));
-			//setTimeout(function() {
-			//	callback({});
-			//}, 1000);
 		}
 	}
 };
