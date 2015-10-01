@@ -2,7 +2,7 @@
 
 // Vendor
 var Vue = require('vue');
-var _cloneDeep = require('lodash/lang/cloneDeep');
+var _find = require('lodash/collection/find');
 
 /**
  * List Preview-component
@@ -38,8 +38,6 @@ var ListPreview = {
 		}.bind(this), { deep: true });
 	}
 };
-
-var _find = require('lodash/collection/find');
 
 /**
  * Filter table cells on checked filterFields

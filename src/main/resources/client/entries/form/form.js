@@ -2,8 +2,6 @@
 
 // Globals
 var Vue = require('vue');
-// Utils
-var SparqlUtil = require('utils/SparqlUtil.js');
 // Components
 var SearchForm = require('components/SearchForm/SearchForm.js');
 var SearchResult = require('components/SearchResult/SearchResult.js');
