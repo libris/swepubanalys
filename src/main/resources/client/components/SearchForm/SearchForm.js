@@ -36,7 +36,7 @@ var SearchForm = {
 			from: {	value: '', error: '' }, 
 			to: { value: '', error: '' },
 			openaccess: false,
-			publStatus: { value: 'all', error: '' }
+			publStatus: { value: 'published', error: '' }
 		};
 	},
 	watch: {
