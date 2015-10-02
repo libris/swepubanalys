@@ -34,7 +34,7 @@ var SearchForm = {
 			publType: {	value: '', error: '' },
 			from: {	value: '', error: '' }, 
 			to: { value: '', error: '' },
-			openaccess: true
+			openaccess: false,
 		};
 	},
 	watch: {
