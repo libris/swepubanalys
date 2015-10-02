@@ -1,0 +1,49 @@
+PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+PREFIX mods_m: <http://swepub.kb.se/mods/model#>
+PREFIX xlink: <http://www.w3.org/1999/xlink#>
+SELECT DISTINCT
+    ?_recordID
+    ?_status
+    ?_pubYear
+    ?_orgCode
+    ?_publicatType
+    ?_contentType
+    ?_hsv1
+    ?_hsv3
+    ?_hsv5
+    ?_OA
+WHERE
+{
+    ?Record mods_m:hasMods ?Mods .
+    ?Record a mods_m:Record .
+    ?Mods a mods_m:Mods .
+    ?Mods mods_m:identifierValue ?_recordID .
+    ?Record swpa_m:publicationStatus ?_status .
+    ?Mods swpa_m:publicationYear ?_pubYear .
+    ?Mods mods_m:recordContentSourceValue ?_orgCode .
+    ?Mods swpa_m:publicationTypeCode ?_publicatType .
+    ?Mods swpa_m:contentTypeCode ?_contentType .
+    ?Record swpa_m:isPublished ?_isPublished .
+
+    OPTIONAL { ?Mods swpa_m:oaType ?_OA }
+
+    OPTIONAL
+    {
+        ?Mods mods_m:hasSubject ?Subject .
+        ?Subject swpa_m:hsv1 ?_hsv1 .
+    }
+
+    OPTIONAL
+    {
+        ?Mods mods_m:hasSubject ?Subject .
+        ?Subject swpa_m:hsv3 ?_hsv3 .
+    }
+
+    OPTIONAL
+    {
+        ?Mods mods_m:hasSubject ?Subject .
+        ?Subject swpa_m:hsv5 ?_hsv5 .
+    }
+
+}
+LIMIT 10000
