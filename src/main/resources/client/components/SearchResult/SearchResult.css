@@ -1,0 +1,19 @@
+.filterFields {
+	margin-top: 10px;
+}
+
+.pendingUpdate {
+	text-align: center;
+}
+
+.pendingExport {
+	background-color: #dadada; 
+	width: 100%; 
+	text-align: center; 
+	padding: 35px; 
+	margin-top: 15px;
+}
+
+.pendingRefresh {
+	text-align: center;
+}

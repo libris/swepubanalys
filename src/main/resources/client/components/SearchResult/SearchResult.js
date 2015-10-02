@@ -10,6 +10,7 @@ var SparqlUtil = require('utils/SparqlUtil.js');
 var ListPreview = require('components/ListPreview/ListPreview.js');
 // CSS
 require('css/transitions.css');
+require('./SearchResult.css');
 
 /**
  * Search Result-component
@@ -26,6 +27,7 @@ var SearchResult = {
 			showFilterFields: false,
 			pendingUpdate: true,
 			pendingRefresh: true,
+			pendingExport: false,
 			// Data
 			query: '',
 			filterFields: [],
@@ -65,8 +67,11 @@ var SearchResult = {
 		 * to template name and updates data.filterFields accordingly
 		 */
 		formModelChanged: function() {
-			this.$set('formModelHasChanged', true);
-			this.$set('filterFields', SparqlUtil.getFilterFields(this.formModel.templateName)); // Will in turn trigger updateQuery()
+			if(this.formModel && this.formModel.templateName && this.formModel.templateName.length > 0) {
+				this.$set('formModelHasChanged', true);
+				this.$set('pendingExport', false);
+				this.$set('filterFields', SparqlUtil.getFilterFields(this.formModel.templateName)); // Will in turn trigger updateQuery()
+			}
 		},
 		/**
 		 * Should be called if data.filterFields has been mutated. This can be triggered either by the user interacting
@@ -147,7 +152,8 @@ var SearchResult = {
 				}.bind(this));
 				// *** Generate new query for query-window
 				SparqlUtil.generateQuery({
-					limit: false,
+					//limit: false,
+					limit: true, // Only use limited queries for now, testing purposes
 					formModel: formModel
 				}, function(query) {
 					this.$set('query', query);
@@ -171,6 +177,27 @@ var SearchResult = {
 			SparqlUtil.postQuery(query, function(response) {
 				// Validate response here
 				callback(response);
+			}.bind(this));
+		},
+		/**
+		 * Calls appropriate export-function depending on fileFormat
+		 * @param {String} fileType
+		 */
+		performExport: function(fileType) {
+			switch(fileType) {
+				case 'csv':
+					this.performCsvExport();
+				break;
+			}
+		},
+		/**
+		 * Gets a file as .csv
+		 */
+		performCsvExport: function() {
+			var windowElement = document.getElementById('__downloadWindow__');
+			windowElement = null;
+			SparqlUtil.getFile(this.query, windowElement, 'csv', function() {
+				//this.$set('pendingExport', true);
 			}.bind(this));
 		}
 	}

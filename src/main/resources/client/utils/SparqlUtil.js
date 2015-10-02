@@ -19,7 +19,15 @@ var SparqlUtil = {
 	 */
 	generateQuery: function(conf, callback) {
 		var formModel = conf.formModel;
-		if(!formModel) { return false; };
+		// Has a formModel been provided?
+		if(!formModel) { 
+			return false; 
+		};
+		// Has a valid templateName been provided?
+		if(!formModel.templateName || !Templates[formModel.templateName]) {
+			console.warning(' *** SparqlUtil.getFilterFields: Incorrect templateName');
+			return false;
+		}
 		var query = Templates[formModel.templateName].template;
 		if(!query) { return false };
 		var form = formModel.templateName;
@@ -168,6 +176,48 @@ var SparqlUtil = {
 		*/
 		callback(query);
 	},
+	/**
+	 * Returns available fields to filter on
+	 * @param {String} templateName
+	 */
+	getFilterFields: function(templateName) {
+		if(!Templates[templateName]) {
+			console.warning(' *** SparqlUtil.getFilterFields: Incorrect templateName');
+			return false;
+		}
+		var query = Templates[templateName].template;
+		var re = /[^]*?select\s*(?:distinct)?\s*([^]*?)where/i;
+		var parent = undefined;
+		var key = '';
+		var name = '';
+		var checked = '';
+		var node = '';
+		var key_name = undefined;
+		var col_key_name = undefined;
+		var res;
+		var ic = 0;
+		query = query.replace(/\r/g, '');
+		res = re.exec(query);
+		var filterFields = [];
+		if (res !== null) {
+			col_key_name = res[1].split('\n');
+			for (var i=0, l=col_key_name.length; i<l; i++) {
+				if (col_key_name[i].search(/^\s*$/) > -1) {
+					continue; 
+				}
+				key_name = col_key_name[i].split(/\s*#\s*/);
+				key_name[1] = key_name[1] || key_name[0].charAt(2).toUpperCase() + key_name[0].slice(3);
+				key_name[2] = key_name[2] || '';
+				checked = (key_name[2] === '-') ? false : true; // #- is unchecked in template
+				filterFields.push({ 
+					field: key_name[0], 
+					fieldName: key_name[1],
+					checked: checked
+				});
+			}
+		}
+		return filterFields;
+	},
     /**
      * Posts a query to server
      */
@@ -183,89 +233,71 @@ var SparqlUtil = {
 		//}
 		if(query) {
 			jQuery.ajax({
-			url: 'http://virhp07.libris.kb.se/sparql',
-			data: { 
-				query: query, 
-				format: 'application/json' 
-			},
-			type: 'POST',
-			async: true,
-			crossDomain: true,
-			statusCode: {
-				400: function(j) {
-					console.log(j);
+				url: 'http://virhp07.libris.kb.se/sparql',
+				data: { 
+					query: query, 
+					format: 'application/json' 
+				},
+				type: 'POST',
+				async: true,
+				crossDomain: true,
+				statusCode: {
+					400: function(j) {
+						console.log(j);
+					}
+				},
+				success: function(response,s,j) {
+					callback(response);
+					//json2table(r, refresh);
+					//return false;
+				},
+				/*complete: function(j) {
+				//console.log(j);
+				switch (j.status) {
+				case 404: throw { name: 'sprql', message: '404'};
+				case 400: throw { name: 'sprql', message: '400'};
 				}
-			},
-			success: function(response,s,j) {
-				callback(response);
-				//json2table(r, refresh);
-				//return false;
-			},
-			/*complete: function(j) {
-			//console.log(j);
-			switch (j.status) {
-			case 404: throw { name: 'sprql', message: '404'};
-			case 400: throw { name: 'sprql', message: '400'};
-			}
-			},*/
-			error: function() { 
-				throw { name: 'sprql', message: 'sparql preview failed.'}; 
-			}
-		}).fail(function() {
-			console.log(j);
-			throw { name: 'sprql', message: 'error'};
-			/*switch (j.status) {
-			case 404: throw { name: 'sprql', message: '404'};
-			case 400: throw { name: 'sprql', message: '400'};
-			}*/
-		});
-	}
-	}
-};
-
-/**
- *
- */
-SparqlUtil.getFilterFields = function(templateName) {
-
-	var query = Templates[templateName].template;
-
-    var re = /[^]*?select\s*(?:distinct)?\s*([^]*?)where/i;
-    var parent = undefined;
-    var key = '';
-    var name = '';
-    var checked = '';
-    var node = '';
-    var key_name = undefined;
-    var col_key_name = undefined;
-    var res;
-    var ic = 0;
-
-    query = query.replace(/\r/g, '');
-    res = re.exec(query);
-
-    var filterFields = [];
-
-    if (res !== null) {
-        col_key_name = res[1].split('\n');
-        for (var i=0, l=col_key_name.length; i<l; i++) {
-			if (col_key_name[i].search(/^\s*$/) > -1) {
-				continue; 
-			}
-        	key_name = col_key_name[i].split(/\s*#\s*/);
-			key_name[1] = key_name[1] || key_name[0].charAt(2).toUpperCase() + key_name[0].slice(3);
-			key_name[2] = key_name[2] || '';
-			checked = (key_name[2] === '-') ? false : true; // #- is unchecked in template
-			filterFields.push({ 
-				field: key_name[0], 
-				fieldName: key_name[1],
-				checked: checked
+				},*/
+				error: function() { 
+					throw { name: 'sprql', message: 'sparql preview failed.'}; 
+				}
+			}).fail(function() {
+				console.log(j);
+				throw { name: 'sprql', message: 'error'};
+				/*switch (j.status) {
+				case 404: throw { name: 'sprql', message: '404'};
+				case 400: throw { name: 'sprql', message: '400'};
+				}*/
 			});
-        }
-    }
-    return filterFields;
-}
-
+		}
+	},
+	/**
+	 * Combines query and fileFormat to construct and open a request for a file
+	 * @param {String} query
+	 * @param {DOMElement} targetWindow
+	 * @param {String} fileFormat
+	 * @param {Function} callback
+	 */
+	getFile: function(query, targetWindow, fileFormat, callback) {
+		var url = 'http://virhp07.libris.kb.se/sparql';
+		if(fileFormat !== 'csv') {
+			console.error('*** SparqlUtil.getFile: Incorrect fileFormat \'' + fileFormat + '\'');
+			return false;
+		}
+		// Test this in IE9
+		var request = url + '?' + 'query=' + encodeURIComponent(query) + '&format=' + encodeURIComponent(fileFormat);
+		if(targetWindow) { // Use specific window, such as a <iframe>
+			targetWindow.src = request;
+		}
+		else { // Will open new tab/window
+			window.open(request);
+		}
+		callback({
+			url: url,
+			request: request,
+		});
+	},
+};
 
 /**
  * Require Sparql-templates as strings
