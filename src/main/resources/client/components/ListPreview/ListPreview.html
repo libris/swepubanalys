@@ -6,7 +6,7 @@
 			</th>
 		</thead>
 		<tbody>
-			<tr v-repeat="article in result.results.bindings">
+			<tr v-repeat="article in ((result && result.results && result.results.bindings) ? result.results.bindings : [])">
 				<td v-repeat="cell in article | filterFields filterFields">
 					<div style="min-width: 200px;">
 						{{ cell.value }}

@@ -7,11 +7,11 @@
 <div style="max-width: 1200px;">
 	<div style="padding: 55px; padding-top: 15px;">
 		<search-form on-search="{{ onSearch }}"></search-form>
-		<template v-if="formModel.templateName" v-transition="expand">
+		<div v-show="formModel.templateName" v-transition="expand">
 			<div>
 				<hr>
 				<search-result form-model="{{ formModel }}"></search-result>
 			</div>
-		</template>
+		</div>
 	</div>
 </div>
