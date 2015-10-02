@@ -1,6 +1,11 @@
+package SparqlInteractions
+
 import wslite.rest.ContentType
 import wslite.rest.RESTClient
-
+/**
+ * Created by Theodor on 2015-09-09.
+ * Works as an endpoint and proxy to a Virtuoso Server's SparqlEndpoint
+ */
 public class SparqlEndPoint {
 
     RESTClient client = new RESTClient('http://virhp07.libris.kb.se/sparql')

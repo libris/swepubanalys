@@ -1,0 +1,15 @@
+PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+SELECT DISTINCT
+xsd:string(?Concept) as ?Concept
+xsd:string(?label) as ?label
+xsd:string(?description) as ?description
+WHERE
+{
+    GRAPH swpa_m:graph
+    {
+        ?Concept a owl:DatatypeProperty .
+        ?Concept rdfs:label ?label .
+        OPTIONAL { ?Concept rdfs:comment ?description }
+    }
+}
+ORDER BY ASC( ?Concept)
