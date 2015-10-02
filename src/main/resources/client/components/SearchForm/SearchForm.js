@@ -8,6 +8,7 @@ var TimeInput = require('components/TimeInput/TimeInput.js');
 var SubjectInput = require('components/SubjectInput/SubjectInput.js');
 var PublTypeInput = require('components/PublTypeInput/PublTypeInput.js');
 var OAInput = require('components/OAInput/OAInput.js');
+var PublStatusInput = require('components/PublStatusInput/PublStatusInput.js');
 // CSS
 require('css/transitions.css');
 
@@ -35,6 +36,7 @@ var SearchForm = {
 			from: {	value: '', error: '' }, 
 			to: { value: '', error: '' },
 			openaccess: false,
+			publStatus: { value: 'all', error: '' }
 		};
 	},
 	watch: {
@@ -61,8 +63,9 @@ var SearchForm = {
 		'org-input': OrgInput,
 		'time-input': TimeInput,
 		'subject-input': SubjectInput,
-		'publtype-input': PublTypeInput,
+		'publ-type-input': PublTypeInput,
 		'oa-input': OAInput,
+		'publ-status-input': PublStatusInput,
 	},
 	ready: function() {
 		SearchFormUtil.getFormSuggestions(function(formSuggestions) {
@@ -111,6 +114,7 @@ var SearchForm = {
 						subject: this.subject.value,
 						publtype: this.publType.value,
 						openaccess: this.openaccess,
+						status: this.publStatus.value,
 					}
 					return model;
 				},

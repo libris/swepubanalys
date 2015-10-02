@@ -18,10 +18,13 @@
 			<subject-input subjects="{{@ subjects }}" subject-suggestions="{{ subjectSuggestions }}"></subject-input>
 		</div>
 		<div v-show="activeTemplate(['simple'])" v-transition="expand">
-			<publtype-input publ-types="{{@ publTypes }}" publ-type-suggestions="{{ publTypeSuggestions }}"></publtype-input>
+			<publ-type-input publ-types="{{@ publTypes }}" publ-type-suggestions="{{ publTypeSuggestions }}"></publ-type-input>
 		</div>
 		<div v-show="activeTemplate(['simple'])" v-transition="expand">
 			<oa-input openaccess="{{@ openaccess }}"></oa-input>
+		</div>
+		<div v-show="activeTemplate(['simple'])" v-transition="expand">
+			<publ-status-input publ-status="{{@ publStatus.value }}"></publ-status-input>
 		</div>
 		<!-- Search button -->
 		<div class="form-group">
