@@ -6,10 +6,7 @@
  */
 var PublStatusInput = {
 	props: ['publStatus'],
-	template: require('./PublStatusInput.html'),
-	ready: function() {
-		console.log(this.publStatus);
-	}
+	template: require('./PublStatusInput.html')
 };
 
 module.exports = PublStatusInput;
