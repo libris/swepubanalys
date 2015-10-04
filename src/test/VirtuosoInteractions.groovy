@@ -196,6 +196,20 @@ LIMIT 10000000
         assert response instanceof String;
         assert response.contains("\"_recordID\"\t")
     }
+    @Test
+    public void publicationYearSpan() {
+        def sparqlSpan = new File('./src/main/resources/sparqlQueries/swepubPublicationYearLimits.sparql')
+        def query = sparqlSpan.text;
+
+        SparqlEndPoint endPoint = new SparqlEndPoint();
+        def response = endPoint.post(query, "application/json")
+        assert response != null;
+        assert response instanceof JSONObject;
+        def min = ((String)response.results.bindings["callret-0"].value[0]).toInteger();
+        def max = ((String)response.results.bindings["callret-1"].value[0]).toInteger();
+        assert min > 1400;
+        assert max < 3000;
+    }
 
     @Test
     public void postGetCSV() {

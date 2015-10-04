@@ -29,6 +29,10 @@ public class Routes implements SparkApplication {
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/form", { req, res -> Form.index(req, res) }, templateEngine)
         get("/qf/bibliometrics", { req, res -> Form.index(req, res) }, templateEngine)
+        post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
+        get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
+        get("/api/2.0/publicationYearSpan", { req, res -> Api.publicationYearSpan(req, res) })
+
     }
 
 
