@@ -189,6 +189,15 @@ LIMIT 10000000
     }
 
     @Test
+    public void postGetTSV() {
+        SparqlEndPoint endPoint = new SparqlEndPoint();
+        def response = endPoint.post(sparql, "text/tab-separated-values")
+        assert response != null;
+        assert response instanceof String;
+        assert response.contains("\"_recordID\"\t")
+    }
+
+    @Test
     public void postGetCSV() {
         SparqlEndPoint endPoint = new SparqlEndPoint();
         def response = endPoint.post(sparqlCount, "text/csv")
