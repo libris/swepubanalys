@@ -46,8 +46,8 @@ var SparqlUtil = {
     	var subject = formModel.subject || '';
     	var status = formModel.status || 'all';
     	var errortype = '';
-    	var author = '';
-    	var orcid = '';
+    	var author = formModel.author || '';
+    	var orcid = formModel.orcid || '';
 
     	var checked, unchecked, res, re;
     	var checked_string = '';
@@ -107,7 +107,7 @@ var SparqlUtil = {
                         filters_string = filters_string.replace(/#(FILTER)_<\?_isPublished>(.*?)<\?_isPublished>(.*)$/mi, "$1$2" + (status==='published'?"1":"0") + "$3");
                     }
                 }
-                if(form === 'one_creator') {
+                if(form === 'QfBibliometrics') {
                     if ( author && orcid ) {
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_NAME_FILTER>[^]*?#END_<ONE_CREATOR_NAME_FILTER>.*?/, '');
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_ORCID_FILTER>[^]*?#END_<ONE_CREATOR_ORCID_FILTER>.*?/, '');
@@ -308,6 +308,10 @@ var Templates = {
     'simple': {
         title: 'Simpel',
         template: require('raw!sparql-templates/simple.sparql')
+    },
+	'QfBibliometrics': {
+        title: 'Bibliometri',
+        template: require('raw!sparql-templates/QfBibliometrics.sparql')
     },
     'duplicates': {
         title: 'Dubblettkandidater',
