@@ -13,6 +13,7 @@ var OAInput = require('components/OAInput/OAInput.js');
 var PublStatusInput = require('components/PublStatusInput/PublStatusInput.js');
 // CSS
 require('css/transitions.css');
+require('./SearchForm.css');
 
 /**
  * Search Form-component
@@ -34,11 +35,11 @@ var SearchForm = {
 			templateName: 'QfBibliometrics',
 			org: { value: '', error: ''	},
 			subject: { value: '', error: ''	},
-			publType: {	value: '', error: '' },
+			publType: {	value: '', error: '', show: false },
 			from: {	value: '', error: '' }, 
 			to: { value: '', error: '' },
-			authorLabel: { value: '', error: '' },
-			orcid: { value: '', error: '' },
+			authorLabel: { value: '', error: '', show: false },
+			orcid: { value: '', error: '', show: false },
 			openaccess: false,
 			publStatus: { value: 'published', error: '' }
 		};
