@@ -3,7 +3,9 @@ bower_components/
 node_modules/
 
 # Bundled front-end code
-src/main/resources/public/
+src/main/resources/public/1.0/compiled/
+src/main/resources/public/2.0/vendor/
+form.bundle.js
 
 # Project build files
 build/

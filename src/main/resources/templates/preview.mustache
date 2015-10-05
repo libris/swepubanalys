@@ -191,6 +191,9 @@
                                                                         <input type="radio" name="filetype" value="csv" checked/>CSV
                                                                     </li>
                                                                     <li>
+                                                                        <input type="radio" name="filetype" value="tsv" checked/>TSV
+                                                                    </li>
+                                                                    <li>
                                                                         <input type="radio" name="filetype" value="json"/>JSON
                                                                     </li>
                                                                     <li>
@@ -252,16 +255,20 @@
                                         <h2>Här kan du kopiera sökfrågan till avancerad utsökning för redigering<a title="Sökfråga" href="http://info.swepub.kb.se/utsokningar-av-data/utsokningshjalp#usequery"><i class=" fa fa-info-circle alignright moreinfo" style=" font-size:48px;"></i></a>
                                         </h2>
 
-                                        <p><textarea id="sparqlcode" disabled>PREFIX mods_m: &amp;lt;http://swepub.kb.se/mods/model#&amp;gt;<br/>
-SELECT DISTINCT<br/>
-sql:localName(?Record) as ?RecordID<br/>
-?_recordContentSourceValue<br/>
-WHERE<br/>
-{<br/>
-?Record a mods_m:Record .<br/>
-?Record mods_m:hasMods ?Mods .<br/>
-?Mods mods_m:recordContentSourceValue ?_recordContentSourceValue .<br/>
-}</textarea></p>
+                                        <p>
+                                            <textarea id="sparqlcode" disabled>
+                                                PREFIX mods_m: &amp;lt;http://swepub.kb.se/mods/model#&amp;gt;<br/>
+                                                SELECT DISTINCT<br/>
+                                                sql:localName(?Record) as ?RecordID<br/>
+                                                ?_recordContentSourceValue<br/>
+                                                WHERE<br/>
+                                                {<br/>
+                                                ?Record a mods_m:Record .<br/>
+                                                ?Record mods_m:hasMods ?Mods .<br/>
+                                                ?Mods mods_m:recordContentSourceValue ?_recordContentSourceValue .<br/>
+                                                }
+                                            </textarea>
+                                        </p>
 
                                         <div class="usesparql">
                                             <button class="btn btn-default btn-lg usesparql" id="usesparql">Kopiera sökfråga till avancerad utsökning
