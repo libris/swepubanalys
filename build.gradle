@@ -7,6 +7,19 @@ version '1.1-SNAPSHOT'
 
 apply plugin: 'groovy'
 apply plugin: 'war'
+apply plugin: 'com.moowork.node'
+
+buildscript {
+    repositories {
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+
+    dependencies {
+        classpath "com.moowork.gradle:gradle-node-plugin:0.11"
+    }
+}
 
 
 
@@ -32,6 +45,7 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
 }
+
 
 task webPackCreateBundle(type: Exec)    {
     commandLine 'sh','-c','webpack'
@@ -69,10 +83,26 @@ task CopyMissingFonts(type: Copy){
     from('bower_components/bootstrap/fonts')
     into('src/main/resources/public/2.0/vendor/kungbib-styles/dist/fonts')
 }
+
 task bowerInstall(type:Exec){
-    exectuable "node_modules/bower/bin/bower"
-    args "install"
+    commandLine './node_modules/bower/bin/bower', 'install'
 }
+
+task webpack(type:Exec){
+    commandLine 'webpack'
+}
+
+
+bowerInstall.dependsOn npmInstall
+bowerSync.dependsOn bowerInstall
+BowerSync2.dependsOn bowerSync
+CopyMissingFonts.dependsOn BowerSync2
+webpack.dependsOn CopyMissingFonts
+build.dependsOn webpack
+war.dependsOn webpack
+
+
+
 
 
 
