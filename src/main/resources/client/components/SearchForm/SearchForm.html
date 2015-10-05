@@ -1,7 +1,4 @@
 <h2>1. Gör utsökning</h2>
-<p>
-	<!--<a href="javascript:null;" v-on="click: setTemplateName('simple')">Simpel</a> | <a href="javascript:null;" v-on="click: setTemplateName('duplicates')">Dubletter</a>-->
-</p>
 <div class="row">
 	<div class="col-xs-8">
 		<p>
@@ -13,27 +10,38 @@
 		<div v-show="activeTemplate(['simple', 'duplicates', 'QfBibliometrics'])" v-transition="expand">
 			<time-input from="{{@ from.value }}" to="{{@ to.value }}"></time-input>
 		</div>
-		<div class="row">
-			<div class="col-md-8">
-				<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
-					<subject-input subjects="{{@ subjects }}" subject-suggestions="{{ subjectSuggestions }}"></subject-input>
-				</div>
-			</div>
-			<div class="col-md-4">
-				<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
-					<publ-type-input publ-types="{{@ publTypes }}" publ-type-suggestions="{{ publTypeSuggestions }}"></publ-type-input>
-				</div>
+		<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
+			<subject-input subjects="{{@ subjects }}" subject-suggestions="{{ subjectSuggestions }}"></subject-input>
+		</div>
+		<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
+			<div v-show="publType.show" v-transition="expand">
+				<publ-type-input publ-types="{{@ publTypes }}" publ-type-suggestions="{{ publTypeSuggestions }}"></publ-type-input>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-6">
-				<div v-show="activeTemplate(['QfBibliometrics'])" v-transition="expand">
-					<orcid-input orcid="{{@ orcid.value }}"></orcid-type-input>
+		<div v-show="orcid.show" v-transition="expand">
+			<div v-show="activeTemplate(['QfBibliometrics'])" v-transition="expand">
+				<orcid-input orcid="{{@ orcid.value }}"></orcid-type-input>
+			</div>
+		</div>
+		<div v-show="authorLabel.show" v-transition="expand">
+			<div v-show="activeTemplate(['QfBibliometrics'])" v-transition="expand">
+				<author-label-input author-label="{{@ authorLabel.value }}"></author-label-input>
+			</div>
+		</div>
+		<div class="toggleInputs">
+			<div v-show="!publType.show && activeTemplate(['simple', 'QfBibliometrics'])" v-on="click: publType.$set('show', true)" class="toggleInput">
+				<div>
+					Publikationstyp <span class="glyphicon glyphicon-plus"></span>
 				</div>
 			</div>
-			<div class="col-md-6">
-				<div v-show="activeTemplate(['QfBibliometrics'])" v-transition="expand">
-					<author-label-input author-label="{{@ authorLabel.value }}"></author-label-input>
+			<div v-show="!orcid.show && activeTemplate(['QfBibliometrics'])" v-on="click: orcid.$set('show', true)" class="toggleInput">
+				<div>
+					Orcid <span class="glyphicon glyphicon-plus"></span>
+				</div>
+			</div>
+			<div v-show="!authorLabel.show && activeTemplate(['QfBibliometrics'])" v-on="click: authorLabel.$set('show', true)" class="toggleInput">
+				<div>
+					Upphov <span class="glyphicon glyphicon-plus"></span>
 				</div>
 			</div>
 		</div>
@@ -42,7 +50,7 @@
 		</div>
 		<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
 			<publ-status-input publ-status="{{@ publStatus.value }}"></publ-status-input>
-		</div>
+		</div>	
 		<!-- Search button -->
 		<div class="form-group">
 			<button v-on="click: performSearch" class="btn btn-info">Visa</button>
