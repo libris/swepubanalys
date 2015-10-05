@@ -17,11 +17,14 @@ var HelpMixin = {
 		 */
 		initHelp: function(conf) {
 			var el = $(this.$el);
+			conf = conf || {};
+			var marginLeft = conf.marginLeft || '15px';
+			var marginTop = conf.marginTop || '15px';
 			// Create popover
 			$(el).popover({
 				trigger: 'manual',
 				placement: 'right',
-				template: '<div class="popover" style="margin-left: 15px; margin-top: 15px;"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
+				template: '<div class="popover" style="margin-left: ' + marginLeft + '; margin-top: ' + marginTop + '"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
 				title: conf.title,
 				content: '<div style="max-height: 550px; overflow-y: auto; overflow-x: hidden">' + conf.content || ''  + '</div>',
 				html: true,
