@@ -7,23 +7,40 @@
 		<p>
 			Här söker du fram publikationsposter från deltagande organisationer för export av data.
 		</p>
-		<!-- Simple search -->
-		<div v-show="activeTemplate(['simple', 'duplicates'])" v-transition="expand">
+		<div v-show="activeTemplate(['simple', 'duplicates', 'QfBibliometrics'])" v-transition="expand">
 			<org-input orgs="{{@ orgs }}" org-suggestions="{{ orgSuggestions }}"></org-input>
 		</div>
-		<div v-show="activeTemplate(['simple', 'duplicates'])" v-transition="expand">
+		<div v-show="activeTemplate(['simple', 'duplicates', 'QfBibliometrics'])" v-transition="expand">
 			<time-input from="{{@ from.value }}" to="{{@ to.value }}"></time-input>
 		</div>
-		<div v-show="activeTemplate(['simple'])" v-transition="expand">
-			<subject-input subjects="{{@ subjects }}" subject-suggestions="{{ subjectSuggestions }}"></subject-input>
+		<div class="row">
+			<div class="col-md-8">
+				<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
+					<subject-input subjects="{{@ subjects }}" subject-suggestions="{{ subjectSuggestions }}"></subject-input>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
+					<publ-type-input publ-types="{{@ publTypes }}" publ-type-suggestions="{{ publTypeSuggestions }}"></publ-type-input>
+				</div>
+			</div>
 		</div>
-		<div v-show="activeTemplate(['simple'])" v-transition="expand">
-			<publ-type-input publ-types="{{@ publTypes }}" publ-type-suggestions="{{ publTypeSuggestions }}"></publ-type-input>
+		<div class="row">
+			<div class="col-md-6">
+				<div v-show="activeTemplate(['QfBibliometrics'])" v-transition="expand">
+					<orcid-input orcid="{{@ orcid.value }}"></orcid-type-input>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div v-show="activeTemplate(['QfBibliometrics'])" v-transition="expand">
+					<author-label-input author-label="{{@ authorLabel.value }}"></author-label-input>
+				</div>
+			</div>
 		</div>
-		<div v-show="activeTemplate(['simple'])" v-transition="expand">
+		<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
 			<oa-input openaccess="{{@ openaccess }}"></oa-input>
 		</div>
-		<div v-show="activeTemplate(['simple'])" v-transition="expand">
+		<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
 			<publ-status-input publ-status="{{@ publStatus.value }}"></publ-status-input>
 		</div>
 		<!-- Search button -->

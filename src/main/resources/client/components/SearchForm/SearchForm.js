@@ -7,6 +7,8 @@ var OrgInput = require('components/OrgInput/OrgInput.js');
 var TimeInput = require('components/TimeInput/TimeInput.js');
 var SubjectInput = require('components/SubjectInput/SubjectInput.js');
 var PublTypeInput = require('components/PublTypeInput/PublTypeInput.js');
+var AuthorLabelInput = require('components/AuthorLabelInput/AuthorLabelInput.js');
+var OrcidInput = require('components/OrcidInput/OrcidInput.js');
 var OAInput = require('components/OAInput/OAInput.js');
 var PublStatusInput = require('components/PublStatusInput/PublStatusInput.js');
 // CSS
@@ -29,12 +31,14 @@ var SearchForm = {
 			publTypes: [],
 			publTypeSuggestions: [],
 			// Data which will possibly be used onSearch
-			templateName: 'simple',
+			templateName: 'QfBibliometrics',
 			org: { value: '', error: ''	},
 			subject: { value: '', error: ''	},
 			publType: {	value: '', error: '' },
 			from: {	value: '', error: '' }, 
 			to: { value: '', error: '' },
+			authorLabel: { value: '', error: '' },
+			orcid: { value: '', error: '' },
 			openaccess: false,
 			publStatus: { value: 'published', error: '' }
 		};
@@ -64,6 +68,8 @@ var SearchForm = {
 		'time-input': TimeInput,
 		'subject-input': SubjectInput,
 		'publ-type-input': PublTypeInput,
+		'author-label-input': AuthorLabelInput,
+		'orcid-input': OrcidInput,
 		'oa-input': OAInput,
 		'publ-status-input': PublStatusInput,
 	},
@@ -126,7 +132,22 @@ var SearchForm = {
 						to: this.to,
 					}
 					return model;
-				}
+				},
+				'QfBibliometrics': function() {
+					var model = {
+						templateName: 'QfBibliometrics',
+						org: this.org.value,
+						from: this.from.value,
+						to: this.to.value,
+						subject: this.subject.value,
+						publtype: this.publType.value,
+						author: this.authorLabel.value,
+						orcid: this.orcid.value,
+						openaccess: this.openaccess,
+						status: this.publStatus.value,
+					}
+					return model;
+				},
 			}
 			var formModel = models[this.templateName].call(this);
 			console.log('*** SearchForm.generateFormModel(): formModel generated:');
