@@ -69,6 +69,10 @@ task CopyMissingFonts(type: Copy){
     from('bower_components/bootstrap/fonts')
     into('src/main/resources/public/2.0/vendor/kungbib-styles/dist/fonts')
 }
+task bowerInstall(type:Exec){
+    exectuable "node_modules/bower/bin/bower"
+    args "install"
+}
 
 
 
