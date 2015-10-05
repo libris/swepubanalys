@@ -1,6 +1,7 @@
 'use strict';
 
 var jQuery = require('jquery');
+var $ = jQuery;
 
 /**
  * SPARQL Utilities
@@ -274,28 +275,29 @@ var SparqlUtil = {
 	/**
 	 * Combines query and fileFormat to construct and open a request for a file
 	 * @param {String} query
-	 * @param {DOMElement} targetWindow
 	 * @param {String} fileFormat
 	 * @param {Function} callback
 	 */
-	getFile: function(query, targetWindow, fileFormat, callback) {
+	getFile: function(query, fileFormat, callback) {
 		var url = 'http://virhp07.libris.kb.se/sparql';
-		if(fileFormat !== 'csv') {
-			console.error('*** SparqlUtil.getFile: Incorrect fileFormat \'' + fileFormat + '\'');
-			return false;
+		if(fileFormat === 'text/csv' || fileFormat === 'text/tab-separated-values') {
+			var form = $('<form action="' + url +'" method="post" target="__newtab__12" style="display: none;"><textarea name="query">' + query + '</textarea><input name="format" value="' + fileFormat + '"</input></form>');
+			$('body').append(form);
+			form.submit();
+			callback({
+				query: query,
+				fileFormat: fileFormat,
+			});
 		}
-		// Test this in IE9
-		var request = url + '?' + 'query=' + encodeURIComponent(query) + '&format=' + encodeURIComponent(fileFormat);
-		if(targetWindow) { // Use specific window, such as a <iframe>
-			targetWindow.src = request;
+		else {
+			var error = '*** SparqlUtil.getFile: Incorrect fileFormat \'' + fileFormat + '\'';
+			console.error(error);
+			callback({
+				query: query,
+				fileFormat: fileFormat,
+				error: error,
+			});
 		}
-		else { // Will open new tab/window
-			window.open(request);
-		}
-		callback({
-			url: url,
-			request: request,
-		});
 	},
 };
 

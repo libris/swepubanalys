@@ -188,15 +188,24 @@ var SearchResult = {
 				case 'csv':
 					this.performCsvExport();
 				break;
+				case 'tsv':
+					this.performTsvExport();
+				break;
 			}
 		},
 		/**
 		 * Gets a file as .csv
 		 */
 		performCsvExport: function() {
-			var windowElement = document.getElementById('__downloadWindow__');
-			windowElement = null;
-			SparqlUtil.getFile(this.query, windowElement, 'csv', function() {
+			SparqlUtil.getFile(this.query, 'text/csv', function() {
+				//this.$set('pendingExport', true);
+			}.bind(this));
+		},
+		/**
+		 * Gets a file as .tsv
+		 */
+		performTsvExport: function() {
+			SparqlUtil.getFile(this.query, 'text/tab-separated-values', function() {
 				//this.$set('pendingExport', true);
 			}.bind(this));
 		}
