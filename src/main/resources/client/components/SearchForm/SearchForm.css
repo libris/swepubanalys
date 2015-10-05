@@ -1,3 +1,7 @@
+.form-control {
+	min-height: 43px;
+}
+
 .toggleInputs { 
 	margin-top: 15px;
 	margin-bottom: 25px;
