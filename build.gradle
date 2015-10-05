@@ -98,6 +98,7 @@ bowerSync.dependsOn bowerInstall
 BowerSync2.dependsOn bowerSync
 CopyMissingFonts.dependsOn BowerSync2
 webpack.dependsOn CopyMissingFonts
+build.dependsOn webpack
 war.dependsOn webpack
 
 
