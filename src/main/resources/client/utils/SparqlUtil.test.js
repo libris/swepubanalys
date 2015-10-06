@@ -1,0 +1,1 @@
+var SparqlUtil = require('utils/SparqlUtil.js');
