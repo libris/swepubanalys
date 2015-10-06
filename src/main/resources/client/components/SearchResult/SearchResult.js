@@ -24,13 +24,13 @@ var SearchResult = {
 			// Flags
 			formModelHasChanged: false, // To let methods.updateQuery() know that formModel has changed and that a POST should be performed
 			// UI state
-			showFilterFields: false,
 			pendingUpdate: true,
 			pendingRefresh: true,
 			pendingExport: false,
 			// Data
 			query: '',
 			filterFields: [],
+			defaultFilterFields: [],
 			result: {
 				head: {
 					vars: [],
@@ -68,9 +68,11 @@ var SearchResult = {
 		 */
 		formModelChanged: function() {
 			if(this.formModel && this.formModel.templateName && this.formModel.templateName.length > 0) {
+				var filterFields = SparqlUtil.getFilterFields(this.formModel.templateName);
 				this.$set('formModelHasChanged', true);
 				this.$set('pendingExport', false);
-				this.$set('filterFields', SparqlUtil.getFilterFields(this.formModel.templateName)); // Will in turn trigger updateQuery()
+				this.$set('filterFields', _cloneDeep(filterFields).map(function(field) { field.checked = field.field === '?_recordID'; return field; })); // Will in turn trigger updateQuery()
+				this.$set('defaultFilterFields', filterFields); 
 			}
 		},
 		/**
@@ -98,10 +100,10 @@ var SearchResult = {
 			});
 		},
 		/**
-		 * User wants to see filterFields
+		 * User wants to select default filterFields
 		 */
-		toggleShowFilterFields: function() {
-			this.$set('showFilterFields', !this.showFilterFields);
+		selectDefaultFilterFields: function() {
+			this.$set('filterFields', _cloneDeep(this.defaultFilterFields));
 		},
 		/**
 		 * This function generates two queries. 

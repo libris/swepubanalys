@@ -8,16 +8,12 @@
 		<h2>2. Anpassa uttag och exportera</h2>
 		<div class="row">
 			<div class="col-md-8">
-				<p>Här väljer du fält och filformat för att exportera data. OBS: Tjänsten är i testfas just nu och tills vidare exporteras endast förhandsvisningen.</p>
+				<!-- Placeholder in the mean time -->
+				<p><b>33 000</b> träffar på <b>Fysik, Chalmers.</b> <b>2 fält</b> valda för export hittills.</p>
 			</div>
 			<div class="col-md-4" style="text-align: right">
 				<div class="form-group">
 					<div class="dropdown pull-right">
-						<button class="btn btn-info" v-on="click: toggleShowFilterFields">
-							<span v-show="!showFilterFields" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-							<span v-show="showFilterFields" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
-							Välj fält
-						</button>
 						<button class="btn btn-success dropdown-toggle" type="button" id="export" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
 							Exportera
 							<span class="caret"></span>
@@ -34,21 +30,31 @@
 		<div v-show="pendingExport" class="pendingExport">
 			<h4>Servern genererar din fil och den kommer snart att laddas ned...</h4>
 		</div>
-		<div v-show="showFilterFields" v-transition="expand" class="filterFields">
-			<div class="well">
-				<div class="row">
-					<div v-repeat="filterFields" class="col-xs-3">
-						<input type="checkbox" v-model="checked">
-						{{ fieldName }}
-					</div>
+		<hr>
+		<h4>Välj fält till uttag</h4>
+		<div class="filterFields well">
+			<div v-repeat="filterFields" style="display: inline-block;">
+				<button v-class="filterFieldButton: true, btn: true, btn-xs: true, btn-info: checked, btn-default: !checked" v-on="click: $set('checked', !checked)">
+					{{ fieldName.replace(/\(\*\)/, '') }}
+					<template v-if="fieldName.search(/\(\*\)/) !== -1">
+						<i class="fa fa-circle fractCircle"></i>
+					</template>
+				</button>
+			</div>
+			<hr>
+			<div class="row">
+				<div class="col-md-6">
+					<button class="btn btn-sm btn-default" v-on="click: selectNoFilterFields">Rensa</button>
+					<button class="btn btn-sm btn-default" v-on="click: selectAllFilterFields">Alla</button>
+					<button class="btn btn-sm btn-default" v-on="click: selectDefaultFilterFields">Vanligaste</button>
 				</div>
-				<hr>
-				<button class="btn btn-default" v-on="click: selectNoFilterFields">Ingen</button>
-				<button class="btn btn-default" v-on="click: selectAllFilterFields">Alla</button>
+				<div class="col-md-6" style="text-align: right;">
+					<p style="font-size: small;"><i class="fa fa-circle fractCircle"></i> fraktionerad data</p>
+				</div>
 			</div>
 		</div>
-		<hr v-show="showFilterFields">
-		<h4>Förhandsvisning</h4>
+		<h4>Förhandsvisning av uttag</h4>
+		<br>
 		<div style="min-height: 480px;">
 			<div v-show="pendingRefresh !== true">
 				<list-preview result="{{ result }}" filter-fields="{{ filterFields }}"></list-preview>

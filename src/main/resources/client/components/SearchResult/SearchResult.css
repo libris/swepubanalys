@@ -1,5 +1,10 @@
 .filterFields {
-	margin-top: 10px;
+	margin-top: 20px;
+	margin-bottom: 25px;
+}
+
+.filterFieldButton {
+	margin: 4px;
 }
 
 .pendingUpdate {
@@ -16,4 +21,9 @@
 
 .pendingRefresh {
 	text-align: center;
+}
+
+.fractCircle {
+	color: #ffd8d8;
+	margin-left: 5px;
 }
