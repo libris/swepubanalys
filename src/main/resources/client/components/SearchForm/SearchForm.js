@@ -40,7 +40,7 @@ var SearchForm = {
 			to: { value: '', error: '' },
 			authorLabel: { value: '', error: '', show: false },
 			orcid: { value: '', error: '', show: false },
-			openaccess: false,
+			openaccess: { value: false, error: '', show: false },
 			publStatus: { value: 'published', error: '' }
 		};
 	},
@@ -120,7 +120,7 @@ var SearchForm = {
 						to: this.to.value,
 						subject: this.subject.value,
 						publtype: this.publType.value,
-						openaccess: this.openaccess,
+						openaccess: this.openaccess.value,
 						status: this.publStatus.value,
 					}
 					return model;
@@ -144,7 +144,7 @@ var SearchForm = {
 						publtype: this.publType.value,
 						author: this.authorLabel.value,
 						orcid: this.orcid.value,
-						openaccess: this.openaccess,
+						openaccess: this.openaccess.value,
 						status: this.publStatus.value,
 					}
 					return model;
