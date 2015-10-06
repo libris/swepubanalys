@@ -3,6 +3,8 @@
 // Vendor
 var Vue = require('vue');
 var _find = require('lodash/collection/find');
+// Mixins
+var FractionalMixin = require('mixins/FractionalMixin.js');
 
 /**
  * List Preview-component
@@ -10,6 +12,7 @@ var _find = require('lodash/collection/find');
  * @prop {Array} filterFields
  */
 var ListPreview = {
+	mixins: [FractionalMixin],
 	template: require('./ListPreview.html'),
 	props: ['result', 'filterFields'],
 	data: function() {
@@ -26,6 +29,7 @@ var ListPreview = {
 				var n = {};
 				for(var i = 0; i < filterFields.length; i++) {
 					n[filterFields[i].field] = {
+						field: filterFields[i].field,
 						fieldName: filterFields[i].fieldName,
 						checked: filterFields[i].checked,
 					}

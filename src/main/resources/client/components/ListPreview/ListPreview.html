@@ -2,7 +2,13 @@
 	<table class="table" style="max-width: 100%">
 		<thead>
 			<th v-repeat="field in filterFieldKeys | onlyCheckedFilterFields">
-				{{ field.fieldName }}
+				<p>
+					{{ stripAsterisk(field.fieldName) }}
+					<template v-if="fractionalField(field.fieldName)">
+						<fract-circle></fract-circle>
+					</template>
+				</p>
+				<p style="font-size: small;">({{ field.field }})</p>
 			</th>
 		</thead>
 		<tbody>

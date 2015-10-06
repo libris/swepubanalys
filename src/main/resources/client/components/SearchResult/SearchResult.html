@@ -35,9 +35,9 @@
 		<div class="filterFields well">
 			<div v-repeat="filterFields" style="display: inline-block;">
 				<button v-class="filterFieldButton: true, btn: true, btn-xs: true, btn-info: checked, btn-default: !checked" v-on="click: $set('checked', !checked)">
-					{{ fieldName.replace(/\(\*\)/, '') }}
-					<template v-if="fieldName.search(/\(\*\)/) !== -1">
-						<i class="fa fa-circle fractCircle"></i>
+					{{ stripAsterisk(fieldName) }}
+					<template v-if="fractionalField(fieldName)">
+						<fract-circle></fract-circle>
 					</template>
 				</button>
 			</div>
@@ -49,7 +49,9 @@
 					<button class="btn btn-sm btn-default" v-on="click: selectDefaultFilterFields">Vanligaste</button>
 				</div>
 				<div class="col-md-6" style="text-align: right;">
-					<p style="font-size: small;"><i class="fa fa-circle fractCircle"></i> fraktionerad data</p>
+					<p style="font-size: small;">
+						<fract-circle></fract-circle>fraktionerad data
+					</p>
 				</div>
 			</div>
 		</div>
