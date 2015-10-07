@@ -40,6 +40,16 @@ var ListPreview = {
 				console.error('*** ListPreview.ready(): filterFields prop required');
 			}
 		}.bind(this), { deep: true });
+	},
+	methods: {
+		/**
+		 * Used to determine whether a field should constitute a link.
+		 * This method is not for validating Urls and VERY basic! It only checks if the
+		 * string starts with "http://"
+		 */
+		startsWithHttp: function(str) {
+			return str.search(/http\:\/\//i) === 0;
+		}
 	}
 };
 

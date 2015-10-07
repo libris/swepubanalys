@@ -2,20 +2,25 @@
 	<table class="table" style="max-width: 100%">
 		<thead>
 			<th v-repeat="field in filterFieldKeys | onlyCheckedFilterFields">
-				<p>
+				<p style="font-size: small;">
 					{{ stripAsterisk(field.fieldName) }}
 					<template v-if="fractionalField(field.fieldName)">
 						<fract-circle></fract-circle>
 					</template>
 				</p>
-				<p style="font-size: small;">({{ field.field }})</p>
+				<p style="font-size: x-small;">{{ field.field }}</p>
 			</th>
 		</thead>
 		<tbody>
 			<tr v-repeat="article in ((result && result.results && result.results.bindings) ? result.results.bindings : [])">
 				<td v-repeat="cell in article | filterFields filterFields">
 					<div style="min-width: 200px;">
-						{{ cell.value }}
+						<template v-if="startsWithHttp(cell.value)">
+							<a href="{{ cell.value }}" target="__new_tab__">{{ cell.value }}</a>
+						</template>
+						<template v-if="!startsWithHttp(cell.value)">
+							{{ cell.value }}
+						</template>
 					</div>
 				</td>
 			</tr>
