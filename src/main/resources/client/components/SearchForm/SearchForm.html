@@ -28,27 +28,11 @@
 				<author-label-input author-label="{{@ authorLabel.value }}"></author-label-input>
 			</div>
 		</div>
-		<div class="toggleInputs">
-			<div v-show="!publType.show && activeTemplate(['simple', 'QfBibliometrics'])" v-on="click: publType.$set('show', true)" v-transition="expand" class="toggleInput">
-				<div>
-					<span class="glyphicon glyphicon-plus"></span> Publikationstyp
-				</div>
-			</div>
-			<div v-show="!orcid.show && activeTemplate(['QfBibliometrics'])" v-on="click: orcid.$set('show', true)" v-transition="expand" class="toggleInput">
-				<div>
-					<span class="glyphicon glyphicon-plus"></span> Orcid
-				</div>
-			</div>
-			<div v-show="!authorLabel.show && activeTemplate(['QfBibliometrics'])" v-on="click: authorLabel.$set('show', true)" v-transition="expand" class="toggleInput">
-				<div>
-					<span class="glyphicon glyphicon-plus"></span> Upphov
-				</div>
-			</div>
-			<div v-show="!openaccess.show && activeTemplate(['simple', 'QfBibliometrics'])" v-on="click: openaccess.$set('show', true)" v-transition="expand" class="toggleInput">
-				<div>
-					<span class="glyphicon glyphicon-plus"></span> Open access
-				</div>
-			</div>
+		<div class="showFieldButtons">
+			<show-field-button field="{{@ publType }}"></show-field-button>
+			<show-field-button field="{{@ orcid }}"></show-field-button>
+			<show-field-button field="{{@ authorLabel }}"></show-field-button>
+			<show-field-button field="{{@ openaccess }}"></show-field-button>
 		</div>
 		<div v-show="openaccess.show" v-transition="expand">
 			<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">

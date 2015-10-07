@@ -11,6 +11,7 @@ var AuthorLabelInput = require('components/AuthorLabelInput/AuthorLabelInput.js'
 var OrcidInput = require('components/OrcidInput/OrcidInput.js');
 var OAInput = require('components/OAInput/OAInput.js');
 var PublStatusInput = require('components/PublStatusInput/PublStatusInput.js');
+var ShowFieldButton = require('components/ShowFieldButton/ShowFieldButton.js');
 // CSS
 require('css/transitions.css');
 require('./SearchForm.css');
@@ -33,14 +34,14 @@ var SearchForm = {
 			publTypeSuggestions: [],
 			// Data which will possibly be used onSearch
 			templateName: 'QfBibliometrics',
-			org: { value: '', error: ''	},
+			org: { name: 'Organisation', value: '', error: ''	},
 			subject: { value: '', error: ''	},
-			publType: {	value: '', error: '', show: false },
+			publType: {	name: 'Publikationstyp', value: '', error: '', show: false },
 			from: {	value: '', error: '' }, 
 			to: { value: '', error: '' },
-			authorLabel: { value: '', error: '', show: false },
-			orcid: { value: '', error: '', show: false },
-			openaccess: { value: false, error: '', show: false },
+			authorLabel: { name: 'Upphov', value: '', error: '', show: false },
+			orcid: { name: 'Orcid', value: '', error: '', show: false },
+			openaccess: { name: 'Open access', value: false, error: '', show: false },
 			publStatus: { value: 'published', error: '' }
 		};
 	},
@@ -73,6 +74,7 @@ var SearchForm = {
 		'orcid-input': OrcidInput,
 		'oa-input': OAInput,
 		'publ-status-input': PublStatusInput,
+		'show-field-button': ShowFieldButton,
 	},
 	ready: function() {
 		SearchFormUtil.getFormSuggestions(function(formSuggestions) {
