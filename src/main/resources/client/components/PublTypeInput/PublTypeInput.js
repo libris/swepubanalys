@@ -20,6 +20,8 @@ var PublTypeInput = {
 		this.initHelp({
 			title: 'PUBLIKATIONSTYPER',
 			content: require('./PublTypeInput.Help.html'),
+			marginLeft: '15px',
+			marginTop: '15px',
 		});
 	}
 };

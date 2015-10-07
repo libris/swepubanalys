@@ -1,3 +1,8 @@
+.fractSymbol {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
 .filterFields {
 	margin-top: 20px;
 	margin-bottom: 25px;

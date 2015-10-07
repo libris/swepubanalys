@@ -5,6 +5,7 @@ var _each = require('lodash/collection/each');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 // Mixins
 var FractionalMixin = require('mixins/FractionalMixin.js');
+var HelpMixin = require('mixins/HelpMixin.js')
 // CSS
 require('./FilterFields.css');
 
@@ -14,7 +15,7 @@ require('./FilterFields.css');
  * @prop {Array} defaultFilterFields
  */
 var FilterFields = {
-	mixins: [FractionalMixin],
+	mixins: [FractionalMixin, HelpMixin],
 	props: ['filterFields', 'defaultFilterFields'],
 	template: require('./FilterFields.html'),
 	methods: {
@@ -40,6 +41,16 @@ var FilterFields = {
 		selectDefaultFilterFields: function() {
 			this.$set('filterFields', _cloneDeep(this.defaultFilterFields));
 		}
+	},
+	ready: function() {
+		this.initHelp({
+			title: 'FRAKTIONERAD DATA',
+			content: require('./filterFields.Help.html'),
+			anchorToElement: this.$el.getElementsByClassName('fractSymbol')[0],
+			placement: 'bottom',
+			marginLeft: '3px',
+			marginTop: '15px',
+		});
 	}
 };
 

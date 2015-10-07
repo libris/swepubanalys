@@ -20,6 +20,8 @@ var SubjectInput = {
 		this.initHelp({
 			title: 'FORSKNINGSÄMNE',
 			content: require('./SubjectInput.Help.html'),
+			marginLeft: '15px',
+			marginTop: '15px',
 		});
 	}
 };

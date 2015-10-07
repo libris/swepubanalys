@@ -39,12 +39,12 @@ var HelpMixin = {
 				console.error('*** HelpMixin.js: initiatorElement and anchorToElement args not provided');
 				return false;
 			}
-			var marginLeft = conf.marginLeft || '15px';
-			var marginTop = conf.marginTop || '15px';
+			var marginLeft = conf.marginLeft || '0px';
+			var marginTop = conf.marginTop || '0px';
 			// Create popover
 			$(conf.anchorToElement).popover({
 				trigger: 'manual',
-				placement: 'right',
+				placement: conf.placement || 'right',
 				template: '<div class="popover" style="margin-left: ' + marginLeft + '; margin-top: ' + marginTop + '"><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
 				title: conf.title,
 				content: '<div style="max-height: 550px; overflow-y: auto; overflow-x: hidden">' + conf.content || ''  + '</div>',
