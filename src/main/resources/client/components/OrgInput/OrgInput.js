@@ -21,7 +21,7 @@ var OrgInput = {
 			title: 'ORGANISATION',
 			content: require('./OrgInput.Help.html'),
 			marginLeft: '15px',
-			marginTop: '15px',
+			marginTop: '20px',
 		});
 	}
 };

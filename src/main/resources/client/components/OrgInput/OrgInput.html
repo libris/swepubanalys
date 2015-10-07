@@ -1,5 +1,13 @@
 <div class="form-group">
-	<label>Organisation</label>
-	<help-initiator-button></help-initiator-button>
+	<div class="row">
+		<div class="col-md-6">
+			<label>Organisation</label>
+		</div>
+		<div class="col-md-6" style="text-align: right;">
+			<div class="form-group">
+				<help-initiator-button></help-initiator-button>
+			</div>
+		</div>
+	</div>
 	<autocomplete-input val="{{@ orgs }}" options="{{ orgSuggestions }}"></autocomplete-input>
 </div>

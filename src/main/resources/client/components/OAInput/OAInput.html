@@ -1,9 +1,18 @@
 <div class="form-group">
-	<label>Open access</label>
+	<div class="row">
+		<div class="col-xs-6">
+			<label>Open access</label>
+		</div>
+		<div class="col-xs-6" style="text-align: right;">
+			<div class="form-group">
+				<hide-field-button field="{{@ openaccess }}"></hide-field-button>
+			</div>
+		</div>
+	</div>
 	<div class="checkbox">
 		<label>
 			<input type="checkbox" v-model="openaccess">
-			Endast Open Access
+			Endast Open access
 		</label>
 	</div>
 </div>

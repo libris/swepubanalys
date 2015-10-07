@@ -74,7 +74,7 @@ var SearchForm = {
 		'orcid-input': OrcidInput,
 		'oa-input': OAInput,
 		'publ-status-input': PublStatusInput,
-		'show-field-button': ShowFieldButton,
+		'show-field-button': ShowFieldButton
 	},
 	ready: function() {
 		SearchFormUtil.getFormSuggestions(function(formSuggestions) {

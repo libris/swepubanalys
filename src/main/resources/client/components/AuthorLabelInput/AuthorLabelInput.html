@@ -1,4 +1,13 @@
 <div class="form-group">
-	<label>Upphov</label>
-	<input v-model="authorLabel" type="text" class="form-control"></input>
+	<div class="row">
+		<div class="col-xs-6">
+			<label>Upphov</label>
+		</div>
+		<div class="col-xs-6" style="text-align: right;">
+			<div class="form-group">
+				<hide-field-button field="{{@ authorLabel }}"></hide-field-button>
+			</div>
+		</div>
+	</div>
+	<input v-model="authorLabel.value" type="text" class="form-control"></input>
 </div>
