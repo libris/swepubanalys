@@ -1,13 +1,13 @@
 'use strict';
 
 // Vendor
-var _each = require('lodash/collection/each');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 var _findIndex = require('lodash/array/findIndex');
 // Utils
 var SparqlUtil = require('utils/SparqlUtil.js');
 // Components
 var ListPreview = require('components/ListPreview/ListPreview.js');
+var FilterFields = require('components/FilterFields/FilterFields.js');
 // Mixins
 var FractionalMixin = require('mixins/FractionalMixin.js');
 // CSS
@@ -56,13 +56,14 @@ var SearchResult = {
 		this.$watch('filterFields', function() {
 			// Call after current stack has finished executing, so the GUI may update before
 			// queries are generated etc...
-			setTimeout(function() { this.filterFieldsChanged(); }.bind(this), 0);
+			this.filterFieldsChanged();
 		}.bind(this), { deep: true });
 		// Generate query on ready hook
 		this.formModelChanged();
 	},
 	components: {
 		'list-preview': ListPreview,
+		'filter-fields': FilterFields,
 	},
 	methods: {
 		/** 
@@ -85,28 +86,6 @@ var SearchResult = {
 		 */
 		filterFieldsChanged: function() {
 			this.updateQuery();
-		},
-		/**
-		 * User wants to select no filterFields
-		 */
-		selectNoFilterFields: function() {
-			_each(this.filterFields, function(field) {
-				field.$set('checked', false);
-			});
-		},
-		/**
-		 * User wants to select all filterFields
-		 */
-		selectAllFilterFields: function() {
-			_each(this.filterFields, function(field) {
-				field.$set('checked', true);
-			});
-		},
-		/**
-		 * User wants to select default filterFields
-		 */
-		selectDefaultFilterFields: function() {
-			this.$set('filterFields', _cloneDeep(this.defaultFilterFields));
 		},
 		/**
 		 * This function generates two queries. 

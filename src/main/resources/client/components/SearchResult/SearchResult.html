@@ -32,29 +32,7 @@
 		</div>
 		<hr>
 		<h4>Välj fält till uttag</h4>
-		<div class="filterFields well">
-			<div v-repeat="filterFields" style="display: inline-block;">
-				<button v-class="filterFieldButton: true, btn: true, btn-xs: true, btn-info: checked, btn-default: !checked" v-on="click: $set('checked', !checked)">
-					{{ stripAsterisk(fieldName) }}
-					<template v-if="fractionalField(fieldName)">
-						<fract-circle></fract-circle>
-					</template>
-				</button>
-			</div>
-			<hr>
-			<div class="row">
-				<div class="col-md-6">
-					<button class="btn btn-sm btn-default" v-on="click: selectNoFilterFields">Rensa</button>
-					<button class="btn btn-sm btn-default" v-on="click: selectAllFilterFields">Alla</button>
-					<button class="btn btn-sm btn-default" v-on="click: selectDefaultFilterFields">Vanligaste</button>
-				</div>
-				<div class="col-md-6" style="text-align: right;">
-					<p style="font-size: small;">
-						<fract-circle></fract-circle>fraktionerad data
-					</p>
-				</div>
-			</div>
-		</div>
+		<filter-fields filter-fields="{{@ filterFields }}" default-filter-fields="{{ defaultFilterFields }}"></filter-fields>
 		<h4>Förhandsvisning av uttag</h4>
 		<br>
 		<div style="min-height: 480px;">
