@@ -8,8 +8,6 @@ var SparqlUtil = require('utils/SparqlUtil.js');
 // Components
 var ListPreview = require('components/ListPreview/ListPreview.js');
 var FilterFields = require('components/FilterFields/FilterFields.js');
-// Mixins
-var FractionalMixin = require('mixins/FractionalMixin.js');
 // CSS
 require('css/transitions.css');
 require('./SearchResult.css');
@@ -19,7 +17,6 @@ require('./SearchResult.css');
  * @prop {Object} formModel
  */
 var SearchResult = {
-	mixins: [FractionalMixin],
 	template: require('./SearchResult.html'),
 	props: ['formModel'],
 	data: function() {
