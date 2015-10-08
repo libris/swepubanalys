@@ -32,17 +32,44 @@ var SearchForm = {
 			subjectSuggestions: [],
 			publTypes: [],
 			publTypeSuggestions: [],
+			formTests: {},
 			// Data which will possibly be used onSearch
 			templateName: 'QfBibliometrics',
-			org: { name: 'Organisation', value: '', error: ''	},
-			subject: { value: '', error: ''	},
-			publType: {	name: 'Publikationstyp', value: '', error: '', show: false },
-			from: {	value: '', error: '' }, 
-			to: { value: '', error: '' },
-			authorLabel: { name: 'Upphov', value: '', error: '', show: false },
-			orcid: { name: 'Orcid', value: '', error: '', show: false },
-			openaccess: { name: 'Open access', value: false, error: '', show: false },
-			publStatus: { value: 'published', error: '' }
+			org: { 
+				name: 'Organisation', 
+				value: ''
+			},
+			subject: { 
+				value: ''
+			},
+			publType: {	
+				name: 'Publikationstyp', 
+				value: '', 
+				show: false 
+			},
+			time: {
+				from: '',
+				to: '',
+				error: '',				
+			},
+			authorLabel: { 
+				name: 'Upphov', 
+				value: '', 
+				show: false 
+			},
+			orcid: { 
+				name: 'Orcid', 
+				value: '', 
+				show: false 
+			},
+			openaccess: { 
+				name: 'Open access',
+				value: false, 
+				show: false 
+			},
+			publStatus: {
+				value: 'published', 
+			}
 		};
 	},
 	watch: {
@@ -74,9 +101,14 @@ var SearchForm = {
 		'orcid-input': OrcidInput,
 		'oa-input': OAInput,
 		'publ-status-input': PublStatusInput,
-		'show-field-button': ShowFieldButton
+		'show-field-button': ShowFieldButton,
 	},
 	ready: function() {
+		// Get and set form tests
+		SearchFormUtil.getFormTests(function(formTests) {
+			this.$set('formTests', formTests);
+		}.bind(this));
+		// Get and set form suggestions
 		SearchFormUtil.getFormSuggestions(function(formSuggestions) {
 			if(formSuggestions.orgs) {
 				this.$set('orgSuggestions', formSuggestions.orgs);
@@ -118,8 +150,8 @@ var SearchForm = {
 					var model = {
 						templateName: 'simple',
 						org: this.org.value,
-						from: this.from.value,
-						to: this.to.value,
+						from: this.time.from,
+						to: this.time.to,
 						subject: this.subject.value,
 						publtype: this.publType.value,
 						openaccess: this.openaccess.value,
@@ -131,8 +163,8 @@ var SearchForm = {
 					var model = {
 						templateName: 'duplicates',
 						org: this.org.value,
-						from: this.from.value,
-						to: this.to,
+						from: this.time.from,
+						to: this.time.to,
 					}
 					return model;
 				},
@@ -140,8 +172,8 @@ var SearchForm = {
 					var model = {
 						templateName: 'QfBibliometrics',
 						org: this.org.value,
-						from: this.from.value,
-						to: this.to.value,
+						from: this.time.from,
+						to: this.time.to,
 						subject: this.subject.value,
 						publtype: this.publType.value,
 						author: this.authorLabel.value,

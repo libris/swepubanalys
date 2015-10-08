@@ -1,13 +1,14 @@
 <div class="form-group">
 	<div class="row">
-		<div class="col-md-6">
+		<div class="col-xs-6">
 			<label>Orcid</label>
 		</div>
-		<div class="col-md-6" style="text-align: right;">
+		<div class="col-xs-6" style="text-align: right;">
 			<div class="form-group">
-				<hide-field-button field="{{@ orcid }}"></hide-field-button>
+				<hide-field-button field="{{@ field }}"></hide-field-button>
 			</div>
 		</div>
 	</div>
-	<input v-model="orcid.value" type="text" class="form-control"></input>
+	<input v-model="field.value" type="text" class="form-control"></input>
 </div>
+<form-error-label errors="{{ errors }}"></form-error-label>

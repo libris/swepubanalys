@@ -5,13 +5,13 @@
 		</div>
 		<div class="col-xs-6" style="text-align: right;">
 			<div class="form-group">
-				<hide-field-button field="{{@ openaccess }}"></hide-field-button>
+				<hide-field-button field="{{@ field }}"></hide-field-button>
 			</div>
 		</div>
 	</div>
 	<div class="checkbox">
 		<label>
-			<input type="checkbox" v-model="openaccess">
+			<input type="checkbox" v-model="field.value">
 			Endast Open access
 		</label>
 	</div>

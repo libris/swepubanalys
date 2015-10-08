@@ -7,13 +7,13 @@ var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
 
 /**
  * Publication Type Input-component
- * @prop {Object} publType
+ * @prop {Object} field
  * @prop {Array} publTypes
  * @prop {Array} publTypeSuggestions
  */
 var PublTypeInput = {
 	mixins: [HelpMixin],
-	props: ['publType', 'publTypes', 'publTypeSuggestions'],
+	props: ['field', 'publTypes', 'publTypeSuggestions'],
 	template: require('./PubltypeInput.html'),
 	components: {
 		'autocomplete-input': AutocompleteInput,

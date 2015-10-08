@@ -2,10 +2,10 @@
 
 /**
  * Publication Status Input-component
- * @prop {Array} PublStatus
+ * @prop {Object} field
  */
 var PublStatusInput = {
-	props: ['publStatus'],
+	props: ['field'],
 	template: require('./PublStatusInput.html')
 };
 

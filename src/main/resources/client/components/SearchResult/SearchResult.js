@@ -51,8 +51,6 @@ var SearchResult = {
 		}.bind(this));
 		// Watch for deep mutation of filterFields, regenerate query if this occurs
 		this.$watch('filterFields', function() {
-			// Call after current stack has finished executing, so the GUI may update before
-			// queries are generated etc...
 			this.filterFieldsChanged();
 		}.bind(this), { deep: true });
 		// Generate query on ready hook

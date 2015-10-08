@@ -11,6 +11,19 @@ var SearchFormUtil = {
 	 */
 	getFormSuggestions: function(callback) {
 		callback(formSuggestions);
+	},
+	/**
+	 *
+	 */
+	getFormTests: function(callback) {
+		callback(formTests);		
+	}
+};
+
+var formTests = {
+	time: {
+		expression: '^$|^(19[0-9]\\d|200[0-9]|201[0-5])$',
+		errorMessage: 'Ogiltigt årtal angivet',
 	}
 };
 

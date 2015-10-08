@@ -5,10 +5,10 @@ var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
 
 /**
  * Author Label Input-component
- * @prop {Object} authorLabel
+ * @prop {Object} field
  */
 var AuthorLabelInput = {
-	props: ['authorLabel'],
+	props: ['field'],
 	template: require('./AuthorLabelInput.html'),
 	components: {
 		'hide-field-button': HideFieldButton

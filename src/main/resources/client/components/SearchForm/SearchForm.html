@@ -10,7 +10,7 @@
 		</div>
 		<!-- TIME -->
 		<div v-show="activeTemplate(['simple', 'duplicates', 'QfBibliometrics'])" v-transition="expand">
-			<time-input from="{{@ from.value }}" to="{{@ to.value }}"></time-input>
+			<time-input field="{{@ time }}" test="{{ formTests.time || {} }}"></time-input>
 		</div>
 		<!-- SUBJECTS -->
 		<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
@@ -18,15 +18,15 @@
 		</div>
 		<!-- PUBLTYPE -->
 		<div v-show="publType.show && activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
-			<publ-type-input publ-type="{{@ publType }}" publ-types="{{@ publTypes }}" publ-type-suggestions="{{ publTypeSuggestions }}"></publ-type-input>
+			<publ-type-input field="{{@ publType }}" publ-types="{{@ publTypes }}" publ-type-suggestions="{{ publTypeSuggestions }}"></publ-type-input>
 		</div>
 		<!-- ORCID -->
 		<div v-show="orcid.show && activeTemplate(['QfBibliometrics'])" v-transition="expand">
-			<orcid-input orcid="{{@ orcid }}"></orcid-type-input>
+			<orcid-input field="{{@ orcid }}" test="{{ formTests.orcid || {} }}"></orcid-type-input>
 		</div>
 		<!-- AUTHORLABEL -->
 		<div v-show="authorLabel.show && activeTemplate(['QfBibliometrics'])" v-transition="expand">
-			<author-label-input author-label="{{@ authorLabel }}"></author-label-input>
+			<author-label-input field="{{@ authorLabel }}"></author-label-input>
 		</div>
 		<!-- SHOW-BUTTONS -->
 		<div class="showFieldButtons">
@@ -38,12 +38,12 @@
 		<!-- OA -->
 		<div v-show="openaccess.show" v-transition="expand">
 			<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
-				<oa-input openaccess="{{@ openaccess }}"></oa-input>
+				<oa-input field="{{@ openaccess }}"></oa-input>
 			</div>
 		</div>
 		<!-- PUBLSTATUS -->
 		<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
-			<publ-status-input publ-status="{{@ publStatus.value }}"></publ-status-input>
+			<publ-status-input field="{{@ publStatus }}"></publ-status-input>
 		</div>	
 		<!-- SEARCH-BUTTON -->
 		<div class="form-group">

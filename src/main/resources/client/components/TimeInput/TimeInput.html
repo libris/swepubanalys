@@ -2,12 +2,13 @@
 <div class="row">
 	<div class="col-md-6">
 		<div class="form-group">
-			<input v-model="from" type="text" class="form-control" placeholder="Från och med">
+			<input v-model="field.from" type="text" class="form-control" placeholder="Från och med">
 		</div>
 	</div>
 	<div class="col-md-6">
 		<div class="form-group">
-			<input v-model="to" type="text" class="form-control" placeholder="Till och med">
+			<input v-model="field.to" type="text" class="form-control" placeholder="Till och med">
 		</div>
 	</div>
 </div>
+<form-error-label errors="{{ errors }}"></form-error-label>

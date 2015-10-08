@@ -5,10 +5,10 @@ var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
 
 /**
  * Open Access Input-component
- * @prop {Object} openaccess
+ * @prop {Object} field
  */
 var OAInput = {
-	props: ['openaccess'],
+	props: ['field'],
 	template: require('./OAInput.html'),
 	components: {
 		'hide-field-button': HideFieldButton
