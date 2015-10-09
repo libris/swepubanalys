@@ -34,6 +34,10 @@ class Api {
         response.type("application/json");
         return Elasticsearch.getStats();
     }
+    static getAggregations(Response response)  {
+        response.type("application/json");
+        return Elasticsearch.getAggs();
+    }
 
 
 }
