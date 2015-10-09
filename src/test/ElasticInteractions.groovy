@@ -19,7 +19,7 @@ class ElasticInteractions {
     }
 
     @Test
-    public static void getElasticStats(){
+    public  void getElasticStats(){
         def client = new RESTClient('http://es01.kb.local:9200')
         def response = client.get(
                 accept: ContentType.JSON,
@@ -31,5 +31,10 @@ class ElasticInteractions {
         assert response.json.indices.swepub.primaries.docs.count > 900000;
 
 
+    }
+    @Test
+    public void getDefaultAggs() {
+        def aggs = new Clients.Elasticsearch().getAggs();
+        assert aggs != null;
     }
 }
