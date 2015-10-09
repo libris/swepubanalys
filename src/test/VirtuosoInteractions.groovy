@@ -1,4 +1,4 @@
-import SparqlInteractions.SparqlEndPoint
+import Clients.Virtuoso
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -181,7 +181,7 @@ LIMIT 10000000
 
     @Test
     public void postGetJson() {
-        SparqlEndPoint endPoint = new SparqlEndPoint();
+        Virtuoso endPoint = new Virtuoso();
         def response = endPoint.post(sparql, "application/json")
         assert response != null;
         assert response instanceof JSONObject;
@@ -190,7 +190,7 @@ LIMIT 10000000
 
     @Test
     public void postGetTSV() {
-        SparqlEndPoint endPoint = new SparqlEndPoint();
+        Virtuoso endPoint = new Virtuoso();
         def response = endPoint.post(sparql, "text/tab-separated-values")
         assert response != null;
         assert response instanceof String;
@@ -201,7 +201,7 @@ LIMIT 10000000
         def sparqlSpan = new File('./src/main/resources/sparqlQueries/swepubPublicationYearLimits.sparql')
         def query = sparqlSpan.text;
 
-        SparqlEndPoint endPoint = new SparqlEndPoint();
+        Virtuoso endPoint = new Virtuoso();
         def response = endPoint.post(query, "application/json")
         assert response != null;
         assert response instanceof JSONObject;
@@ -213,7 +213,7 @@ LIMIT 10000000
 
     @Test
     public void postGetCSV() {
-        SparqlEndPoint endPoint = new SparqlEndPoint();
+        Virtuoso endPoint = new Virtuoso();
         def response = endPoint.post(sparqlCount, "text/csv")
         assert response != null;
         assert response instanceof String;
@@ -222,7 +222,7 @@ LIMIT 10000000
 
     @Test
     public void getGetJson() {
-        SparqlEndPoint endPoint = new SparqlEndPoint();
+        Virtuoso endPoint = new Virtuoso();
         def response = endPoint.get(sparql, "application/json")
         assert response != null;
         assert response instanceof JSONObject;
@@ -231,7 +231,7 @@ LIMIT 10000000
 
     @Test
     public void getGetCSV() {
-        SparqlEndPoint endPoint = new SparqlEndPoint();
+        Virtuoso endPoint = new Virtuoso();
         def response = endPoint.get(sparqlCount, "text/csv")
         assert response != null;
         assert response instanceof String;
