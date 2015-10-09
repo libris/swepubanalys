@@ -163,29 +163,56 @@ var SearchResult = {
 		 * @param {String} fileType
 		 */
 		performExport: function(fileType) {
+			this.$set('pendingExport', true);
+			var finished = function() {
+				this.$set('pendingExport', false);
+			}.bind(this);
 			switch(fileType) {
+				case 'json':
+					this.performJsonExport(finished);
+				break;
+				case 'xml':
+					this.performXmlExport(finished);
+				break;
 				case 'csv':
-					this.performCsvExport();
+					this.performCsvExport(finished);
 				break;
 				case 'tsv':
-					this.performTsvExport();
+					this.performTsvExport(finished);
 				break;
+
 			}
+		},
+		/**
+		 * Gets a file as .json
+		 */
+		performJsonExport: function(callback) {
+			SparqlUtil.getFile(this.query, 'application/json', function() {
+				callback();
+			}.bind(this));
+		},
+		/**
+		 *
+		 */
+		performXmlExport: function(callback) {
+			SparqlUtil.getFile(this.query, 'application/xml', function() {
+				callback();
+			}.bind(true));
 		},
 		/**
 		 * Gets a file as .csv
 		 */
-		performCsvExport: function() {
+		performCsvExport: function(callback) {
 			SparqlUtil.getFile(this.query, 'text/csv', function() {
-				//this.$set('pendingExport', true);
+				callback();
 			}.bind(this));
 		},
 		/**
 		 * Gets a file as .tsv
 		 */
-		performTsvExport: function() {
+		performTsvExport: function(callback) {
 			SparqlUtil.getFile(this.query, 'text/tab-separated-values', function() {
-				//this.$set('pendingExport', true);
+				callback();
 			}.bind(this));
 		}
 	}

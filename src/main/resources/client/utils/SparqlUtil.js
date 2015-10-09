@@ -280,7 +280,7 @@ var SparqlUtil = {
 	 */
 	getFile: function(query, fileFormat, callback) {
 		var url = 'http://virhp07.libris.kb.se/sparql';
-		if(fileFormat === 'text/csv' || fileFormat === 'text/tab-separated-values') {
+		if(fileFormat === 'text/csv' || fileFormat === 'text/tab-separated-values' || fileFormat === 'application/json' || fileFormat === 'application/xml') {
 			var form = $('<form action="' + url +'" method="post" target="__newtab__12" style="display: none;"><textarea name="query">' + query + '</textarea><input name="format" value="' + fileFormat + '"</input></form>');
 			$('body').append(form);
 			form.submit();
