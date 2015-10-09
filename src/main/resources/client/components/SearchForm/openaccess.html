@@ -1,0 +1,5 @@
+<div v-show="fields.openaccess.show" v-transition="expand">
+	<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
+		<oa-input field="{{@ fields.openaccess }}"></oa-input>
+	</div>
+</div>

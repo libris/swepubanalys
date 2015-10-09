@@ -8,8 +8,8 @@ require('./ShowFieldButton.css');
  * @param {Object} field
  */
 var ShowFieldButton = {
-	props: ['field'],
-	template: require('./ShowFieldButton.html'),
+	props: ['field', 'onClickShowField'],
+	template: require('./ShowFieldButton.html')
 };
 
 module.exports = ShowFieldButton;

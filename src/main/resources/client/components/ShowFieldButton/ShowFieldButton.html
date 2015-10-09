@@ -1,4 +1,4 @@
-<div v-show="!field.show" v-on="click: field.$set('show', true)" v-transition="expand" class="showFieldButton">
+<div v-show="!field.show" v-on="click: onClickShowField(field)" v-transition="expand" class="showFieldButton">
 	<div>
 		<span class="glyphicon glyphicon-plus"></span>
 		{{ field.name }}

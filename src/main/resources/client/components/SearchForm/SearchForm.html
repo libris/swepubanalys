@@ -4,47 +4,17 @@
 		<p>
 			Här söker du fram publikationsposter från deltagande organisationer för export av data. OBS: Tjänsten är i testfas just nu och tills vidare exporteras endast förhandsvisningen.
 		</p>
-		<!-- ORG -->
-		<div v-show="activeTemplate(['simple', 'duplicates', 'QfBibliometrics'])" v-transition="expand">
-			<org-input orgs="{{@ orgs }}" org-suggestions="{{ orgSuggestions }}"></org-input>
-		</div>
-		<!-- TIME -->
-		<div v-show="activeTemplate(['simple', 'duplicates', 'QfBibliometrics'])" v-transition="expand">
-			<time-input field="{{@ time }}" test="{{ formTests.time || {} }}"></time-input>
-		</div>
-		<!-- SUBJECTS -->
-		<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
-			<subject-input subjects="{{@ subjects }}" subject-suggestions="{{ subjectSuggestions }}"></subject-input>
-		</div>
-		<!-- PUBLTYPE -->
-		<div v-show="publType.show && activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
-			<publ-type-input field="{{@ publType }}" publ-types="{{@ publTypes }}" publ-type-suggestions="{{ publTypeSuggestions }}"></publ-type-input>
-		</div>
-		<!-- ORCID -->
-		<div v-show="orcid.show && activeTemplate(['QfBibliometrics'])" v-transition="expand">
-			<orcid-input field="{{@ orcid }}" test="{{ formTests.orcid || {} }}"></orcid-type-input>
-		</div>
-		<!-- AUTHORLABEL -->
-		<div v-show="authorLabel.show && activeTemplate(['QfBibliometrics'])" v-transition="expand">
-			<author-label-input field="{{@ authorLabel }}"></author-label-input>
+		<!-- SHOW FIELDS -->
+		<div v-repeat="field in fields | orderFields">
+			<div v-component="{{ field.fieldName }}"></div>
 		</div>
 		<!-- SHOW-BUTTONS -->
 		<div class="showFieldButtons">
-			<show-field-button field="{{@ publType }}"></show-field-button>
-			<show-field-button field="{{@ orcid }}"></show-field-button>
-			<show-field-button field="{{@ authorLabel }}"></show-field-button>
-			<show-field-button field="{{@ openaccess }}"></show-field-button>
+			<show-field-button field="{{@ fields.publType }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
+			<show-field-button field="{{@ fields.orcid }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
+			<show-field-button field="{{@ fields.authorLabel }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
+			<show-field-button field="{{@ fields.openaccess }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
 		</div>
-		<!-- OA -->
-		<div v-show="openaccess.show" v-transition="expand">
-			<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
-				<oa-input field="{{@ openaccess }}"></oa-input>
-			</div>
-		</div>
-		<!-- PUBLSTATUS -->
-		<div v-show="activeTemplate(['simple', 'QfBibliometrics'])" v-transition="expand">
-			<publ-status-input field="{{@ publStatus }}"></publ-status-input>
-		</div>	
 		<!-- SEARCH-BUTTON -->
 		<div class="form-group">
 			<button v-on="click: performSearch" class="btn btn-info">Visa</button>

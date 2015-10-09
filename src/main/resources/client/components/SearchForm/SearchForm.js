@@ -1,5 +1,9 @@
 'use strict';
 
+// Vendor
+var Vue = require('vue');
+var _sortBy = require('lodash/collection/sortBy');
+var _max = require('lodash/math/max');
 // Utils
 var SearchFormUtil = require('utils/SearchFormUtil.js');
 // Components
@@ -35,40 +39,58 @@ var SearchForm = {
 			formTests: {},
 			// Data which will possibly be used onSearch
 			templateName: 'QfBibliometrics',
-			org: { 
-				name: 'Organisation', 
-				value: ''
-			},
-			subject: { 
-				value: ''
-			},
-			publType: {	
-				name: 'Publikationstyp', 
-				value: '', 
-				show: false 
-			},
-			time: {
-				from: '',
-				to: '',
-				error: '',				
-			},
-			authorLabel: { 
-				name: 'Upphov', 
-				value: '', 
-				show: false 
-			},
-			orcid: { 
-				name: 'Orcid', 
-				value: '', 
-				show: false 
-			},
-			openaccess: { 
-				name: 'Open access',
-				value: false, 
-				show: false 
-			},
-			publStatus: {
-				value: 'published', 
+			fields: {
+				org: {
+					fieldName: 'org',
+					index: 1,
+					name: 'Organisation', 
+					value: '',
+				},
+				time: {
+					fieldName: 'time',
+					index: 2,
+					from: '',
+					to: '',
+					error: '',				
+				},
+				subject: {
+					fieldName: 'subject',
+					name: 'Ämne',
+					index: 3,
+					value: ''
+				},
+				publType: {
+					fieldName: 'publType',
+					name: 'Publikationstyp', 
+					value: '', 
+					index: 4,
+					show: false 
+				},
+				authorLabel: { 
+					fieldName: 'authorLabel',
+					name: 'Upphov', 
+					value: '', 
+					index: 4,
+					show: false 
+				},
+				orcid: { 
+					fieldName: 'orcid',
+					name: 'Orcid', 
+					value: '',
+					index: 4,					
+					show: false 
+				},
+				openaccess: { 
+					fieldName: 'openaccess',
+					name: 'Open access',
+					value: false, 
+					show: false 
+				},
+				publStatus: {
+					fieldName: 'publStatus',
+					name: 'Publikationsstatus',
+					value: 'published', 
+				}
 			}
 		};
 	},
@@ -77,19 +99,19 @@ var SearchForm = {
 		 * On change of data.orgs we convert array to a string and set data.org
 		 */
 		'orgs': function() {
-			this.org.$set('value', this.arrayToString(this.orgs));
+			this.fields.org.$set('value', this.arrayToString(this.orgs));
 		},
 		/**
 		 * Ditto for data.subjects
 		 */
 		'subjects': function() {
-			this.subject.$set('value', this.arrayToString(this.subjects));
+			this.fields.subject.$set('value', this.arrayToString(this.subjects));
 		},
 		/**
 		 * Ditto for data.publTypes
 		 */
 		'publTypes': function() {
-			this.publType.$set('value', this.arrayToString(this.publTypes));
+			this.fields.publType.$set('value', this.arrayToString(this.publTypes));
 		}
 	},
 	components: {
@@ -102,6 +124,38 @@ var SearchForm = {
 		'oa-input': OAInput,
 		'publ-status-input': PublStatusInput,
 		'show-field-button': ShowFieldButton,
+		'org': {
+			inherit: true,
+			template: require('./org.html')
+		},
+		'time': {
+			inherit: true,
+			template: require('./time.html')
+		},
+		'subject': {
+			inherit: true,
+			template: require('./subject.html')
+		},
+		'publType': {
+			inherit: true,
+			template: require('./publType.html')
+		},
+		'authorLabel': {
+			inherit: true,
+			template: require('./authorLabel.html')
+		},
+		'orcid': {
+			inherit: true,
+			template: require('./orcid.html')
+		},
+		'openaccess': {
+			inherit: true,
+			template: require('./openaccess.html')
+		},
+		'publStatus': {
+			inherit: true,
+			template: require('./publStatus.html'),
+		}
 	},
 	ready: function() {
 		// Get and set form tests
@@ -122,6 +176,19 @@ var SearchForm = {
 		}.bind(this));
 	},
 	methods: {
+		/**
+		 * Callback sent to click event of showFieldButton
+		 * @param {Object} field
+		 */
+		onClickShowField: function(field) {
+			field.$set('show', true);
+			var max = _max(this.fields, function(field) { 
+				return field.index; 
+			});
+			max = max.index || 0;
+			max++;
+			field.$set('index', max);
+		},
 		/**
 		 * Sets template name
 		 * @param {String} templateName
@@ -149,37 +216,37 @@ var SearchForm = {
 				'simple': function() {
 					var model = {
 						templateName: 'simple',
-						org: this.org.value,
-						from: this.time.from,
-						to: this.time.to,
-						subject: this.subject.value,
-						publtype: this.publType.value,
-						openaccess: this.openaccess.value,
-						status: this.publStatus.value,
+						org: this.fields.org.value,
+						from: this.fields.time.from,
+						to: this.fields.time.to,
+						subject: this.fields.subject.value,
+						publtype: this.fields.publType.value,
+						openaccess: this.fields.openaccess.value,
+						status: this.fields.publStatus.value,
 					}
 					return model;
 				},
 				'duplicates': function() {
 					var model = {
 						templateName: 'duplicates',
-						org: this.org.value,
-						from: this.time.from,
-						to: this.time.to,
+						org: this.fields.org.value,
+						from: this.fields.time.from,
+						to: this.fields.time.to,
 					}
 					return model;
 				},
 				'QfBibliometrics': function() {
 					var model = {
 						templateName: 'QfBibliometrics',
-						org: this.org.value,
-						from: this.time.from,
-						to: this.time.to,
-						subject: this.subject.value,
-						publtype: this.publType.value,
-						author: this.authorLabel.value,
-						orcid: this.orcid.value,
-						openaccess: this.openaccess.value,
-						status: this.publStatus.value,
+						org: this.fields.org.value,
+						from: this.fields.time.from,
+						to: this.fields.time.to,
+						subject: this.fields.subject.value,
+						publtype: this.fields.publType.value,
+						author: this.fields.authorLabel.value,
+						orcid: this.fields.orcid.value,
+						openaccess: this.fields.openaccess.value,
+						status: this.fields.publStatus.value,
 					}
 					return model;
 				},
@@ -215,5 +282,15 @@ var SearchForm = {
 		},
 	}
 };
+
+/**
+ * Used to order data.fields by index
+ */
+Vue.filter('orderFields', function(fields) {
+	fields = _sortBy(fields, function(field) {
+		return field.$value.index || fields.length;
+	});
+	return fields;
+});
 
 module.exports = SearchForm;
