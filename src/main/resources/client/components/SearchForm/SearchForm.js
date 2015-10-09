@@ -64,7 +64,7 @@ var SearchForm = {
 					name: 'Publikationstyp', 
 					value: '', 
 					index: 4,
-					show: false 
+					show: false, 
 				},
 				authorLabel: { 
 					fieldName: 'authorLabel',
@@ -80,16 +80,18 @@ var SearchForm = {
 					index: 4,					
 					show: false 
 				},
-				openaccess: { 
+				openaccess: {
 					fieldName: 'openaccess',
 					name: 'Open access',
 					value: false, 
+					index: 4,
 					show: false 
 				},
 				publStatus: {
 					fieldName: 'publStatus',
 					name: 'Publikationsstatus',
 					value: 'published', 
+					index: 4,
 				}
 			}
 		};

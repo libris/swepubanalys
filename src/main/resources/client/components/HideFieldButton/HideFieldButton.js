@@ -4,7 +4,7 @@
  * Button which can be used to set a field.show = false
  */
 var HideFieldButton = {
-	props: ['field'],
+	props: ['field', 'onClickHideField'],
 	template: require('./HideFieldButton.html')
 };
 
