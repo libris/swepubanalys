@@ -34,6 +34,7 @@ var PublTypeInput = {
 		 */
 		onClickHideField: function(field) {
 			field.$set('show', false);
+			this.hidePopover(this.$el);
 			this.$.AutocompleteInputComponent.clear();
 		}
 	}

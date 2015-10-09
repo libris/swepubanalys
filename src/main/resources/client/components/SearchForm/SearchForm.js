@@ -63,35 +63,34 @@ var SearchForm = {
 					fieldName: 'publType',
 					name: 'Publikationstyp', 
 					value: '', 
-					index: 4,
+					index: 5,
 					show: false, 
 				},
 				authorLabel: { 
 					fieldName: 'authorLabel',
 					name: 'Upphov', 
 					value: '', 
-					index: 4,
+					index: 5,
 					show: false 
 				},
 				orcid: { 
 					fieldName: 'orcid',
 					name: 'Orcid', 
 					value: '',
-					index: 4,					
+					index: 5,					
 					show: false 
 				},
 				openaccess: {
 					fieldName: 'openaccess',
 					name: 'Open access',
 					value: false, 
-					index: 4,
+					index: 5,
 					show: false 
 				},
 				publStatus: {
 					fieldName: 'publStatus',
 					name: 'Publikationsstatus',
 					value: 'published', 
-					index: 4,
 				}
 			}
 		};
@@ -185,7 +184,7 @@ var SearchForm = {
 		onClickShowField: function(field) {
 			field.$set('show', true);
 			var max = _max(this.fields, function(field) { 
-				return field.index; 
+				return field.index;
 			});
 			max = max.index || 0;
 			max++;
@@ -290,7 +289,7 @@ var SearchForm = {
  */
 Vue.filter('orderFields', function(fields) {
 	fields = _sortBy(fields, function(field) {
-		return field.$value.index || fields.length;
+		return field.$value.index;
 	});
 	return fields;
 });
