@@ -14,12 +14,16 @@ class Beta {
         map.put("pageTitle", "Uttag av data");
         new ModelAndView(map, "index.mustache");
     }
-     static ModelAndView preview(final Request request, final Response response){
+
+    static ModelAndView preview(final Request request, final Response response) {
         final Map map = new HashMap();
-        final Map queryParms = request.queryParams().collectEntries {
-            it -> it.endsWith(']') ? [it.substring(0, it.length() - 2), request.queryParamsValues(it).join(',')] : [it, request.queryParams(it)]
-        };
-        map.put("queryParms", queryParms)
+        map.put("queryParms",
+                request.queryParams().collectEntries {
+                    it ->
+                        it.endsWith(']') ?
+                                [it.substring(0, it.length() - 2), request.queryParamsValues(it).join(',')]
+                                : [it, request.queryParams(it)]
+                });
         map.put("pageTitle", "Ladda ned fil");
         new ModelAndView(map, "preview.mustache");
     }

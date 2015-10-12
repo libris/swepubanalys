@@ -11,7 +11,7 @@ import wslite.rest.RESTClient
 public  class Elasticsearch {
     public static JSONObject getStats()
     {
-        def client = new RESTClient('http://es01.kb.local:9200')
+        def client = new RESTClient('http://10.50.16.150:9200')
         def response = client.get(
                 accept: ContentType.JSON,
                 path:'/_stats')
@@ -20,9 +20,10 @@ public  class Elasticsearch {
         assert response.json instanceof JSONObject;
         return  response.json.indices.swepub;
     }
-    public  JSONObject getAggs(def query)
+    public static JSONObject getAggs(def query)
     {
-        def client = new RESTClient('http://es01.kb.local:9200')
+        def  defaultAggs = new JsonSlurper().parseText("""{ "aggs": { "oaTypes": { "terms": { "field": "oaType" } }, "contentTypes":{ "terms":{"field":"contentTypeCode"} }, "publicationTypes":{ "terms":{"field":"publicationType"} }, "sources":{ "terms":{"field":"hasMods.recordContentSourceValue"} }, "publicationStatuses":{ "terms":{"field":"publicationStatus"} }, "hsv1s":{ "terms":{"field":"hsv1"} }, "hsv2s":{ "terms":{"field":"hsv2"} }, "hsv3s":{    "terms":{"field":"hsv3"} } } }""" )
+        def client = new RESTClient('http://10.50.16.150:9200')
         def response = client.post(
                 accept: ContentType.JSON,
                 path:'/swepub/bibliometric/_search',
@@ -36,33 +37,6 @@ public  class Elasticsearch {
         return  jsonresp.aggregations;
     }
 
-     def  defaultAggs = new JsonSlurper().parseText("""{
-  "aggs": {
-    "oaTypes": {
-      "terms": { "field": "oaType" }
-    },
-    "contentTypes":{
-    "terms":{"field":"contentTypeCode"}
-    },
-    "publicationTypes":{
-    "terms":{"field":"publicationType"}
-    },
-    "sources":{
-    "terms":{"field":"recordContentSourceValue"}
-    },
-    "publicationStatuses":{
-    "terms":{"field":"publicationStatus"}
-    },
-    "hsv1s":{
-    "terms":{"field":"hsv1"}
-    },
-    "hsv2s":{
-    "terms":{"field":"hsv2"}
-    },
-    "hsv3s":{
-    "terms":{"field":"hsv3"}
-    }
-  }
-}""" )
+
 
 }
