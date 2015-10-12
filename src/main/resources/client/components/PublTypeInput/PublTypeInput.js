@@ -4,20 +4,30 @@
 var AutocompleteInput = require('components/AutocompleteInput/AutocompleteInput.js');
 var HelpMixin = require('mixins/HelpMixin.js');
 var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
+// Utils
+var arrayToSparqlString = require('utils/arrayToSparqlString.js');
 
 /**
  * Publication Type Input-component
  * @prop {Object} field
- * @prop {Array} publTypes
- * @prop {Array} publTypeSuggestions
  */
 var PublTypeInput = {
 	mixins: [HelpMixin],
-	props: ['field', 'publTypes', 'publTypeSuggestions'],
+	props: ['field'],
 	template: require('./PubltypeInput.html'),
 	components: {
 		'autocomplete-input': AutocompleteInput,
 		'hide-field-button': HideFieldButton
+	},
+	data: function() {
+		return {
+			publTypes: []
+		}
+	},
+	watch: {
+		'publTypes': function() {
+			this.field.$set('value', arrayToSparqlString(this.publTypes));
+		}
 	},
 	ready: function() {
 		this.initHelp({

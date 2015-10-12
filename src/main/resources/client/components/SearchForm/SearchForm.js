@@ -29,90 +29,10 @@ var SearchForm = {
 	props: ['onSearch'],
 	data: function() {
 		return {
-			// GUI state
-			orgs: [],
-			orgSuggestions: [],
-			subjects: [],
-			subjectSuggestions: [],
-			publTypes: [],
-			publTypeSuggestions: [],
 			formTests: {},
 			// Data which will possibly be used onSearch
 			templateName: 'QfBibliometrics',
-			fields: {
-				org: {
-					fieldName: 'org',
-					index: 1,
-					name: 'Organisation', 
-					value: '',
-				},
-				time: {
-					fieldName: 'time',
-					index: 2,
-					from: '',
-					to: '',
-					error: '',				
-				},
-				subject: {
-					fieldName: 'subject',
-					name: 'Ämne',
-					index: 3,
-					value: ''
-				},
-				publType: {
-					fieldName: 'publType',
-					name: 'Publikationstyp', 
-					value: '', 
-					index: 5,
-					show: false, 
-				},
-				authorLabel: { 
-					fieldName: 'authorLabel',
-					name: 'Upphov', 
-					value: '', 
-					index: 5,
-					show: false 
-				},
-				orcid: { 
-					fieldName: 'orcid',
-					name: 'Orcid', 
-					value: '',
-					index: 5,					
-					show: false 
-				},
-				openaccess: {
-					fieldName: 'openaccess',
-					name: 'Open access',
-					value: false, 
-					index: 5,
-					show: false 
-				},
-				publStatus: {
-					fieldName: 'publStatus',
-					name: 'Publikationsstatus',
-					value: 'published', 
-				}
-			}
-		};
-	},
-	watch: {
-		/**
-		 * On change of data.orgs we convert array to a string and set data.org
-		 */
-		'orgs': function() {
-			this.fields.org.$set('value', this.arrayToString(this.orgs));
-		},
-		/**
-		 * Ditto for data.subjects
-		 */
-		'subjects': function() {
-			this.fields.subject.$set('value', this.arrayToString(this.subjects));
-		},
-		/**
-		 * Ditto for data.publTypes
-		 */
-		'publTypes': function() {
-			this.fields.publType.$set('value', this.arrayToString(this.publTypes));
+			fields: defaultFields
 		}
 	},
 	components: {
@@ -166,13 +86,13 @@ var SearchForm = {
 		// Get and set form suggestions
 		SearchFormUtil.getFormSuggestions(function(formSuggestions) {
 			if(formSuggestions.orgs) {
-				this.$set('orgSuggestions', formSuggestions.orgs);
+				this.fields.org.$set('suggestions', formSuggestions.orgs);
 			}
 			if(formSuggestions.subjects) {
-				this.$set('subjectSuggestions', formSuggestions.subjects);
+				this.fields.subject.$set('suggestions', formSuggestions.subjects);
 			}
 			if(formSuggestions.publTypes) {
-				this.$set('publTypeSuggestions', formSuggestions.publTypes);
+				this.fields.publType.$set('suggestions', formSuggestions.publTypes);
 			}
 		}.bind(this));
 	},
@@ -205,7 +125,7 @@ var SearchForm = {
 				this.onSearch(this.getFormModel());
 			}
 			else {
-				console.error('*** SearchForm.performSearch(): No onSearch prop provided');
+				console.error('*** SearchForm.performSearch: No onSearch prop provided');
 			}
 		},
 		/**
@@ -253,7 +173,7 @@ var SearchForm = {
 				},
 			}
 			var formModel = models[this.templateName].call(this);
-			console.log('*** SearchForm.generateFormModel(): formModel generated:');
+			console.log('*** SearchForm.generateFormModel: formModel generated:');
 			console.log(JSON.stringify(formModel));
 			return formModel;
 		},
@@ -267,20 +187,7 @@ var SearchForm = {
 					return true;
 				}
 			}
-		},
-		/**
-		 * ['liu', 'kth'] = 'liu,kth'
-		 */
-		arrayToString: function(arr) {
-			var str = '';
-			(arr || []).map(function(member, i) {
-				str += member;
-				if(i !== arr.length - 1) {
-					str += ',';
-				}
-			}.bind(this));
-			return str;
-		},
+		}
 	}
 };
 
@@ -293,5 +200,63 @@ Vue.filter('orderFields', function(fields) {
 	});
 	return fields;
 });
+
+var defaultFields = {
+	org: {
+		index: 1,
+		value: '',
+		suggestions: [],
+		fieldName: 'org',
+		name: 'Organisation'
+	},
+	time: {
+		index: 2,
+		from: '',
+		to: '',
+		fieldName: 'time',
+		name: 'Publiceringsår'
+	},
+	subject: {
+		index: 3,
+		value: '',
+		suggestions: [],
+		fieldName: 'subject',
+		name: 'Ämne'
+	},
+	publType: {
+		index: 5,
+		show: false, 
+		value: '', 
+		suggestions: [],
+		fieldName: 'publType',
+		name: 'Publikationstyp'
+	},
+	authorLabel: { 
+		index: 5,
+		show: false,
+		value: '', 
+		fieldName: 'authorLabel',
+		name: 'Upphov'
+	},
+	orcid: { 
+		fieldName: 'orcid',
+		name: 'Orcid', 
+		value: '',
+		index: 5,					
+		show: false 
+	},
+	openaccess: {
+		fieldName: 'openaccess',
+		name: 'Open access',
+		value: false, 
+		index: 5,
+		show: false 
+	},
+	publStatus: {
+		fieldName: 'publStatus',
+		name: 'Publikationsstatus',
+		value: 'published', 
+	}
+};
 
 module.exports = SearchForm;
