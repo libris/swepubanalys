@@ -1,3 +1,17 @@
-# swepubanalys
-Webbgränssnittet för SwePub för analys och bibliometri http://info.swepub.kb.se/ omarbetas och vidareutvecklas under hösten 2015. Koden och programmeringsuppgifterna hamnar här.
+This is the source code for the web interface for the SwePub för analys och bibliometri service (http://info.swepub.kb.se/)  
 
+#Dependencies
+* Install gradle from http://gradle.org/ (or use a package manager, e.g.: brew install gradle).   
+* Install node from https://nodejs.org (or use a package manager, e.g.: brew install node).   
+* Install bower from http://bower.io/ (or use a package manager, e.g.: npm install -g bower). 
+* Install webpack from https://webpack.github.io/  (or use a package manager, e.g.: npm install webpack -g)
+* Install elasticsearch from http://elasticsearch.org/ (or use a package manager, e.g.: brew install elasticsearch).
+
+# Running SwePub för analys och bibliometri on Tomcat
+* Download the sourcecode
+* Open a commandline tool and go to the root folder of the project
+* Run gradle clean build war
+* Locate the war file in the build/libs directory
+* Drop the war file into a Tomcat server and point your browser to http://[Your url goes here]/form
+
+# Running Swepub för analys och bibliometri on Jetty
