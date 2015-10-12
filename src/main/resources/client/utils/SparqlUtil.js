@@ -1,5 +1,6 @@
 'use strict';
 
+// Vendor
 var jQuery = require('jquery');
 var $ = jQuery;
 
@@ -7,6 +8,8 @@ var $ = jQuery;
  * SPARQL Utilities
  */
 var SparqlUtil = {
+	apiUrl: '/api/1.0/sparql',
+	getFileUrl: 'http://virhp07.libris.kb.se/sparql',
 	/**
 	 * Generates a SPARQL Query
      *
@@ -21,41 +24,45 @@ var SparqlUtil = {
 	generateQuery: function(conf, callback) {
 		var formModel = conf.formModel;
 		// Has a formModel been provided?
-		if(!formModel) { 
+		if(!formModel) {
+			console.error('*** SparqlUtil.generateQuery: conf.formModel not provided');
 			return false; 
-		};
+		}
 		// Has a valid templateName been provided?
 		if(!formModel.templateName || !Templates[formModel.templateName]) {
-			console.warning(' *** SparqlUtil.getFilterFields: Incorrect templateName');
+			console.error('*** SparqlUtil.generateQuery: Incorrect templateName');
 			return false;
 		}
+		// Does the template exist?
+		if(!Templates[formModel.templateName].template) {
+			console.error('*** SparqlUtil.generateQuery: Template for ' + formModel.templateName + ' does not exist');
+			return false;
+		}
+		// Are filterFields provided?
 		var query = Templates[formModel.templateName].template;
-		if(!query) { return false };
-		var form = formModel.templateName;
-		if(!form) { return false; };
-    	var filterFields = formModel.filterFields;
-    	if(!filterFields) { return false; };
-    	
-    	var limit = conf.limit || false;
-
-	    var org = formModel.org || '';
-    	var from = formModel.from || '';
-    	var to = formModel.to || '';
-    	var openaccess = formModel.openaccess;
-    	var publtype = formModel.publtype;
-    	var subject = formModel.subject || '';
-    	var status = formModel.status || 'all';
-    	var errortype = '';
-    	var author = formModel.author || '';
-    	var orcid = formModel.orcid || '';
-
-    	var checked, unchecked, res, re;
-    	var checked_string = '';
-    	var options_string = '';
-    	var filters_string = '';
-    	var regex_string = '';
-    	var re_select = /((?:prefix.[^]*?)?select\s*(?:distinct)?\s*)[^]*?(where[^]*?)(###\s*FILTERS\s+[^]*)/i
-
+		if(!formModel.filterFields || formModel.filterFields.length <= 0) {
+			console.error('*** SparqlUtil.generateQuery: conf.formModel.filterFields is not provided');
+			return false;
+		}
+    	var checked, unchecked, res, re;    	
+    	var filterFields 	= formModel.filterFields;
+		var limit 			= conf.limit || false;
+	    var org 			= formModel.org || '';
+    	var from 			= formModel.from || '';
+    	var to 				= formModel.to || '';
+    	var openaccess 		= formModel.openaccess;
+    	var publtype 		= formModel.publtype;
+    	var subject 		= formModel.subject || '';
+    	var status 			= formModel.status || 'all';
+    	var errortype 		= '';
+    	var author 			= formModel.author || '';
+    	var orcid 			= formModel.orcid || '';
+    	var checked_string 	= '';
+    	var options_string 	= '';
+    	var filters_string 	= '';
+    	var regex_string 	= '';
+		
+    	var re_select = /((?:prefix.[\S\s]*?)?select\s*(?:distinct)?\s*)[\S\s]*?(where[\S\s]*?)(###\s*FILTERS\s+[\S\s]*)/i
         res = re_select.exec(query);
 
         if (res !== null) {
@@ -76,7 +83,7 @@ var SparqlUtil = {
             }
             if(filters_string) {
                 if(org) {
-                    if(form === 'duplicates') {
+                    if(formModel.templateName === 'duplicates') {
                         filters_string = filters_string.replace(/#(FILTER)_<\?_orgCode1>(.*?)<\?_orgCode1>(.*)$/mi, "$1$2" + qs(org) + "$3");
                         filters_string = filters_string.replace(/#(FILTER)_<\?_orgCode2>(.*?)<\?_orgCode2>(.*)$/mi, "$1$2" + qs(org) + "$3");
                     }
@@ -107,7 +114,7 @@ var SparqlUtil = {
                         filters_string = filters_string.replace(/#(FILTER)_<\?_isPublished>(.*?)<\?_isPublished>(.*)$/mi, "$1$2" + (status==='published'?"1":"0") + "$3");
                     }
                 }
-                if(form === 'QfBibliometrics') {
+                if(formModel.templateName === 'QfBibliometrics') {
                     if ( author && orcid ) {
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_NAME_FILTER>[^]*?#END_<ONE_CREATOR_NAME_FILTER>.*?/, '');
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_ORCID_FILTER>[^]*?#END_<ONE_CREATOR_ORCID_FILTER>.*?/, '');
@@ -142,39 +149,9 @@ var SparqlUtil = {
             query = query.replace(/^\s*[\n\r\cM]*$/gm, '');
         }
         else {
-            throw {name: 'query', messages: 'Query parse error.'};
+            console.error('*** SparqlUtil.generateQuery: Could not generate query');
+			return false;
         }
-        /*
-	    }
-	    else {
-	        checked = jQuery( ".tablecol .checkbox-dropdown-list input:checkbox:checked" ).serializeArray();
-
-	        for (var i=0, l=checked.length; i<l; i++) {
-	            checked_string += checked[i].value + '\n';
-	        }
-
-	        re_select = /((?:prefix.[^]*?)?select\s*(?:distinct)?)[^]*?(where[^]*)/i;
-	        res = re_select.exec(query);
-	        if ( res === null ) {
-	            throw {name: 'advanced', message: 'Advanced query parse error.'};
-	        }
-
-	        query =  res[1] + checked_string + res[2];
-
-	        if ( !limit ) {
-	            // Kolla/skapa LIMIT
-	            query = query.replace(/LIMIT\s+\d+\s*\n}\s*\n}\s*\n\s*LIMIT\s+\d+/i, 'LIMIT 10000000\n}\n}');
-	        }
-	        else {
-	            // Kolla/skapa LIMIT 100
-	            if ( query.search(/LIMIT\s+\d+\s*$/i) > -1 ) {
-	                query = query.replace(/LIMIT\s+\d+\s*$/gmi, "LIMIT 100\n");
-	            }
-	            else {
-	                query += "\nLIMIT 100";
-	            }
-	        }
-		*/
 		callback(query);
 	},
 	/**
@@ -183,11 +160,11 @@ var SparqlUtil = {
 	 */
 	getFilterFields: function(templateName) {
 		if(!Templates[templateName]) {
-			console.warning(' *** SparqlUtil.getFilterFields: Incorrect templateName');
+			console.warning('*** SparqlUtil.getFilterFields: Incorrect templateName');
 			return false;
 		}
 		var query = Templates[templateName].template;
-		var re = /[^]*?select\s*(?:distinct)?\s*([^]*?)where/i;
+		var re = /[\S\s]*?select\s*(?:distinct)?\s*([\S\s]*?)where/i;
 		var parent = undefined;
 		var key = '';
 		var name = '';
@@ -221,56 +198,29 @@ var SparqlUtil = {
 	},
     /**
      * Posts a query to server
+	 * @param {String} query
+	 * @param {Function} callback
      */
-	postQuery: function(query, callback, quality, nid, refresh) {
-		callback = callback || false;
-		quality = quality || false;
-		nid = nid || '';
-		refresh = refresh || false;
-		var qr = '';
-		//if ( nid == 'tablecol' || nid == '' ) {
-		//	sprql.query = createSprql(false);
-		//	jQuery( "#sparqlcode" ).val(sprql.query);
-		//}
-		if(query) {
-			jQuery.ajax({
-				url: 'http://virhp07.libris.kb.se/sparql',
-				data: { 
-					query: query, 
-					format: 'application/json' 
-				},
-				type: 'POST',
-				async: true,
-				crossDomain: true,
-				statusCode: {
-					400: function(j) {
-						console.log(j);
-					}
-				},
-				success: function(response,s,j) {
-					callback(response);
-					//json2table(r, refresh);
-					//return false;
-				},
-				/*complete: function(j) {
-				//console.log(j);
-				switch (j.status) {
-				case 404: throw { name: 'sprql', message: '404'};
-				case 400: throw { name: 'sprql', message: '400'};
+	postQuery: function(query, callback) {
+		jQuery.ajax({
+			url: this.apiUrl,
+			type: 'POST',
+			data: { 
+				query: query, 
+				format: 'application/json' 
+			},
+			statusCode: {
+				400: function(response) {
+					callback({ error: response });
 				}
-				},*/
-				error: function() { 
-					throw { name: 'sprql', message: 'sparql preview failed.'}; 
-				}
-			}).fail(function() {
-				console.log(j);
-				throw { name: 'sprql', message: 'error'};
-				/*switch (j.status) {
-				case 404: throw { name: 'sprql', message: '404'};
-				case 400: throw { name: 'sprql', message: '400'};
-				}*/
-			});
-		}
+			},
+			success: function(response) {
+				callback(response);
+			},
+			error: function(response) { 
+				callback({ error: response });
+			}
+		});
 	},
 	/**
 	 * Combines query and fileFormat to construct and open a request for a file
@@ -279,7 +229,7 @@ var SparqlUtil = {
 	 * @param {Function} callback
 	 */
 	getFile: function(query, fileFormat, callback) {
-		var url = 'http://virhp07.libris.kb.se/sparql';
+		var url = this.getFileUrl;
 		if(fileFormat === 'text/csv' || fileFormat === 'text/tab-separated-values' || fileFormat === 'application/json' || fileFormat === 'application/xml') {
 			var form = $('<form action="' + url +'" method="post" target="__newtab__12" style="display: none;"><textarea name="query">' + query + '</textarea><input name="format" value="' + fileFormat + '"</input></form>');
 			$('body').append(form);

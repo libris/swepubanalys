@@ -113,10 +113,16 @@ var SearchResult = {
 									return '?' + field === formModel.filterFields[i].field;
 								});
 								if(index === -1 || formModelChanged === true) {
-									console.log('*** SearchResults.updateQuery(): Posting query');
+									console.log('*** SearchResults.updateQuery: Posting query');
 									this.$set(formModelChanged === true ? 'pendingUpdate' : 'pendingRefresh', true);
 									this.postQuery(query, function(result) {
-										this.$set('result', result);
+										if(!result.error) {
+											this.$set('result', result);
+										}
+										else {
+											console.error('*** SearchResult.updateQuery: Failed to post query. Error:');
+											console.log(result);
+										}
 										this.$set('pendingUpdate', false);
 										this.$set('pendingRefresh', false);
 									}.bind(this));
@@ -124,7 +130,7 @@ var SearchResult = {
 								}
 							}
 							else {
-								console.error('*** SearchResult.updateQuery(): Invalid former response');
+								console.error('*** SearchResult.updateQuery: Invalid former response');
 							}							
 						}
 					}
@@ -146,11 +152,11 @@ var SearchResult = {
 		 */
 		postQuery: function(query, callback) {
 			if(!query) {
-				console.error('*** SearchResult.postQuery(): No query argument provided');
+				console.error('*** SearchResult.postQuery: No query argument provided');
 				return false;
 			}
 			if(!callback) {
-				console.error('*** SearchResult.postQuery(): No callback provided');
+				console.error('*** SearchResult.postQuery: No callback provided');
 				return false;
 			}
 			SparqlUtil.postQuery(query, function(response) {
@@ -180,7 +186,6 @@ var SearchResult = {
 				case 'tsv':
 					this.performTsvExport(finished);
 				break;
-
 			}
 		},
 		/**
@@ -192,7 +197,7 @@ var SearchResult = {
 			}.bind(this));
 		},
 		/**
-		 *
+		 * Gets file as .xml
 		 */
 		performXmlExport: function(callback) {
 			SparqlUtil.getFile(this.query, 'application/xml', function() {
