@@ -41,7 +41,7 @@ war {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.11', 'com.sparkjava:spark-core:2.3', 'com.sparkjava:spark-template-mustache:1.0.0', 'com.github.groovy-wslite:groovy-wslite:1.1.2'
+    compile 'org.codehaus.groovy:groovy-all:2.3.11', 'com.sparkjava:spark-core:2.3', 'com.sparkjava:spark-template-mustache:1.0.0', 'com.github.groovy-wslite:groovy-wslite:1.1.2','commons-validator:commons-validator:1.4.1'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
 }
@@ -51,7 +51,7 @@ task webPackCreateBundle(type: Exec)    {
     commandLine 'sh','-c','webpack'
 }
 
-task bowerSync(type: Sync) {
+task bowerSyncComponentsForBeta(type: Sync) {
     from 'bower_components'
     into "src/main/resources/public/1.0/compiled"
     include 'jquery/dist/jquery.js'
@@ -66,7 +66,7 @@ task bowerSync(type: Sync) {
 }
 
 // Rename this function to something more proper
-task BowerSync2(type: Sync) {
+task bowerSyncComponentsForQf(type: Sync) {
     from 'bower_components'
     into "src/main/resources/public/2.0/vendor"
     include 'bootstrap/dist/js/bootstrap.min.js'
@@ -94,9 +94,9 @@ task webpack(type:Exec){
 
 
 bowerInstall.dependsOn npmInstall
-bowerSync.dependsOn bowerInstall
-BowerSync2.dependsOn bowerSync
-CopyMissingFonts.dependsOn BowerSync2
+bowerSyncComponentsForBeta.dependsOn bowerInstall
+bowerSyncComponentsForQf.dependsOn bowerSyncComponentsForBeta
+CopyMissingFonts.dependsOn bowerSyncComponentsForQf
 webpack.dependsOn CopyMissingFonts
 build.dependsOn webpack
 war.dependsOn webpack
