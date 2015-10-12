@@ -75,6 +75,13 @@ var HelpMixin = {
 					$(anchorToElement).data('popoverVisible', false);
 				}
 			}.bind(this));
+		},
+		/**
+		 * Hides the popover of a given anchorToElement
+		 */
+		hidePopover: function(el) {
+			$(el).popover('hide');
+			$(el).data('popoverVisible', false);
 		}
 	}
 };

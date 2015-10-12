@@ -19,6 +19,8 @@
 							<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="export">
+							<li><a href="javascript:void(null);" v-on="click:performExport('json')">Som .json-fil</a></li>
+							<li><a href="javascript:void(null);" v-on="click:performExport('xml')">Som .xml-fil</a></li>
 							<li><a href="javascript:void(null);" v-on="click:performExport('csv')">Som .csv-fil</a></li>
 							<li><a href="javascript:void(null);" v-on="click:performExport('tsv')">Som .tsv-fil</a></li>
 						</ul>

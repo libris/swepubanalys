@@ -26,6 +26,17 @@ var PublTypeInput = {
 			marginLeft: '15px',
 			marginTop: '20px',
 		});
+	},
+	methods: {
+		/**
+		 * Callback sent to click event of HideFieldButton
+		 * @param {Object} field
+		 */
+		onClickHideField: function(field) {
+			field.$set('show', false);
+			this.hidePopover(this.$el);
+			this.$.AutocompleteInputComponent.clear();
+		}
 	}
 };
 

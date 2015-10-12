@@ -33,6 +33,13 @@ var AutocompleteInput = {
 	},
 	methods: {
 		/**
+		 * Clears the value
+		 */
+		clear: function() {
+			var el = this.$el;
+			$(el).select2('val', '');
+		},
+		/**
 		 * Create select2 autocomplete element. This function may also be called to re-create upon
 		 * updated props
 		 */
