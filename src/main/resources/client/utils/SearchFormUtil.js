@@ -13,7 +13,7 @@ var SearchFormUtil = {
 		callback(formSuggestions);
 	},
 	/**
-	 *
+	 * Returns form tests used to validate input to form fields
 	 */
 	getFormTests: function(callback) {
 		callback(formTests);		
