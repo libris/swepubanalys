@@ -18,26 +18,26 @@ var TimeInput = {
 		 * our own function to test against test.expression, since this component has a field.from and a field.to
 		 * instead.
 		 */
-		var isTimeValidAccordingToRegexp = function() {
+		var isTimeValidAccordingToRegexp = function(callback) {
 			var test = this.test;
 			var field = this.field;
 			if(test.expression && typeof test.expression === 'string') {
 				var valid = RegExp(test.expression).test(field.from) && RegExp(test.expression).test(field.to);
-				return valid || test.errorMessage || 'Error';
+				callback(valid || test.errorMessage || 'Error');
 			}
 			else {
-				return true;
+				callback(true);
 			}
 		}.bind(this);
 		/**
 		 * Checks if from > to and vice versa
 		 * @param {Object} time
 		 */
-		var isValidRange = function() {
+		var isValidRange = function(callback) {
 			var field = this.field;
 			var FromSmallerThanTo = Number(field.from) <= Number(field.to);
 			var valid = (field.from.length === 0 || field.to.length === 0) || FromSmallerThanTo;
-			return valid || 'Ogiltigt tidsintervall';
+			callback(valid || 'Ogiltigt tidsintervall');
 		}.bind(this);
 		
 		this.setValidationListeners([isTimeValidAccordingToRegexp, isValidRange]);
