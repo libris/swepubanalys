@@ -9,7 +9,7 @@ import spark.Response
  */
 class Form {
 
-    static ModelAndView index(final Request request, final Response response) {
+    static Map index(final Request request, final Response response) {
         final Map map = new HashMap();
         map.put("pageTitle", "Uttag av data");
         new ModelAndView(map, "form.mustache");

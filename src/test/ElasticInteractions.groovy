@@ -34,7 +34,7 @@ class ElasticInteractions {
     }
     @Test
     public void getDefaultAggs() {
-        def aggs = new Clients.Elasticsearch().getAggs();
+        def aggs = Clients.Elasticsearch.getAggs();
         assert aggs != null;
     }
 }
