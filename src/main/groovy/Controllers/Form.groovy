@@ -12,7 +12,7 @@ class Form {
     static Map index(final Request request, final Response response) {
         final Map map = new HashMap();
         map.put("pageTitle", "Uttag av data");
-        new ModelAndView(map, "form.mustache");
+
     }
 
 
