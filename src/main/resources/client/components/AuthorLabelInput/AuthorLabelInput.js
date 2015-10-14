@@ -3,7 +3,7 @@
 // Components
 var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
 // Mixins
-var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin.js');
+var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin/FormFieldLayoutMixin.js');
 
 /**
  * Author Label Input-component

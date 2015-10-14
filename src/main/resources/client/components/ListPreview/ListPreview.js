@@ -4,7 +4,7 @@
 var Vue = require('vue');
 var _find = require('lodash/collection/find');
 // Mixins
-var FractionalMixin = require('mixins/FractionalMixin.js');
+var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
 // CSS modules
 var styles = require('!!style!css?modules!./ListPreview.css');
 

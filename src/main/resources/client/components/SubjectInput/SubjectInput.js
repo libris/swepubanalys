@@ -2,9 +2,9 @@
 
 // Components
 var AutocompleteInput = require('components/AutocompleteInput/AutocompleteInput.js');
-var HelpMixin = require('mixins/HelpMixin.js');
+var HelpMixin = require('mixins/HelpMixin/HelpMixin.js');
 // Mxins
-var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin.js');
+var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin/FormFieldLayoutMixin.js');
 // Utils
 var arrayToSparqlString = require('utils/arrayToSparqlString.js');
 

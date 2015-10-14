@@ -3,8 +3,8 @@
 // Components
 var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
 // Mixins
-var FieldValidationMixin = require('mixins/FieldValidationMixin.js');
-var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin.js');
+var FieldValidationMixin = require('mixins/FormFieldValidationMixin/FormFieldValidationMixin.js');
+var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin/FormFieldLayoutMixin.js');
 
 /**
  * Orcid Input-component

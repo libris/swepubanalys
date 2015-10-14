@@ -4,8 +4,8 @@
 var AutocompleteInput = require('components/AutocompleteInput/AutocompleteInput.js');
 var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
 // Mxins
-var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin.js');
-var HelpMixin = require('mixins/HelpMixin.js');
+var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin/FormFieldLayoutMixin.js');
+var HelpMixin = require('mixins/HelpMixin/HelpMixin.js');
 // Utils
 var arrayToSparqlString = require('utils/arrayToSparqlString.js');
 

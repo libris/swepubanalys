@@ -4,8 +4,8 @@
 var _each = require('lodash/collection/each');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 // Mixins
-var FractionalMixin = require('mixins/FractionalMixin.js');
-var HelpMixin = require('mixins/HelpMixin.js')
+var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
+var HelpMixin = require('mixins/HelpMixin/HelpMixin.js')
 // CSS modules
 var styles = require('!!style!css?modules!./FilterFields.css');
 

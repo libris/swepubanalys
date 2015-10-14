@@ -11,7 +11,7 @@ var FormErrorLabel = require('components/FormErrorLabel/FormErrorLabel.js');
  * @prop {Object} field
  * @prop {Object} test
  */
-var FieldValidationMixin = {
+var FormFieldValidationMixin = {
 	data: function() {
 		return {
 			errors: [],
@@ -76,4 +76,4 @@ var FieldValidationMixin = {
 	}
 };
 
-module.exports = FieldValidationMixin;
+module.exports = FormFieldValidationMixin;
