@@ -1,22 +1,22 @@
-<div class="{{ styles.ListPreview }}">
-	<table class="table {{ styles.StaticHeader }}" style="table-layout: fixed">
+<div class="{{ $data._styles.ListPreview }}">
+	<table class="table {{ $data._styles.StaticHeader }}" style="table-layout: fixed">
 		<thead>
 			<th v-repeat="field in filterFieldKeys | onlyCheckedFilterFields" title="{{ field.fieldName + ' ' + field.field }}">
-				<p class="{{ styles.Ellipsis }}" style="font-size: x-small;">
+				<p class="{{ $parent.$data._styles.Ellipsis }}" style="font-size: x-small;">
 					{{ stripAsterisk(field.fieldName) }}
 					<template v-if="fractionalField(field.fieldName)">
 						<fract-circle></fract-circle>
 					</template>
 				</p>
-				<p class="{{ styles.Ellipsis }}" style="font-size: xx-small;">
+				<p class="{{ $parent.$data._styles.Ellipsis }}" style="font-size: xx-small;">
 					{{ field.field }}
 				</p>
 			</th>
 		</thead>
-		<tbody class="{{ styles.ListBody }}">
+		<tbody class="{{ $data._styles.ListBody }}">
 			<tr v-repeat="article in ((result && result.results && result.results.bindings) ? result.results.bindings : [])">
 				<td v-repeat="cell in article | filterFields filterFields" title="{{ cell.value }}">
-					<p class="{{ styles.Ellipsis }}" style="font-size: x-small;">
+					<p class="{{ $parent.$parent.$data._styles.Ellipsis }}" style="font-size: x-small;">
 						<template v-if="startsWithHttp(cell.value)">
 							<a href="{{ cell.value }}" target="__new_tab__">{{ cell.value }}</a>
 						</template>

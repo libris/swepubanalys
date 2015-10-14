@@ -1,25 +1,25 @@
-<div class="filterFields well">
+<div class="well {{ $data._styles.FilterFields }}">
+	<div>
+		<p style="font-size: small;">
+			<span class="fractSymbol {{ $data._styles.FractSymbol }}"><fract-circle></fract-circle></span>
+			fraktionerad data 
+			<help-initiator-button></help-initiator-button>
+		</p>
+	</div>
+	<hr>
 	<div v-repeat="filterFields" style="display: inline-block;">
-		<button v-class="filterFieldButton: true, btn: true, btn-xs: true, btn-info: checked, btn-default: !checked" v-on="click: $set('checked', !checked)">
+		<button 
+			v-class="btn-info: checked, btn-default: !checked" v-on="click: $set('checked', !checked)" 
+			class="btn btn-xs {{ $parent.$data._styles.FilterFieldButton }}">
 			{{ stripAsterisk(fieldName) }}
 			<template v-if="fractionalField(fieldName)">
 				&nbsp;<fract-circle></fract-circle>
 			</template>
 		</button>
 	</div>
-	<hr>
-	<div class="row">
-		<div class="col-md-6">
-			<button class="btn btn-sm btn-default" v-on="click: selectNoFilterFields">Rensa</button>
-			<button class="btn btn-sm btn-default" v-on="click: selectAllFilterFields">Alla</button>
-			<button class="btn btn-sm btn-default" v-on="click: selectDefaultFilterFields">Vanligaste</button>
-		</div>
-		<div class="col-md-6" style="text-align: right;">
-			<p style="font-size: small;">
-				<span class="fractSymbol"><fract-circle></fract-circle></span>
-				fraktionerad data 
-				<help-initiator-button></help-initiator-button>
-			</p>
-		</div>
+	<div class="{{ $data._styles.SelectButtons }}">
+		<button class="btn btn-sm btn-default" v-on="click: selectNoFilterFields">Rensa fält</button>
+		<button class="btn btn-sm btn-default" v-on="click: selectAllFilterFields">Alla fält</button>
+		<button class="btn btn-sm btn-default" v-on="click: selectDefaultFilterFields">Förvalda fält</button>
 	</div>
 </div>

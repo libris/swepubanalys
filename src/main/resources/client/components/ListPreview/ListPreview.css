@@ -22,15 +22,12 @@ table.StaticHeader {
 }
 
 table.StaticHeader thead {
-    /* head takes the height it requires, 
-    and it's not scaled when table is resized */
     flex: 0 0 auto;
     width: calc(100% - 21px);
     background-color: #f3f3f3; 
 }
 
 table.StaticHeader tbody {
-    /* body takes all the remaining available space */
     flex: 1 1 auto;
     display: block;
     overflow-y: scroll;

@@ -20,7 +20,7 @@ var ListPreview = {
 	data: function() {
 		return {
 			filterFieldKeys: { },
-			styles: styles,
+			_styles: styles,
 		}
 	},
 	ready: function() {
