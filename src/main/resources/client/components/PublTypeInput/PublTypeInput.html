@@ -1,14 +1,15 @@
-<div class="form-group">
-	<div class="row">
-		<div class="col-xs-6">
-			<label>Publikationstyp</label>
+<div>
+	<form-field-wrapper>
+		<!-- Input -->
+		<div class="FormFieldInput">
+			<autocomplete-input val="{{@ publTypes }}" options="{{ field.suggestions }}" v-ref="AutocompleteInputComponent"></autocomplete-input>
 		</div>
-		<div class="col-xs-6" style="text-align: right;">
-			<div class="form-group">
-				<hide-field-button field="{{@ field }}" on-click-hide-field="{{ onClickHideField }}"></hide-field-button>
-				<help-initiator-button></help-initiator-button>
-			</div>
+		<!-- Buttons -->
+		<div class="HideButton">
+			<hide-field-button field="{{@ field }}" on-click-hide-field="{{ onClickHideField }}"></hide-field-button>
 		</div>
-	</div>
-	<autocomplete-input val="{{@ publTypes }}" options="{{ field.suggestions }}" v-ref="AutocompleteInputComponent"></autocomplete-input>
+		<div class="HelpButton">
+			<help-initiator-button></help-initiator-button>
+		</div>
+	</form-field-wrapper>
 </div>

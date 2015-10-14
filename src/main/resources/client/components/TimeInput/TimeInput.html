@@ -1,14 +1,23 @@
-<label>Publiceringsår</label>
-<div class="row">
-	<div class="col-md-6">
-		<div class="form-group">
-			<input v-model="field.from" type="text" class="form-control" placeholder="Från och med">
+<div>
+	<form-field-wrapper>
+		<!-- Input -->
+		<div class="FormFieldInput">
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+						<input v-model="field.from" type="text" class="form-control" placeholder="Från och med">
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<input v-model="field.to" type="text" class="form-control" placeholder="Till och med">
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="form-group">
-			<input v-model="field.to" type="text" class="form-control" placeholder="Till och med">
+		<!-- Errors -->
+		<div class="FormFieldErrors">
+			<form-error-label errors="{{ errors }}"></form-error-label>
 		</div>
-	</div>
+	</form-field-wrapper>
 </div>
-<form-error-label errors="{{ errors }}"></form-error-label>

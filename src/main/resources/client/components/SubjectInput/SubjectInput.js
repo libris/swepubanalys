@@ -3,6 +3,8 @@
 // Components
 var AutocompleteInput = require('components/AutocompleteInput/AutocompleteInput.js');
 var HelpMixin = require('mixins/HelpMixin.js');
+// Mxins
+var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin.js');
 // Utils
 var arrayToSparqlString = require('utils/arrayToSparqlString.js');
 
@@ -11,7 +13,7 @@ var arrayToSparqlString = require('utils/arrayToSparqlString.js');
  * @prop {Object} field
  */
 var SubjectInput = {
-	mixins: [HelpMixin],
+	mixins: [HelpMixin, FormFieldLayoutMixin],
 	props: ['field'],
 	template: require('./SubjectInput.html'),
 	components: {
@@ -31,8 +33,7 @@ var SubjectInput = {
 		this.initHelp({
 			title: 'FORSKNINGSÄMNE',
 			content: require('./SubjectInput.Help.html'),
-			marginLeft: '15px',
-			marginTop: '20px',
+			marginTop: '12px'
 		});
 	}
 };

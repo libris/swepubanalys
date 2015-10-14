@@ -2,6 +2,7 @@
 
 // Mixins
 var FieldValidationMixin = require('mixins/FieldValidationMixin.js');
+var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin.js');
 
 /**
  * Time Input-component
@@ -9,7 +10,7 @@ var FieldValidationMixin = require('mixins/FieldValidationMixin.js');
  * @prop {Object} test
  */
 var TimeInput = {
-	mixins: [FieldValidationMixin],
+	mixins: [FieldValidationMixin, FormFieldLayoutMixin],
 	props: ['field', 'test'],
 	template: require('./TimeInput.html'),
 	ready: function() {

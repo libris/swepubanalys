@@ -2,12 +2,15 @@
 
 // Components
 var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
+// Mixins
+var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin.js');
 
 /**
  * Author Label Input-component
  * @prop {Object} field
  */
 var AuthorLabelInput = {
+	mixins: [FormFieldLayoutMixin],
 	props: ['field'],
 	template: require('./AuthorLabelInput.html'),
 	components: {

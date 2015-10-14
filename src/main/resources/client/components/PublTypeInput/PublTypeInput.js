@@ -2,8 +2,10 @@
 
 // Components
 var AutocompleteInput = require('components/AutocompleteInput/AutocompleteInput.js');
-var HelpMixin = require('mixins/HelpMixin.js');
 var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
+// Mxins
+var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin.js');
+var HelpMixin = require('mixins/HelpMixin.js');
 // Utils
 var arrayToSparqlString = require('utils/arrayToSparqlString.js');
 
@@ -12,7 +14,7 @@ var arrayToSparqlString = require('utils/arrayToSparqlString.js');
  * @prop {Object} field
  */
 var PublTypeInput = {
-	mixins: [HelpMixin],
+	mixins: [HelpMixin, FormFieldLayoutMixin],
 	props: ['field'],
 	template: require('./PubltypeInput.html'),
 	components: {
@@ -33,8 +35,7 @@ var PublTypeInput = {
 		this.initHelp({
 			title: 'PUBLIKATIONSTYPER',
 			content: require('./PublTypeInput.Help.html'),
-			marginLeft: '15px',
-			marginTop: '20px',
+			marginTop: '12px'
 		});
 	},
 	methods: {

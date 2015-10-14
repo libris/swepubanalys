@@ -1,14 +1,16 @@
-<div class="form-group">
-	<div class="row">
-		<div class="col-xs-6">
-			<label>Orcid</label>
+<div>
+	<form-field-wrapper>
+		<!-- Input -->
+		<div class="FormFieldInput">
+			<input v-model="field.value" type="text" class="form-control"></input>
 		</div>
-		<div class="col-xs-6" style="text-align: right;">
-			<div class="form-group">
-				<hide-field-button field="{{@ field }}" on-click-hide-field="{{ onClickHideField }}"></hide-field-button>
-			</div>
+		<!-- Buttons -->
+		<div class="HideButton">
+			<hide-field-button field="{{@ field }}" on-click-hide-field="{{ onClickHideField }}"></hide-field-button>
 		</div>
-	</div>
-	<input v-model="field.value" type="text" class="form-control"></input>
+		<!-- Errors -->
+		<div class="FormFieldErrors">
+			<form-error-label errors="{{ errors }}"></form-error-label>
+		</div>
+	</form-field-wrapper>
 </div>
-<form-error-label errors="{{ errors }}"></form-error-label>
