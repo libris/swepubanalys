@@ -5,6 +5,8 @@ var Vue = require('vue');
 // Components
 var SearchForm = require('components/SearchForm/SearchForm.js');
 var SearchResult = require('components/SearchResult/SearchResult.js');
+// Utils
+require('utils/console.js');
 // CSS
 require('css/transitions.css');
 

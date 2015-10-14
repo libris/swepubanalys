@@ -1,0 +1,8 @@
+.BtnCircleLg {
+	width: 27px;
+	height: 27px;
+	line-height: 25px;
+	padding: 0;
+	padding-right: 1px;
+	border-radius: 50%;
+}

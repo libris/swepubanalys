@@ -1,7 +1,7 @@
 'use strict';
 
 // CSS modules
-var styles = require('!!style!css?modules!css/BtnCircle.css');
+var styles = require('!!style!css?modules!css/BtnCircleLg.css');
 
 /** 
  * Button which can be used to set a field.show = false
