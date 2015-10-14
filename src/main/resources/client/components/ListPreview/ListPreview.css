@@ -1,0 +1,46 @@
+.ListPreview {
+    max-height: 500px; 
+    overflow: hidden;
+}
+
+.ListBody {
+    max-height: 400px;
+}
+
+.Ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+
+table.StaticHeader {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    width: 100%;
+}
+
+table.StaticHeader thead {
+    /* head takes the height it requires, 
+    and it's not scaled when table is resized */
+    flex: 0 0 auto;
+    width: calc(100% - 21px);
+    background-color: #f3f3f3; 
+}
+
+table.StaticHeader tbody {
+    /* body takes all the remaining available space */
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: scroll;
+}
+
+table.StaticHeader tbody tr {
+    width: 100%;
+}
+
+table.StaticHeader thead, table.StaticHeader tbody tr {
+    display: table;
+    table-layout: fixed;
+}
