@@ -39,7 +39,7 @@ var HelpMixin = {
 				console.error('*** HelpMixin.js: initiatorElement and anchorToElement args not provided');
 				return false;
 			}
-			var marginLeft = conf.marginLeft || '0px';
+			var marginLeft = conf.marginLeft || '7px';
 			var marginTop = conf.marginTop || '0px';
 			var marginBottom = conf.marginBottom || '0px';
 			// Create popover

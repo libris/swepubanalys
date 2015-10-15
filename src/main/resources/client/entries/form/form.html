@@ -1,11 +1,5 @@
-<div style="background-color: #2e2e2e; color: #bababa; padding: 55px; padding-top: 15px; margin-bottom: 0px;">
-	<div style="margin-bottom: 10px;">
-		<h2>SwePub för analys och bibliometri</h2>
-		<p>SwePub för analys och bibliometri samlar vetenskapliga publikationer från svenska lärosäten och myndigheter. Använd tjänsten för att göra uttag för databearbetning och utsökningar till statistiska analyser.</p>
-	</div>
-</div>
-<div style="max-width: 1400px;">
-	<div style="padding: 55px; padding-top: 15px;">
+<site-wrapper>
+	<div>
 		<search-form on-search="{{ onSearch }}"></search-form>
 		<div v-show="formModel.templateName" v-transition="expand">
 			<div>
@@ -13,4 +7,4 @@
 			</div>
 		</div>
 	</div>
-</div>
+</site-wrapper>
