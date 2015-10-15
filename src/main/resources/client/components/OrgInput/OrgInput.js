@@ -33,7 +33,7 @@ var OrgInput = {
 		this.initHelp({
 			title: 'ORGANISATION',
 			content: require('./OrgInput.Help.html'),
-			marginTop: '12px'
+			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
 		});
 	}
 };

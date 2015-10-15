@@ -29,6 +29,9 @@ var HelpMixin = {
 			conf.initiatorElement = conf.initiatorElement || (el.getElementsByClassName('helpInitiator')[0] || el);
 			conf.anchorToElement = conf.anchorToElement || el;
 			this.createPopover(conf);
+			window.addEventListener('resize', function(){
+				this.hidePopover(conf.anchorToElement);
+			}.bind(this), true);
 		},
 		/**
 		 * Creates a popover given an initiatorElement and anchorToElement
@@ -39,7 +42,7 @@ var HelpMixin = {
 				console.error('*** HelpMixin.js: initiatorElement and anchorToElement args not provided');
 				return false;
 			}
-			var marginLeft = conf.marginLeft || '7px';
+			var marginLeft = conf.marginLeft || '15px';
 			var marginTop = conf.marginTop || '0px';
 			var marginBottom = conf.marginBottom || '0px';
 			// Create popover

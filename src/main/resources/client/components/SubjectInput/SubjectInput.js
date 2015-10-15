@@ -33,7 +33,7 @@ var SubjectInput = {
 		this.initHelp({
 			title: 'FORSKNINGSÄMNE',
 			content: require('./SubjectInput.Help.html'),
-			marginTop: '12px'
+			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
 		});
 	}
 };
