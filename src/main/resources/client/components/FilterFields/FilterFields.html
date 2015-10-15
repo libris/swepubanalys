@@ -7,12 +7,15 @@
 		</p>
 	</div>
 	<hr>
-	<div v-repeat="filterFields" style="display: inline-block;">
+	<div 
+		class="{{ $parent.$data._styles.FilterFieldGroup }}" 
+		v-repeat="filterFieldGroup in filterFields | filterFieldGroups filterFieldGroups">
 		<button 
-			v-class="btn-info: checked, btn-default: !checked" v-on="click: $set('checked', !checked)" 
-			class="btn btn-xs {{ $parent.$data._styles.FilterFieldButton }}">
-			{{ stripAsterisk(fieldName) }}
-			<template v-if="fractionalField(fieldName)">
+			v-repeat="filterField in filterFieldGroup.$value"
+			v-class="btn-info: filterField.checked, btn-default: !filterField.checked" v-on="click: filterField.$set('checked', !checked)" 
+			class="btn btn-xs {{ $parent.$parent.$data._styles.FilterFieldButton }}">
+			{{ stripAsterisk(filterField.fieldName) }}
+			<template v-if="fractionalField(filterField.fieldName)">
 				&nbsp;<fract-circle></fract-circle>
 			</template>
 		</button>

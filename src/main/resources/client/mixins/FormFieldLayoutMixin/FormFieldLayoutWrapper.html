@@ -1,14 +1,17 @@
-<div class="form-group">
-	<div>
-		<div style="display: inline-block">
-			<label>{{ field.name }}</label>
-		</div>
-		<div style="display: inline-block">
-			<content select=".HelpButton"></content>
-		</div>
-	</div>
+<div class="form-group" style="padding-right: 40px;">
+	
 	<div class="row">
-		<div class="col-xs-11" style="margin-right: 0px; padding-right: 0px;">
+		<div class="col-lg-12">
+			<div>
+				<div style="display: inline-block">
+					<label>{{ field.name }}</label> <content select=".FieldNameAddition"></content>
+				</div>
+				<div style="display: inline-block">
+					<content select=".HelpButton"></content>
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-11">
 			<content select=".FormFieldInput"></content>
 		</div>
 		<div class="col-xs-1">
