@@ -1,10 +1,12 @@
-<site-wrapper>
-	<div>
-		<search-form on-search="{{ onSearch }}"></search-form>
-		<div v-show="formModel.templateName" v-transition="expand">
-			<div>
-				<search-result form-model="{{ formModel }}"></search-result>
+<div>
+	<site-wrapper>
+		<div>
+			<search-form on-search="{{ onSearch }}"></search-form>
+			<div v-show="formModel.templateName" v-transition="expand">
+				<div class="searchResult">
+					<search-result form-model="{{ formModel }}" on-result-received="{{ onResultReceived }}"></search-result>
+				</div>
 			</div>
 		</div>
-	</div>
-</site-wrapper>
+	</site-wrapper>
+</div>
