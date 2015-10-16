@@ -18,6 +18,10 @@
 	padding-right: 5px;
 }
 
+.FilterFieldsButtonsContainer .FilterFieldButtonContainer:last-child {
+    border-right: 0px solid black;
+}
+
 .FilterFieldButton {
 	margin: 4px;
 	margin-left: 0px;

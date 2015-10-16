@@ -81,8 +81,9 @@ Vue.filter('filterFieldGroups', function(filterFields, filterFieldGroups) {
 			groups[group].push(filterFields[i]);
 		}
 	}
-	filterFields = Object.keys(groups).map(function(key, value) {
+	filterFields = Object.keys(groups).map(function(key, i) {
 		return {
+			$index: i,
 			$key: key,
 			$value: groups[key],
 		}
