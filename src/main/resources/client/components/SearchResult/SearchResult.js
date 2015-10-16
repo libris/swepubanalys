@@ -15,6 +15,7 @@ require('./SearchResult.css');
 /**
  * Search Result-component
  * @prop {Object} formModel
+ * @prop {Function} onResultReceived
  */
 var SearchResult = {
 	template: require('./SearchResult.html'),

@@ -3,12 +3,19 @@
 	padding-right: 2px;
 }
 
-.FilterFieldGroup  {
-}
-
 .FilterFields {
 	margin-top: 20px;
 	margin-bottom: 25px;
+}
+
+.FilterFieldButtonContainer {
+	display: inline-block;
+}
+
+.LastFilterFieldButtonContainer {
+	border-right: 1px solid lightgray;
+	margin-right: 7px;
+	padding-right: 5px;
 }
 
 .FilterFieldButton {

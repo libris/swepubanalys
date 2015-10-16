@@ -2,7 +2,7 @@
 	<table class="table {{ $data._styles.StaticHeader }}" style="table-layout: fixed">
 		<thead>
 			<th v-repeat="field in filterFieldKeys | onlyCheckedFilterFields" title="{{ field.fieldName + ' ' + field.field }}">
-				<p class="{{ $parent.$data._styles.Ellipsis }}" style="font-size: x-small;">
+				<p class="{{ $parent.$data._styles.FieldName }} {{ $parent.$data._styles.Ellipsis }}" style="font-size: x-small;">
 					{{ stripAsterisk(field.fieldName) }}
 					<template v-if="fractionalField(field.fieldName)">
 						<fract-circle></fract-circle>
