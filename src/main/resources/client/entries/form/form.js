@@ -48,7 +48,7 @@ var Form = {
 			if(this.pendingScroll === true) {
 				$('html, body').animate({
 					scrollTop: $(this.$el.getElementsByClassName('searchResult')[0]).offset().top,
-				}, 1500);
+				}, 900);
 				this.$set('pendingScroll', false);
 			}
 		}

@@ -1,33 +1,73 @@
 'use strict'
 
+// Vendor
+var $ = require('jquery');
+
 /**
  * Search Form Utilities
  */
 var SearchFormUtil = {
+	apiUrl: '/api/2.0',
 	/**
 	 * Returns form suggestions. This method will likely be used with an async request in the future,
 	 * such as to an external .json file or db-request.
+	 * @param {Function} callback
 	 */
 	getFormSuggestions: function(callback) {
 		callback(formSuggestions);
 	},
 	/**
 	 * Returns form tests used to validate input to form fields
+	 * @param {Function} callback
 	 */
 	getFormTests: function(callback) {
 		callback(formTests);		
 	},
 	/**
 	 * Returns groupings for filterFields
+	 * @param {Function} callback
 	 */
 	getFilterFieldGroups: function(callback) {
 		callback(filterFieldGroups);
+	},
+	/**
+	 * Validates a orcid-value
+	 * @param {String} value
+	 * @param {Function} callback
+	 */
+	validateOrcidUrl: function(value, callback) {
+		$.ajax({
+			url: this.apiUrl + '/validate/orcid?orcid=' + value,
+			type: 'GET',
+			success: function(response) {
+				callback(response);
+			},
+			error: function(response) {
+				callback(response);
+			}
+		});
+	},
+	/**
+	 * Gets publication year span
+	 * @param {Function} callback
+	 */
+	getPublicationYearSpan: function(callback) {
+		$.ajax({
+			url: this.apiUrl + '/publicationYearSpan',
+			type: 'GET',
+			success: function(response) {
+				callback(response);
+			},
+			error: function(response) {
+				callback(response);
+			}
+		});
 	}
 };
 
 var formTests = {
 	time: {
-		expression: '^$|^(19[0-9]\\d|200[0-9]|201[0-5])$',
+		expression: '^$|^\\d+$', // Only digits, please
 		errorMessage: 'Ogiltigt årtal angivet',
 	}
 };
