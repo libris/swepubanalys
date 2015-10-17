@@ -3,6 +3,8 @@ package Controllers
 import Clients.Elasticsearch
 import Clients.Virtuoso
 import groovy.json.JsonBuilder
+import groovy.json.JsonOutput
+import groovy.json.JsonSlurper
 import spark.Request
 import spark.Response
 
@@ -39,5 +41,9 @@ class Api {
         return Elasticsearch.getAggs();
     }
 
-
+    static def validateBibliometricModel(Request request, Response response) {
+        def model = new JsonSlurper().parseText(request.queryParams("model"))
+        model.orcid.validateResult = OrcidInteractor.validateOrcid(model.orcid)
+        return JsonOutput.toJson(model);
+    }
 }

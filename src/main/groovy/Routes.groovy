@@ -37,7 +37,7 @@ public class Routes implements SparkApplication {
         get("/api/2.0/publicationYearSpan", { req, res -> Api.publicationYearSpan(res) })
         get("/api/2.0/elastic/stats", { req, res -> Api.getStats(res) })
         get("/api/2.0/elastic/aggregations", { req, res -> Api.getAggregations(req, res) })
-        get("api/2.0/validate/orcid",{ req, res -> OrcidInteractor.validateOrcid(req, res) })
+        get("api/2.0/validate/bibliometric",{ req, res -> Api.validateBibliometricModel(req, res) })
     }
 
 
