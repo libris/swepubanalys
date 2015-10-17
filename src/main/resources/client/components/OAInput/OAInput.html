@@ -1,18 +1,17 @@
-<div class="form-group">
-	<div class="row">
-		<div class="col-xs-6">
-			<label>Open access</label>
-		</div>
-		<div class="col-xs-6" style="text-align: right;">
-			<div class="form-group">
-				<hide-field-button field="{{@ field }}" on-click-hide-field="{{ onClickHideField }}"></hide-field-button>
+<div>
+	<form-field-wrapper>
+		<!-- Input -->
+		<div class="FormFieldInput">
+			<div class="checkbox">
+				<label>
+					<input type="checkbox" v-model="field.value">
+					Endast Open access
+				</label>
 			</div>
 		</div>
-	</div>
-	<div class="checkbox">
-		<label>
-			<input type="checkbox" v-model="field.value">
-			Endast Open access
-		</label>
-	</div>
+		<!-- Buttons -->
+		<div class="HideButton">
+			<hide-field-button field="{{@ field }}" on-click-hide-field="{{ onClickHideField }}"></hide-field-button>
+		</div>
+	</form-field-wrapper>
 </div>

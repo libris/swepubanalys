@@ -1,28 +1,73 @@
 'use strict'
 
+// Vendor
+var $ = require('jquery');
+
 /**
  * Search Form Utilities
  */
 var SearchFormUtil = {
+	apiUrl: '/api/2.0',
 	/**
 	 * Returns form suggestions. This method will likely be used with an async request in the future,
 	 * such as to an external .json file or db-request.
-	 * @return {Object} formSuggestions
+	 * @param {Function} callback
 	 */
 	getFormSuggestions: function(callback) {
 		callback(formSuggestions);
 	},
 	/**
 	 * Returns form tests used to validate input to form fields
+	 * @param {Function} callback
 	 */
 	getFormTests: function(callback) {
 		callback(formTests);		
+	},
+	/**
+	 * Returns groupings for filterFields
+	 * @param {Function} callback
+	 */
+	getFilterFieldGroups: function(callback) {
+		callback(filterFieldGroups);
+	},
+	/**
+	 * Validates a orcid-value
+	 * @param {String} value
+	 * @param {Function} callback
+	 */
+	validateOrcidUrl: function(value, callback) {
+		$.ajax({
+			url: this.apiUrl + '/validate/orcid?orcid=' + value,
+			type: 'GET',
+			success: function(response) {
+				callback(response);
+			},
+			error: function(response) {
+				callback(response);
+			}
+		});
+	},
+	/**
+	 * Gets publication year span
+	 * @param {Function} callback
+	 */
+	getPublicationYearSpan: function(callback) {
+		$.ajax({
+			url: this.apiUrl + '/publicationYearSpan',
+			type: 'GET',
+			success: function(response) {
+				callback(response);
+			},
+			error: function(response) {
+				callback(response);
+			}
+		});
 	}
 };
 
 var formTests = {
 	time: {
-		expression: '^$|^(19[0-9]\\d|200[0-9]|201[0-5])$',
+		expression: '^$|^\\d+$', // Only digits, please
 		errorMessage: 'Ogiltigt årtal angivet',
 	}
 };
@@ -159,6 +204,89 @@ var formSuggestions = {
 		{ value: 'art', text: 'Tidskriftsartikel' },
 		{ value: 'ovr', text: 'Annan publikation' },
 	]
+};
+
+var filterFieldGroups = {
+	'?_ambiguityType': 'Dubblett',
+	'?_dubblettID': 'Dubblett',
+	'?_severity': 'Feltyp',
+	'?_violatingData': 'Feltyp',
+	'?_violationType': 'Feltyp',
+	'?_violationType': 'Feltyp',
+	'?_violationTypeLabel': 'Feltyp',
+	'?_incorrect': 'Feltyp',
+	'?_total_match_weight': 'Feltyp',
+	'?_eissn': 'Identifikator',
+	'?_isbnValue': 'Identifikator',
+	'?_isbnValue': 'Identifikator',
+	'?_isiValue': 'Identifikator',
+	'?_isiValue': 'Identifikator',
+	'?_issn': 'Identifikator',
+	'?_issn': 'Identifikator',
+	'?_orcid': 'Identifikator',
+	'?_orcid': 'Identifikator',
+	'?_pissn': 'Identifikator',
+	'?_pmidValue': 'Identifikator',
+	'?_scopusValue': 'Identifikator',
+	'?_uri': 'Identifikator',
+	'?_uri': 'Identifikator',
+	'?_doiValue': 'Identifikator', 
+	'?_doiValue': 'Identifikator', 
+	'?_affiliation': 'Organisation',
+	'?_affiliation': 'Organisation',
+	'?_id1': 'Organisation',
+	'?_id2': 'Organisation',
+	'?_orgCode': 'Organisation',
+	'?_orgCode': 'Organisation',
+	'?_orgCode1': 'Organisation',
+	'?_orgCode1': 'Organisation',
+	'?_orgCode2': 'Organisation',
+	'?_orgCode2': 'Organisation',
+	'?_recordID': 'Organisation',
+	'?_localID': 'Person',
+	'?_localID': 'Person',
+	'?_name': 'Person',
+	'?_name': 'Person',
+	'?_name': 'Person',
+	'?_name': 'Person',
+	'?_numLocalCreator': 'Person',
+	'?_numLocalCreator': 'Person',
+	'?_creatorCount': 'Person',
+	'?_creatorCount': 'Person',
+	'?_fraction': 'Person',
+	'?_comment': 'Publikation',
+	'?_compare': 'Publikation',
+	'?_urlAdjudicationTool': 'Publikation',
+	'?_channel': 'Publikation',
+	'?_contentType': 'Publikation',
+	'?_fulltext': 'Publikation',
+	'?_fulltext': 'Publikation',
+	'?_hsv1': 'Publikation',
+	'?_hsv1': 'Publikation',
+	'?_hsv3': 'Publikation',
+	'?_hsv3': 'Publikation',
+	'?_hsv5': 'Publikation',
+	'?_isPublished': 'Publikation',
+	'?_OA': 'Publikation',
+	'?_outputType': 'Publikation',
+	'?_publicationID': 'Publikation',
+	'?_publicatType': 'Publikation',
+	'?_publicatType': 'Publikation',
+	'?_publisher': 'Publikation',
+	'?_publisher': 'Publikation',
+	'?_pubYear': 'Publikation',
+	'?_status': 'Publikation',
+	'?_subject': 'Publikation',
+	'?_titleValue': 'Publikation',
+	'?_titleValue': 'Publikation',
+	'?_oaipmh_1_SwePub': 'Publikation',
+	'?_oaipmh_2_SwePub': 'Publikation',
+	'?_oaipmh_SwePub': 'Publikation',
+	'?_workID': 'Publikation',
+	'?_hsv5': 'Publlikation',
+	'?_contract': 'Övrigt',
+	'?_program': 'Övrigt',
+	'?_projekt': 'Övrigt',
 };
 
 module.exports = SearchFormUtil;

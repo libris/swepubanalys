@@ -1,0 +1,48 @@
+.ListPreview {
+    max-height: 520px; 
+    overflow-y: auto;
+}
+
+.ListBody {
+    max-height: 400px;
+}
+
+.Ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+
+table.StaticHeader {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    width: 100%;
+}
+
+table.StaticHeader thead {
+    flex: 0 0 auto;
+    width: calc(100% - 21px);
+    background-color: #f3f3f3; 
+    border-radius: 3px;
+}
+
+.FieldName {
+    padding-top: 17px;
+}
+
+table.StaticHeader tbody {
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: scroll;
+}
+
+table.StaticHeader tbody tr {
+    width: 100%;
+}
+
+table.StaticHeader thead, table.StaticHeader tbody tr {
+    display: table;
+    table-layout: fixed;
+}

@@ -15,10 +15,11 @@ require('./SearchResult.css');
 /**
  * Search Result-component
  * @prop {Object} formModel
+ * @prop {Function} onResultReceived
  */
 var SearchResult = {
 	template: require('./SearchResult.html'),
-	props: ['formModel'],
+	props: ['formModel', 'onResultReceived'],
 	data: function() {
 		return {
 			// Flags
@@ -125,6 +126,9 @@ var SearchResult = {
 										}
 										this.$set('pendingUpdate', false);
 										this.$set('pendingRefresh', false);
+										if(this.onResultReceived) {
+											this.onResultReceived();
+										}
 									}.bind(this));
 									break;
 								}

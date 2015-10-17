@@ -1,6 +1,6 @@
-<div v-repeat="errorMessage in errors" class="formErrorLabel">
+<div v-show="errors[0]" class="formErrorLabel">
 	<span class="label label-danger">
 		<i class="fa fa-thumbs-down"></i>
-		<i>{{ errorMessage }}</i>
+		<i>{{ errors[0] ? errors[0] : '' }}</i>
 	</span>
 </div>

@@ -1,13 +1,10 @@
-<div class="form-group">
-	<div class="row">
-		<div class="col-xs-6">
-			<label>Forskningsämne</label>
+<div>
+	<form-field-wrapper>
+		<div class="FormFieldInput">
+			<autocomplete-input val="{{@ subjects }}" optgroups="{{ field.suggestions }}"></autocomplete-input>
 		</div>
-		<div class="col-xs-6" style="text-align: right;">
-			<div class="form-group">
-				<help-initiator-button></help-initiator-button>
-			</div>
+		<div class="HelpButton">
+			<help-initiator-button></help-initiator-button>
 		</div>
-	</div>
-	<autocomplete-input val="{{@ subjects }}" optgroups="{{ field.suggestions }}"></autocomplete-input>
+	</form-field-wrapper>
 </div>

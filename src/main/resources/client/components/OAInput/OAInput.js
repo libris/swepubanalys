@@ -2,12 +2,15 @@
 
 // Components
 var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
+// Mixins
+var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin/FormFieldLayoutMixin.js');
 
 /**
  * Open Access Input-component
  * @prop {Object} field
  */
 var OAInput = {
+	mixins: [FormFieldLayoutMixin],
 	props: ['field'],
 	template: require('./OAInput.html'),
 	components: {

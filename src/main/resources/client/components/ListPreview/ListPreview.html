@@ -1,27 +1,29 @@
-<div style="max-height: 450px; overflow-y: scroll; overflow-x: scroll;">
-	<table class="table" style="max-width: 100%">
+<div class="{{ $data._styles.ListPreview }}">
+	<table class="table {{ $data._styles.StaticHeader }}" style="table-layout: fixed">
 		<thead>
-			<th v-repeat="field in filterFieldKeys | onlyCheckedFilterFields">
-				<p style="font-size: small;">
+			<th v-repeat="field in filterFieldKeys | onlyCheckedFilterFields" title="{{ field.fieldName + ' ' + field.field }}">
+				<p class="{{ $parent.$data._styles.FieldName }} {{ $parent.$data._styles.Ellipsis }}" style="font-size: x-small;">
 					{{ stripAsterisk(field.fieldName) }}
 					<template v-if="fractionalField(field.fieldName)">
 						<fract-circle></fract-circle>
 					</template>
 				</p>
-				<p style="font-size: x-small;">{{ field.field }}</p>
+				<p class="{{ $parent.$data._styles.Ellipsis }}" style="font-size: xx-small;">
+					{{ field.field }}
+				</p>
 			</th>
 		</thead>
-		<tbody>
+		<tbody class="{{ $data._styles.ListBody }}">
 			<tr v-repeat="article in ((result && result.results && result.results.bindings) ? result.results.bindings : [])">
-				<td v-repeat="cell in article | filterFields filterFields">
-					<div style="min-width: 200px;">
+				<td v-repeat="cell in article | filterFields filterFields" title="{{ cell.value }}">
+					<p class="{{ $parent.$parent.$data._styles.Ellipsis }}" style="font-size: x-small;">
 						<template v-if="startsWithHttp(cell.value)">
 							<a href="{{ cell.value }}" target="__new_tab__">{{ cell.value }}</a>
 						</template>
 						<template v-if="!startsWithHttp(cell.value)">
 							{{ cell.value }}
 						</template>
-					</div>
+					</p>
 				</td>
 			</tr>
 		</tbody>

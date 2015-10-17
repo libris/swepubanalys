@@ -2,7 +2,9 @@
 
 // Components
 var AutocompleteInput = require('components/AutocompleteInput/AutocompleteInput.js');
-var HelpMixin = require('mixins/HelpMixin.js');
+// Mixins
+var HelpMixin = require('mixins/HelpMixin/HelpMixin.js');
+var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin/FormFieldLayoutMixin.js');
 // Utils
 var arrayToSparqlString = require('utils/arrayToSparqlString.js');
 
@@ -11,9 +13,9 @@ var arrayToSparqlString = require('utils/arrayToSparqlString.js');
  * @prop {Object} field
  */
 var OrgInput = {
-	mixins: [HelpMixin],
+	mixins: [HelpMixin, FormFieldLayoutMixin],
 	props: ['field'],
-	template: require('./OrgInput.html'),
+	template: require('./OrgInput.html'), 
 	components: {
 		'autocomplete-input': AutocompleteInput,
 	},
@@ -31,8 +33,7 @@ var OrgInput = {
 		this.initHelp({
 			title: 'ORGANISATION',
 			content: require('./OrgInput.Help.html'),
-			marginLeft: '15px',
-			marginTop: '20px',
+			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
 		});
 	}
 };

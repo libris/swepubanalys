@@ -1,13 +1,32 @@
-.fractSymbol {
+.FractSymbol {
 	padding-left: 2px;
 	padding-right: 2px;
 }
 
-.filterFields {
+.FilterFields {
 	margin-top: 20px;
 	margin-bottom: 25px;
 }
 
-.filterFieldButton {
+.FilterFieldButtonContainer {
+	display: inline-block;
+}
+
+.LastFilterFieldButtonContainer {
+	border-right: 1px solid lightgray;
+	margin-right: 7px;
+	padding-right: 5px;
+}
+
+.FilterFieldsButtonsContainer .FilterFieldButtonContainer:last-child {
+    border-right: 0px solid black;
+}
+
+.FilterFieldButton {
 	margin: 4px;
+	margin-left: 0px;
+}
+
+.SelectButtons {
+	margin-top: 15px;
 }

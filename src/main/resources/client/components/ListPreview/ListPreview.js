@@ -4,7 +4,9 @@
 var Vue = require('vue');
 var _find = require('lodash/collection/find');
 // Mixins
-var FractionalMixin = require('mixins/FractionalMixin.js');
+var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
+// CSS modules
+var styles = require('!!style!css?modules!./ListPreview.css');
 
 /**
  * List Preview-component
@@ -18,6 +20,7 @@ var ListPreview = {
 	data: function() {
 		return {
 			filterFieldKeys: { },
+			_styles: styles,
 		}
 	},
 	ready: function() {
@@ -37,7 +40,7 @@ var ListPreview = {
 				this.$set('filterFieldKeys', n);
 			}
 			else {
-				console.error('*** ListPreview.ready(): filterFields prop required');
+				console.error('*** ListPreview.ready: filterFields prop required');
 			}
 		}.bind(this), { deep: true });
 	},

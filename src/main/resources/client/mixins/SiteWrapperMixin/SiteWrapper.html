@@ -1,0 +1,35 @@
+<div class="{{ $data._styles.SiteWrapper }}">
+	<div class="row {{ $data._styles.MenuBar }}">
+		<div class="col-md-7">
+		</div>
+		<div class="col-md-5">
+			<div class="row">
+				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ navigation.key === 'form' ? $data._styles.ActiveMenuItem : '' }}">
+					Gör uttag
+				</div>
+				<div class="col-xs-4 {{ $data._styles.MenuItem }}">
+					Validera data
+				</div>
+				<div class="col-xs-4 {{ $data._styles.MenuItem }}">
+					Hjälp
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="{{ $data._styles.Header }}">
+		<h2>SwePub för analys och bibliometri</h2>
+		<p>SwePub för analys och bibliometri samlar vetenskapliga publikationer från svenska lärosäten och myndigheter. Använd tjänsten för att göra uttag för databearbetning och utsökningar till statistiska analyser.</p>
+	</div>
+	<div class="{{ $data._styles.Content }}">
+		<content></content>
+	</div>
+	<div class="{{ $data._styles.Footer }}">
+		<h4>KUNGL. BIBLIOTEKET</h4>
+		<p>
+			Postadress: Kungl. biblioteket, Box 5039, 102 41 Stockholm<br>
+			Besöksadress: Humlegårdsgatan 26, Humlegården, Stockholm<br>
+			Telefon: 010-709 30 00<br>
+			E-post: libris@kb.se<br>
+		</p>
+	</div>
+</div>
