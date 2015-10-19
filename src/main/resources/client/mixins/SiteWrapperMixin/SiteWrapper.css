@@ -29,11 +29,10 @@
 }
 
 .MenuItem {
-	padding-top: 25px;
-	padding-bottom: 25px;
+	padding-top: 15px;
+	padding-bottom: 15px;
 	text-align: center;
 	color: gray;
-	height: 80px;
 	cursor: pointer;
 }
 
@@ -43,6 +42,11 @@
 	background-color: #2e2e2e;
 }
 
-.ImageContainer { 
-	padding-top: 23px;
+.ImageContainer {
+	padding-top: 15px;
+}
+
+.TitleContainer {
+	padding-left: 15px;
+	max-width: 900px;
 }
