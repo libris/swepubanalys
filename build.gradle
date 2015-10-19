@@ -65,7 +65,6 @@ task bowerSyncComponentsForBeta(type: Sync) {
     include 'handsontable/dist/handsontable.full.css'
 }
 
-// Rename this function to something more proper
 task bowerSyncComponentsForQf(type: Sync) {
     from 'bower_components'
     into "src/main/resources/public/2.0/vendor"
@@ -74,9 +73,9 @@ task bowerSyncComponentsForQf(type: Sync) {
     include 'bootstrap/dist/css/bootstrap.css.map'
     include 'bootstrap/dist/fonts/*.*'
     include 'kungbib-styles/dist/css/kb-style.css'
+    include 'kungbib-styles/dist/assets/*.*'
     include 'font-awesome/fonts/*.*'
     include 'font-awesome/css/font-awesome.min.css'
-    include 'font-awesome/fonts/*.*'
 }
 
 task CopyMissingFonts(type: Copy){

@@ -21,8 +21,7 @@
 	color: #bababa; 
 	padding: 55px; 
 	padding-top: 75px;
-	padding-bottom: 300px; 
-	margin-top: 100px;
+	margin-top: 150px;
 }
 
 .MenuBar {
@@ -31,11 +30,10 @@
 
 .MenuItem {
 	padding-top: 25px;
-	padding-bottom: 15px;
+	padding-bottom: 25px;
 	text-align: center;
 	color: gray;
 	height: 80px;
-	border-bottom: 10px solid #f9f9f9;
 	cursor: pointer;
 }
 
@@ -43,5 +41,8 @@
 	color: #bababa;
 	font-weight: bold;
 	background-color: #2e2e2e;
-	border-bottom: 10px solid #86b5cb;
+}
+
+.ImageContainer { 
+	padding-top: 23px;
 }
