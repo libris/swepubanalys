@@ -16,6 +16,10 @@ build/
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+#result files
+tools/elasticindexing/turtlar/
+tools/elasticindexing/elasticready
+
 # Package Files #
 *.jar
 *.war
