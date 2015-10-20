@@ -38,8 +38,10 @@ class Api {
         return Elasticsearch.getStats();
     }
     static getAggregations(Request request, Response response)  {
+
+        def model = request.queryParams("model") != null ? new JsonSlurper().parseText(request.queryParams("model")):null;
         response.type("application/json");
-        return Elasticsearch.getAggs();
+        return Elasticsearch.getAggs(model);
     }
 
     static def validateBibliometricModel(Request request, Response response) {

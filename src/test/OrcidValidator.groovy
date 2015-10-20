@@ -18,28 +18,28 @@ class OrcidValidator {
     @Test
     public  void invalidUrlFormat(){
         def url = "http.//:apa.com"
-        def result = Controllers.OrcidInteractor.validateOrcid(url);
+        def result = Validators.OrcidValidator.validateOrcid(url);
         assert result.result == false;
 
     }
     @Test
     public  void emptyOrcid(){
         def orcid = ""
-        def result = Controllers.OrcidInteractor.validateOrcid(orcid);
+        def result = Validators.OrcidValidator.validateOrcid(orcid);
         assert result.result == false;
 
     }
     @Test
     public  void nullOrcid(){
         def orcid = null
-        def result = Controllers.OrcidInteractor.validateOrcid(orcid);
+        def result = Validators.OrcidValidator.validateOrcid(orcid);
         assert result.result == false;
 
     }
     @Test
     public  void invalidDomain(){
         def url = "http://apa.com"
-        def result = Controllers.OrcidInteractor.validateOrcid(url);
+        def result = Validators.OrcidValidator.validateOrcid(url);
         assert result.result == false;
 
     }
@@ -47,7 +47,7 @@ class OrcidValidator {
     @Test
     public  void tooShort(){
         def url = "http://orcid.org/888888888888888"
-        def result = Controllers.OrcidInteractor.validateOrcid(url);
+        def result = Validators.OrcidValidator.validateOrcid(url);
         assert result.result == false;
         assert result.reason == "Innehåller för få tecken";
 
@@ -55,7 +55,7 @@ class OrcidValidator {
     @Test
     public  void forbiddenCharacters(){
         def url = "http://orcid.org/88888888888888++88"
-        def result = Controllers.OrcidInteractor.validateOrcid(url);
+        def result = Validators.OrcidValidator.validateOrcid(url);
         assert result.result == false;
         assert result.reason == "Innehåller otillåtna tecken";
 
@@ -63,14 +63,14 @@ class OrcidValidator {
     @Test
     public  void validDashes(){
         def url = "http://orcid.org/0000-0002-5444-7276";
-        def result = Controllers.OrcidInteractor.validateOrcid(url);
+        def result = Validators.OrcidValidator.validateOrcid(url);
         assert result.result == true;
     }
     @Test
     public  void noDashes(){
 
         def url = "http://orcid.org/0000000254447276";
-        def result = Controllers.OrcidInteractor.validateOrcid(url);
+        def result = Validators.OrcidValidator.validateOrcid(url);
         assert result.result == true;
     }
 
@@ -78,7 +78,7 @@ class OrcidValidator {
     public  void wrongCheckSum(){
 
         def url = "http://orcid.org/0000000254447275";
-        def result = Controllers.OrcidInteractor.validateOrcid(url);
+        def result = Validators.OrcidValidator.validateOrcid(url);
         assert result.result == false;
         assert result.reason == "Felaktig slutsiffra";
     }
@@ -87,7 +87,7 @@ class OrcidValidator {
     public  void rightCheckSum(){
 
         def url = "http://orcid.org/0000000254447276";
-        def result = Controllers.OrcidInteractor.validateOrcid(url);
+        def result = Validators.OrcidValidator.validateOrcid(url);
         assert result.result == true;
     }
 
@@ -96,7 +96,7 @@ class OrcidValidator {
 
         def orcid = "000000025444727";
         assert generateCheckDigitJava(orcid) == "6";
-        assert Controllers.OrcidInteractor.generateCheckDigitGroovy(orcid) == "6";
+        assert Validators.OrcidValidator.generateCheckDigitGroovy(orcid) == "6";
 
 
     }
@@ -105,8 +105,25 @@ class OrcidValidator {
 
         def orcid = "000000017510606";
         assert generateCheckDigitJava(orcid) == "X";
-        assert Controllers.OrcidInteractor.generateCheckDigitGroovy(orcid) == "X";
+        assert Validators.OrcidValidator.generateCheckDigitGroovy(orcid) == "X";
 
+
+    }
+
+    @Test
+    public  void domainOnly(){
+
+        def orcid = "http://orcid.org/";
+        def result = Validators.OrcidValidator.validateOrcid(orcid);
+        assert result.result == false;
+
+    }
+    @Test
+    public  void domainOnlyNoTrailingSlashw(){
+
+        def orcid = "http://orcid.org";
+        def result = Validators.OrcidValidator.validateOrcid(orcid);
+        assert result.result == false;
 
     }
     /**

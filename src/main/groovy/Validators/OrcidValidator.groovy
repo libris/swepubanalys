@@ -26,6 +26,8 @@ class OrcidValidator {
         if(url.host != "orcid.org")
             return falseResult("Felaktig domän. Domänen måste vara orcid.org")
 
+        if(url.path.length()<2)
+            return falseResult("Orcid är tom.")
         def digits  =  url.path[1..url.path.length() - 1].replace("-","");
         if(digits.length()<16)
             return falseResult("Innehåller för få tecken")
