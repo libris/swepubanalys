@@ -13,17 +13,16 @@ require('utils/console.js');
 require('css/transitions.css');
 
 /**
- * Form-component
+ * Bibliometrician-view
  */
-var Form = {
+var Bibliometrician = {
 	mixins: [SiteWrapper],
-	template: require('./form.html'),
+	template: require('./bibliometrician.html'),
 	data: function() {
 		return {
 			pendingScroll: false,
 			navigation: {
-				key: 'form',
-				url: '/form'
+				key: 'bibliometrician',
 			},
 			formModel: { }
 		};
@@ -55,7 +54,7 @@ var Form = {
 	}
 };
 
-Vue.component('view', Form);
+Vue.component('view', Bibliometrician);
 
 var View = new Vue({
 	el: '#app'

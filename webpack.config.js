@@ -3,7 +3,8 @@ var webpack = require("webpack");
 
 module.exports = {
     entry: {
-        form: './src/main/resources/client/entries/form/form.js',
+        bibliometrician: './src/main/resources/client/entries/bibliometrician/bibliometrician.js',
+		inspector: './src/main/resources/client/entries/inspector/inspector.js',
     },
     output: {
         filename: './src/main/resources/public/2.0/[name].bundle.js',
