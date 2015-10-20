@@ -1,6 +1,6 @@
 import Controllers.Api
 import Controllers.Beta
-import Controllers.Form
+import Controllers.Bibliometrician
 import spark.ModelAndView
 import static spark.Spark.*
 import spark.servlet.SparkApplication
@@ -27,8 +27,8 @@ public class Routes implements SparkApplication {
         post("/ladda-ner-fil", { req, res -> Beta.preview(req, res) }, templateEngine);
         post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
-        get("/form", { req, res -> new ModelAndView(Form.index(req, res), "form.mustache")}, templateEngine)
-        get("/qf/bibliometrics", { req, res -> Form.index(req, res) }, templateEngine)
+        get("/form",{ req, res -> res.redirect("/bibliometrician")})
+        get("/bibliometrician", { req, res -> new ModelAndView(Bibliometrician.index(req, res), "bibliometrician.mustache")}, templateEngine)
         post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/2.0/publicationYearSpan", { req, res -> Api.publicationYearSpan(res) })

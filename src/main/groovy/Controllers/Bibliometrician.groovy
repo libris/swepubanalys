@@ -7,7 +7,7 @@ import spark.Response
 /**
  * Created by Theodor on 2015-10-01.
  */
-class Form {
+class Bibliometrician {
 
     static Map index(final Request request, final Response response) {
         final Map map = new HashMap();
