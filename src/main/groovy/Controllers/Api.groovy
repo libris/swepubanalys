@@ -2,6 +2,7 @@ package Controllers
 
 import Clients.Elasticsearch
 import Clients.Virtuoso
+import Validators.OrcidValidator
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
@@ -43,7 +44,20 @@ class Api {
 
     static def validateBibliometricModel(Request request, Response response) {
         def model = new JsonSlurper().parseText(request.queryParams("model"))
-        model.orcid.validateResult = OrcidInteractor.validateOrcid(model.orcid)
+        model.orcid.validateResult = validateOrcid(model.orcid)
+        model.to.validateResult
         return JsonOutput.toJson(model);
     }
+
+
+
+    static validateOrcid(Request request, Response response) {
+        def orcid = request.queryParams("orcid");
+        response.type("application/json");
+        return JsonOutput.toJson(OrcidValidator.validateOrcid(orcid));
+
+    }
+
+
+
 }

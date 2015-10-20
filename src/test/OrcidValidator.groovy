@@ -5,7 +5,7 @@ import org.junit.Test
 /**
  * Created by Theodor on 2015-10-12.
  */
-class OrcidInteractor {
+class OrcidValidator {
     @Before
     public void setUp() throws Exception {
         println "Set Up"
