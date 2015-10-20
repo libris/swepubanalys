@@ -39,7 +39,7 @@ var OrcidInput = {
 				SearchFormUtil.validateOrcidUrl(value, function(response) {
 					if(response && typeof response.result !== 'undefined') {
 						if(response.result !== true) {
-							callback('Ogiltigt Orcid angivet (' + value + ')');
+							callback(response.reason || 'Ogiltigt Orcid angivet' + ' (' + value + ')');
 						}
 						else {
 							callback(true);
