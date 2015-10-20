@@ -14,7 +14,9 @@
 			<content select=".FormFieldInput"></content>
 		</div>
 		<div class="col-xs-1" style="padding-top: 6px; padding: 0px; padding-top: 6px;">
-			<content select=".HideButton"></content>
+			<template v-if="hideable === true">
+				<content select=".HideButton"></content>
+			</template>
 		</div>
 	</div>
 </div>
