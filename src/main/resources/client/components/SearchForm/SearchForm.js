@@ -26,12 +26,12 @@ require('./SearchForm.css');
  */
 var SearchForm = {
 	template: require('./SearchForm.html'),
-	props: ['onSearch'],
+	props: ['onSearch', 'defaultTemplate'],
 	data: function() {
 		return {
 			formTests: {},
 			// Data which will possibly be used onSearch
-			templateName: 'QfBibliometrics',
+			templateName: this.defaultTemplate || 'QfBibliometrics',
 			fields: defaultFields
 		}
 	},
@@ -178,15 +178,20 @@ var SearchForm = {
 			return formModel;
 		},
 		/**
-		 * Determines if active template name is present in templateNames
+		 * Used to determine if a field should be used as a template
+		 * @param {Object} field
+		 * @param {String} templateName
 		 * @return {Boolean}
 		 */
-		activeTemplate: function(templateNames) {
-			for(var i = 0; i < templateNames.length; i++) {
-				if(this.templateName === templateNames[i]) {
-					return true;
+		isTemplateField: function(field, templateName) {
+			var valid = false;
+			var theTemplateFields = templateFields[templateName] || [];
+			for(var i = 0; i < theTemplateFields.length; i++) {
+				if(theTemplateFields[i] === field.fieldName) {
+					valid = true;
 				}
 			}
+			return valid;
 		}
 	}
 };
@@ -200,6 +205,12 @@ Vue.filter('orderFields', function(fields) {
 	});
 	return fields;
 });
+
+var templateFields = {
+	'simple': ['org', 'time', 'subject', 'publType', 'openaccess', 'publStatus'],
+	'duplicates': ['org', 'time'],
+	'QfBibliometrics': ['org', 'time', 'subject', 'publType', 'authorLabel', 'orcid', 'openaccess', 'publStatus'],
+};
 
 var defaultFields = {
 	org: {

@@ -6,14 +6,24 @@
 		</p>
 		<!-- SHOW FIELDS -->
 		<div v-repeat="field in fields | orderFields">
-			<div v-component="{{ field.fieldName }}"></div>
+			<template v-if="isTemplateField(field, templateName)">
+				<div v-component="{{ field.fieldName }}"></div>
+			</template>
 		</div>
 		<!-- SHOW-BUTTONS -->
 		<div class="showFieldButtons">
-			<show-field-button field="{{@ fields.publType }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
-			<show-field-button field="{{@ fields.orcid }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
-			<show-field-button field="{{@ fields.authorLabel }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
-			<show-field-button field="{{@ fields.openaccess }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
+			<template v-if="isTemplateField(fields.publType, templateName)">
+				<show-field-button field="{{@ fields.publType }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
+			</template>
+			<template v-if="isTemplateField(fields.orcid, templateName)">
+				<show-field-button field="{{@ fields.orcid }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
+			</template>
+			<template v-if="isTemplateField(fields.authorLabel, templateName)">
+				<show-field-button field="{{@ fields.authorLabel }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
+			</template>
+			<template v-if="isTemplateField(fields.openaccess, templateName)">
+				<show-field-button field="{{@ fields.openaccess }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
+			</template>
 		</div>
 		<!-- SEARCH-BUTTON -->
 		<div class="form-group">
