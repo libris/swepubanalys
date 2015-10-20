@@ -27,7 +27,8 @@ public class Routes implements SparkApplication {
         post("/ladda-ner-fil", { req, res -> Beta.preview(req, res) }, templateEngine);
         post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
-        get("/form", { req, res -> new ModelAndView(Form.index(req, res), "form.mustache")}, templateEngine)
+        get("/bibliometriker", { req, res -> new ModelAndView(Form.index(req, res), "bibliometrician.mustache")}, templateEngine)
+        get("/granskare", { req, res -> new ModelAndView(Form.index(req, res), "inspector.mustache")}, templateEngine)
         get("/qf/bibliometrics", { req, res -> Form.index(req, res) }, templateEngine)
         post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })

@@ -6,6 +6,8 @@ node_modules/
 src/main/resources/public/1.0/compiled/
 src/main/resources/public/2.0/vendor/
 form.bundle.js
+bibliometrician.bundle.js
+inspector.bundle.js
 
 # Project build files
 build/
