@@ -47,6 +47,11 @@
 }
 
 .TitleContainer {
-	padding-left: 15px;
+	padding-left: 35px;
 	max-width: 900px;
+}
+
+.FooterText {
+	padding-top: 10px;
+	padding-left: 25px;
 }
