@@ -12,8 +12,13 @@ require('./AutocompleteInput.css');
  * @prop {Array} options
  */
 var AutocompleteInput = {
-	props: ['val', 'options', 'optgroups'],
+	props: ['val', 'options'],
 	template: require('./AutocompleteInput.html'),
+	data: function() {
+		return { 
+			selected: '' 
+		};
+	},
 	/**
 	 * Ready-hook appends change listener to input element and updates val prop on change
 	 */
@@ -27,9 +32,6 @@ var AutocompleteInput = {
 		'options': function() {
 			this.create();
 		},
-		'optgroups': function() {
-			this.create();
-		}
 	},
 	methods: {
 		/**

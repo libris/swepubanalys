@@ -117,7 +117,7 @@ var formSuggestions = {
 	],
 	subjects: [
 		{ 
-			name: '1 Naturvetenskap',
+			label: '1 Naturvetenskap',
 			options: [
 				{ value: '101', text: '101 Matematik' },
 	            { value: '102', text: '102 Data- och informationsvetenskap' },
@@ -129,7 +129,7 @@ var formSuggestions = {
             ]
         },
         { 
-        	name: '2 Teknik',
+        	label: '2 Teknik',
 			options: [
 	            { value: '201', text: '201 Samhällsbyggnadsteknik' },
 	            { value: '202', text: '202 Elektroteknik och elektronik' },
@@ -145,7 +145,7 @@ var formSuggestions = {
         	]
         },
         { 
-        	name: '3 Medicin och hälsovetenskap',
+        	label: '3 Medicin och hälsovetenskap',
 			options: [
 	            { value: '301', text: '301 Medicinska grundvetenskaper' },
 	            { value: '302', text: '302 Klinisk medicin' },
@@ -154,7 +154,7 @@ var formSuggestions = {
 	            { value: '305', text: '305 Annan medicin och hälsovetenskap' },
 	        ]
         },
-        { name: '4 Lantbruksvetenskap',
+        { label: '4 Lantbruksvetenskap',
 			options: [
 	            { value: '401', text: '401 Lantbruksvetenskap, skogsbruk och fiske' },
 	            { value: '402', text: '402 Husdjursvetenskap' },
@@ -164,7 +164,7 @@ var formSuggestions = {
 	        ]
         },
         { 
-        	name: '5 Samhällsvetenskap',
+        	label: '5 Samhällsvetenskap',
 			options: [
 	            { value: '501', text: '501 Psykologi' },
 	            { value: '502', text: '502 Ekonomi och näringsliv' },
@@ -178,7 +178,7 @@ var formSuggestions = {
 	        ]
         },
         { 
-        	name: '6 Humaniora',
+        	label: '6 Humaniora',
 			options: [
 	            { value: '601', text: '601 Historia och arkeologi' },
 	            { value: '602', text: '602 Språk och litteratur' },
