@@ -1,7 +1,27 @@
 <div>
 	<site-wrapper>
 		<div>
-			<h1>Tre vägar till höjd datakvalitet</h1>
+			<h2>Förändring av kvalitet på data</h2>
+			<p>Nationell statistik</p>
+			<div style="margin-bottom: 55px;margin-top: 25px;">
+				<p v-if="loadingData === true">
+					Laddar visualiseringar...
+				</p>
+				<div class="row">
+					<div class="col-xs-6">
+						<template v-if="aggregations.org">
+							<chart type="bar" data="{{ aggregations.org }}"></chart>
+						</template>
+					</div>
+					<div class="col-xs-6">
+						<template v-if="aggregations.org">
+							<chart type="pie" data="{{ aggregations.org }}"></chart>
+						</template>
+					</div>
+				</div>
+			</div>
+			<hr>
+			<h2>Tre vägar till höjd datakvalitet</h2>
 			<p>Genom att bidra till arbetet att höja kvaliteten på data.</p>
 		</div>
 	</site-wrapper>

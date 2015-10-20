@@ -20,6 +20,7 @@
     "jquery": "~2.1.4",
     "select2": "~4.0.0",
     "vue": "~0.12.16",
-	"kungbib-styles": "kungbib/frontend-guide#~1.1.1"
+    "kungbib-styles": "kungbib/frontend-guide#~1.1.1",
+    "c3": "~0.4.10"
   }
 }
