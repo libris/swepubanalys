@@ -10,7 +10,11 @@ module.exports = {
         filename: './src/main/resources/public/2.0/[name].bundle.js',
     },
 	resolve: {
-        root: [path.join(__dirname, "bower_components"), path.join(__dirname, "/src/main/resources/client")]
+        root: [path.join(__dirname, "bower_components"), path.join(__dirname, "/src/main/resources/client")],
+		alias: {
+			'c3-js': 'c3/c3.min.js',
+			'c3-css': 'c3/c3.css',
+		}
     },
 	module: {
 		loaders: [
