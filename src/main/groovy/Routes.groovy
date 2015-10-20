@@ -1,6 +1,7 @@
 import Controllers.Api
 import Controllers.Beta
-import Controllers.Form
+import Controllers.Bibliometrician
+import Controllers.Inspector
 import spark.ModelAndView
 import static spark.Spark.*
 import spark.servlet.SparkApplication

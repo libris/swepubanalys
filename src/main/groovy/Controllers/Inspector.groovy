@@ -1,19 +1,16 @@
 package Controllers
 
-import spark.ModelAndView
 import spark.Request
 import spark.Response
 
 /**
- * Created by Theodor on 2015-10-01.
+ * Created by jimber on 2015-10-20.
  */
-class Bibliometrician {
-
+class Inspector {
     static Map index(final Request request, final Response response) {
         final Map map = new HashMap();
         map.put("pageTitle", "SIDTITEL");
 
     }
-
 
 }
