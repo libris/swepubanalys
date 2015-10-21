@@ -11,7 +11,7 @@
 			</template>
 		</div>
 		<!-- SHOW-BUTTONS -->
-		<div class="showFieldButtons">
+		<div class="{{ $data._styles.ShowFieldButtons }}">
 			<template v-if="isTemplateField(fields.publType, templateName)">
 				<show-field-button field="{{@ fields.publType }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
 			</template>

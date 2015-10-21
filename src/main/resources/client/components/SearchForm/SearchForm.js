@@ -16,9 +16,10 @@ var OrcidInput = require('components/OrcidInput/OrcidInput.js');
 var OAInput = require('components/OAInput/OAInput.js');
 var PublStatusInput = require('components/PublStatusInput/PublStatusInput.js');
 var ShowFieldButton = require('components/ShowFieldButton/ShowFieldButton.js');
+// CSS-modules
+var styles = require('!!style!css?modules!./SearchForm.css');
 // CSS
 require('css/transitions.css');
-require('./SearchForm.css');
 
 /**
  * Search Form-component
@@ -32,7 +33,9 @@ var SearchForm = {
 			formTests: {},
 			// Data which will possibly be used onSearch
 			templateName: this.defaultTemplate || 'QfBibliometrics',
-			fields: defaultFields
+			fields: defaultFields,
+			// CSS-modules
+			_styles: styles
 		}
 	},
 	components: {

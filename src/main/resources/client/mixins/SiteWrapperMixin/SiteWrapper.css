@@ -10,6 +10,33 @@
 	margin-bottom: 20px;
 }
 
+.MenuBar {
+	background: #efefef;
+}
+
+.ActiveMenuItem {
+	color: #bababa;
+	font-weight: bold;
+	background-color: #2e2e2e;
+}
+
+.MenuItem {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	text-align: center;
+	color: gray;
+	cursor: pointer;
+}
+
+.ImageContainer {
+	padding-top: 15px;
+}
+
+.TitleContainer {
+	padding-left: 35px;
+	max-width: 900px;
+}
+
 .Content {
 	max-width: 1400px; 
 	padding: 55px; 
@@ -24,33 +51,14 @@
 	margin-top: 210px;
 }
 
-.MenuBar {
-	background: #efefef;
-}
-
-.MenuItem {
-	padding-top: 15px;
-	padding-bottom: 15px;
-	text-align: center;
-	color: gray;
-	cursor: pointer;
-}
-
-.ActiveMenuItem {
-	color: #bababa;
-	font-weight: bold;
-	background-color: #2e2e2e;
-}
-
-.ImageContainer {
-	padding-top: 15px;
-}
-
-.TitleContainer {
-	padding-left: 35px;
-	max-width: 900px;
-}
-
 .FooterText {
 	padding-top: 10px;
 }
+
+
+
+
+
+
+
+

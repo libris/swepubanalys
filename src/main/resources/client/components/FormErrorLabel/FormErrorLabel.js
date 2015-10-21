@@ -1,8 +1,7 @@
 'use strict';
 
-// CSS
-require('./FormErrorLabel.css');
-require('css/transitions.css');
+// CSS-modules
+var styles = require('!!style!css?modules!./FormErrorLabel.css');
 
 /**
  * Form Error Label-component
@@ -11,6 +10,11 @@ require('css/transitions.css');
 var FormErrorLabel = {
 	props: ['errors'],
 	template: require('./FormErrorLabel.html'),
+	data: function() {
+		return {
+			_styles: styles,
+		}
+	}
 };
 
 module.exports = FormErrorLabel;

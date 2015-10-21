@@ -1,4 +1,4 @@
-<div v-show="errors[0]" class="formErrorLabel">
+<div v-show="errors[0]" class="{{ $data._styles.FormErrorLabel }}">
 	<span class="label label-danger">
 		<i class="fa fa-thumbs-down"></i>
 		<i>{{ errors[0] ? errors[0] : '' }}</i>
