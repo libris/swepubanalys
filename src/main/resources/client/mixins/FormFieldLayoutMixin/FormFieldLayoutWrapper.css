@@ -1,3 +1,7 @@
+.FormFieldLayoutWrapper {
+	padding-right: 15px;
+}
+
 /* This CSS-module is used to make inputs as high as the select2-dropdowns */
 .Input {
 	min-height: 43px;
