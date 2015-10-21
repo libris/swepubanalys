@@ -3,6 +3,7 @@
 // Components
 var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
 // Mixins
+var HelpMixin = require('mixins/HelpMixin/HelpMixin.js');
 var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin/FormFieldLayoutMixin.js');
 
 /**
@@ -10,7 +11,7 @@ var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin/FormFieldLayoutM
  * @prop {Object} field
  */
 var AuthorLabelInput = {
-	mixins: [FormFieldLayoutMixin],
+	mixins: [HelpMixin, FormFieldLayoutMixin],
 	props: ['field'],
 	template: require('./AuthorLabelInput.html'),
 	components: {
@@ -25,6 +26,14 @@ var AuthorLabelInput = {
 			field.$set('show', false);
 			field.$set('value', '');
 		}
+	},
+	ready: function() {
+		// Initialize help
+		this.initHelp({
+			title: 'UPPHOV',
+			content: require('docs/author_label.md'), 
+			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
+		});
 	}
 };
 

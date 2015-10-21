@@ -268,7 +268,7 @@ var defaultFields = {
 	},
 	publStatus: {
 		fieldName: 'publStatus',
-		name: 'Publikationsstatus',
+		name: 'Publiceringsstatus',
 		value: 'published', 
 	}
 };

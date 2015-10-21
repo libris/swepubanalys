@@ -3,6 +3,7 @@
 // Components
 var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
 // Mixins
+var HelpMixin = require('mixins/HelpMixin/HelpMixin.js');
 var FieldValidationMixin = require('mixins/FormFieldValidationMixin/FormFieldValidationMixin.js');
 var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin/FormFieldLayoutMixin.js');
 // Utils
@@ -14,13 +15,19 @@ var SearchFormUtil = require('utils/SearchFormUtil');
  * @prop {Object} test
  */
 var OrcidInput = {
-	mixins: [FieldValidationMixin, FormFieldLayoutMixin],
+	mixins: [HelpMixin, FieldValidationMixin, FormFieldLayoutMixin],
 	props: ['field', 'test'],
 	template: require('./OrcidInput.html'),
 	components: {
 		'hide-field-button': HideFieldButton
 	},
 	ready: function() {
+		// Initialize help
+		this.initHelp({
+			title: 'ORCID',
+			content: require('docs/orcid.md'), 
+			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
+		});
 		/**
 		 * This test-function asks server to validate the user provided orcid (field.value)
 		 * @param {Function} callback

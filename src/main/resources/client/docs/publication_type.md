@@ -1,5 +1,7 @@
-<h4>Definition</h4>
-<p>SwePub följer <a href="http://info.swepub.kb.se/wp-content/uploads/2015/02/v-1.2-Nationella-riktlinjer-f%C3%B6r-beskrivning-av-vetenskaplig-output_2015_09_10.pdf" target="___newta3b">Svensk indelning av vetenskaplig output 2015</a> avsnitt 3.1.
+#### Definition
+
+SwePub följer [Nationella riktlinjer för beskrivning av vetenskaplig output](http://info.swepub.kb.se/wp-content/uploads/2015/02/v-1.2-Nationella-riktlinjer-f%C3%B6r-beskrivning-av-vetenskaplig-output_2015_09_10.pdf) avsnitt 3.1.
+
 <table class="table" style="font-size: x-small;">
 	<thead>
 		<th>Publikationstyp</th>
@@ -113,5 +115,5 @@
 	</tbody>
 </table>
 
-<p><b>TÄNK PÅ:</b> Indelningen i publikationstyper har ersatts med outputs. I SwePub för analys och bibliometri görs under en övergångsperiod en automatisk mappning mellan gamla publikationstyper och nya outputtyper.</p>
+**TÄNK PÅ:** Indelningen i publikationstyper har ersatts med outputs. I SwePub för analys och bibliometri görs under en övergångsperiod en automatisk mappning mellan gamla publikationstyper och nya outputtyper.
 

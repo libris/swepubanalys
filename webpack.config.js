@@ -20,6 +20,7 @@ module.exports = {
 		loaders: [
 			{ test: /\.html$/, loader: "html" },
 			{ test: /\.css$/, loader: "style-loader!css-loader" },
+			{ test: /\.md$/, loader: "html!markdown" }
 		],
 	},
     plugins: [

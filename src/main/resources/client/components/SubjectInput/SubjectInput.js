@@ -32,7 +32,7 @@ var SubjectInput = {
 	ready: function() {
 		this.initHelp({
 			title: 'FORSKNINGSÄMNE',
-			content: require('./SubjectInput.Help.html'),
+			content: require('docs/subject.md'), 
 			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
 		});
 	}

@@ -34,7 +34,7 @@ var PublTypeInput = {
 	ready: function() {
 		this.initHelp({
 			title: 'PUBLIKATIONSTYPER',
-			content: require('./PublTypeInput.Help.html'),
+			content: require('docs/publication_type.md'), 
 			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
 		});
 	},

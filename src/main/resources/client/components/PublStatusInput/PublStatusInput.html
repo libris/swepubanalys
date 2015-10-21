@@ -1,6 +1,14 @@
-<div class="form-group">
-	<label>Publiceringsstatus</label><br>
-	<input type="radio" name="publStatus" value="all" v-model="field.value"> Allt<br>
-	<input type="radio" name="publStatus" value="published" v-model="field.value"> Publicerat<br>
-	<input type="radio" name="publStatus" value="unpublished" v-model="field.value"> Opublicerat<br>
+<div>
+	<form-field-wrapper>
+		<div class="FormFieldInput">
+			<div class="PublStatusInput" style="display: inline-block;">
+				<input type="radio" name="publStatus" value="all" v-model="field.value"> Allt<br>
+				<input type="radio" name="publStatus" value="published" v-model="field.value"> Publicerat<br>
+				<input type="radio" name="publStatus" value="unpublished" v-model="field.value"> Opublicerat<br>
+			</div>
+		</div>
+		<div class="HelpButton">
+			<help-initiator-button></help-initiator-button>
+		</div>
+	</form-field-wrapper>
 </div>

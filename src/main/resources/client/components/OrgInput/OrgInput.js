@@ -32,7 +32,7 @@ var OrgInput = {
 	ready: function() {
 		this.initHelp({
 			title: 'ORGANISATION',
-			content: require('./OrgInput.Help.html'),
+			content: require('docs/organisation.md'), 
 			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
 		});
 	}
