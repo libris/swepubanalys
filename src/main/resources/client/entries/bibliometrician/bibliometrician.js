@@ -24,7 +24,10 @@ var Bibliometrician = {
 			navigation: {
 				key: 'bibliometrician',
 			},
-			formModel: { }
+			formData: {
+				fields: { },
+				formModel: { }
+			}
 		};
 	},
 	components: {
@@ -34,11 +37,11 @@ var Bibliometrician = {
 	methods: {
 		/**
 		 * Called when user clicks Search-button
-		 * @param {Object} formModel
+		 * @param {Object} params
 		 */
-		onSearch: function(formModel) {
+		onSearch: function(formData) {
 			this.$set('pendingScroll', true);
-			this.$set('formModel', formModel);
+			this.$set('formData', formData);
 		},
 		/**
 		 * Called when SearchResult has received a result. Scroll down to component if pendingScroll flag is true

@@ -49,7 +49,7 @@ var AutocompleteInput = {
 		create: function() {
 			var el = this.$el;
 			$(el).select2().on('change', function(e) {
-	 			this.$set('val', $(el).val());
+	 			this.$set('val', $(el).select2('data').map(function(d) { return { value: d.id, text: d.text } }));
 			}.bind(this));	
 		}
 	}

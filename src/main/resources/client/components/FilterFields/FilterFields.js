@@ -49,12 +49,19 @@ var FilterFields = {
 		 */
 		selectDefaultFilterFields: function() {
 			this.$set('filterFields', _cloneDeep(this.defaultFilterFields));
+		},
+		/**
+		 * Toggles checked-status of a filter field
+		 */
+		toggleFilterField: function(field) {
+			field.$set('checked', !field.checked);
 		}
 	},
 	ready: function() {
 		SearchFormUtil.getFilterFieldGroups(function(filterFieldGroups) {
 			this.filterFieldGroups = filterFieldGroups;
 		}.bind(this));
+		// Initialize help
 		this.initHelp({
 			title: 'FRAKTIONERAD DATA',
 			content: require('./filterFields.Help.html'),

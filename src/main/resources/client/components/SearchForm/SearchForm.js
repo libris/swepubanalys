@@ -2,6 +2,7 @@
 
 // Vendor
 var Vue = require('vue');
+var _cloneDeep = require('lodash/lang/cloneDeep');
 var _sortBy = require('lodash/collection/sortBy');
 var _max = require('lodash/math/max');
 // Utils
@@ -24,6 +25,7 @@ require('css/transitions.css');
 /**
  * Search Form-component
  * @prop {Function} onSearch
+ * @prop {String} defaultTemplate
  */
 var SearchForm = {
 	template: require('./SearchForm.html'),
@@ -125,7 +127,18 @@ var SearchForm = {
 		 */
 		performSearch: function() {
 			if(this.onSearch) {
-				this.onSearch(this.getFormModel());
+				var formData = {
+					fields: Object.keys(this.fields).map(function(key, i) {
+						var field = this.fields[key];
+						return {
+							fieldName: key,
+							value: field.value,
+							labels: _cloneDeep(field.labels),
+						}
+					}.bind(this)),
+					formModel: this.getFormModel(),
+				};
+				this.onSearch(formData);
 			}
 			else {
 				console.error('*** SearchForm.performSearch: No onSearch prop provided');
@@ -219,6 +232,7 @@ var defaultFields = {
 	org: {
 		index: 1,
 		value: '',
+		labels: [],
 		suggestions: [],
 		fieldName: 'org',
 		name: 'Organisation'
@@ -227,12 +241,14 @@ var defaultFields = {
 		index: 2,
 		from: '',
 		to: '',
+		labels: [],
 		fieldName: 'time',
 		name: 'Publiceringsår'
 	},
 	subject: {
 		index: 3,
 		value: '',
+		labels: [],
 		suggestions: [],
 		fieldName: 'subject',
 		name: 'Ämne'
@@ -240,7 +256,8 @@ var defaultFields = {
 	publType: {
 		index: 5,
 		show: false, 
-		value: '', 
+		value: '',
+		labels: [], 
 		suggestions: [],
 		fieldName: 'publType',
 		name: 'Publikationstyp'
@@ -248,7 +265,8 @@ var defaultFields = {
 	authorLabel: { 
 		index: 5,
 		show: false,
-		value: '', 
+		value: '',
+		labels: [], 
 		fieldName: 'authorLabel',
 		name: 'Upphov'
 	},
@@ -256,13 +274,15 @@ var defaultFields = {
 		fieldName: 'orcid',
 		name: 'Orcid', 
 		value: '',
+		labels: [],
 		index: 5,					
 		show: false 
 	},
 	openaccess: {
 		fieldName: 'openaccess',
 		name: 'Open access',
-		value: false, 
+		value: false,
+		labels: [], 
 		index: 5,
 		show: false 
 	},
@@ -270,6 +290,7 @@ var defaultFields = {
 		fieldName: 'publStatus',
 		name: 'Publiceringsstatus',
 		value: 'published', 
+		labels: [],
 	}
 };
 

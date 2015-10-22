@@ -28,7 +28,8 @@ var PublTypeInput = {
 	},
 	watch: {
 		'publTypes': function() {
-			this.field.$set('value', arrayToSparqlString(this.publTypes));
+			this.field.$set('value', arrayToSparqlString(this.publTypes.map(function(d) { return d.value; })));
+			this.field.$set('labels', this.publTypes);
 		}
 	},
 	ready: function() {

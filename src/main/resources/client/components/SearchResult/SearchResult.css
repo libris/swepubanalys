@@ -1,8 +1,8 @@
-.pendingUpdate {
+.PendingUpdate {
 	text-align: center;
 }
 
-.pendingExport {
+.PendingExport {
 	background-color: #dadada; 
 	width: 100%; 
 	text-align: center; 
@@ -10,6 +10,6 @@
 	margin-top: 15px;
 }
 
-.pendingRefresh {
+.PendingRefresh {
 	text-align: center;
 }

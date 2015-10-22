@@ -27,6 +27,11 @@ var AuthorLabelInput = {
 			field.$set('value', '');
 		}
 	},
+	watch: {
+		'field.value': function() {
+			this.field.$set('labels', [{ text: '\"' + this.field.value + '\"' }]);
+		},
+	},
 	ready: function() {
 		// Initialize help
 		this.initHelp({

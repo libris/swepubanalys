@@ -13,7 +13,7 @@
 				v-repeat="filterField in filterFieldGroup.$value" 
 				class="{{ $parent.$parent.$data._styles.FilterFieldButtonContainer }} {{ ($index === $parent.filterFieldGroup.$value.length-1) ? $parent.$parent.$data._styles.LastFilterFieldButtonContainer : '' }}">
 				<button 
-					v-class="btn-info: filterField.checked, btn-default: !filterField.checked" v-on="click: filterField.$set('checked', !checked)" 
+					v-class="btn-info: filterField.checked, btn-default: !filterField.checked" v-on="click: toggleFilterField(filterField)" 
 					class="btn btn-xs {{ $parent.$parent.$data._styles.FilterFieldButton }}">
 					{{ stripAsterisk(filterField.fieldName) }}
 					<template v-if="fractionalField(filterField.fieldName)">

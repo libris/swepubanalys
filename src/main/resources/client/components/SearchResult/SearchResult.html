@@ -1,5 +1,5 @@
 <div style="height: 25px;">
-	<div v-show="pendingUpdate === true" v-transition="expand" class="pendingUpdate">
+	<div v-show="pendingUpdate === true" v-transition="expand" class="{{ $data._styles.PendingUpdate }}">
 		<h2>Laddar...</h2>
 	</div>
 </div>
@@ -8,8 +8,12 @@
 		<h2>2. Anpassa uttag och exportera</h2>
 		<div class="row">
 			<div class="col-md-8">
-				<!-- Placeholder in the mean time -->
-				<p><b>33 000</b> träffar på <b>Fysik, Chalmers.</b> <b>2 fält</b> valda för export hittills.</p>
+				<p>
+					<span v-repeat="d in (fields || {}) | fieldLabels" class="label label-primary" style="margin-right: 10px; display: inline-block">{{ d.$value }}</span>
+				</p>
+				<p>
+					<b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills.
+				</p>
 			</div>
 			<div class="col-md-4" style="text-align: right">
 				<div class="form-group">
@@ -29,7 +33,7 @@
 				<iframe id="__downloadWindow__" style="display: none;"></iframe>
 			</div>
 		</div>
-		<div v-show="pendingExport" class="pendingExport">
+		<div v-show="pendingExport" class="{{ $data._styles.PendingExport }}">
 			<h4>Servern genererar din fil och den kommer snart att laddas ned...</h4>
 		</div>
 		<hr>
@@ -41,7 +45,7 @@
 			<div v-show="pendingRefresh !== true">
 				<list-preview result="{{ result }}" filter-fields="{{ filterFields }}"></list-preview>
 			</div>
-			<div v-show="pendingRefresh == true" class="pendingRefresh">
+			<div v-show="pendingRefresh == true" class="{{ $data._styles.PendingRefresh }}">
 				<h2>Hämtar förhandsvisning...</h2>
 			</div>
 		</div>

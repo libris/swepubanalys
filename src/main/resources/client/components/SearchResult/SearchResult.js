@@ -1,6 +1,7 @@
 'use strict';
 
 // Vendor
+var Vue = require('vue');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 var _findIndex = require('lodash/array/findIndex');
 // Utils
@@ -8,18 +9,20 @@ var SparqlUtil = require('utils/SparqlUtil.js');
 // Components
 var ListPreview = require('components/ListPreview/ListPreview.js');
 var FilterFields = require('components/FilterFields/FilterFields.js');
+// CSS-modules
+var styles = require('!!style!css?modules!./SearchResult.css');
 // CSS
 require('css/transitions.css');
-require('./SearchResult.css');
 
 /**
  * Search Result-component
  * @prop {Object} formModel
+ * @prop {Object} fields
  * @prop {Function} onResultReceived
  */
 var SearchResult = {
 	template: require('./SearchResult.html'),
-	props: ['formModel', 'onResultReceived'],
+	props: ['formModel', 'fields', 'onResultReceived'],
 	data: function() {
 		return {
 			// Flags
@@ -40,6 +43,7 @@ var SearchResult = {
 					bindings: [],
 				}
 			},
+			_styles: styles
 		};
 	},
 	/** 
@@ -169,6 +173,16 @@ var SearchResult = {
 			}.bind(this));
 		},
 		/**
+		 * Count number of selected filter fields atm.
+		 */
+		countSelectedFilterFields: function() {
+			var n = 0;
+			this.filterFields.map(function(filterField) {
+				n += filterField.checked === true ? 1 : 0;
+			});
+			return n;
+		},
+		/**
 		 * Calls appropriate export-function depending on fileFormat
 		 * @param {String} fileType
 		 */
@@ -226,5 +240,23 @@ var SearchResult = {
 		}
 	}
 };
+
+/**
+ * Extract labels from fields
+ * @param {Object} fields
+ * @return {Array} labels
+ */
+Vue.filter('fieldLabels', function(fields) {
+	var labels = [];
+	fields.map(function(field) {
+		(field.labels || []).map(function(d) {
+			labels.push({
+				$key: field.fieldName,
+				$value: d.text
+			});
+		});
+	});
+	return labels;
+});
 
 module.exports = SearchResult;
