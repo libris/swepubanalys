@@ -22,7 +22,6 @@ var Inspector = {
 		return {
 			navigation: {
 				key: 'inspector',
-				url: '/inspector'
 			},
 			formModel: { },
 			aggregations: {},

@@ -14,18 +14,15 @@
 	background: #efefef;
 }
 
-.ActiveMenuItem {
-	color: #bababa;
-	font-weight: bold;
-	background-color: #2e2e2e;
-}
-
 .MenuItem {
 	padding-top: 15px;
 	padding-bottom: 15px;
 	text-align: center;
 	color: gray;
-	cursor: pointer;
+}
+
+.ActiveMenuItem {
+	background-color: #2e2e2e;
 }
 
 .ImageContainer {
