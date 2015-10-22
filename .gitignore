@@ -79,5 +79,5 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
  # Configuration
- config.groovy
- configValues.groovy
+config.groovy
+configValues.groovy
