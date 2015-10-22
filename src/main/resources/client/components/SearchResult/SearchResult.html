@@ -9,10 +9,10 @@
 		<div class="row">
 			<div class="col-md-8">
 				<p>
-					<span v-repeat="d in (fields || {}) | fieldLabels" class="label label-primary" style="margin-right: 10px; display: inline-block">{{ d.$value }}</span>
-				</p>
-				<p>
-					<b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills.
+					<span>35 000 träffar</span>
+					<span v-repeat="d in (fields || {}) | fieldLabels" class="label label-default" style="margin-right: 10px; display: inline-block">{{ d.$value }}</span>
+					<br>
+					<b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills
 				</p>
 			</div>
 			<div class="col-md-4" style="text-align: right">
