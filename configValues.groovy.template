@@ -1,0 +1,31 @@
+
+
+environments {
+	dev {
+		elasticSearch{
+			location =''
+		}
+		virtuoso{
+			location=''
+		}
+	}
+
+	test {
+		elasticSearch{
+			location =''
+		}
+		virtuoso{
+			location=''
+		}
+	}
+
+	prod {
+		elasticSearch{
+    			location =''
+    		}
+    		virtuoso{
+    			location=''
+    		}
+		}
+	}
+}

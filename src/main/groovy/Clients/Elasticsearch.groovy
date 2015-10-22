@@ -11,11 +11,20 @@ import wslite.rest.RESTClient
  */
 public class Elasticsearch {
 
-    static String elasticURI = "http://10.50.16.150:9200"
+    static  ElasticRESTClient()
+    {
+        URL url = Elasticsearch.getClassLoader().getResource("config.groovy");
+        def config = new ConfigSlurper().parse(url)
+        return new RESTClient(config.elasticSearch.location)
+
+    }
+
+
+    //static String elasticURI = ""
     //static String elasticURI = "http://localhost:9200"
 
     public static JSONObject getStats() {
-        def client = new RESTClient(elasticURI)
+        def client = ElasticRESTClient()
         def response = client.get(
                 accept: ContentType.JSON,
                 path: '/_stats')
@@ -29,7 +38,7 @@ public class Elasticsearch {
         def aggs = new JsonSlurper().parseText(aggregationsQuery)
         def jsonToPost = model != null ? JsonOutput.toJson([query: filterByBibliometricModel(model), aggs: aggs]) : JsonOutput.toJson([aggs: aggs])
 
-        def client = new RESTClient(elasticURI)
+        def client = ElasticRESTClient()
         def response = client.post(
                 accept: ContentType.JSON,
                 path: '/swepub/bibliometric/_search',

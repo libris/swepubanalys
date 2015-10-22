@@ -11,7 +11,8 @@ class Beta {
 
     static ModelAndView index(final Request request, final Response response) {
         final Map map = new HashMap();
-        map.put("pageTitle", "Uttag av data");
+       map.put("pageTitle", "Uttag av data");
+
         new ModelAndView(map, "index.mustache");
     }
 

@@ -2,6 +2,18 @@ configurations {
     moreLibs
 }
 
+loadConfiguration()
+
+def loadConfiguration() {
+    def environment = hasProperty('env') ? env : 'dev'
+    project.ext.environment = environment
+    def configFile = file('configValues.groovy')
+    def config = new ConfigSlurper(environment).parse(configFile.toURI().toURL())
+    config.mode = ext.environment
+    config.buildTimeStamp = (new Date()).format('yyyy-MM-dd HH:mm:ss')
+    file('./src/main/resources/config.groovy').text = config.prettyPrint()
+}
+
 group 'SwePubAnalysisWeb'
 version '1.1-SNAPSHOT'
 
@@ -30,10 +42,12 @@ repositories {
 
 
 war {
+
     baseName = 'ROOT'
     version = ''// + System.currentTimeMillis();
     //from 'src/main/resources/public' // adds a file-set to the root of the archive
     //into 'public'
+    //classpath {from('/'){include 'config.groovy'}}
     //webInf { from 'src/' } // adds a file-set to the WEB-INF dir.
     //classpath fileTree('') // adds a file-set to the WEB-INF/lib dir.
     //classpath configurations.moreLibs // adds a configuration to the WEB-INF/lib dir.
@@ -41,14 +55,14 @@ war {
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.11', 'com.sparkjava:spark-core:2.3', 'com.sparkjava:spark-template-mustache:1.0.0', 'com.github.groovy-wslite:groovy-wslite:1.1.2','commons-validator:commons-validator:1.4.1'
+    compile 'org.codehaus.groovy:groovy-all:2.3.11', 'com.sparkjava:spark-core:2.3', 'com.sparkjava:spark-template-mustache:1.0.0', 'com.github.groovy-wslite:groovy-wslite:1.1.2', 'commons-validator:commons-validator:1.4.1'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
 }
 
 
-task webPackCreateBundle(type: Exec)    {
-    commandLine 'sh','-c','webpack'
+task webPackCreateBundle(type: Exec) {
+    commandLine 'sh', '-c', 'webpack'
 }
 
 task bowerSyncComponentsForBeta(type: Sync) {
@@ -78,27 +92,24 @@ task bowerSyncComponentsForQf(type: Sync) {
     include 'font-awesome/css/font-awesome.min.css'
 }
 
-task CopyMissingFonts(type: Copy){
+task CopyMissingFonts(type: Copy) {
     from('bower_components/bootstrap/fonts')
     into('src/main/resources/public/2.0/vendor/kungbib-styles/dist/fonts')
 }
 
-task bowerInstall(type:Exec){
+task bowerInstall(type: Exec) {
     commandLine './node_modules/bower/bin/bower', 'install'
 }
 
-task webpack(type:Exec){
-    commandLine 'webpack'
+task webpack(type: Exec) {
+    if (project.environment == 'prod')
+        commandLine 'webpack', '-p'
+    else
+        commandLine 'webpack'
+
 }
 
-
-bowerInstall.dependsOn npmInstall
-bowerSyncComponentsForBeta.dependsOn bowerInstall
-bowerSyncComponentsForQf.dependsOn bowerSyncComponentsForBeta
-CopyMissingFonts.dependsOn bowerSyncComponentsForQf
-webpack.dependsOn CopyMissingFonts
-build.dependsOn webpack
-war.dependsOn webpack
+war.dependsOn  npmInstall,bowerInstall,bowerSyncComponentsForBeta, bowerSyncComponentsForQf, CopyMissingFonts, webpack
 
 
 
