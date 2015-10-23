@@ -9,6 +9,7 @@ def loadConfiguration() {
     project.ext.environment = environment
     def configFile = file('configValues.groovy')
     def config = new ConfigSlurper(environment).parse(configFile.toURI().toURL())
+    println config.toString()
     config.mode = ext.environment
     config.buildTimeStamp = (new Date()).format('yyyy-MM-dd HH:mm:ss')
     file('./src/main/resources/config.groovy').text = config.prettyPrint()
