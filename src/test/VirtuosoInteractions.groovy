@@ -212,6 +212,14 @@ LIMIT 10000000
     }
 
     @Test
+    public void configIsAvailable() {
+        URL url = VirtuosoInteractions.getClassLoader().getResource("config.groovy");
+        def config = new ConfigSlurper().parse(url)
+        assert config.virtuoso.location =='http://virhp07.libris.kb.se/sparql'
+    }
+
+
+    @Test
     public void postGetCSV() {
         Virtuoso endPoint = new Virtuoso();
         def response = endPoint.post(sparqlCount, "text/csv")
