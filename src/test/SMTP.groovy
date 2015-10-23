@@ -25,10 +25,11 @@ class SMTP {
         def subject = "groovy sent this"
         def toAddress = "theodor.tolstoy@kb.se" //; separerar flera adresser
         def fromAddress = "groovy@buildseerver"
-        def host = "my.mail.host"
+        def host = "smtp.kb.se"
         def port = "25"
 
-        Clients.SMTP.sendmail(message , subject, toAddress, fromAddress, host, port);
+        //.sendmail(message , subject, toAddress, fromAddress, host, port);
+        Clients.SMTP.simpleMail(toAddress, subject, message, host, port)
     }
 
 

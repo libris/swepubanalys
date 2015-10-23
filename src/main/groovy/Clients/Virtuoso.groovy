@@ -16,7 +16,7 @@ public class Virtuoso {
     }
 
     public post(String sparql, String contentType) {
-        def response = client.post(
+        def response = VirtuosoRESTClient().post(
                 accept: contentType == "application/json" ? ContentType.JSON : ContentType.TEXT,
                 path: '/',
                 query: [query: sparql, format: contentType])
@@ -25,7 +25,7 @@ public class Virtuoso {
     }
 
     def get(String sparql, String contentType) {
-        def response = client.get(
+        def response = VirtuosoRESTClient().get(
                 accept: contentType == "application/json" ? ContentType.JSON : ContentType.TEXT,
                 path: '/',
                 query: [query: sparql, format: contentType])
