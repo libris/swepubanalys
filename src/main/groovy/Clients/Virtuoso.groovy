@@ -9,14 +9,14 @@ import wslite.rest.RESTClient
  */
 public class Virtuoso {
 
-    static VirtuosoRESTClient() {
+    static virtuosoRESTClient() {
         URL url = Virtuoso.getClassLoader().getResource("config.groovy");
         def config = new ConfigSlurper().parse(url)
         return new RESTClient(config.virtuoso.location)
     }
 
     public post(String sparql, String contentType) {
-        def response = client.post(
+        def response = virtuosoRESTClient().post(
                 accept: contentType == "application/json" ? ContentType.JSON : ContentType.TEXT,
                 path: '/',
                 query: [query: sparql, format: contentType])
@@ -25,7 +25,7 @@ public class Virtuoso {
     }
 
     def get(String sparql, String contentType) {
-        def response = client.get(
+        def response = virtuosoRESTClient().get(
                 accept: contentType == "application/json" ? ContentType.JSON : ContentType.TEXT,
                 path: '/',
                 query: [query: sparql, format: contentType])
