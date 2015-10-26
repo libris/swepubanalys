@@ -6,6 +6,8 @@ var Vue = require('vue');
 var SiteWrapper = require('mixins/SiteWrapperMixin/SiteWrapperMixin.js');
 var SearchForm = require('components/SearchForm/SearchForm.js');
 var Chart = require('components/Chart/Chart.js');
+// Mxins
+var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
 var DataUtil = require('utils/DataUtil.js');
 var FormatAggregationUtil = require('utils/FormatAggregationUtil/FormatAggregationUtil.js');
@@ -18,7 +20,7 @@ var styles = require('!!style!css?modules!./inspector.css');
  */
 var Inspector = {
 	_t: null, // Timeout reference
-	mixins: [SiteWrapper],
+	mixins: [SiteWrapper, FieldLabelMixin],
 	template: require('./inspector.html'),
 	data: function() {
 		return {
@@ -40,24 +42,6 @@ var Inspector = {
 				getContent: null,
 			}
 		};
-	},
-	computed: {
-		/**
-		 * Compute a nice array of labels from the $data.fields object
-		 */
-		labels: function() {
-			var labels = [];
-			(this.fields || []).map(function(field) {
-				(field.labels || []).map(function(d) {
-					labels.push({
-						$index: labels.length,
-						$key: field.fieldName,
-						$value: d.text
-					});
-				});
-			});
-			return labels;
-		}
 	},
 	watch: {
 		/**

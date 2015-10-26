@@ -7,8 +7,8 @@ var _findIndex = require('lodash/array/findIndex');
 // Components
 var ListPreview = require('components/ListPreview/ListPreview.js');
 var FilterFields = require('components/FilterFields/FilterFields.js');
-// Filters
-require('filters/fieldLabels');
+// Mxins
+var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
 var SparqlUtil = require('utils/SparqlUtil.js');
 // CSS-modules
@@ -23,6 +23,7 @@ require('css/transitions.css');
  * @prop {Function} onResultReceived
  */
 var SearchResult = {
+	mixins: [FieldLabelMixin],
 	template: require('./SearchResult.html'),
 	props: ['formModel', 'fields', 'onResultReceived'],
 	data: function() {

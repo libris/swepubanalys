@@ -25,8 +25,8 @@ var Bibliometrician = {
 				key: 'bibliometrician',
 			},
 			formData: {
-				fields: { },
-				formModel: { }
+				fields: [],
+				formModel: {}
 			}
 		};
 	},

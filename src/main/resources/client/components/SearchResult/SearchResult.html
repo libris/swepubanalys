@@ -10,7 +10,8 @@
 			<div class="col-md-8">
 				<p>
 					<span>35 000 träffar</span>
-					<span v-repeat="d in (fields || {}) | fieldLabels" class="label label-default" style="margin-right: 10px; display: inline-block">	{{ d.$value }}
+					<span v-repeat="d in labels" class="label label-default" style="margin-right: 10px; display: inline-block">
+						{{ d.$value }}
 					</span>
 					<br>
 					<b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills
