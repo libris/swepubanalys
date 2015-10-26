@@ -1,3 +1,9 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+plugins {
+    id "com.moowork.node" version "0.11"
+    id "com.craigburke.bower-installer" version "1.0.0"
+}
 configurations {
     moreLibs
 }
@@ -20,19 +26,7 @@ version '1.1-SNAPSHOT'
 
 apply plugin: 'groovy'
 apply plugin: 'war'
-apply plugin: 'com.moowork.node'
 
-buildscript {
-    repositories {
-        maven {
-            url "https://plugins.gradle.org/m2/"
-        }
-    }
-
-    dependencies {
-        classpath "com.moowork.gradle:gradle-node-plugin:0.11"
-    }
-}
 
 
 
@@ -46,17 +40,11 @@ war {
 
     baseName = 'ROOT'
     version = ''// + System.currentTimeMillis();
-    //from 'src/main/resources/public' // adds a file-set to the root of the archive
-    //into 'public'
-    //classpath {from('/'){include 'config.groovy'}}
-    //webInf { from 'src/' } // adds a file-set to the WEB-INF dir.
-    //classpath fileTree('') // adds a file-set to the WEB-INF/lib dir.
-    //classpath configurations.moreLibs // adds a configuration to the WEB-INF/lib dir.
     webXml = file('../SwePubAnalysisWeb/WEB-INF/web.xml') // copies a file to WEB-INF/web.xml
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.5','com.sun.mail:javax.mail:1.5.4', 'com.sparkjava:spark-core:2.3', 'com.sparkjava:spark-template-mustache:1.0.0', 'com.github.groovy-wslite:groovy-wslite:1.1.2', 'commons-validator:commons-validator:1.4.1'
+    compile 'org.codehaus.groovy:groovy-all:2.4.5', 'com.sun.mail:javax.mail:1.5.4', 'com.sparkjava:spark-core:2.3', 'com.sparkjava:spark-template-mustache:1.0.0', 'com.github.groovy-wslite:groovy-wslite:1.1.2', 'commons-validator:commons-validator:1.4.1'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
 }
@@ -98,19 +86,18 @@ task CopyMissingFonts(type: Copy) {
     into('src/main/resources/public/2.0/vendor/kungbib-styles/dist/fonts')
 }
 
-task bowerInstall(type: Exec) {
-    commandLine './node_modules/bower/bin/bower', 'install'
-}
-
 task webpack(type: Exec) {
+
+    def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS)? 'webpack.cmd' :  'webpack'
+
     if (project.environment == 'prod')
-        commandLine 'webpack', '-p'
+        commandLine mainCommand, '-p'
     else
-        commandLine 'webpack'
+        commandLine mainCommand
 
 }
 
-war.dependsOn  npmInstall,bowerInstall,bowerSyncComponentsForBeta, bowerSyncComponentsForQf, CopyMissingFonts, webpack
+war.dependsOn npmInstall, bowerInstall, bowerSyncComponentsForBeta, bowerSyncComponentsForQf, CopyMissingFonts, webpack
 
 
 
