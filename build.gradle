@@ -1,9 +1,5 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
-plugins {
-    id "com.moowork.node" version "0.11"
-    id "com.craigburke.bower-installer" version "1.0.0"
-}
 configurations {
     moreLibs
 }
@@ -37,10 +33,9 @@ repositories {
 
 
 war {
-
     baseName = 'ROOT'
     version = ''// + System.currentTimeMillis();
-    webXml = file('../SwePubAnalysisWeb/WEB-INF/web.xml') // copies a file to WEB-INF/web.xml
+    webXml = file('../swepubanalys/WEB-INF/web.xml') // copies a file to WEB-INF/web.xml
 }
 
 dependencies {
@@ -87,14 +82,22 @@ task CopyMissingFonts(type: Copy) {
 }
 
 task webpack(type: Exec) {
-
-    def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS)? 'webpack.cmd' :  'webpack'
+    def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'webpack.cmd' : 'webpack'
 
     if (project.environment == 'prod')
         commandLine mainCommand, '-p'
     else
         commandLine mainCommand
+}
 
+task npmInstall(type: Exec) {
+    def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'npm.cmd' : 'npm install'
+    commandLine mainCommand, 'install'
+}
+
+task bowerInstall(type: Exec) {
+    def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'bower.cmd' : 'bower'
+    commandLine mainCommand, 'install'
 }
 
 war.dependsOn npmInstall, bowerInstall, bowerSyncComponentsForBeta, bowerSyncComponentsForQf, CopyMissingFonts, webpack
