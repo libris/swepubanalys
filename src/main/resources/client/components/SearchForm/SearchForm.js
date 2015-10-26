@@ -29,13 +29,13 @@ require('css/transitions.css');
  */
 var SearchForm = {
 	template: require('./SearchForm.html'),
-	props: ['onSearch', 'defaultTemplate'],
+	props: ['onSearch', 'onChange', 'defaultTemplate', 'to', 'from'],
 	data: function() {
 		return {
 			formTests: {},
 			// Data which will possibly be used onSearch
 			templateName: this.defaultTemplate || 'QfBibliometrics',
-			fields: defaultFields,
+			fields: getDefaultFields.call(this),
 			// CSS-modules
 			_styles: styles
 		}
@@ -100,6 +100,15 @@ var SearchForm = {
 				this.fields.publType.$set('suggestions', formSuggestions.publTypes);
 			}
 		}.bind(this));
+		// Apply on-change listener and trigger on-change once
+		if(this.onChange) {
+			var formData = this.generateFormData();
+			this.onChange(formData);
+			this.$watch('fields', function() {
+				var formData = this.generateFormData();
+				this.onChange(formData);
+			}, { deep: true });
+		}
 	},
 	methods: {
 		/**
@@ -127,22 +136,30 @@ var SearchForm = {
 		 */
 		performSearch: function() {
 			if(this.onSearch) {
-				var formData = {
-					fields: Object.keys(this.fields).map(function(key, i) {
-						var field = this.fields[key];
-						return {
-							fieldName: key,
-							value: field.value,
-							labels: _cloneDeep(field.labels),
-						}
-					}.bind(this)),
-					formModel: this.getFormModel(),
-				};
+				var formData = this.generateFormData();
 				this.onSearch(formData);
 			}
 			else {
 				console.error('*** SearchForm.performSearch: No onSearch prop provided');
 			}
+		},
+		/**
+		 * Generates formData
+		 * @return {Object} formData
+		 */
+		generateFormData: function() {
+			var formData = {
+				fields: Object.keys(this.fields).map(function(key, i) {
+					var field = this.fields[key];
+					return {
+						fieldName: key,
+						value: field.value,
+						labels: _cloneDeep(field.labels),
+					}
+				}.bind(this)),
+				formModel: this.getFormModel(),
+			};
+			return formData;
 		},
 		/**
 		 * Generates formModel from $vm.data
@@ -214,6 +231,8 @@ var SearchForm = {
 
 /**
  * Used to order data.fields by index
+ * @param {Array} fields
+ * @return {Array} fields
  */
 Vue.filter('orderFields', function(fields) {
 	fields = _sortBy(fields, function(field) {
@@ -228,69 +247,74 @@ var templateFields = {
 	'QfBibliometrics': ['org', 'time', 'subject', 'publType', 'authorLabel', 'orcid', 'openaccess', 'publStatus'],
 };
 
-var defaultFields = {
-	org: {
-		index: 1,
-		value: '',
-		labels: [],
-		suggestions: [],
-		fieldName: 'org',
-		name: 'Organisation'
-	},
-	time: {
-		index: 2,
-		from: '',
-		to: '',
-		labels: [],
-		fieldName: 'time',
-		name: 'Publiceringsår'
-	},
-	subject: {
-		index: 3,
-		value: '',
-		labels: [],
-		suggestions: [],
-		fieldName: 'subject',
-		name: 'Ämne'
-	},
-	publType: {
-		index: 5,
-		show: false, 
-		value: '',
-		labels: [], 
-		suggestions: [],
-		fieldName: 'publType',
-		name: 'Publikationstyp'
-	},
-	authorLabel: { 
-		index: 5,
-		show: false,
-		value: '',
-		labels: [], 
-		fieldName: 'authorLabel',
-		name: 'Upphov'
-	},
-	orcid: { 
-		fieldName: 'orcid',
-		name: 'Orcid', 
-		value: '',
-		labels: [],
-		index: 5,					
-		show: false 
-	},
-	openaccess: {
-		fieldName: 'openaccess',
-		name: 'Open access',
-		value: false,
-		labels: [], 
-		index: 5,
-		show: false 
-	},
-	publStatus: {
-		fieldName: 'publStatus',
-		name: 'Publiceringsstatus',
-		value: 'published', 
-		labels: [],
+/**
+ * Return default fields
+ */
+var getDefaultFields = function() {
+	return {
+		org: {
+			index: 1,
+			value: '',
+			labels: [],
+			suggestions: [],
+			fieldName: 'org',
+			name: 'Organisation'
+		},
+		time: {
+			index: 2,
+			from: this.from || '',
+			to: this.to || '',
+			labels: [],
+			fieldName: 'time',
+			name: 'Publiceringsår'
+		},
+		subject: {
+			index: 3,
+			value: '',
+			labels: [],
+			suggestions: [],
+			fieldName: 'subject',
+			name: 'Ämne'
+		},
+		publType: {
+			index: 5,
+			show: false, 
+			value: '',
+			labels: [], 
+			suggestions: [],
+			fieldName: 'publType',
+			name: 'Publikationstyp'
+		},
+		authorLabel: { 
+			index: 5,
+			show: false,
+			value: '',
+			labels: [], 
+			fieldName: 'authorLabel',
+			name: 'Upphov'
+		},
+		orcid: { 
+			fieldName: 'orcid',
+			name: 'Orcid', 
+			value: '',
+			labels: [],
+			index: 5,					
+			show: false 
+		},
+		openaccess: {
+			fieldName: 'openaccess',
+			name: 'Open access',
+			value: false,
+			labels: [], 
+			index: 5,
+			show: false 
+		},
+		publStatus: {
+			fieldName: 'publStatus',
+			name: 'Publiceringsstatus',
+			value: 'published', 
+			labels: [],
+		}
 	}
 };
 

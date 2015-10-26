@@ -4,11 +4,13 @@
 var Vue = require('vue');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 var _findIndex = require('lodash/array/findIndex');
-// Utils
-var SparqlUtil = require('utils/SparqlUtil.js');
 // Components
 var ListPreview = require('components/ListPreview/ListPreview.js');
 var FilterFields = require('components/FilterFields/FilterFields.js');
+// Filters
+require('filters/fieldLabels');
+// Utils
+var SparqlUtil = require('utils/SparqlUtil.js');
 // CSS-modules
 var styles = require('!!style!css?modules!./SearchResult.css');
 // CSS
@@ -240,23 +242,5 @@ var SearchResult = {
 		}
 	}
 };
-
-/**
- * Extract labels from fields
- * @param {Object} fields
- * @return {Array} labels
- */
-Vue.filter('fieldLabels', function(fields) {
-	var labels = [];
-	fields.map(function(field) {
-		(field.labels || []).map(function(d) {
-			labels.push({
-				$key: field.fieldName,
-				$value: d.text
-			});
-		});
-	});
-	return labels;
-});
 
 module.exports = SearchResult;
