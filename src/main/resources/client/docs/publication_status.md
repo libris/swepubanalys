@@ -1,11 +1,13 @@
 ###PUBLICERINGSSTATUS###
 
 ####DEFINITION####
+Analyser är ofta baserade på metadata om publikationer som är formellt publicerade och det finns behov av att kunna skilja mellan publicerat och opublicerat material.
 
 #####Som publicerat räknas:#####
 
 * publikationer som är formellt utgivna med beständiga bibliografiska uppgifter på plats (volym, årtal, nummer, sidantal)
 * publikationer som har markerats som published 
+* publikationer utan anmärkning om publiceringsstatus
 
 #####Som opublicerat räknas:#####
 
