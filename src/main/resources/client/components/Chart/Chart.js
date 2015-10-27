@@ -2,71 +2,71 @@
 
 // Vendor
 var c3 = require('c3-js');
+// CSS
 require('c3-css');
+require('./Chart.css');
 
 /**
- * fyllpå
+ * Chart-component
  */
 var Chart = {
-	props: ['type', 'data'],
+	_chart: null, // Reference to chart
+	props: ['type', 'getContent'],
 	template: '<div></div>',
 	ready: function() {
 		var el = this.$el;
 		this.create();
+		// Update chart if new getContent prop
+		this.$watch('getContent', function() {
+			this.update();
+		}, { deep: true });
 	},
 	methods: {
 		/**
-		 *
+		 * Create chart
 		 */
 		create: function() {
-			if(this.type === 'bar') {
+			var content = this.getContent();
+			if(this.type === 'line' || this.type === 'bar') {
 				var el = this.$el;
-				var chart = c3.generate({
+				this._chart = c3.generate({
 					bindto: el,
 					data: {
-						type: 'bar',
-						json: this.data.buckets,
-						keys: {
-							x: 'key',
-							value: ['doc_count']
-						}
+						type: this.type,
+						x: 'x',
+						columns: [],
 					},
-					axis: {
-						x: {
-							type: 'category'
-						},
-						y: {
-							type: 'category'
-						}
-
+					axis: content.axis,
+				});
+			} else if(this.type === 'pie' || this.type === 'donut') {
+				var el = this.$el;
+				this._chart = c3.generate({
+					bindto: el,
+					size: {
+						height: 290
 					},
-					bar: {
-						width: {
-							ratio: 0.5
-						}
+					data: {
+						type: this.type,
+						columns: [],
+						order: 'asc',
+						colors: content.colors
 					}
 				});
 			}
-			else if(this.type === 'pie') {
-				var el = this.$el;
-				var chart = c3.generate({
-					bindto: el,
-					data: {
-						type: 'pie',
-						columns: this.formatBuckets(this.data.buckets),
-						color: function() {
-							return '#1f77b4'
-						},
-						order: 'asc'
-					}
-				});
-			}
+			this.update();
 		},
-		formatBuckets: function(buckets) {
-			var formattedData = buckets.map(function(bucket, i) {
-				return [bucket.key, bucket.doc_count];
-			});
-			return formattedData;
+		/**
+		 * Update chart
+		 */
+		update: function() {
+			if(this._chart) {
+				var content = this.getContent();
+				this._chart.load({
+					unload: true,
+					columns: content.columns || [],
+					colors: content.colors || []
+				});
+			}
 		}
 	}
 }

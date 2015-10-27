@@ -8,7 +8,7 @@ var _cloneDeep = require('lodash/lang/cloneDeep');
 var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
 var HelpMixin = require('mixins/HelpMixin/HelpMixin.js')
 // Utils
-var SearchFormUtil = require('utils/SearchFormUtil.js');
+var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 // CSS modules
 var styles = require('!!style!css?modules!./FilterFields.css');
 

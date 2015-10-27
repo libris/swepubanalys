@@ -9,8 +9,8 @@ var $ = jQuery;
  */
 var SparqlUtil = {
 	apiUrl: '/api/1.0/sparql',
-	getFileUrl: 'http://virhp07.libris.kb.se/sparql',
-	/**
+    getFileUrl: 'http://virhp07.libris.kb.se/sparql',
+    /**
 	 * Generates a SPARQL Query
      *
      * @param {Object} conf
@@ -202,25 +202,27 @@ var SparqlUtil = {
 	 * @param {Function} callback
      */
 	postQuery: function(query, callback) {
-		jQuery.ajax({
-			url: this.apiUrl,
-			type: 'POST',
-			data: { 
-				query: query, 
-				format: 'application/json' 
-			},
-			statusCode: {
-				400: function(response) {
+        if(query) {
+			jQuery.ajax({
+				url: this.apiUrl,
+				type: 'POST',
+				data: { 
+					query: query, 
+					format: 'application/json' 
+				},
+				statusCode: {
+					400: function(response) {
+						callback({ error: response });
+					}
+				},
+				success: function(response) {
+					callback(response);
+				},
+				error: function(response) { 
 					callback({ error: response });
 				}
-			},
-			success: function(response) {
-				callback(response);
-			},
-			error: function(response) { 
-				callback({ error: response });
-			}
-		});
+			});
+		}
 	},
 	/**
 	 * Combines query and fileFormat to construct and open a request for a file

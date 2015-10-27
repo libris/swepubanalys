@@ -1,28 +1,53 @@
 <div>
-	<site-wrapper>
+	<site-wrapper activity="inspector">
 		<div>
-			<h2>Förändring av kvalitet på data</h2>
-			<p>Nationell statistik</p>
-			<div style="margin-bottom: 55px;margin-top: 25px;">
-				<p v-if="loadingData === true">
-					Laddar visualiseringar...
-				</p>
-				<div class="row">
-					<div class="col-xs-6">
-						<template v-if="aggregations.org">
-							<chart type="bar" data="{{ aggregations.org }}"></chart>
+			<h3>Förändring av kvalitet på data - 
+				<span v-if="labels.length === 0">
+					Alla lärosäten
+				</span>
+				<span v-repeat="d in (labels || [])" style="display: inline-block">
+					{{ d.$value }}<template v-if="d.$index !== $parent.labels.length-1">,&nbsp;</template>
+				</span>
+			</h3>
+			<div class="{{ $data._styles.YearIndicator }}">
+				{{ formModel.from }} {{ formModel.from || formModel.to ? '-' : '' }} {{ formModel.to }}
+			</div>
+			<div class="{{ $data._styles.Visualisations }}">
+				<div v-if="loadingData" class="{{ $data._styles.Info }}">
+					<h1>Laddar...</h1>
+				</div>
+				<div v-if="emptyAggregations" class="{{ $data._styles.Info }}">
+					<h1>Tomt sökresultat</h1>
+				</div>
+				<div v-if="error" class="{{ $data._styles.Info }}">
+					<h1>Problem med att ladda data</h1>
+				</div>
+				<!-- Charts -->
+				<div class="row" v-show="!emptyAggregations && !error">
+					<div class="col-md-7 {{ $data._styles.ChartContainer }}">
+						<template v-if="lineChart.getContent">
+							<p>Antal poster</p>
+							<div>
+								<chart type="line" get-content="{{ lineChart.getContent }}"></chart>
+							</div>
 						</template>
 					</div>
-					<div class="col-xs-6">
-						<template v-if="aggregations.org">
-							<chart type="pie" data="{{ aggregations.org }}"></chart>
+					<div class="col-md-5 {{ $data._styles.ChartContainer }}">
+						<template v-if="pieChart.getContent">
+							<p>Fördelning av poster</p>
+							<div>
+								<chart type="donut" get-content="{{ pieChart.getContent }}"></chart>
+							</div>
 						</template>
 					</div>
 				</div>
 			</div>
-			<hr>
-			<h2>Tre vägar till höjd datakvalitet</h2>
-			<p>Genom att bidra till arbetet att höja kvaliteten på data.</p>
+			<search-form on-change="{{* onChange }}" from="1992" default-template="duplicates">
+				<div class="SearchFormTitle">
+					<h3>Tre vägar till höjd datakvalitet</h3>
+					<br>
+				</div>
+			</search-form>
 		</div>
 	</site-wrapper>
 </div>

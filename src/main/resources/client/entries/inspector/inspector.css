@@ -1,0 +1,25 @@
+.Visualisations {
+	min-height: 420px;
+	margin-top: 5px;
+	margin-bottom: 25px;
+	background-color: #fcfcfc;
+	padding-top: 35px;
+	padding-bottom: 20px;
+	padding-left: 25px;
+	padding-right: 25px;
+}
+
+.YearIndicator {
+	min-height: 30px;
+	color: gray;
+}
+
+.ChartContainer {
+	text-align: center;
+}
+
+.Info {
+	width: 100%;
+	padding-top: 130px;
+	text-align: center; 
+}

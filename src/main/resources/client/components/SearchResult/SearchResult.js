@@ -4,11 +4,13 @@
 var Vue = require('vue');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 var _findIndex = require('lodash/array/findIndex');
-// Utils
-var SparqlUtil = require('utils/SparqlUtil.js');
 // Components
 var ListPreview = require('components/ListPreview/ListPreview.js');
 var FilterFields = require('components/FilterFields/FilterFields.js');
+// Mxins
+var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
+// Utils
+var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
 // CSS-modules
 var styles = require('!!style!css?modules!./SearchResult.css');
 // CSS
@@ -21,6 +23,7 @@ require('css/transitions.css');
  * @prop {Function} onResultReceived
  */
 var SearchResult = {
+	mixins: [FieldLabelMixin],
 	template: require('./SearchResult.html'),
 	props: ['formModel', 'fields', 'onResultReceived'],
 	data: function() {
@@ -240,23 +243,5 @@ var SearchResult = {
 		}
 	}
 };
-
-/**
- * Extract labels from fields
- * @param {Object} fields
- * @return {Array} labels
- */
-Vue.filter('fieldLabels', function(fields) {
-	var labels = [];
-	fields.map(function(field) {
-		(field.labels || []).map(function(d) {
-			labels.push({
-				$key: field.fieldName,
-				$value: d.text
-			});
-		});
-	});
-	return labels;
-});
 
 module.exports = SearchResult;

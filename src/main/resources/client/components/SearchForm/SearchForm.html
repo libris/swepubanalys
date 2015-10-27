@@ -1,9 +1,7 @@
-<h2>1. Gör utsökning</h2>
+<content select=".SearchFormTitle"></content>
 <div class="row">
 	<div class="col-xs-8">
-		<p>
-			Här söker du fram publikationsposter från deltagande organisationer för export av data. OBS: Tjänsten är i testfas just nu och tills vidare exporteras endast förhandsvisningen.
-		</p>
+		<content select=".SearchFormDescription"></content>
 		<!-- SHOW FIELDS -->
 		<div v-repeat="field in fields | orderFields">
 			<template v-if="isTemplateField(field, templateName)">
@@ -26,7 +24,7 @@
 			</template>
 		</div>
 		<!-- SEARCH-BUTTON -->
-		<div class="form-group">
+		<div class="form-group" v-if="onSearch">
 			<button v-on="click: performSearch" class="btn btn-info SearchButton">Visa</button>
 		</div>
 	</div>
