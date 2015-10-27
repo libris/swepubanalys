@@ -6,7 +6,7 @@ var _cloneDeep = require('lodash/lang/cloneDeep');
 var _sortBy = require('lodash/collection/sortBy');
 var _max = require('lodash/math/max');
 // Utils
-var SearchFormUtil = require('utils/SearchFormUtil.js');
+var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 // Components
 var OrgInput = require('components/OrgInput/OrgInput.js');
 var TimeInput = require('components/TimeInput/TimeInput.js');

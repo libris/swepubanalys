@@ -7,7 +7,7 @@ var HelpMixin = require('mixins/HelpMixin/HelpMixin.js');
 var FieldValidationMixin = require('mixins/FormFieldValidationMixin/FormFieldValidationMixin.js');
 var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin/FormFieldLayoutMixin.js');
 // Utils
-var SearchFormUtil = require('utils/SearchFormUtil');
+var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 
 /**
  * Orcid Input-component

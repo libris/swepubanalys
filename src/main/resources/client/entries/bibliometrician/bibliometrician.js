@@ -8,7 +8,7 @@ var SiteWrapper = require('components/SiteWrapper/SiteWrapper.js');
 var SearchForm = require('components/SearchForm/SearchForm.js');
 var SearchResult = require('components/SearchResult/SearchResult.js');
 // Utils
-require('utils/console.js');
+require('utils/ConsoleUtil/ConsoleUtil.js');
 // CSS
 require('css/transitions.css');
 

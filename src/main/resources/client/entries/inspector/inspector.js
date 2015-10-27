@@ -9,9 +9,9 @@ var Chart = require('components/Chart/Chart.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
-var DataUtil = require('utils/DataUtil.js');
+var DataUtil = require('utils/DataUtil/DataUtil.js');
 var FormatAggregationUtil = require('utils/FormatAggregationUtil/FormatAggregationUtil.js');
-require('utils/console.js');
+require('utils/ConsoleUtil/ConsoleUtil.js');
 // CSS-modules
 var styles = require('!!style!css?modules!./inspector.css');
 

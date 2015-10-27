@@ -10,7 +10,7 @@ var FilterFields = require('components/FilterFields/FilterFields.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
-var SparqlUtil = require('utils/SparqlUtil.js');
+var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
 // CSS-modules
 var styles = require('!!style!css?modules!./SearchResult.css');
 // CSS
