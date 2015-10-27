@@ -1,0 +1,16 @@
+PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+PREFIX mods_m: <http://swepub.kb.se/mods/model#>
+SELECT
+MIN(?_publicationYear),MAX(?_publicationYear)
+WHERE
+{
+?Record mods_m:hasMods ?Mods .
+    ?Record a mods_m:Record .
+    ?Mods a mods_m:Mods .
+    ?Mods mods_m:identifierValue ?_recordID .
+?Mods swpa_m:publicationYear ?_publicationYear .
+?Mods mods_m:recordContentSourceValue ?_orgCode .
+#FILTER ( xsd:string(?_orgCode) IN ( "${orgCode}") )
+    
+
+}

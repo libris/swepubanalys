@@ -1,0 +1,62 @@
+PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+PREFIX mods_m: <http://swepub.kb.se/mods/model#>
+
+CONSTRUCT {
+
+    ?Record a mods_m:Record;
+        swpa_m:publicationStatus ?_status;
+        mods_m:hasMods ?Mods .
+
+    ?Mods a mods_m:Mods;
+        mods_m:identifierValue ?_recordID;
+        swpa_m:publicationYear ?_pubYear;
+        mods_m:recordContentSourceValue ?_orgCode;
+        swpa_m:publicationTypeCode ?_publicatType;
+        swpa_m:contentTypeCode ?_contentType;
+        swpa_m:oaType ?_OA;
+        mods_m:hasSubject ?Subject .
+
+    ?Subject
+        swpa_m:hsv1 ?_hsv1;
+        swpa_m:hsv3 ?_hsv3;
+        swpa_m:hsv5 ?_hsv5 .
+
+} WHERE {
+    ?Record mods_m:hasMods ?Mods .
+    ?Record a mods_m:Record .
+    ?Mods a mods_m:Mods .
+    ?Mods mods_m:identifierValue ?_recordID .
+    ?Record swpa_m:publicationStatus ?_status .
+    ?Mods swpa_m:publicationYear ?_pubYear .
+    ?Mods mods_m:recordContentSourceValue ?_orgCode .
+    ?Mods swpa_m:publicationTypeCode ?_publicatType .
+    ?Mods swpa_m:contentTypeCode ?_contentType .
+    #?Record swpa_m:isPublished ?_isPublished .
+
+    #FILTER ( ?_isPublished = 1 )
+    #FILTER ( xsd:string(?_orgCode) IN ( "${orgCodeArg}") )
+    #FILTER ( ?_pubYear = ${year} )
+    FILTER ( xsd:string(?_recordID) IN ( "${recordIdArg}") )
+    OPTIONAL { ?Mods swpa_m:oaType ?_OA }
+
+    OPTIONAL
+    {
+        ?Mods mods_m:hasSubject ?Subject .
+        ?Subject swpa_m:hsv1 ?_hsv1 .
+    }
+
+    OPTIONAL
+    {
+        ?Mods mods_m:hasSubject ?Subject .
+        ?Subject swpa_m:hsv3 ?_hsv3 .
+    }
+
+    OPTIONAL
+    {
+        ?Mods mods_m:hasSubject ?Subject .
+        ?Subject swpa_m:hsv5 ?_hsv5 .
+    }
+
+}
+#LIMIT 10000
+#LIMIT 100000
