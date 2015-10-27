@@ -28,6 +28,7 @@ var Inspector = {
 			_styles: styles,
 			loadingData: true,
 			emptyAggregations: false,
+			error: false,
 			// Data from SearchForm component
 			formModel: { },
 			fields: [],
@@ -46,7 +47,12 @@ var Inspector = {
 		 */
 		'formModel': function() {
 			DataUtil.getFilterAggregations(this.formModel, function(aggregations) {
-				this.setAggregations(aggregations);	
+				if(!aggregations.error) {
+					this.setAggregations(aggregations);	
+					this.$set('error', false);
+				} else {
+					this.$set('error', true);
+				}
 				this.$set('loadingData', false);
 			}.bind(this));
 		}

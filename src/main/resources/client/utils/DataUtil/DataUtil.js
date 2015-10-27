@@ -12,8 +12,15 @@ var DataUtil = {
 	 * @param {Function} callback
 	 */
 	getAggregations: function(callback) {
-		$.get('/api/2.0/elastic/aggregations', function(response) {
-			callback(response);
+		$.ajax({
+			type: 'GET',
+			url: '/api/2.0/elastic/aggregations', 
+			success: function(response) {
+				callback(response);
+			},
+			error: function(response, e) {
+				callback({ error: e, response: response });
+			}
 		});
 	},
 	/**
@@ -28,13 +35,11 @@ var DataUtil = {
 			data: {
 				model: JSON.stringify(formModel),
 			},
-			cossDomain: true,
-			async: true,
 			success: function(response) {
 				callback(response);
 			},
 			error: function(response, e) {
-				console.log(e);
+				callback({ error: e, response: response });
 			}
 		});
 	}

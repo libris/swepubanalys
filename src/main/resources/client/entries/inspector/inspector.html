@@ -5,7 +5,7 @@
 				<span v-if="labels.length === 0">
 					Alla lärosäten
 				</span>
-				<span v-repeat="d in labels" style="display: inline-block">
+				<span v-repeat="d in (labels || [])" style="display: inline-block">
 					{{ d.$value }}<template v-if="d.$index !== $parent.labels.length-1">,&nbsp;</template>
 				</span>
 			</h3>
@@ -19,7 +19,11 @@
 				<div v-if="emptyAggregations" class="{{ $data._styles.Info }}">
 					<h1>Tomt sökresultat</h1>
 				</div>
-				<div class="row" v-show="!emptyAggregations">
+				<div v-if="error" class="{{ $data._styles.Info }}">
+					<h1>Problem med att ladda data</h1>
+				</div>
+				<!-- Charts -->
+				<div class="row" v-show="!emptyAggregations && !error">
 					<div class="col-md-7 {{ $data._styles.ChartContainer }}">
 						<template v-if="lineChart.getContent">
 							<p>Antal poster</p>
