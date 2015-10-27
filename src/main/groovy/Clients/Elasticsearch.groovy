@@ -19,10 +19,6 @@ public class Elasticsearch {
 
     }
 
-
-    //static String elasticURI = ""
-    //static String elasticURI = "http://localhost:9200"
-
     public static JSONObject getStats() {
         def client = ElasticRESTClient()
         def response = client.get(
@@ -117,7 +113,7 @@ public class Elasticsearch {
     "terms":{"field":"hasMods.recordContentSourceValue", "size" : 0}
     },
     "publicationStatuses":{
-    "terms":{"field":"publicationStatus.raw", "size" : 0}
+    "terms":{"field":"publicationStatus", "size" : 0}
     },
     "hsv1s":{
     "terms":{"field":"hsv1", "size" : 0}
@@ -142,5 +138,40 @@ public class Elasticsearch {
 
   }"""
 
+    static String qualityAggregationsQuery="""{
+  "aggs": {
+  "missingViolations" : {
+            "missing" : { "field" : "hasMods.qualityName"}
+     },
+   "qualityViolations": {
+            "terms": {
+                "field": "hasMods.qualityName",
+                "size": 0
+            }
+        },
+        "org": {
+            "terms": {
+                "field": "hasMods.recordContentSourceValue",
+                "size": 0
+            }
+        },
+    "violations-per-year": {
+      "terms": {
+        "field": "hasMods.publicationYear",
+        "size": 0
+      },
 
+          "aggs": {
+            "top-names": {
+              "terms": {
+                "field": "hasMods.qualityName",
+                "size": 0
+              }
+            }
+          }
+        }
+
+    }
+  }
+}"""
 }
