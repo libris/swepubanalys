@@ -4,6 +4,8 @@
 var Vue = require('vue');
 var _each = require('lodash/collection/each');
 var _cloneDeep = require('lodash/lang/cloneDeep');
+// Components
+var FilterFieldButton = require('components/FilterFieldButton/FilterFieldButton.js');
 // Mixins
 var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
 var HelpMixin = require('mixins/HelpMixin/HelpMixin.js')
@@ -27,34 +29,35 @@ var FilterFields = {
 			_styles: styles,
 		}
 	},
+	components: {
+		'filter-field-button': FilterFieldButton,
+	},
 	methods: {
 		/**
 		 * User wants to select no filterFields
 		 */
 		selectNoFilterFields: function() {
-			_each(this.filterFields, function(field) {
-				field.$set('checked', false);
-			});
+			_each(this.filterFields, function(field, i) {
+				var filterField = this.filterFields[i];
+				filterField.checked = false;
+				this.filterFields.$set(i, filterField);
+			}.bind(this));
 		},
 		/**
 		 * User wants to select all filterFields
 		 */
 		selectAllFilterFields: function() {
-			_each(this.filterFields, function(field) {
-				field.$set('checked', true);
-			});
+			_each(this.filterFields, function(field, i) {
+				var filterField = this.filterFields[i];
+				filterField.checked = true;
+				this.filterFields.$set(i, filterField);
+			}.bind(this));
 		},
 		/**
 		 * User wants to select default filterFields
 		 */
 		selectDefaultFilterFields: function() {
 			this.$set('filterFields', _cloneDeep(this.defaultFilterFields));
-		},
-		/**
-		 * Toggles checked-status of a filter field
-		 */
-		toggleFilterField: function(field) {
-			field.$set('checked', !field.checked);
 		}
 	},
 	ready: function() {
@@ -90,9 +93,9 @@ Vue.filter('filterFieldGroups', function(filterFields, filterFieldGroups) {
 	}
 	filterFields = Object.keys(groups).map(function(key, i) {
 		return {
-			$index: i,
-			$key: key,
-			$value: groups[key],
+			index: i,
+			key: key,
+			filterFields: groups[key],
 		}
 	});
 	return filterFields;

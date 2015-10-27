@@ -58,7 +58,7 @@ var ListPreview = {
 
 /**
  * Filter table cells on checked filterFields
- * @param {Array} cells
+ * @param {Object} cells
  * @param {Array} filterFields
  */
 Vue.filter('filterFields', function(cells, filterFields) {
@@ -66,10 +66,15 @@ Vue.filter('filterFields', function(cells, filterFields) {
 		var filteredCells = [];
 		for(var i = 0; i < filterFields.length; i++) {
 			if(filterFields[i].checked === true) {
-				var cell = _find(cells, function(cell) {
-					return '?' + cell.$key === filterFields[i].field;
-				});
-				filteredCells.push(cell ? cell : { $value: { value: '' }});
+				var fieldName = filterFields[i].field ? filterFields[i].field.substring(1) : undefined;
+				if(fieldName) {
+					var cell = cells[fieldName];
+					if(cell) {
+						filteredCells.push(cell);
+					} else {
+						filteredCells.push({ value: '' });
+					}
+				}
 			}
 		};
 		return filteredCells;
@@ -81,16 +86,17 @@ Vue.filter('filterFields', function(cells, filterFields) {
 
 /**
  * Filter filterFields and return only checked ones
- * @param {Array} filterFields
+ * @param {Object} filterFields
  */
 Vue.filter('onlyCheckedFilterFields', function(filterFieldKeys) {
 	if(filterFieldKeys) {
 		var checkedFilterFields = [];
-		for(var i = 0; i < filterFieldKeys.length; i++) {
-			if(filterFieldKeys[i].$value.checked === true) {
-				checkedFilterFields.push(filterFieldKeys[i]);
+		Object.keys(filterFieldKeys).map(function(key) {
+			var filterFieldKey = filterFieldKeys[key];
+			if(filterFieldKey.checked === true) {
+				checkedFilterFields.push(filterFieldKey);
 			}
-		};
+		});
 		return checkedFilterFields;
 	}
 	else {

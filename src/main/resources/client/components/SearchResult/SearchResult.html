@@ -1,5 +1,5 @@
 <div style="height: 25px;">
-	<div v-show="pendingUpdate === true" v-transition="expand" class="{{ $data._styles.PendingUpdate }}">
+	<div v-show="pendingUpdate === true" transition="expand" class="{{ $data._styles.PendingUpdate }}">
 		<h2>Laddar...</h2>
 	</div>
 </div>
@@ -10,8 +10,8 @@
 			<div class="col-md-8">
 				<p>
 					<span>35 000 träffar</span>
-					<span v-repeat="d in labels" class="label label-default" style="margin-right: 10px; display: inline-block">
-						{{ d.$value }}
+					<span v-for="d in labels" class="label label-default" style="margin-right: 10px; display: inline-block">
+						{{ d.value }}
 					</span>
 					<br>
 					<b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills
@@ -25,10 +25,10 @@
 							<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="export">
-							<li><a href="javascript:void(null);" v-on="click:performExport('json')">Som .json-fil</a></li>
-							<li><a href="javascript:void(null);" v-on="click:performExport('xml')">Som .xml-fil</a></li>
-							<li><a href="javascript:void(null);" v-on="click:performExport('csv')">Som .csv-fil</a></li>
-							<li><a href="javascript:void(null);" v-on="click:performExport('tsv')">Som .tsv-fil</a></li>
+							<li><a href="javascript:void(null);" v-on:click="performExport('json')">Som .json-fil</a></li>
+							<li><a href="javascript:void(null);" v-on:click="performExport('xml')">Som .xml-fil</a></li>
+							<li><a href="javascript:void(null);" v-on:click="performExport('csv')">Som .csv-fil</a></li>
+							<li><a href="javascript:void(null);" v-on:click="performExport('tsv')">Som .tsv-fil</a></li>
 						</ul>
 					</div>
 				</div>
@@ -40,12 +40,12 @@
 		</div>
 		<hr>
 		<h4>Välj fält till uttag</h4>
-		<filter-fields filter-fields="{{@ filterFields }}" default-filter-fields="{{ defaultFilterFields }}"></filter-fields>
+		<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields"></filter-fields>
 		<h4>Förhandsvisning av uttag</h4>
 		<br>
 		<div style="min-height: 480px;">
 			<div v-show="pendingRefresh !== true">
-				<list-preview result="{{ result }}" filter-fields="{{ filterFields }}"></list-preview>
+				<list-preview :result="result" :filter-fields="filterFields"></list-preview>
 			</div>
 			<div v-show="pendingRefresh == true" class="{{ $data._styles.PendingRefresh }}">
 				<h2>Hämtar förhandsvisning...</h2>

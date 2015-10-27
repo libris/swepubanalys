@@ -2,7 +2,7 @@
 	<site-wrapper activity="bibliometrician">
 		<div>
 			<!-- Search form -->
-			<search-form on-search="{{ onSearch }}">
+			<search-form :on-search="onSearch">
 				<div class="SearchFormTitle">
 					<h2>1. Gör utsökning</h2>
 				</div>
@@ -13,9 +13,9 @@
 				</div>
 			</search-form>
 			<!-- Search results -->
-			<div v-show="formData.formModel.templateName" v-transition="expand">
+			<div v-show="formData.formModel.templateName" transition="expand">
 				<div class="searchResult">
-					<search-result form-model="{{ formData.formModel }}" fields="{{ formData.fields }}" on-result-received="{{* onResultReceived }}">
+					<search-result :form-model="formData.formModel" :fields="formData.fields" :on-result-received.once="onResultReceived">
 					</search-result>
 				</div>
 			</div>

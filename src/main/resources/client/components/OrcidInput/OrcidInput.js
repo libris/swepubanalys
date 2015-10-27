@@ -69,8 +69,8 @@ var OrcidInput = {
 		 * @param {Object} field
 		 */
 		onClickHideField: function(field) {
-			field.$set('show', false);
-			field.$set('value', '');
+			this.$set('field.show', false);
+			this.$set('field.value', '');
 		}
 	}
 };

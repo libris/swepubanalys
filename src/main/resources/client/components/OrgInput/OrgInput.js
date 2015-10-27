@@ -26,8 +26,8 @@ var OrgInput = {
 	},
 	watch: {
 		'orgs': function() {
-			this.field.$set('value', arrayToSparqlString(this.orgs.map(function(d) { return d.value; })));
-			this.field.$set('labels', this.orgs);
+			this.$set('field.value', arrayToSparqlString(this.orgs.map(function(d) { return d.value; })));
+			this.$set('field.labels', this.orgs);
 		}
 	},
 	ready: function() {

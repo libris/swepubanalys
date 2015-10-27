@@ -1,6 +1,6 @@
-describe('utils/SparqlUtil.js', function() {
+describe('utils/SparqlUtil/SparqlUtil.js', function() {
 	
-	var SparqlUtil = require('utils/SparqlUtil.js');
+	var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
 
 	it('should have apiUrl', function() {
 		expect(typeof SparqlUtil.apiUrl).toEqual('string');

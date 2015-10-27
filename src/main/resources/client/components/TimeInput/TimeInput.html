@@ -1,7 +1,7 @@
 <div>
 	<form-field-wrapper>
 		<!-- Input -->
-		<div class="FormFieldInput">
+		<div slot="FormFieldInput">
 			<div class="row">
 				<div class="col-xs-6">
 					<input v-model="field.from" type="text" class="form-control {{ $data._formFieldStyles.Input }}" placeholder="Från och med">
@@ -12,8 +12,8 @@
 			</div>
 		</div>
 		<!-- Errors -->
-		<div class="FormFieldErrors">
-			<form-error-label errors="{{ errors }}"></form-error-label>
+		<div slot="FormFieldErrors">
+			<form-error-label :errors="errors"></form-error-label>
 		</div>
 	</form-field-wrapper>
 </div>

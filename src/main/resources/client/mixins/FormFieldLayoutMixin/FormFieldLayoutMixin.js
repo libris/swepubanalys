@@ -10,7 +10,6 @@ var FormFieldLayoutMixin = {
 	props: ['hideable'],
 	components: {
 		'form-field-wrapper': {
-			inherit: true,
 			template: require('./FormFieldLayoutWrapper.html'),
 		}
 	},
