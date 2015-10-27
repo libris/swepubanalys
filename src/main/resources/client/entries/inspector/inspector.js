@@ -3,7 +3,7 @@
 // Vendor
 var Vue = require('vue');
 // Components
-var SiteWrapper = require('mixins/SiteWrapperMixin/SiteWrapperMixin.js');
+var SiteWrapper = require('components/SiteWrapper/SiteWrapper.js');
 var SearchForm = require('components/SearchForm/SearchForm.js');
 var Chart = require('components/Chart/Chart.js');
 // Mxins
@@ -20,7 +20,7 @@ var styles = require('!!style!css?modules!./inspector.css');
  */
 var Inspector = {
 	_t: null, // Timeout reference
-	mixins: [SiteWrapper, FieldLabelMixin],
+	mixins: [FieldLabelMixin],
 	template: require('./inspector.html'),
 	data: function() {
 		return {
@@ -28,9 +28,6 @@ var Inspector = {
 			_styles: styles,
 			loadingData: true,
 			emptyAggregations: false,
-			navigation: {
-				key: 'inspector',
-			},
 			// Data from SearchForm component
 			formModel: { },
 			fields: [],
@@ -55,6 +52,7 @@ var Inspector = {
 		}
 	},
 	components: {
+		'site-wrapper': SiteWrapper,
 		'search-form': SearchForm,
 		'chart': Chart
 	},

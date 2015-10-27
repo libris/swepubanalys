@@ -4,10 +4,10 @@
 		</div>
 		<div class="col-md-5">
 			<div class="row">
-				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ navigation.key === 'bibliometrician' ? $data._styles.ActiveMenuItem : '' }}">
+				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ activity === 'bibliometrician' ? $data._styles.ActiveMenuItem : '' }}">
 					<a href="/bibliometriker">Gör uttag</a>
 				</div>
-				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ navigation.key === 'inspector' ? $data._styles.ActiveMenuItem : '' }}">
+				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ activity === 'inspector' ? $data._styles.ActiveMenuItem : '' }}">
 					<a href="/granskare">Validera data</a>
 				</div>
 				<div class="col-xs-4 {{ $data._styles.MenuItem }}">

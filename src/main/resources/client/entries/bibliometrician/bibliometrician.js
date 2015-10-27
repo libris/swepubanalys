@@ -4,9 +4,9 @@
 var Vue = require('vue');
 var $ = require('jquery');
 // Components
+var SiteWrapper = require('components/SiteWrapper/SiteWrapper.js');
 var SearchForm = require('components/SearchForm/SearchForm.js');
 var SearchResult = require('components/SearchResult/SearchResult.js');
-var SiteWrapper = require('mixins/SiteWrapperMixin/SiteWrapperMixin.js');
 // Utils
 require('utils/console.js');
 // CSS
@@ -16,14 +16,10 @@ require('css/transitions.css');
  * Bibliometrician-view
  */
 var Bibliometrician = {
-	mixins: [SiteWrapper],
 	template: require('./bibliometrician.html'),
 	data: function() {
 		return {
 			pendingScroll: false,
-			navigation: {
-				key: 'bibliometrician',
-			},
 			formData: {
 				fields: [],
 				formModel: {}
@@ -31,6 +27,7 @@ var Bibliometrician = {
 		};
 	},
 	components: {
+		'site-wrapper': SiteWrapper,
 		'search-form': SearchForm,
 		'search-result': SearchResult
 	},
