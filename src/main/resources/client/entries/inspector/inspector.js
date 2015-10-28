@@ -32,7 +32,7 @@ var Inspector = {
 			emptyAggregations: false,
 			error: false,
 			activity: 0,
-			// Data from SearchForm component
+			// Data synced with SearchForm component
 			formModel: { },
 			fields: [],
 			// Data which will be sent to searchResult
@@ -81,6 +81,7 @@ var Inspector = {
 		 */
 		onChange: function(formData) {			
 			this.$set('fields', formData.fields);
+			formData.formModel.aggregate = 'inspector';
 			this.$set('formModel', formData.formModel);
 		},
 		/**
@@ -105,19 +106,23 @@ var Inspector = {
 		 * @param {Object} aggregations
 		 */
 		setAggregations: function(aggregations) {
-			var lineAggregations = FormatAggregationUtil.toYearTimeSeries(aggregations);
+			var lineAggregations = this.formModel.org.length === 0 ? FormatAggregationUtil.toYearTimeSeries(aggregations) : FormatAggregationUtil.toOrgYearTimeSeries(aggregations);
 			var pieAggregations = FormatAggregationUtil.toOrgDistribution(aggregations);
 			if(lineAggregations.columns.length > 0) {
 				this.$set('lineChart.getContent', function() {
 					return lineAggregations;
 				});	
+			} else {
+				this.$set('lineChart.getContent', false);
 			}
 			if(pieAggregations.columns.length > 0) {
 				this.$set('pieChart.getContent', function() {
 					return pieAggregations;
 				});
+			} else {
+				this.$set('pieChart.getContent', false);
 			}
-			if(lineAggregations.columns.length === 0 || pieAggregations.columns.length === 0) {
+			if(lineAggregations.columns.length === 0 && pieAggregations.columns.length === 0) {
 				this.$set('emptyAggregations', true);
 			} else {
 				this.$set('emptyAggregations', false);

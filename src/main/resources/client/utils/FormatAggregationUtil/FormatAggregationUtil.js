@@ -10,36 +10,62 @@ var _sortByOrder = require('lodash/collection/sortByOrder');
  */
 var FormatAggregationUtil = {
 	/**
+	 *
+	 */
+	toOrgYearTimeSeries: function(aggregations) {
+		var xs = {};
+		var columns = [];
+		// If there are any buckets on yars
+		if(aggregations['org-per-year'] && aggregations['org-per-year'].buckets && aggregations['org-per-year'].buckets.length > 0) {
+			var buckets = aggregations['org-per-year'].buckets;
+			// For each org
+			buckets.map(function(bucket, i) {
+				if(bucket.orgs) {
+					var X = ['x_' + bucket.key];
+					var Y = [bucket.key];
+					xs[bucket.key] = 'x_' + bucket.key;
+					// For each year in org
+					bucket.orgs.buckets.map(function(year, i) {
+						X.push(year.key);
+						Y.push(year.doc_count);
+					});
+					columns.push(X);
+					columns.push(Y);
+				}
+			});
+		}
+		return {
+			xs: xs,
+			columns: columns,
+		}
+	},
+	/**
 	 * Turn aggregations in to number of docs per year
 	 * @param {Object} aggregations
 	 * @return {Object}
 	 */
 	toYearTimeSeries: function(aggregations) {
-		var formattedData = []; // Data to be returned
+		var xs = {};
+		var columns = [];
 		// If there are any buckets on yars
 		if(aggregations.year && aggregations.year.buckets && aggregations.year.buckets.length > 0) {
-			var xAxis = ['x'];
-			var yColumn = ['Valda lärosäten'];
+			var Y = ['Alla lärosäten'];
+			var X = ['x_Alla lärosäten'];
+			xs['Alla lärosäten'] = 'x_Alla lärosäten';
 			// Sort by year
 			aggregations.year.buckets = _sortBy(aggregations.year.buckets, function(p) {
 				return p.key;
 			});
 			aggregations.year.buckets.map(function(bucket) {
-				xAxis.push(bucket.key)
-				yColumn.push(bucket.doc_count);
+				X.push(bucket.key);
+				Y.push(bucket.doc_count);
 			});
-			formattedData = [xAxis, yColumn];
+			columns.push(X);
+			columns.push(Y);
 		}
 		return {
-			axis: {
-				x: { 
-					label: 'År'
-				},
-				y: {
-					label: 'Antal poster',
-				}
-			},
-			columns: formattedData,
+			xs: xs,
+			columns: columns,
 		}
 	},
 	/**

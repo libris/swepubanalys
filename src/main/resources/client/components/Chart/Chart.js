@@ -31,12 +31,10 @@ var Chart = {
 				var el = this.$el;
 				this._chart = c3.generate({
 					bindto: el,
+					type: this.type,
 					data: {
-						type: this.type,
-						x: 'x',
-						columns: [],
-					},
-					axis: content.axis,
+						columns: []
+					}
 				});
 			} else if(this.type === 'pie' || this.type === 'donut') {
 				var el = this.$el;
@@ -61,11 +59,8 @@ var Chart = {
 		update: function() {
 			if(this._chart) {
 				var content = this.getContent();
-				this._chart.load({
-					unload: true,
-					columns: content.columns || [],
-					colors: content.colors || []
-				});
+				content.unload = true;
+				this._chart.load(content);
 			}
 		}
 	}
