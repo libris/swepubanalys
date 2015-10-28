@@ -1,12 +1,11 @@
 .Visualisations {
 	min-height: 420px;
 	margin-top: 5px;
-	margin-bottom: 25px;
-	background-color: #fcfcfc;
+	margin-bottom: 45px;
+	border-top: 1px solid #d3d3d3;
+	border-bottom: 1px solid #d3d3d3;
 	padding-top: 35px;
 	padding-bottom: 20px;
-	padding-left: 25px;
-	padding-right: 25px;
 }
 
 .YearIndicator {
@@ -22,4 +21,18 @@
 	width: 100%;
 	padding-top: 130px;
 	text-align: center; 
+}
+
+.SearchForm {
+	margin-bottom: 25px;
+}
+
+.BtnHuge {
+    padding: 18px 28px;
+    font-size: 22px; 
+    line-height: normal;
+    margin-right: 10px;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
 }

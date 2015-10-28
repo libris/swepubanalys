@@ -114,8 +114,10 @@ var SearchResult = {
 					limit: true,
 					formModel: formModel
 				}, function(query) {
+					var selectedFields = 0;
 					for(var i = 0; i < formModel.filterFields.length; i++) {
 						if(formModel.filterFields[i].checked === true) {
+							selectedFields++;
 							if(this.result && this.result.head && this.result.head.vars) {
 								var index = _findIndex(this.result.head.vars, function(field) {
 									return '?' + field === formModel.filterFields[i].field;
@@ -144,6 +146,10 @@ var SearchResult = {
 								console.error('*** SearchResult.updateQuery: Invalid former response');
 							}							
 						}
+					}
+					if(selectedFields === 0) {
+						this.$set('pendingUpdate', false);
+						this.$set('pendingRefresh', false);
 					}
 				}.bind(this));
 				// *** Generate new query for query-window

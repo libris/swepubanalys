@@ -5,7 +5,8 @@
 </div>
 <div style="min-height: 1000px">
 	<div v-show="pendingUpdate !== true">
-		<h2>2. Anpassa uttag och exportera</h2>
+		<slot name="SearchResultTitle"></slot>
+		<slot name="SearchResultDescription"></slot>
 		<div class="row">
 			<div class="col-md-8">
 				<p>
@@ -51,8 +52,8 @@
 				<h2>Hämtar förhandsvisning...</h2>
 			</div>
 		</div>
-		<hr>
-		<h4>Sökfråga</h4>
+		<div class="{{ $data._styles.Query }}">
+			<h4>Sökfråga</h4>
 			<pre>{{ query }}</pre>
 		</div>
 	</div>
