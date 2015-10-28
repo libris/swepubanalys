@@ -159,8 +159,11 @@ public class Elasticsearch {
                 "size": 0
             }
         },
-        "year":{
-            "terms":{"field":"hasMods.publicationYear", "size" : 0}
+        "year": {
+            "terms": {
+                "field": "hasMods.publicationYear",
+                "size": 0
+            }
         },
         "org": {
             "terms": {
@@ -186,6 +189,20 @@ public class Elasticsearch {
                                 "size": 0
                             }
                         }
+                    }
+                }
+            }
+        },
+        "org-per-year": {
+            "terms": {
+                "field": "hasMods.recordContentSourceValue",
+                "size": 0
+            },
+            "aggs": {
+                "orgs": {
+                    "terms": {
+                        "field": "hasMods.publicationYear",
+                        "size": 0
                     }
                 }
             }
