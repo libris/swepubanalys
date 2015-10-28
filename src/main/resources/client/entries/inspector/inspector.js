@@ -2,6 +2,7 @@
 
 // Vendor
 var Vue = require('vue');
+var _cloneDeep = require('lodash/lang/cloneDeep');
 // Components
 var SiteWrapper = require('components/SiteWrapper/SiteWrapper.js');
 var Chart = require('components/Chart/Chart.js');
@@ -34,6 +35,11 @@ var Inspector = {
 			// Data from SearchForm component
 			formModel: { },
 			fields: [],
+			// Data which will be sent to searchResult
+			formData: {
+				formModel: {},
+				fields: [],
+			},
 			// Function which returns a data-set
 			lineChart: {
 				getContent: null, // We use a function to give data to the chart to avoid "indexing" by Vue
@@ -48,15 +54,18 @@ var Inspector = {
 		 * On formModel-change, get aggregations from server
 		 */
 		'formModel': function() {
-			DataUtil.getFilterAggregations(this.formModel, function(aggregations) {
-				if(!aggregations.error) {
-					this.setAggregations(aggregations);	
-					this.$set('error', false);
-				} else {
-					this.$set('error', true);
-				}
-				this.$set('loadingData', false);
-			}.bind(this));
+			clearTimeout(this._t);
+			this._t = setTimeout(function() {
+				DataUtil.getFilterAggregations(this.formModel, function(aggregations) {
+					if(!aggregations.error) {
+						this.setAggregations(aggregations);	
+						this.$set('error', false);
+					} else {
+						this.$set('error', true);
+					}
+					this.$set('loadingData', false);
+				}.bind(this));
+			}.bind(this), 800);
 		}
 	},
 	components: {
@@ -70,27 +79,26 @@ var Inspector = {
 		 * On submission of FormModel
 		 * @param {Object} formData
 		 */
-		onChange: function(formData) {
-			clearTimeout(this._t);
-			this._t = setTimeout(function() {
-				this.$set('fields', formData.fields);
-				this.$set('formModel', formData.formModel);
-			}.bind(this), 800);
+		onChange: function(formData) {			
+			this.$set('fields', formData.fields);
+			this.$set('formModel', formData.formModel);
 		},
 		/**
 		 * Starts an activity
 		 * @param {Number} activity
 		 */
 		startActivity: function(activity) {
-			this.$set('activity', activity);
 			switch(activity) {
 				case 'ERROR_LIST':
-					this.$set('formModel.templateName', 'quality');
-				break;
-				default:
+					var formData = {
+						formModel: _cloneDeep(this.formModel),
+						fields: _cloneDeep(this.fields)
+					}
+					formData.formModel.templateName = 'quality';
+					this.$set('formData', formData);
+					this.$set('activity', activity);
 				break;
 			}
-			
 		},
 		/**
 		 * Format aggregations and pass them on to the respective charts
