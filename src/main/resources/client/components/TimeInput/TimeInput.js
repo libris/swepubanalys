@@ -32,7 +32,7 @@ var TimeInput = {
 		var isTimeValidAccordingToRegexp = function(callback) {
 			var test = this.test;
 			var field = this.field;
-			if(test.expression && typeof test.expression === 'string') {
+			if(test && test.expression && typeof test.expression === 'string') {
 				var valid = RegExp(test.expression).test(field.from) && RegExp(test.expression).test(field.to);
 				callback(valid || test.errorMessage || 'Error');
 			}
