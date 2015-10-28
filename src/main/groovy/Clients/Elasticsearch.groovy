@@ -177,7 +177,7 @@ public class Elasticsearch {
                 "size": 0
             },
             "aggs": {
-                "orgs": {
+                "org": {
                     "terms": {
                         "field": "hasMods.recordContentSourceValue",
                         "size": 0
@@ -199,7 +199,7 @@ public class Elasticsearch {
                 "size": 0
             },
             "aggs": {
-                "orgs": {
+                "year": {
                     "terms": {
                         "field": "hasMods.publicationYear",
                         "size": 0
