@@ -25,9 +25,21 @@ var OAInput = {
 		onClickHideField: function(field) {
 			this.$set('field.show', false);
 			this.$set('field.value', false);
+		},
+		/**
+		 * Set labels according to value
+		 */
+		updateLabels: function() {
+			this.$set('field.labels', [{ text: this.field.value === true ? 'Endast Open access' : 'Poster med och utan Open access' }]);
+		}
+	},
+	watch: {
+		'field.value': function() {
+			this.updateLabels();
 		}
 	},
 	ready: function() {
+		this.updateLabels();
 		// Initialize help
 		this.initHelp({
 			title: 'OPENACCESS',
