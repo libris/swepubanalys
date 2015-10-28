@@ -15,7 +15,7 @@
 				<slot name="FormFieldInput"></slot>
 			</div>
 		</div>
-		<div class="col-xs-1" style="padding-top: 6px; padding: 0px; padding-top: 6px;">
+		<div v-show="$parent.hideable" class="col-xs-1" style="padding-top: 6px; padding: 0px; padding-top: 6px;">
 			<slot name="HideButton"></slot>
 		</div>
 	</div>
