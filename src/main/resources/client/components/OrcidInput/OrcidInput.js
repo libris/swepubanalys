@@ -21,6 +21,11 @@ var OrcidInput = {
 	components: {
 		'hide-field-button': HideFieldButton
 	},
+	watch: {
+		'field.value': function() {
+			this.updateLabels();
+		}
+	},
 	ready: function() {
 		// Initialize help
 		this.initHelp({
@@ -71,6 +76,16 @@ var OrcidInput = {
 		onClickHideField: function(field) {
 			this.$set('field.show', false);
 			this.$set('field.value', '');
+		},
+		/**
+		 * Update text labels
+		 */
+		updateLabels: function() {
+			if(this.field.value.length > 0) {
+				this.$set('field.labels', [{ text: '\"' + this.field.value + '\"' }]);
+			} else {
+				this.$set('field.labels', []);
+			}
 		}
 	}
 };

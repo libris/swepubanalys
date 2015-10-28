@@ -25,14 +25,25 @@ var AuthorLabelInput = {
 		onClickHideField: function(field) {
 			this.$set('field.show', false);
 			this.$set('field.value', '');
+		},
+		/**
+		 * Update text labels
+		 */
+		updateLabels: function() {
+			if(this.field.value.length > 0) {
+				this.$set('field.labels', [{ text: '\"' + this.field.value + '\"' }]);
+			} else {
+				this.$set('field.labels', []);
+			}
 		}
 	},
 	watch: {
 		'field.value': function() {
-			this.$set('field.labels', [{ text: '\"' + this.field.value + '\"' }]);
+			this.updateLabels();
 		},
 	},
 	ready: function() {
+		this.updateLabels();
 		// Initialize help
 		this.initHelp({
 			title: 'UPPHOV',
