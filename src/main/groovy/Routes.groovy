@@ -35,6 +35,7 @@ public class Routes implements SparkApplication {
         post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/2.0/publicationYearSpan", { req, res -> Api.publicationYearSpan(res) })
+        get("api/2.0/dataqualityvalidations",{ req, res -> Api.getDataQualityViolations(res) })
         get("/api/2.0/elastic/stats", { req, res -> Api.getStats(res) })
         get("/api/2.0/elastic/aggregations", { req, res -> Api.getAggregations(req, res) })
         get("api/2.0/validate/orcid",{ req, res -> Api.validateOrcid(req, res);})

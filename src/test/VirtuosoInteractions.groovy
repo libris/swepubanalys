@@ -1,4 +1,6 @@
 import Clients.Virtuoso
+import Controllers.Api
+import groovy.json.JsonBuilder
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -158,19 +160,21 @@ FILTER ( BOUND(?_OA ))
 LIMIT 10000000
 }
 }"""
+
     @Before
     public void setUp() throws Exception {
         printf "Set Up"
     }
+
     @After
-    public void tearDown() throws Exception{
+    public void tearDown() throws Exception {
         printf "Tear Down"
     }
 
     @Test
-    public void postToVirtuoso(){
+    public void postToVirtuoso() {
         def client = new RESTClient('http://virhp07.libris.kb.se/sparql')
-        def response = client.post(accept: ContentType.JSON,path:'/', query:[query:sparql, format:'application/json'])
+        def response = client.post(accept: ContentType.JSON, path: '/', query: [query: sparql, format: 'application/json'])
         assert 200 == response.statusCode
         assert response != null;
         assert response.json instanceof JSONObject;
@@ -196,6 +200,7 @@ LIMIT 10000000
         assert response instanceof String;
         assert response.contains("\"_recordID\"\t")
     }
+
     @Test
     public void publicationYearSpan() {
         def sparqlSpan = new File('./src/main/resources/sparqlQueries/swepubPublicationYearLimits.sparql')
@@ -205,8 +210,8 @@ LIMIT 10000000
         def response = endPoint.post(query, "application/json")
         assert response != null;
         assert response instanceof JSONObject;
-        def min = ((String)response.results.bindings["callret-0"].value[0]).toInteger();
-        def max = ((String)response.results.bindings["callret-1"].value[0]).toInteger();
+        def min = ((String) response.results.bindings["callret-0"].value[0]).toInteger();
+        def max = ((String) response.results.bindings["callret-1"].value[0]).toInteger();
         assert min > 1400;
         assert max < 3000;
     }
@@ -215,7 +220,7 @@ LIMIT 10000000
     public void configIsAvailable() {
         URL url = VirtuosoInteractions.getClassLoader().getResource("config.groovy");
         def config = new ConfigSlurper().parse(url)
-        assert config.virtuoso.location =='http://virhp07.libris.kb.se/sparql'
+        assert config.virtuoso.location == 'http://virhp07.libris.kb.se/sparql'
     }
 
 
@@ -244,6 +249,29 @@ LIMIT 10000000
         assert response != null;
         assert response instanceof String;
         assert response.contains("\"_numRows\"")
+    }
+
+    @Test
+    public void getDataQualityViolations() {
+        def sparql =
+                """ PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+            SELECT DISTINCT
+            ?_label
+            ?Class
+            ?_severity
+            ?_comment
+            WHERE
+            {
+            ?Class rdfs:comment ?_comment .
+            ?Class rdfs:label ?_label .
+            ?Class swpa_m:severity ?_severity .
+            }
+            LIMIT 50"""
+        def resp = new Virtuoso().post(sparql, "application/json");
+        def map = [values: resp.results.bindings.collect { it -> [name: it["_label"].value, comment: it["_comment"].value, severity: it["_severity"].value] }]
+         def j = new JsonBuilder(map).toPrettyString()
+        assert j instanceof JSONObject;
+
     }
 
 

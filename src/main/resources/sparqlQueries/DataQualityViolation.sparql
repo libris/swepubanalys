@@ -1,0 +1,13 @@
+PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+
+SELECT DISTINCT
+    ?_label
+    ?Class
+    ?_severity
+    ?_comment
+WHERE
+{
+    ?Class rdfs:comment ?_comment .
+    ?Class rdfs:label ?_label .
+    ?Class swpa_m:severity ?_severity .
+}

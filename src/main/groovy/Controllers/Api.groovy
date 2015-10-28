@@ -18,12 +18,23 @@ import groovy.util.logging.Slf4j
  */
 @Slf4j
 class Api {
+    //TODO: Refactor so the methods are testable....
+
     static sparql(Request request, Response response) {
         def query = request.queryParams("query");
         def format = request.queryParams("format");
         def resp = new Virtuoso().post(query, format)
         response.type(format);
         return resp;
+    }
+
+    static getDataQualityViolations(Response response)  {
+        def sparql = Thread.currentThread().getContextClassLoader().getResource("sparqlQueries/DataQualityViolation.sparql").getText();
+        def resp = new Virtuoso().post(sparql, "application/json");
+        def map = [values: resp.results.bindings.collect { it -> [name: it["_label"].value, comment: it["_comment"].value, severity: it["_severity"].value] }]
+        response.type("application/json");
+        return new JsonBuilder(map).toPrettyString()
+
     }
 
     static publicationYearSpan(Response response) {
