@@ -58,7 +58,7 @@
 				</button>
 			</div>
 			<!-- Error list activity -->
-			<search-result v-if="activity === 'ERROR_LIST'" :form-model.once="formModel" :fields.once="fields">
+			<search-result v-if="activity === 'ERROR_LIST'" :form-model="formData.formModel" :fields="formData.fields">
 				<div slot="SearchResultTitle">
 					<h2>Ofullständig metadata: Granska och exportera lista</h2>
 				</div>
