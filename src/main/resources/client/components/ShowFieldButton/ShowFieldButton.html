@@ -1,4 +1,4 @@
-<div v-show="!field.show" v-on="click: onClickShowField(field)" v-transition="expand" class="showFieldButton">
+<div v-show="!field.show" v-on:click="onClick" transition="expand" class="{{ $data._styles.ShowFieldButton }}">
 	<div>
 		<i class="fa fa-plus"></i>
 		{{ field.name }}

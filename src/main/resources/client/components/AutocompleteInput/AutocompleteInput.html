@@ -1,2 +1,14 @@
-<select multiple="multiple" style="width: 100%;" options="options" v-model="selected">
+<select v-model="selected" multiple="multiple" style="width: 100%;">
+ 	<template v-if="options">
+	 	<option v-for="option in options" value="{{ option.value }}">
+	 		{{ option.text }}
+	 	</option>
+	</template>
+	<template v-if="optgroups">
+		<optgroup v-for="optgroup in optgroups" label="{{ optgroup.label }}">
+	 		<option v-for="option in optgroup.options" value="{{ option.value }}">
+		 		{{ option.text }}
+	 		</option>
+	 	</optgroup>
+	</template>
 </select>

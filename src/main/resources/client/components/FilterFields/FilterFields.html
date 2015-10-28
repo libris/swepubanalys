@@ -1,31 +1,27 @@
 <div class="well {{ $data._styles.FilterFields }}">
-	<div>
-		<p style="font-size: small;">
-			<span class="fractSymbol {{ $data._styles.FractSymbol }}"><fract-circle></fract-circle></span>
-			fraktionerad data 
-			<help-initiator-button></help-initiator-button>
-		</p>
+	<div class="row">
+		<div class="col-xs-6">
+			<div class="{{ $data._styles.SelectButtons }}">
+				<button class="btn btn-sm btn-default" v-on:click="selectNoFilterFields">Rensa fält</button>
+				<button class="btn btn-sm btn-default" v-on:click="selectAllFilterFields">Alla fält</button>
+				<button class="btn btn-sm btn-default" v-on:click="selectDefaultFilterFields">Förvalda fält</button>
+			</div>
+		</div>
+		<div class="col-xs-6" style="text-align: right;">
+			<p style="font-size: small;">
+				<span class="fractSymbol {{ $data._styles.FractSymbol }}"><fract-circle></fract-circle></span>
+				fraktionerad data 
+				<help-initiator-button></help-initiator-button>
+			</p>
+		</div>
 	</div>
 	<hr>
 	<div class="{{ $data._styles.FilterFieldsButtonsContainer }}">
-		<template v-repeat="filterFieldGroup in filterFields | filterFieldGroups filterFieldGroups" class="FilterFieldButtons">
-			<div 
-				v-repeat="filterField in filterFieldGroup.$value" 
-				class="{{ $parent.$parent.$data._styles.FilterFieldButtonContainer }} {{ ($index === $parent.filterFieldGroup.$value.length-1) ? $parent.$parent.$data._styles.LastFilterFieldButtonContainer : '' }}">
-				<button 
-					v-class="btn-info: filterField.checked, btn-default: !filterField.checked" v-on="click: toggleFilterField(filterField)" 
-					class="btn btn-xs {{ $parent.$parent.$data._styles.FilterFieldButton }}">
-					{{ stripAsterisk(filterField.fieldName) }}
-					<template v-if="fractionalField(filterField.fieldName)">
-						&nbsp;<fract-circle></fract-circle>
-					</template>
-				</button>
+		<template v-for="filterFieldGroup in filterFields | filterFieldGroups filterFieldGroups" class="FilterFieldButtons">
+			<div v-for="filterField in filterFieldGroup.filterFields"
+				class="{{ $parent.$parent.$data._styles.FilterFieldButtonContainer }} {{ ($index === $parent.filterFieldGroup.filterFields.length-1) ? $parent.$parent.$data._styles.LastFilterFieldButtonContainer : '' }}">
+				<filter-field-button :filter-field.sync="filterField"></filter-field-button>
 			</div>
 		</template>
-	</div>
-	<div class="{{ $data._styles.SelectButtons }}">
-		<button class="btn btn-sm btn-default" v-on="click: selectNoFilterFields">Rensa fält</button>
-		<button class="btn btn-sm btn-default" v-on="click: selectAllFilterFields">Alla fält</button>
-		<button class="btn btn-sm btn-default" v-on="click: selectDefaultFilterFields">Förvalda fält</button>
 	</div>
 </div>

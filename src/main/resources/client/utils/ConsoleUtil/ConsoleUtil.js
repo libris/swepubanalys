@@ -14,3 +14,5 @@ if(!window.console.error) {
 if(!window.console.warning) {
 	window.console.warning = function() { };
 }
+
+require('vue').config.debug = true;

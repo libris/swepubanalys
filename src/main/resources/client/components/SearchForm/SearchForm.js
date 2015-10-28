@@ -41,45 +41,37 @@ var SearchForm = {
 		}
 	},
 	components: {
-		'org-input': OrgInput,
-		'time-input': TimeInput,
-		'subject-input': SubjectInput,
-		'publ-type-input': PublTypeInput,
-		'author-label-input': AuthorLabelInput,
-		'orcid-input': OrcidInput,
-		'oa-input': OAInput,
-		'publ-status-input': PublStatusInput,
 		'show-field-button': ShowFieldButton,
 		'org': {
-			inherit: true,
+			components: { 'org-input': OrgInput },
 			template: require('./org.html')
 		},
 		'time': {
-			inherit: true,
+			components: { 'time-input': TimeInput },
 			template: require('./time.html')
 		},
 		'subject': {
-			inherit: true,
+			components: { 'subject-input': SubjectInput },
 			template: require('./subject.html')
 		},
 		'publType': {
-			inherit: true,
+			components: { 'publ-type-input': PublTypeInput },
 			template: require('./publType.html')
 		},
 		'authorLabel': {
-			inherit: true,
+			components: { 'author-label-input': AuthorLabelInput },
 			template: require('./authorLabel.html')
 		},
 		'orcid': {
-			inherit: true,
+			components: { 'orcid-input': OrcidInput },
 			template: require('./orcid.html')
 		},
 		'openaccess': {
-			inherit: true,
+			components: { 'oa-input': OAInput },
 			template: require('./openaccess.html')
 		},
 		'publStatus': {
-			inherit: true,
+			components: { 'publ-status-input': PublStatusInput },
 			template: require('./publStatus.html'),
 		}
 	},
@@ -91,13 +83,13 @@ var SearchForm = {
 		// Get and set form suggestions
 		SearchFormUtil.getFormSuggestions(function(formSuggestions) {
 			if(formSuggestions.orgs) {
-				this.fields.org.$set('suggestions', formSuggestions.orgs);
+				this.$set('fields.org.suggestions', formSuggestions.orgs);
 			}
 			if(formSuggestions.subjects) {
-				this.fields.subject.$set('suggestions', formSuggestions.subjects);
+				this.$set('fields.subject.suggestions', formSuggestions.subjects);
 			}
 			if(formSuggestions.publTypes) {
-				this.fields.publType.$set('suggestions', formSuggestions.publTypes);
+				this.$set('fields.publType.suggestions', formSuggestions.publTypes);
 			}
 		}.bind(this));
 		// Apply on-change listener and trigger on-change once
@@ -115,14 +107,13 @@ var SearchForm = {
 		 * Callback sent to click event of showFieldButton
 		 * @param {Object} field
 		 */
-		onClickShowField: function(field) {
-			field.$set('show', true);
+		getFieldIndex: function() {
 			var max = _max(this.fields, function(field) { 
 				return field.index;
 			});
 			max = max.index || 0;
 			max++;
-			field.$set('index', max);
+			return max;
 		},
 		/**
 		 * Sets template name
@@ -231,12 +222,12 @@ var SearchForm = {
 
 /**
  * Used to order data.fields by index
- * @param {Array} fields
- * @return {Array} fields
+ * @param {Object} fields
+ * @return {Array}
  */
 Vue.filter('orderFields', function(fields) {
 	fields = _sortBy(fields, function(field) {
-		return field.$value.index;
+		return field.index;
 	});
 	return fields;
 });

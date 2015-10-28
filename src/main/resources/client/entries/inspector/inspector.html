@@ -1,17 +1,18 @@
 <div>
 	<site-wrapper activity="inspector">
 		<div>
-			<h3>Förändring av kvalitet på data - 
+			<h2>Förändring av kvalitet på data - 
 				<span v-if="labels.length === 0">
 					Alla lärosäten
 				</span>
-				<span v-repeat="d in (labels || [])" style="display: inline-block">
-					{{ d.$value }}<template v-if="d.$index !== $parent.labels.length-1">,&nbsp;</template>
+				<span v-for="d in (labels || [])" style="display: inline-block">
+					{{ d.value }}<template v-if="d.index !== $parent.labels.length-1">,&nbsp;</template>
 				</span>
-			</h3>
+			</h2>
 			<div class="{{ $data._styles.YearIndicator }}">
-				{{ formModel.from }} {{ formModel.from || formModel.to ? '-' : '' }} {{ formModel.to }}
+				<p>{{ formModel.from }} {{ formModel.from || formModel.to ? '-' : '' }} {{ formModel.to }}</p>
 			</div>
+			<!-- Visualisations -->
 			<div class="{{ $data._styles.Visualisations }}">
 				<div v-if="loadingData" class="{{ $data._styles.Info }}">
 					<h1>Laddar...</h1>
@@ -28,7 +29,7 @@
 						<template v-if="lineChart.getContent">
 							<p>Antal poster</p>
 							<div>
-								<chart type="line" get-content="{{ lineChart.getContent }}"></chart>
+								<chart type="line" :get-content="lineChart.getContent"></chart>
 							</div>
 						</template>
 					</div>
@@ -36,18 +37,35 @@
 						<template v-if="pieChart.getContent">
 							<p>Fördelning av poster</p>
 							<div>
-								<chart type="donut" get-content="{{ pieChart.getContent }}"></chart>
+								<chart type="donut" :get-content="pieChart.getContent"></chart>
 							</div>
 						</template>
 					</div>
 				</div>
 			</div>
-			<search-form on-change="{{* onChange }}" from="1992" default-template="duplicates">
-				<div class="SearchFormTitle">
-					<h3>Tre vägar till höjd datakvalitet</h3>
-					<br>
+			<!-- Search form -->
+			<div class="{{ $data._styles.SearchForm }}">
+				<search-form :on-change.once="onChange" from="1992" default-template="duplicates">
+					<div slot="SearchFormTitle">
+						<h2>Tre vägar till högre datakvalitet</h2>
+					</div>
+					<div slot="SearchFormDescription">
+						Välj organisation och år, välj sedan aktivitet. 
+					</div>
+				</search-form>
+				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('ERROR_LIST')">
+					Lista ofullständig metadata
+				</button>
+			</div>
+			<!-- Error list activity -->
+			<search-result v-if="activity === 'ERROR_LIST'" :form-model.once="formModel" :fields.once="fields">
+				<div slot="SearchResultTitle">
+					<h2>Ofullständig metadata: Granska och exportera lista</h2>
 				</div>
-			</search-form>
+				<div slot="SearchResultDescription">
+					<p>Exportera lista för att rätta bristfällig eller saknad metadata.</p>
+				</div>
+			</search-result>
 		</div>
 	</site-wrapper>
 </div>

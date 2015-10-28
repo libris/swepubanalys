@@ -26,8 +26,8 @@ var SubjectInput = {
 	},
 	watch: {
 		'subjects': function() {
-			this.field.$set('value', arrayToSparqlString(this.subjects.map(function(d) { return d.value; })));
-			this.field.$set('labels', this.subjects);
+			this.$set('field.value', arrayToSparqlString(this.subjects.map(function(d) { return d.value; })));
+			this.$set('field.labels', this.subjects);
 		}
 	},
 	ready: function() {

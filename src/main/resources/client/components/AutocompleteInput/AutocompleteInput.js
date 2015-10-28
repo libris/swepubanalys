@@ -13,7 +13,7 @@ require('./AutocompleteInput.css');
  * @prop {Array} options
  */
 var AutocompleteInput = {
-	props: ['val', 'options'],
+	props: ['val', 'options', 'optgroups'],
 	template: require('./AutocompleteInput.html'),
 	data: function() {
 		return { 

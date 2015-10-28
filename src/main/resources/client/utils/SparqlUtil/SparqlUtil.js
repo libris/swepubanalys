@@ -9,8 +9,8 @@ var $ = jQuery;
  */
 var SparqlUtil = {
 	apiUrl: '/api/1.0/sparql',
-    getFileUrl: 'http://virhp07.libris.kb.se/sparql',
-    /**
+	getFileUrl: 'http://virhp07.libris.kb.se/sparql',
+	/**
 	 * Generates a SPARQL Query
      *
      * @param {Object} conf
@@ -202,7 +202,7 @@ var SparqlUtil = {
 	 * @param {Function} callback
      */
 	postQuery: function(query, callback) {
-        if(query) {
+		if(query) {
 			jQuery.ajax({
 				url: this.apiUrl,
 				type: 'POST',
@@ -261,13 +261,17 @@ var Templates = {
         title: 'Simpel',
         template: require('raw!sparql-templates/simple.sparql')
     },
+    'duplicates': {
+        title: 'Dubblettkandidater',
+        template: require('raw!sparql-templates/duplicates.sparql')
+    },
 	'QfBibliometrics': {
         title: 'Bibliometri',
         template: require('raw!sparql-templates/QfBibliometrics.sparql')
     },
-    'duplicates': {
-        title: 'Dubblettkandidater',
-        template: require('raw!sparql-templates/duplicates.sparql'),
+    'quality': {
+        title: 'Feltyper',
+        template: require('raw!sparql-templates/quality.sparql')
     }
 };
 

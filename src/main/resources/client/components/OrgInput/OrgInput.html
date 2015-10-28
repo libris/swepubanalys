@@ -1,10 +1,11 @@
 <div>
 	<form-field-wrapper>
-		<div class="FormFieldInput">
-			<autocomplete-input val="{{@ orgs }}" options="{{ field.suggestions }}"></autocomplete-input>
+		<div slot="FormFieldInput">
+			<autocomplete-input :val.sync="orgs" :options="field.suggestions"></autocomplete-input>
 		</div>
-		<div class="HelpButton">
+		<div slot="HelpButton">
 			<help-initiator-button></help-initiator-button>
 		</div>
+		<div></div>
 	</form-field-wrapper>
 </div>

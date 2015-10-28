@@ -4,8 +4,9 @@
 var Vue = require('vue');
 // Components
 var SiteWrapper = require('components/SiteWrapper/SiteWrapper.js');
-var SearchForm = require('components/SearchForm/SearchForm.js');
 var Chart = require('components/Chart/Chart.js');
+var SearchForm = require('components/SearchForm/SearchForm.js');
+var SearchResult = require('components/SearchResult/SearchResult.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
@@ -29,6 +30,7 @@ var Inspector = {
 			loadingData: true,
 			emptyAggregations: false,
 			error: false,
+			activity: 0,
 			// Data from SearchForm component
 			formModel: { },
 			fields: [],
@@ -59,12 +61,14 @@ var Inspector = {
 	},
 	components: {
 		'site-wrapper': SiteWrapper,
+		'chart': Chart,
 		'search-form': SearchForm,
-		'chart': Chart
+		'search-result': SearchResult
 	},
 	methods: {
 		/**
 		 * On submission of FormModel
+		 * @param {Object} formData
 		 */
 		onChange: function(formData) {
 			clearTimeout(this._t);
@@ -72,6 +76,21 @@ var Inspector = {
 				this.$set('fields', formData.fields);
 				this.$set('formModel', formData.formModel);
 			}.bind(this), 800);
+		},
+		/**
+		 * Starts an activity
+		 * @param {Number} activity
+		 */
+		startActivity: function(activity) {
+			this.$set('activity', activity);
+			switch(activity) {
+				case 'ERROR_LIST':
+					this.$set('formModel.templateName', 'quality');
+				break;
+				default:
+				break;
+			}
+			
 		},
 		/**
 		 * Format aggregations and pass them on to the respective charts

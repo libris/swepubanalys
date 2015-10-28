@@ -1,3 +1,3 @@
 <div>
-	<time-input field="{{@ fields.time }}" test="{{ formTests.time || {} }}"></time-input>
+	<time-input :field.sync="$parent.fields.time" :test="$parent.formTests.time"></time-input>
 </div>

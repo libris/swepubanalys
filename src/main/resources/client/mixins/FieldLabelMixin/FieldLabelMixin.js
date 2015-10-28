@@ -13,9 +13,9 @@ var FieldLabelMixin = {
 			(this.fields || []).map(function(field) {
 				(field.labels || []).map(function(d) {
 					labels.push({
-						$index: labels.length,
-						$key: field.fieldName,
-						$value: d.text
+						index: labels.length,
+						key: field.fieldName,
+						value: d.text
 					});
 				});
 			});

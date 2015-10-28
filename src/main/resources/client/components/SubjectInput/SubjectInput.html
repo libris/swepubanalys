@@ -1,9 +1,9 @@
 <div>
 	<form-field-wrapper>
-		<div class="FormFieldInput">
-			<autocomplete-input val="{{@ subjects }}" options="{{ field.suggestions }}"></autocomplete-input>
+		<div slot="FormFieldInput">
+			<autocomplete-input :val.sync="subjects" :optgroups="field.suggestions"></autocomplete-input>
 		</div>
-		<div class="HelpButton">
+		<div slot="HelpButton">
 			<help-initiator-button></help-initiator-button>
 		</div>
 	</form-field-wrapper>

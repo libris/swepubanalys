@@ -1,3 +1,3 @@
-<div v-show="fields.publType.show" v-transition="expand">
-	<publ-type-input field="{{@ fields.publType }}" hideable="{{ true }}"></publ-type-input>
+<div v-show="$parent.fields.publType.show" transition="expand">
+	<publ-type-input :field.sync="$parent.fields.publType" :hideable.once="true"></publ-type-input>
 </div>

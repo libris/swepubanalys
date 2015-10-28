@@ -28,8 +28,8 @@ var PublTypeInput = {
 	},
 	watch: {
 		'publTypes': function() {
-			this.field.$set('value', arrayToSparqlString(this.publTypes.map(function(d) { return d.value; })));
-			this.field.$set('labels', this.publTypes);
+			this.$set('field.value', arrayToSparqlString(this.publTypes.map(function(d) { return d.value; })));
+			this.$set('field.labels', this.publTypes);
 		}
 	},
 	ready: function() {
@@ -45,9 +45,9 @@ var PublTypeInput = {
 		 * @param {Object} field
 		 */
 		onClickHideField: function(field) {
-			field.$set('show', false);
+			this.$set('field.show', false);
 			this.hidePopover(this.$el);
-			this.$.AutocompleteInputComponent.clear();
+			this.$refs.input.clear();
 		}
 	}
 };

@@ -1,23 +1,24 @@
-<div id="{{ 'Form _Field_' + field.fieldName }}" class="form-group {{ $parent.$data._formFieldStyles.FormFieldLayoutWrapper }}">
+<div id="{{ 'Form _Field_' + $parent.field.fieldName }}" class="form-group {{ $parent.$data._formFieldStyles.FormFieldLayoutWrapper }}">
 	<div class="row">
 		<div class="col-lg-12">
 			<div>
-				<div style="display: inline-block">
-					<label>{{ field.name }}</label> <content select=".FieldNameAddition"></content>
+				<div style="display: inline-block;">
+					<label>{{ $parent.field.name }}</label> <slot name="FieldNameAddition"></slot>
 				</div>
-				<div style="display: inline-block">
-					<content select=".HelpButton"></content>
+				<div style="display: inline-block;">
+					<slot name="HelpButton"></slot>
 				</div>
 			</div>
 		</div>
 		<div class="col-xs-11">
-			<content select=".FormFieldInput"></content>
+			<div class="FormFieldInput">
+				<slot name="FormFieldInput"></slot>
+			</div>
 		</div>
-		<div class="col-xs-1" style="padding-top: 6px; padding: 0px; padding-top: 6px;">
-			<template v-if="hideable === true">
-				<content select=".HideButton"></content>
-			</template>
+		<div v-show="$parent.hideable" class="col-xs-1" style="padding-top: 6px; padding: 0px; padding-top: 6px;">
+			<slot name="HideButton"></slot>
 		</div>
 	</div>
+	<slot></slot>
 </div>
-<content select=".FormFieldErrors"></content>
+<slot name="FormFieldErrors"></slot>

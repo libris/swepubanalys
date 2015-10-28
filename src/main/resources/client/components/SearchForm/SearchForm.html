@@ -1,31 +1,31 @@
-<content select=".SearchFormTitle"></content>
+<slot name="SearchFormTitle"></slot>
 <div class="row">
 	<div class="col-xs-8">
-		<content select=".SearchFormDescription"></content>
+		<slot name="SearchFormDescription"></slot>
 		<!-- SHOW FIELDS -->
-		<div v-repeat="field in fields | orderFields">
+		<div v-for="field in fields | orderFields">
 			<template v-if="isTemplateField(field, templateName)">
-				<div v-component="{{ field.fieldName }}"></div>
+				<component :is="field.fieldName"></component>
 			</template>
 		</div>
 		<!-- SHOW-BUTTONS -->
 		<div class="{{ $data._styles.ShowFieldButtons }}">
 			<template v-if="isTemplateField(fields.publType, templateName)">
-				<show-field-button field="{{@ fields.publType }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
-			</template>
-			<template v-if="isTemplateField(fields.orcid, templateName)">
-				<show-field-button field="{{@ fields.orcid }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
+				<show-field-button :field.sync="fields.publType" :get-field-index="getFieldIndex"></show-field-button>
 			</template>
 			<template v-if="isTemplateField(fields.authorLabel, templateName)">
-				<show-field-button field="{{@ fields.authorLabel }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
+				<show-field-button :field.sync="fields.authorLabel" :get-field-index="getFieldIndex"></show-field-button>
+			</template>
+			<template v-if="isTemplateField(fields.orcid, templateName)">
+				<show-field-button :field.sync="fields.orcid" :get-field-index="getFieldIndex"></show-field-button>
 			</template>
 			<template v-if="isTemplateField(fields.openaccess, templateName)">
-				<show-field-button field="{{@ fields.openaccess }}" on-click-show-field="{{ onClickShowField }}"></show-field-button>
+				<show-field-button :field.sync="fields.openaccess" :get-field-index="getFieldIndex"></show-field-button>
 			</template>
 		</div>
 		<!-- SEARCH-BUTTON -->
 		<div class="form-group" v-if="onSearch">
-			<button v-on="click: performSearch" class="btn btn-info SearchButton">Visa</button>
+			<button v-on:click="performSearch" class="btn btn-info SearchButton">Visa</button>
 		</div>
 	</div>
 	<div class="col-xs-4">
