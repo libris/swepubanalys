@@ -159,6 +159,9 @@ public class Elasticsearch {
                 "size": 0
             }
         },
+        "year":{
+            "terms":{"field":"hasMods.publicationYear", "size" : 0}
+        },
         "org": {
             "terms": {
                 "field": "hasMods.recordContentSourceValue",
