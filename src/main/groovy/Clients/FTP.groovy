@@ -1,4 +1,5 @@
 package Clients
+
 import org.apache.http.HttpEntity
 import org.apache.http.HttpResponse
 import org.apache.http.client.HttpClient
@@ -12,6 +13,9 @@ import org.apache.http.util.EntityUtils
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import groovy.util.logging.Slf4j
+
+import java.util.zip.ZipEntry
+import java.util.zip.ZipOutputStream
 
 @Slf4j
 public class FTP {
@@ -108,6 +112,57 @@ public class FTP {
         }
         return content;
     }
+
+    public static byte[] createResultFile(byte[] content, String separator, String query){
+
+        log.info "createResultFile:" + content.length + " bytes"
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ZipOutputStream gzipout;
+        try {
+            gzipout = new ZipOutputStream(bos);
+            gzipout.setMethod(ZipOutputStream.DEFLATED);
+
+            // Entry for Query file
+            ZipEntry entry = new ZipEntry("query.sparql");
+            gzipout.putNextEntry(entry);
+            gzipout.write(query.getBytes());
+            gzipout.closeEntry();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return e.getMessage().getBytes();
+        }
+
+
+        try{
+            // Entry for csv file
+            ZipEntry entry = new ZipEntry("query_result.data");
+            gzipout.putNextEntry(entry);
+            log.info "start write to gzipout"
+            gzipout.write(content);
+            gzipout.closeEntry();
+            log.info "gzipout closeEntry"
+
+            log.info "string buffer created"
+        }
+        catch(Exception e)
+        {
+            log.error("", e)
+            return e.getMessage().getBytes();
+        }
+
+        try {
+            gzipout.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        log.info "createResultFile returning"
+        return bos.toByteArray();
+    }
+
 
     @Slf4j
     private class QueryExecuter implements Runnable {
