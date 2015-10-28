@@ -31,13 +31,12 @@ public class Elasticsearch {
     }
 
     public static getAggs(def model) {
-        def aggs = new JsonSlurper().parseText(aggregationsQuery)
-        def jsonToPost = model != null ? JsonOutput.toJson([query: filterByBibliometricModel(model), aggs: aggs]) : JsonOutput.toJson([aggs: aggs])
-
+        def aggs = new JsonSlurper().parseText(selectAggs(model.aggregate))
+        def jsonToPost = model != null ? JsonOutput.toJson([query: filterByModel(model), aggs: aggs]) : JsonOutput.toJson([aggs: aggs])
         def client = ElasticRESTClient()
         def response = client.post(
                 accept: ContentType.JSON,
-                path: '/swepub/bibliometrician/_search',
+                path: "/swepub/${model.aggregate == 'bibliometrician' ? 'bibliometrician': 'dataQuality' }/_search",
         ) { text jsonToPost }
         assert 200 == response.statusCode
         assert response != null;
@@ -48,11 +47,21 @@ public class Elasticsearch {
         return JsonOutput.prettyPrint(output);
     }
 
-    static def filterByBibliometricModel(def model) {
+    static def selectAggs(def aggregateName) {
+        switch (aggregateName) {
+            case "bibliometrician":
+                return bibliometricianAggregate
+            break
+            case "inspector":
+                return inspectorAggregate
+                break
+            default:
+                return inspectorAggregate
+        }
+    }
+
+    static def filterByModel(def model) {
         def queryBase = new JsonSlurper().parseText(filteredQueryBase)
-
-
-
         def filters = []
         addToFilter(model.org, 'hasMods.recordContentSourceValue', filters)
         addToFilter(model.subject, 'hsv3', filters)
@@ -96,7 +105,7 @@ public class Elasticsearch {
     }"""
 
 
-    static String aggregationsQuery = """{
+    static String bibliometricianAggregate = """{
     "openaccess": {
       "terms": { "field": "hasMods.oaType", "size" : 0 }
     },
@@ -138,12 +147,13 @@ public class Elasticsearch {
 
   }"""
 
-    static String qualityAggregationsQuery="""{
-  "aggs": {
-  "missingViolations" : {
-            "missing" : { "field" : "hasMods.qualityName"}
-     },
-   "qualityViolations": {
+    static String inspectorAggregate="""{
+        "missingViolations": {
+            "missing": {
+                "field": "hasMods.qualityName"
+            }
+        },
+        "qualityViolations": {
             "terms": {
                 "field": "hasMods.qualityName",
                 "size": 0
@@ -155,23 +165,27 @@ public class Elasticsearch {
                 "size": 0
             }
         },
-    "violations-per-year": {
-      "terms": {
-        "field": "hasMods.publicationYear",
-        "size": 0
-      },
-
-          "aggs": {
-            "top-names": {
-              "terms": {
+        "violations-per-org-per-year": {
+            "terms": {
                 "field": "hasMods.qualityName",
                 "size": 0
-              }
+            },
+            "aggs": {
+                "orgs": {
+                    "terms": {
+                        "field": "hasMods.recordContentSourceValue",
+                        "size": 0
+                    },
+                    "aggs": {
+                        "year": {
+                            "terms": {
+                                "field": "hasMods.publicationYear",
+                                "size": 0
+                            }
+                        }
+                    }
+                }
             }
-          }
         }
-
-    }
-  }
-}"""
+    }"""
 }
