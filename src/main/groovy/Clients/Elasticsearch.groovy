@@ -37,7 +37,7 @@ public class Elasticsearch {
         def client = ElasticRESTClient()
         def response = client.post(
                 accept: ContentType.JSON,
-                path: '/swepub/bibliometric/_search',
+                path: '/swepub/bibliometrician/_search',
         ) { text jsonToPost }
         assert 200 == response.statusCode
         assert response != null;
