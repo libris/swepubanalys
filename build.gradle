@@ -91,7 +91,7 @@ task webpack(type: Exec) {
 }
 
 task npmInstall(type: Exec) {
-    def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'npm.cmd' : 'npm install'
+    def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'npm.cmd' : 'npm'
     commandLine mainCommand, 'install'
 }
 
