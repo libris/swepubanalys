@@ -148,64 +148,77 @@ public class Elasticsearch {
   }"""
 
     static String inspectorAggregate="""{
-        "missingViolations": {
-            "missing": {
-                "field": "hasMods.qualityName"
-            }
+    "missingViolations": {
+        "missing": {
+            "field": "hasMods.qualityName"
+        }
+    },
+    "missing-violations-per-org": {
+        "terms": {
+            "field": "hasMods.recordContentSourceValue",
+            "size": 0
         },
-        "qualityViolations": {
-            "terms": {
-                "field": "hasMods.qualityName",
-                "size": 0
+        "aggs": {
+            "missingViolations": {
+                "missing": {
+                    "field": "hasMods.qualityName"
+                }
             }
+        }
+    },
+    "qualityViolations": {
+        "terms": {
+            "field": "hasMods.qualityName",
+            "size": 0
+        }
+    },
+    "year": {
+        "terms": {
+            "field": "hasMods.publicationYear",
+            "size": 0
+        }
+    },
+    "org": {
+        "terms": {
+            "field": "hasMods.recordContentSourceValue",
+            "size": 0
+        }
+    },
+    "violations-per-org-per-year": {
+        "terms": {
+            "field": "hasMods.qualityName",
+            "size": 0
         },
-        "year": {
-            "terms": {
-                "field": "hasMods.publicationYear",
-                "size": 0
-            }
-        },
-        "org": {
-            "terms": {
-                "field": "hasMods.recordContentSourceValue",
-                "size": 0
-            }
-        },
-        "violations-per-org-per-year": {
-            "terms": {
-                "field": "hasMods.qualityName",
-                "size": 0
-            },
-            "aggs": {
-                "org": {
-                    "terms": {
-                        "field": "hasMods.recordContentSourceValue",
-                        "size": 0
-                    },
-                    "aggs": {
-                        "year": {
-                            "terms": {
-                                "field": "hasMods.publicationYear",
-                                "size": 0
-                            }
+        "aggs": {
+            "org": {
+                "terms": {
+                    "field": "hasMods.recordContentSourceValue",
+                    "size": 0
+                },
+                "aggs": {
+                    "year": {
+                        "terms": {
+                            "field": "hasMods.publicationYear",
+                            "size": 0
                         }
                     }
                 }
             }
+        }
+    },
+    "org-per-year": {
+        "terms": {
+            "field": "hasMods.recordContentSourceValue",
+            "size": 0
         },
-        "org-per-year": {
-            "terms": {
-                "field": "hasMods.recordContentSourceValue",
-                "size": 0
-            },
-            "aggs": {
-                "year": {
-                    "terms": {
-                        "field": "hasMods.publicationYear",
-                        "size": 0
-                    }
+        "aggs": {
+            "year": {
+                "terms": {
+                    "field": "hasMods.publicationYear",
+                    "size": 0
                 }
             }
         }
-    }"""
+    }
+}"""
 }
