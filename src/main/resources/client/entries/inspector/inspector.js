@@ -44,6 +44,9 @@ var Inspector = {
 			lineChart: {
 				getContent: null, // We use a function to give data to the chart to avoid "indexing" by Vue
 			},
+			barChart: {
+				getContent: null,
+			},
 			pieChart: {
 				getContent: null,
 			}
@@ -107,7 +110,9 @@ var Inspector = {
 		 */
 		setAggregations: function(aggregations) {
 			var lineAggregations = this.formModel.org.length === 0 ? FormatAggregationUtil.toYearTimeSeries(aggregations) : FormatAggregationUtil.toOrgYearTimeSeries(aggregations);
-			var pieAggregations = FormatAggregationUtil.toOrgDistribution(aggregations);
+			var barAggregations = FormatAggregationUtil.toOrgViolationRatio(aggregations);
+			var pieAggregations = FormatAggregationUtil.toViolationDistribution(aggregations);
+			// Set line chart
 			if(lineAggregations.columns.length > 0) {
 				this.$set('lineChart.getContent', function() {
 					return lineAggregations;
@@ -115,6 +120,15 @@ var Inspector = {
 			} else {
 				this.$set('lineChart.getContent', false);
 			}
+			// Set bar chart
+			if(barAggregations.columns.length > 0) {
+				this.$set('barChart.getContent', function() {
+					return barAggregations;
+				});
+			} else {
+				this.$set('barChart.getContent', false);
+			}
+			// Set pie chart
 			if(pieAggregations.columns.length > 0) {
 				this.$set('pieChart.getContent', function() {
 					return pieAggregations;
@@ -122,6 +136,7 @@ var Inspector = {
 			} else {
 				this.$set('pieChart.getContent', false);
 			}
+			// Set empty aggregations bool
 			if(lineAggregations.columns.length === 0 && pieAggregations.columns.length === 0) {
 				this.$set('emptyAggregations', true);
 			} else {

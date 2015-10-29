@@ -20,12 +20,12 @@ var FormatAggregationUtil = {
 			var buckets = aggregations['org-per-year'].buckets;
 			// For each org
 			buckets.map(function(bucket, i) {
-				if(bucket.orgs) {
+				if(bucket.year) {
 					var X = ['x_' + bucket.key];
 					var Y = [bucket.key];
 					xs[bucket.key] = 'x_' + bucket.key;
 					// For each year in org
-					bucket.orgs.buckets.map(function(year, i) {
+					bucket.year.buckets.map(function(year, j) {
 						X.push(year.key);
 						Y.push(year.doc_count);
 					});
@@ -34,10 +34,11 @@ var FormatAggregationUtil = {
 				}
 			});
 		}
-		return {
+		var chart = {
 			xs: xs,
 			columns: columns,
 		}
+		return chart;
 	},
 	/**
 	 * Turn aggregations in to number of docs per year
@@ -75,8 +76,6 @@ var FormatAggregationUtil = {
 	 */
 	toOrgDistribution: function(aggregations) {
 		var formattedData = []; // Data to be returned
-		var colors = {}; // Colors to be returned
-		var color = d3.scale.category20c(); // Color scale
 		// If there are buckets on organisations
 		if(aggregations.org && aggregations.org.buckets && aggregations.org.buckets.length > 0) {
 			// Sort by n. of posts
@@ -88,19 +87,62 @@ var FormatAggregationUtil = {
 			aggregations.org.buckets.map(function(bucket, i) {
 				if(i < top) {
 					formattedData.push([bucket.key, bucket.doc_count]);
-					colors[bucket.key] = color(i);
 				} else if(i === top) {
 					formattedData.push(['Övriga', bucket.doc_count]);
-					colors['Övriga'] = color(i);
 				} else {
 					formattedData[top][1]++;
 				}
 			});
 		}
 		return {
-			columns: formattedData,
-			colors: colors
+			columns: formattedData
 		}
+	},
+	/**
+	 *
+	 */
+	toViolationDistribution: function(aggregations) {
+		var formattedData = []; // Data to be returned
+		// If there are buckets on organisations
+		if(aggregations.org && aggregations.org.buckets && aggregations.org.buckets.length > 0 && aggregations.missingViolations && aggregations.missingViolations.doc_count) {
+			formattedData.push(['Felaktiga poster']);
+			aggregations.org.buckets.map(function(bucket, i) {
+				formattedData[0].push(bucket.doc_count)
+			});
+			formattedData[0].push(-1*aggregations.missingViolations.doc_count);
+			formattedData.push(['Felfria poster', aggregations.missingViolations.doc_count]);
+		}
+		return {
+			columns: formattedData
+		}
+	},
+	/**
+	 *
+	 */
+	toOrgViolationRatio: function(aggregations) {
+		var columns = [];
+		var filler = [];
+		var groups = [];
+		var aggregate = aggregations['missing-violations-per-org'];
+		if(aggregate && aggregate.buckets) {
+			aggregate.buckets = _sortByOrder(aggregate.buckets, function(bucket) {
+				return bucket.missingViolations.doc_count / bucket.doc_count;
+			}, ['desc']);
+			aggregate.buckets.forEach(function(bucket) {
+				var arr = [bucket.key];
+				arr = arr.concat(filler);
+				filler.push(null);
+				arr.push(Math.round(100.0 * bucket.missingViolations.doc_count / bucket.doc_count));
+				columns.push(arr);
+				groups.push(bucket.key);
+			});
+		}
+		columns = columns.slice(0, 5);
+		var chart = {
+			columns: columns,
+			groups: [groups]
+		}
+		return chart;
 	}
 };
 
