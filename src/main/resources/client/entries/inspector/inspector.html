@@ -25,7 +25,7 @@
 				</div>
 				<!-- Charts -->
 				<div class="row" v-show="!emptyAggregations && !error">
-					<div class="col-md-7 {{ $data._styles.ChartContainer }}">
+					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
 						<template v-if="lineChart.getContent">
 							<p>Antal poster</p>
 							<div>
@@ -33,9 +33,17 @@
 							</div>
 						</template>
 					</div>
-					<div class="col-md-5 {{ $data._styles.ChartContainer }}">
+					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
+						<template v-if="barChart.getContent">
+							<p>% Felfria poster</p>
+							<div>
+								<chart type="bar" :get-content="barChart.getContent"></chart>
+							</div>
+						</template>
+					</div>
+					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
 						<template v-if="pieChart.getContent">
-							<p>Fördelning av poster</p>
+							<p>Total andel felfria poster</p>
 							<div>
 								<chart type="donut" :get-content="pieChart.getContent"></chart>
 							</div>

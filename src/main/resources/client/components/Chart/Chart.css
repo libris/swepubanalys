@@ -1,5 +1,9 @@
-.c3 .c3-axis path, .c3 .c3-axis line {
-	stroke: gray;
+.c3 .c3-axis line {
+	stroke: lightgray;
+}
+
+.c3 .c3-axis path {
+	stroke: #f1f1f1;
 }
 
 .tick text { 

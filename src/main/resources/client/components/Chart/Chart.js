@@ -31,9 +31,10 @@ var Chart = {
 				var el = this.$el;
 				this._chart = c3.generate({
 					bindto: el,
-					type: this.type,
 					data: {
-						columns: []
+						type: this.type,
+						columns: [],
+						colors: colors
 					}
 				});
 			} else if(this.type === 'pie' || this.type === 'donut') {
@@ -47,7 +48,7 @@ var Chart = {
 						type: this.type,
 						columns: [],
 						order: 'asc',
-						colors: content.colors
+						colors: colors,
 					}
 				});
 			}
@@ -61,9 +62,58 @@ var Chart = {
 				var content = this.getContent();
 				content.unload = true;
 				this._chart.load(content);
+				this._chart.groups(content.groups);
 			}
 		}
 	}
+}
+
+// Based on d3.scale.category20c()
+var colors = {
+	'bth': '#e6550d',
+	'cth': '#fdd0a2',
+	'du': '#d9d9d9',
+	'esh': '#a1d99b',
+	'fhs': '#31a354',
+	'gih': '#c7e9c0',
+	'gu': '#c6dbef',
+	'hb': '#3182bd',
+	'hh': '#6baed6',
+	'hhs': '#9e9ac8',
+	'hig': '#9ecae1',
+	'his': '#fdae6b',
+	'hj': '#bcbddc',
+	'hkr': '#fd8d3c',
+	'hv': '#fdd0a2',
+	'kau': '#756bb1',
+	'ki': '#9ecae1',
+	'kmh': '#d9d9d9',
+	'konstfack': '#969696',
+	'kth': '#e6550d',
+	'liu': '#fd8d3c',
+	'lnu': '#c7e9c0',
+	'ltu': '#a1d99b',
+	'lu': '#6baed6',
+	'mah': '#bdbdbd',
+	'mdh': '#969696',
+	'miun': '#dadaeb',
+	'nai': '#756bb1',
+	'nationalmuseum': '#bdbdbd',
+	'naturvardsverket': '#74c476',
+	'nrm': '#bcbddc',
+	'oru': '#9e9ac8',
+	'rkh': '#dadaeb',
+	'sh': '#636363',
+	'shh': '#636363',
+	'slu': '#74c476',
+	'su': '#fdae6b',
+	'umu': '#31a354',
+	'uu': '#3182bd',
+	'vti': '#c6dbef',
+	'Övriga': '#74c476',
+	'Alla lärosäten': '#cfbede',
+	'Felaktiga poster': '#eee8f3',
+	'Felfria poster': '#bba3d0',
 }
 
 module.exports = Chart;
