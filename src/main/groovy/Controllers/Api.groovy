@@ -1,7 +1,7 @@
 package Controllers
 
 import Clients.Elasticsearch
-import Clients.FTP
+import Doers.SparqlResultExporter
 import Clients.Virtuoso
 import Validators.OrcidValidator
 import groovy.json.JsonBuilder
@@ -9,8 +9,6 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import spark.Request
 import spark.Response
-import org.apache.log4j.PropertyConfigurator;
-import org.slf4j.*
 import groovy.util.logging.Slf4j
 
 /**
@@ -75,8 +73,8 @@ class Api {
     }
 
     static def dataQuery(Request request, Response response) {
-        def ftpClient = new FTP();
-        String fileName = ftpClient.startQueryAndDownload(request.queryParams("query"), request.queryParams("format"));
+        def exporter = new SparqlResultExporter();
+        String fileName = exporter.startQueryAndDownload(request.queryParams("query"), request.queryParams("format"));
         response.type("application/json");
         return  fileName;
     }
