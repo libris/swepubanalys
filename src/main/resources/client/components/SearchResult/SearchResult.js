@@ -78,7 +78,7 @@ var SearchResult = {
 				var filterFields = SparqlUtil.getFilterFields(this.formModel.templateName);
 				this.$set('formModelHasChanged', true);
 				this.$set('pendingExport', false);
-				this.$set('filterFields', _cloneDeep(filterFields).map(function(field) { field.checked = field.field === '?_recordID'; return field; })); // Will in turn trigger updateQuery()
+				this.$set('filterFields', _cloneDeep(filterFields).map(function(field, i) { field.checked = i === 0; return field; })); // Will in turn trigger updateQuery()
 				this.$set('defaultFilterFields', filterFields); 
 			}
 		},
@@ -128,8 +128,7 @@ var SearchResult = {
 									this.postQuery(query, function(result) {
 										if(!result.error) {
 											this.$set('result', result);
-										}
-										else {
+										} else {
 											console.error('*** SearchResult.updateQuery: Failed to post query. Error:');
 											console.log(result);
 										}
@@ -141,8 +140,7 @@ var SearchResult = {
 									}.bind(this));
 									break;
 								}
-							}
-							else {
+							} else {
 								console.error('*** SearchResult.updateQuery: Invalid former response');
 							}							
 						}

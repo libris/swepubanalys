@@ -8,6 +8,7 @@ var SiteWrapper = require('components/SiteWrapper/SiteWrapper.js');
 var Chart = require('components/Chart/Chart.js');
 var SearchForm = require('components/SearchForm/SearchForm.js');
 var SearchResult = require('components/SearchResult/SearchResult.js');
+var WeightingHelp = require('components/WeightingHelp/WeightingHelp.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
@@ -75,7 +76,8 @@ var Inspector = {
 		'site-wrapper': SiteWrapper,
 		'chart': Chart,
 		'search-form': SearchForm,
-		'search-result': SearchResult
+		'search-result': SearchResult,
+		'weighting-help': WeightingHelp
 	},
 	methods: {
 		/**
@@ -89,20 +91,23 @@ var Inspector = {
 		},
 		/**
 		 * Starts an activity
-		 * @param {Number} activity
+		 * @param {String} activity
 		 */
 		startActivity: function(activity) {
+			var formData = {
+				formModel: _cloneDeep(this.formModel),
+				fields: _cloneDeep(this.fields)
+			}
 			switch(activity) {
 				case 'ERROR_LIST':
-					var formData = {
-						formModel: _cloneDeep(this.formModel),
-						fields: _cloneDeep(this.fields)
-					}
 					formData.formModel.templateName = 'quality';
-					this.$set('formData', formData);
-					this.$set('activity', activity);
+				break;
+				case 'LOCAL_DUPLICATES':
+					formData.formModel.templateName = 'duplicates';
 				break;
 			}
+			this.$set('formData', formData);
+			this.$set('activity', activity);
 		},
 		/**
 		 * Format aggregations and pass them on to the respective charts
