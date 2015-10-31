@@ -7,6 +7,7 @@ var _findIndex = require('lodash/array/findIndex');
 // Components
 var ListPreview = require('components/ListPreview/ListPreview.js');
 var FilterFields = require('components/FilterFields/FilterFields.js');
+var MailExport = require('components/MailExport/MailExport.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
@@ -67,6 +68,7 @@ var SearchResult = {
 	components: {
 		'list-preview': ListPreview,
 		'filter-fields': FilterFields,
+		'mail-export': MailExport,
 	},
 	methods: {
 		/** 

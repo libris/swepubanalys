@@ -4,7 +4,7 @@
 var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
 // Mixins
 var HelpMixin = require('mixins/HelpMixin/HelpMixin.js');
-var FieldValidationMixin = require('mixins/FormFieldValidationMixin/FormFieldValidationMixin.js');
+var FormFieldValidationMixin = require('mixins/FormFieldValidationMixin/FormFieldValidationMixin.js');
 var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin/FormFieldLayoutMixin.js');
 // Utils
 var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
@@ -15,7 +15,7 @@ var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
  * @prop {Object} test
  */
 var OrcidInput = {
-	mixins: [HelpMixin, FieldValidationMixin, FormFieldLayoutMixin],
+	mixins: [HelpMixin, FormFieldValidationMixin, FormFieldLayoutMixin],
 	props: ['field', 'test'],
 	template: require('./OrcidInput.html'),
 	components: {

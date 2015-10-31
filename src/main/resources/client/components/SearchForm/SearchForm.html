@@ -2,13 +2,13 @@
 <div class="row">
 	<div class="col-xs-8">
 		<slot name="SearchFormDescription"></slot>
-		<!-- SHOW FIELDS -->
+		<!-- Fields -->
 		<div v-for="field in fields | orderFields">
 			<template v-if="isTemplateField(field, templateName)">
 				<component :is="field.fieldName"></component>
 			</template>
 		</div>
-		<!-- SHOW-BUTTONS -->
+		<!-- Show buttons -->
 		<div class="{{ $data._styles.ShowFieldButtons }}">
 			<template v-if="isTemplateField(fields.publType, templateName)">
 				<show-field-button :field.sync="fields.publType" :get-field-index="getFieldIndex"></show-field-button>
@@ -23,7 +23,7 @@
 				<show-field-button :field.sync="fields.openaccess" :get-field-index="getFieldIndex"></show-field-button>
 			</template>
 		</div>
-		<!-- SEARCH-BUTTON -->
+		<!-- Search button -->
 		<div class="form-group" v-if="onSearch">
 			<button v-on:click="performSearch" class="btn btn-info SearchButton">Visa</button>
 		</div>
