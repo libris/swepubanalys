@@ -53,7 +53,6 @@ var MailExport = {
 				query: this.query
 			};
 			this.$set('sent', true);
-			console.log(data);
 		}
 	}
 };

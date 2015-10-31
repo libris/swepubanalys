@@ -5,11 +5,9 @@ var Q = require('q');
 // Components
 var FormErrorLabel = require('components/FormErrorLabel/FormErrorLabel.js');
 
-/*
- * Field Validation Mixin. Used to test props.field.value against props.field.test functions, or custom
- * test functions.
- * @prop {Object} field
- * @prop {Object} test
+/**
+ * Field Validation Mixin. Used to test $data.field.value against $data.field.test functions, or custom
+ * test functions
  */
 var FormFieldValidationMixin = {
 	data: function() {
