@@ -16,9 +16,7 @@ var MailExport = {
 		return {
 			sent: false,
 			format: 'application/json',
-			field: {
-				value: ''
-			},
+			email: '',
 			_styles: styles
 		}
 	},
@@ -34,21 +32,23 @@ var MailExport = {
 		/**
 		 * Check if field.value is a valid email address
 		 * source: http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
+		 * @param {Function} callback
 		 */
 		var isValidEmail = function(callback) {
 			var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
-			callback(this.field.value.length === 0 || re.test(this.field.value) || 'Ogiltig e-mail angiven');
+			callback(this.email.length === 0 || re.test(this.email) || 'Ogiltig e-mail angiven');
 		}.bind(this);
-		this.setValidationListeners([isValidEmail]);
+		this.setValidationListeners('email', [isValidEmail]);
 	},
 	methods: {
 		/**
 		 * Sends request with format, email and query to server
+		 * @param {Object} e
 		 */
 		performExport: function(e) {
 			e.stopPropagation();
 			var data = {
-				email: this.field.value,
+				email: this.email,
 				format: this.format,
 				query: this.query
 			};

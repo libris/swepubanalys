@@ -1,6 +1,6 @@
 <div class="{{ $data._styles.MailExport }}">
 	<div v-if="sent">
-		Servern genererar din fil och den kommer skickas till <b>{{ field.value }}</b>.
+		Servern genererar din fil och den kommer skickas till <b>{{ email }}</b>.
 	</div>
 	<div v-if="!sent">
 		<b>Exportera och skicka fil till min e-mail</b>
@@ -14,7 +14,7 @@
 			</div>
 			<div class="col-xs-9">
 				<div class="form-group">
-					<input v-model="field.value" class="form-control" type="text" placeholder="min@email.se"></input>
+					<input v-model="email" class="form-control" type="text" placeholder="min@email.se"></input>
 				</div>
 				<form-error-label :errors="errors"></form-error-label>
 				<div class="form-group">

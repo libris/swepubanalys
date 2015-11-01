@@ -65,7 +65,7 @@ var TimeInput = {
 			}
 		}.bind(this));
 		// Set validation listeners though the FieldValidationMixin
-		this.setValidationListeners([isTimeValidAccordingToRegexp, isValidRange, isValidYearSpan]);
+		this.setValidationListeners('field', [isTimeValidAccordingToRegexp, isValidRange, isValidYearSpan]);
 	}
 };
 

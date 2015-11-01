@@ -66,7 +66,7 @@ var OrcidInput = {
 				callback(true);
 			}
 		}.bind(this);
-		this.setValidationListeners([this.isValidAccordingToRegexp, isValidAccordingToServer]);
+		this.setValidationListeners('field.value', [this.isValidAccordingToRegexp, isValidAccordingToServer]);
 	},
 	methods: {
 		/**
