@@ -2,6 +2,7 @@
 
 // Vendor
 var Vue = require('vue');
+var $ = require('jquery');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 // Components
 var SiteWrapper = require('components/SiteWrapper/SiteWrapper.js');
@@ -33,6 +34,7 @@ var Inspector = {
 			emptyAggregations: false,
 			error: false,
 			activity: 0,
+			pendingScroll: false,
 			// Data synced with SearchForm component
 			formModel: { },
 			fields: [],
@@ -90,6 +92,17 @@ var Inspector = {
 			this.$set('formModel', formData.formModel);
 		},
 		/**
+		 * Called when SearchResult has received a result. Scroll down to component if pendingScroll flag is true
+		 */
+		onResultReceived: function() {
+			if(this.pendingScroll === true) {
+				$('html, body').animate({
+					scrollTop: $(this.$el.getElementsByClassName('searchResult')[0]).offset().top,
+				}, 900);
+				this.$set('pendingScroll', false);
+			}
+		},
+		/**
 		 * Starts an activity
 		 * @param {String} activity
 		 */
@@ -106,6 +119,7 @@ var Inspector = {
 					formData.formModel.templateName = 'duplicates';
 				break;
 			}
+			this.$set('pendingScroll', true);
 			this.$set('formData', formData);
 			this.$set('activity', activity);
 		},
