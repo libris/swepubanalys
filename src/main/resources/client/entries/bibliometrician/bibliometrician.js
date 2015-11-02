@@ -1,6 +1,6 @@
 'use strict';
 
-// Globals
+// Vendor
 var Vue = require('vue');
 var $ = require('jquery');
 // Components

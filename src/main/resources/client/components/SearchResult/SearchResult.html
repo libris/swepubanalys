@@ -1,4 +1,4 @@
-<div style="height: 25px;">
+<div style="height: 25px; padding-top: 50px;">
 	<div v-show="pendingUpdate === true" transition="expand" class="{{ $data._styles.PendingUpdate }}">
 		<h2>Laddar...</h2>
 	</div>
@@ -26,10 +26,7 @@
 							<span class="caret"></span>
 						</button>
 						<ul class="dropdown-menu" aria-labelledby="export">
-							<li><a href="javascript:void(null);" v-on:click="performExport('json')">Som .json-fil</a></li>
-							<li><a href="javascript:void(null);" v-on:click="performExport('xml')">Som .xml-fil</a></li>
-							<li><a href="javascript:void(null);" v-on:click="performExport('csv')">Som .csv-fil</a></li>
-							<li><a href="javascript:void(null);" v-on:click="performExport('tsv')">Som .tsv-fil</a></li>
+							<mail-export :query="query"></mail-export>
 						</ul>
 					</div>
 				</div>
@@ -40,19 +37,24 @@
 			<h4>Servern genererar din fil och den kommer snart att laddas ned...</h4>
 		</div>
 		<hr>
-		<h4>Välj fält till uttag</h4>
-		<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields"></filter-fields>
-		<h4>Förhandsvisning av uttag</h4>
-		<br>
-		<div style="min-height: 480px;">
-			<div v-show="pendingRefresh !== true">
-				<list-preview :result="result" :filter-fields="filterFields"></list-preview>
-			</div>
-			<div v-show="pendingRefresh == true" class="{{ $data._styles.PendingRefresh }}">
-				<h2>Hämtar förhandsvisning...</h2>
+		<div class="{{ $data._styles.Item }}">
+			<h4>Välj fält till uttag</h4>
+			<slot name="FilterFieldsDescription"></slot>
+			<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields"></filter-fields>
+		</div>
+		<div class="{{ $data._styles.Item }}">
+			<h4>Förhandsvisning av uttag</h4>
+			<br>
+			<div style="min-height: 480px;">
+				<div v-show="pendingRefresh !== true">
+					<list-preview :result="result" :filter-fields="filterFields"></list-preview>
+				</div>
+				<div v-show="pendingRefresh == true" class="{{ $data._styles.PendingRefresh }}">
+					<h2>Hämtar förhandsvisning...</h2>
+				</div>
 			</div>
 		</div>
-		<div class="{{ $data._styles.Query }}">
+		<div class="{{ $data._styles.Item }}">
 			<h4>Sökfråga</h4>
 			<pre>{{ query }}</pre>
 		</div>

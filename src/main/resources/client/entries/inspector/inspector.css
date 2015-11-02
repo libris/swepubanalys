@@ -2,8 +2,8 @@
 	min-height: 420px;
 	margin-top: 5px;
 	margin-bottom: 45px;
-	border-top: 1px solid #d3d3d3;
-	border-bottom: 1px solid #d3d3d3;
+	border-top: 1px solid #efefef;
+	border-bottom: 1px solid #efefef;
 	padding-top: 35px;
 	padding-bottom: 20px;
 }
@@ -30,6 +30,7 @@
 }
 
 .BtnHuge {
+	margin-top: 10px;
     padding: 18px 28px;
     font-size: 22px; 
     line-height: normal;

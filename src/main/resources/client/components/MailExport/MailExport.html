@@ -1,0 +1,28 @@
+<div class="{{ $data._styles.MailExport }}">
+	<div v-if="sent">
+		Servern genererar din fil och den kommer skickas till <b>{{ email }}</b>.
+	</div>
+	<div v-if="!sent">
+		<b>Exportera och skicka fil till min e-mail</b>
+		<hr>
+		<div class="row">
+			<div class="col-xs-3">
+				<input type="radio" name="format" v-model="format" value="application/json">.json</input><br>
+				<input type="radio" name="format" v-model="format" value="application/xml">.xml</input><br>
+				<input type="radio" name="format" v-model="format" value="text/csv">.tsv</input><br>
+				<input type="radio" name="format" v-model="format" value="text/tab-separated-values">.csv</input><br>
+			</div>
+			<div class="col-xs-9">
+				<div class="form-group">
+					<input v-model="email" class="form-control" type="text" placeholder="min@email.se"></input>
+				</div>
+				<form-error-label :errors="errors"></form-error-label>
+				<div class="form-group">
+					<button class="btn btn-info" v-on:click="performExport" :disabled="errors.length !== 0">
+						<i class="fa fa-envelope"></i>&nbsp;Skicka
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

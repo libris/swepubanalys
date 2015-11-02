@@ -25,7 +25,10 @@ require('css/transitions.css');
 /**
  * Search Form-component
  * @prop {Function} onSearch
+ * @prop {Function} onChange
  * @prop {String} defaultTemplate
+ * @prop {String} to
+ * @prop {String} from
  */
 var SearchForm = {
 	template: require('./SearchForm.html'),
@@ -129,8 +132,7 @@ var SearchForm = {
 			if(this.onSearch) {
 				var formData = this.generateFormData();
 				this.onSearch(formData);
-			}
-			else {
+			} else {
 				console.error('*** SearchForm.performSearch: No onSearch prop provided');
 			}
 		},

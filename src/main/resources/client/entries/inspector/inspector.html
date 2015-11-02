@@ -58,22 +58,40 @@
 						<h2>Tre vägar till högre datakvalitet</h2>
 					</div>
 					<div slot="SearchFormDescription">
-						Välj organisation och år, välj sedan aktivitet. 
+						<p>Välj organisation och år, välj sedan aktivitet. </p>
 					</div>
 				</search-form>
+				<!-- Activity buttons -->
 				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('ERROR_LIST')">
 					Lista ofullständig metadata
 				</button>
+				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
+					Lista lokala dubblettkandidater
+				</button>
 			</div>
-			<!-- Error list activity -->
-			<search-result v-if="activity === 'ERROR_LIST'" :form-model="formData.formModel" :fields="formData.fields">
-				<div slot="SearchResultTitle">
-					<h2>Ofullständig metadata: Granska och exportera lista</h2>
-				</div>
-				<div slot="SearchResultDescription">
-					<p>Exportera lista för att rätta bristfällig eller saknad metadata.</p>
-				</div>
-			</search-result>
+			<div class="searchResult">
+				<!-- Error list activity -->
+				<search-result v-if="activity === 'ERROR_LIST'" :form-model="formData.formModel" :fields="formData.fields" :on-result-received.once="onResultReceived">
+					<div slot="SearchResultTitle">
+						<h2>Ofullständig metadata: Granska och exportera lista</h2>
+					</div>
+					<div slot="SearchResultDescription">
+						<p>Exportera lista för att rätta bristfällig eller saknad metadata.</p>
+					</div>
+				</search-result>
+				<!-- Local duplicates activity -->
+				<search-result v-if="activity === 'LOCAL_DUPLICATES'" :form-model="formData.formModel" :fields="formData.fields" :on-result-received.once="onResultReceived">
+					<div slot="SearchResultTitle">
+						<h2>Lokala dubletter: Granska och exportera lista</h2>
+					</div>
+					<div slot="SearchResultDescription">
+						<p>Exportera lista för att åtgärda lokala dubbletter.</p>
+					</div>
+					<div id="WeightingHelp" slot="FilterFieldsDescription">
+						<weighting-help></weighting-help>
+					</div>
+				</search-result>
+			</div>
 		</div>
 	</site-wrapper>
 </div>
