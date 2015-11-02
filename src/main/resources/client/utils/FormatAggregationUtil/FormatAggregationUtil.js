@@ -99,7 +99,8 @@ var FormatAggregationUtil = {
 		}
 	},
 	/**
-	 *
+	 * Turn aggregations in to overall distribution of violations
+	 * @param {Object} aggregations
 	 */
 	toViolationDistribution: function(aggregations) {
 		var formattedData = []; // Data to be returned
@@ -117,7 +118,8 @@ var FormatAggregationUtil = {
 		}
 	},
 	/**
-	 *
+	 * Turn aggregations in to missing violation ratio per org
+	 * @param {Object} aggregations
 	 */
 	toOrgViolationRatio: function(aggregations) {
 		var columns = [];
@@ -152,8 +154,8 @@ var FormatAggregationUtil = {
 		var chart = {
 			columns: columns,
 			groups: [groups],
-			categories: groups,
-		}
+			categories: groups
+		};
 		return chart;
 	}
 };

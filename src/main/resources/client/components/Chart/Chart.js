@@ -11,7 +11,7 @@ require('./Chart.css');
  */
 var Chart = {
 	_chart: null, // Reference to chart
-	props: ['type', 'xAxisType', 'getContent'],
+	props: ['type', 'xAxisType', 'showLegend', 'height', 'tickFormat', 'getContent'],
 	template: '<div></div>',
 	ready: function() {
 		var el = this.$el;
@@ -27,43 +27,34 @@ var Chart = {
 		 */
 		create: function() {
 			var content = this.getContent();
-			// Line or Bar Chart
-			if(this.type === 'line' || this.type === 'bar') {
-				var el = this.$el; // Root element
-				// Chart config
-				var config = {
-					bindto: el,
-					data: {
-						type: this.type,
-						columns: [],
-						colors: colors
-					}
-				};
-				if(this.xAxisType === 'category') { // X axis config
-					config.axis = {
-						x: {
-							type: 'category',
-							categories: []
-						}
-					};
-				}
-				this._chart = c3.generate(config);
-			// Pie or Donut Chart
-			} else if(this.type === 'pie' || this.type === 'donut') {
-				var el = this.$el;
-				this._chart = c3.generate({
-					bindto: el,
-					size: {
-						height: 290
-					},
-					data: {
-						type: this.type,
-						columns: [],
-						order: 'asc',
-						colors: colors,
-					}
-				});
+			var el = this.$el; // Root element
+			// Chart config
+			var config = {
+				bindto: el,
+				data: {
+					type: this.type,
+					columns: [],
+					order: 'asc',
+					colors: colors
+				},
+				legend: {
+					show: this.showLegend === false ? false : true
+				},
+				size: {
+					height: this.height
+				},
+			};
+			if(this.tickFormat) {
+				config.axis = config.axis || {};
 			}
+			if(this.xAxisType === 'category') { // X axis config
+				config.axis = config.axis || {};
+				config.axis.x = {
+					type: 'category',
+					categories: []
+				};
+			}
+			this._chart = c3.generate(config);
 			this.update();
 		},
 		/**
