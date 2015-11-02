@@ -2,6 +2,8 @@
 
 // Mixins
 var FormFieldValidationMixin = require('mixins/FormFieldValidationMixin/FormFieldValidationMixin.js');
+// Utils
+var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
 // CSS-modules
 var styles = require('!!style!css?modules!./MailExport.css');
 
@@ -15,7 +17,7 @@ var MailExport = {
 	data: function() {
 		return {
 			sent: false,
-			format: 'application/json',
+			format: 'application/sparql-results+json',
 			email: '',
 			_styles: styles
 		}
@@ -47,11 +49,8 @@ var MailExport = {
 		 */
 		performExport: function(e) {
 			e.stopPropagation();
-			var data = {
-				email: this.email,
-				format: this.format,
-				query: this.query
-			};
+			SparqlUtil.sendFileToEmail(this.email, this.format, false, this.query, function(response) {
+			});
 			this.$set('sent', true);
 		}
 	}

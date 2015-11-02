@@ -9,7 +9,28 @@ var $ = jQuery;
  */
 var SparqlUtil = {
 	apiUrl: '/api/1.0/sparql',
+	sendFileToEmailUrl: '/api/2.0/data/query',
 	getFileUrl: 'http://virhp07.libris.kb.se/sparql',
+	/**
+	 * Request that a file should be sent to an e-mail address
+	 * @param {String} email
+	 * @param {String} format
+	 * @param {Boolean} zipped
+	 * @param {String} query
+	 * @param {Function} callback 
+	 */
+	sendFileToEmail: function(email, format, zipped, query, callback) {
+		$.ajax({
+			url: this.sendFileToEmailUrl,
+			type: 'POST',
+			data: {
+				email: email,
+				format: format,
+				zip: false,
+				query: query
+			},
+		})
+	},
 	/**
 	 * Generates a SPARQL Query
      *
