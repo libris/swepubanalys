@@ -12,7 +12,7 @@ import spark.Response
 import groovy.util.logging.Slf4j
 
 /**
- * Created by Theodor on 2015-10-01.
+ * This class sits between Route configuration and actual testable use case code (Doers) for the API parts of the system
  */
 @Slf4j
 class Api {
@@ -39,8 +39,8 @@ class Api {
         def sparql = Thread.currentThread().getContextClassLoader().getResource("sparqlQueries/swepubPublicationYearLimits.sparql").getText();
         def resp = new Virtuoso().post(sparql, "application/json");
         final Map map = new HashMap();
-        map.put("min", ((String)resp.results.bindings["callret-0"].value[0]).toInteger());
-        map.put("max",((String)resp.results.bindings["callret-1"].value[0]).toInteger())
+        map["min"] =  ((String)resp.results.bindings["callret-0"].value[0]).toInteger()
+        map["max"] = ((String) resp.results.bindings["callret-1"].value[0]).toInteger()
         response.type("application/json");
         return new JsonBuilder( map ).toPrettyString()
     }
@@ -56,15 +56,6 @@ class Api {
         return Elasticsearch.getAggs(model);
     }
 
-    static def validateBibliometricModel(Request request, Response response) {
-        def model = new JsonSlurper().parseText(request.queryParams("model"))
-        model.orcid.validateResult = validateOrcid(model.orcid)
-        model.to.validateResult
-        return JsonOutput.toJson(model);
-    }
-
-
-
     static validateOrcid(Request request, Response response) {
         def orcid = request.queryParams("orcid");
         response.type("application/json");
@@ -74,7 +65,7 @@ class Api {
 
     static def dataQuery(Request request, Response response) {
         def exporter = new SparqlResultExporter();
-        String fileName = exporter.startQueryAndDownload(request.queryParams("query"), request.queryParams("format"));
+        String fileName = exporter.startQueryAndDownload(request.queryParams("query"), request.queryParams("format"),request.queryParams("email"), request.queryParams("zip") == "true" );
         response.type("application/json");
         return  fileName;
     }
