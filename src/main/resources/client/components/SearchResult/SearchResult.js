@@ -154,8 +154,7 @@ var SearchResult = {
 				}.bind(this));
 				// *** Generate new query for query-window
 				SparqlUtil.generateQuery({
-					//limit: false,
-					limit: true, // Only use limited queries for now, testing purposes
+					limit: false,
 					formModel: formModel
 				}, function(query) {
 					this.$set('query', query);
