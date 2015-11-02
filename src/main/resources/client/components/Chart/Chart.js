@@ -11,7 +11,7 @@ require('./Chart.css');
  */
 var Chart = {
 	_chart: null, // Reference to chart
-	props: ['type', 'getContent'],
+	props: ['type', 'xAxisType', 'getContent'],
 	template: '<div></div>',
 	ready: function() {
 		var el = this.$el;
@@ -23,20 +23,32 @@ var Chart = {
 	},
 	methods: {
 		/**
-		 * Create chart
+		 * Create a C3 Chart
 		 */
 		create: function() {
 			var content = this.getContent();
+			// Line or Bar Chart
 			if(this.type === 'line' || this.type === 'bar') {
-				var el = this.$el;
-				this._chart = c3.generate({
+				var el = this.$el; // Root element
+				// Chart config
+				var config = {
 					bindto: el,
 					data: {
 						type: this.type,
 						columns: [],
 						colors: colors
 					}
-				});
+				};
+				if(this.xAxisType === 'category') { // X axis config
+					config.axis = {
+						x: {
+							type: 'category',
+							categories: []
+						}
+					};
+				}
+				this._chart = c3.generate(config);
+			// Pie or Donut Chart
 			} else if(this.type === 'pie' || this.type === 'donut') {
 				var el = this.$el;
 				this._chart = c3.generate({
@@ -63,6 +75,9 @@ var Chart = {
 				content.unload = true;
 				this._chart.load(content);
 				this._chart.groups(content.groups);
+				if(content.categories) {
+					this._chart.categories(content.categories);
+				}
 			}
 		}
 	}
