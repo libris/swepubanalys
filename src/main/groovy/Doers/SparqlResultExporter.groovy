@@ -139,7 +139,7 @@ public class SparqlResultExporter {
                 return ".ttl"
                 break;
             case "application/rdf+xml":
-                return "."
+                return ".rdf"
                 break;
             case 'text/plain':
                 return ".txt"
