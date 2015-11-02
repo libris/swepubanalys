@@ -33,11 +33,11 @@ var PublTypeInput = {
 		}
 	},
 	ready: function() {
-		this.initHelp({
+		/*this.initHelp({
 			title: 'PUBLIKATIONSTYPER',
 			content: require('docs/publication_type.md'), 
 			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
-		});
+		});*/
 	},
 	methods: {
 		/**

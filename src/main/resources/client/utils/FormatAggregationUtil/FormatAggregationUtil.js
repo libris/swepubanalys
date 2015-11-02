@@ -131,16 +131,28 @@ var FormatAggregationUtil = {
 			aggregate.buckets.forEach(function(bucket) {
 				var arr = [bucket.key];
 				arr = arr.concat(filler);
+				// Fill start with zeros
 				filler.push(null);
-				arr.push(Math.round(100.0 * bucket.missingViolations.doc_count / bucket.doc_count));
+				var val = Math.round(100.0 * bucket.missingViolations.doc_count / bucket.doc_count);
+				arr.push(val);
 				columns.push(arr);
 				groups.push(bucket.key);
 			});
 		}
-		columns = columns.slice(0, 5);
+		// Top 7
+		columns = columns.slice(0, 7);
+		groups = groups.slice(0, 7);
+		// Fill tail with zeros
+		columns.forEach(function(column) {
+			var desiredLength = columns.length + 1;
+			for(var i = column.length; i < desiredLength; i++) {
+				column.push(null);
+			}
+		});
 		var chart = {
 			columns: columns,
-			groups: [groups]
+			groups: [groups],
+			categories: groups,
 		}
 		return chart;
 	}
