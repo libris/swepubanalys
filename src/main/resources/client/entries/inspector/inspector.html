@@ -76,7 +76,7 @@
 				<!-- Error list activity -->
 				<search-result v-if="activity === 'ERROR_LIST'" :form-model="formData.formModel" :fields="formData.fields" :on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Ofullständig metadata: Granska och exportera lista</h2>
+						<h2>Ofullständig metadata</h2>
 					</div>
 					<div slot="SearchResultDescription">
 						<p>Exportera lista för att rätta bristfällig eller saknad metadata.</p>
@@ -85,7 +85,7 @@
 				<!-- Local duplicates activity -->
 				<search-result v-if="activity === 'LOCAL_DUPLICATES'" :form-model="formData.formModel" :fields="formData.fields" :on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Lokala dubletter: Granska och exportera lista</h2>
+						<h2>Lokala dubblettkandidater</h2>
 					</div>
 					<div slot="SearchResultDescription">
 						<p>Exportera lista för att åtgärda lokala dubbletter.</p>

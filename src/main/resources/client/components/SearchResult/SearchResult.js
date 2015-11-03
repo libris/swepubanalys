@@ -34,7 +34,6 @@ var SearchResult = {
 			// UI state
 			pendingUpdate: true,
 			pendingRefresh: true,
-			pendingExport: false,
 			// Data
 			query: '',
 			filterFields: [],
@@ -68,7 +67,7 @@ var SearchResult = {
 	components: {
 		'list-preview': ListPreview,
 		'filter-fields': FilterFields,
-		'mail-export': MailExport,
+		'mail-export': MailExport
 	},
 	methods: {
 		/** 
@@ -79,7 +78,6 @@ var SearchResult = {
 			if(this.formModel && this.formModel.templateName && this.formModel.templateName.length > 0) {
 				var filterFields = SparqlUtil.getFilterFields(this.formModel.templateName);
 				this.$set('formModelHasChanged', true);
-				this.$set('pendingExport', false);
 				this.$set('filterFields', _cloneDeep(filterFields).map(function(field, i) { field.checked = i === 0; return field; })); // Will in turn trigger updateQuery()
 				this.$set('defaultFilterFields', filterFields); 
 			}
@@ -189,62 +187,6 @@ var SearchResult = {
 				n += filterField.checked === true ? 1 : 0;
 			});
 			return n;
-		},
-		/**
-		 * Calls appropriate export-function depending on fileFormat
-		 * @param {String} fileType
-		 */
-		performExport: function(fileType) {
-			this.$set('pendingExport', true);
-			var finished = function() {
-				this.$set('pendingExport', false);
-			}.bind(this);
-			switch(fileType) {
-				case 'json':
-					this.performJsonExport(finished);
-				break;
-				case 'xml':
-					this.performXmlExport(finished);
-				break;
-				case 'csv':
-					this.performCsvExport(finished);
-				break;
-				case 'tsv':
-					this.performTsvExport(finished);
-				break;
-			}
-		},
-		/**
-		 * Gets a file as .json
-		 */
-		performJsonExport: function(callback) {
-			SparqlUtil.getFile(this.query, 'application/json', function() {
-				callback();
-			}.bind(this));
-		},
-		/**
-		 * Gets file as .xml
-		 */
-		performXmlExport: function(callback) {
-			SparqlUtil.getFile(this.query, 'application/xml', function() {
-				callback();
-			}.bind(true));
-		},
-		/**
-		 * Gets a file as .csv
-		 */
-		performCsvExport: function(callback) {
-			SparqlUtil.getFile(this.query, 'text/csv', function() {
-				callback();
-			}.bind(this));
-		},
-		/**
-		 * Gets a file as .tsv
-		 */
-		performTsvExport: function(callback) {
-			SparqlUtil.getFile(this.query, 'text/tab-separated-values', function() {
-				callback();
-			}.bind(this));
 		}
 	}
 };

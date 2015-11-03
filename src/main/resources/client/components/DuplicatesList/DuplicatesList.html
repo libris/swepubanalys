@@ -1,73 +1,85 @@
 <div style="height: 25px; padding-top: 50px;">
+	<div v-show="pendingUpdate === true" transition="expand" class="{{ $data._styles.PendingUpdate }}">
+		<h2>Laddar...</h2>
+	</div>
 </div>
-<div class="{{ $data._styles.DuplicatesList }}">
-	<slot name="DuplicatesListTitle"></slot>
-	<slot name="DuplicatesListDescription"></slot>
-	<hr>
-	<div class="{{ $data._styles.TableContainer }}">
-		<table class="table {{ $data._styles.StaticHeader }}" style="table-layout: inherit; width: 100%">
-			<thead class="{{ $data._styles.Thead }}" style="table-layout: initial;">
-				<th class="{{ $data._styles.Th }} {{ $data._styles.Col0 }}"></th>
-				<th class="{{ $data._styles.Th }} {{ $data._styles.Col1 }}">
-					<p class="{{ $data._styles.FieldName }}">
-						Organisation / publikation
-					</p>
-				</th>
-				<th class="{{ $data._styles.Th }} {{ $data._styles.Col2 }}">
-					<p class="{{ $data._styles.FieldName }}">
-						Organisation / publikation
-					</p>
-				</th>
-				<th class="{{ $data._styles.Th }} {{ $data._styles.Col3 }}">
-					<p class="{{ $data._styles.FieldName }}">
-						Viktning
-					</p>
-				</th>
-			</thead>
-			<tbody class="{{ $data._styles.Tbody }}">
-				<template v-for="article in ((result && result.results && result.results.bindings) ? result.results.bindings : [])">
-					<tr class="{{ $parent.$data._styles.DarkRow }}">
-						<td class="{{ $parent.$data._styles.Col0 }}">
-							<button v-on:click="setHandleArticle(article)" class="btn btn-md btn-success">
-								<i class="fa fa-expand"></i>
-							</button>
-						</td>
-						<td class="{{ $parent.$data._styles.Col1 }}">
-							{{ article._orgCode1.value }}
-						</td>
-						<td class="{{ $parent.$data._styles.Col2 }}">
-							{{ article._orgCode2.value }}
-						</td>
-						<td class="{{ $parent.$data._styles.Col3 }}">
-							{{ Math.round(article._total_match_weight.value*1000)/1000 }}
-						</td>
-					</tr>
-					<tr v-if="handleArticle === article">
-						<td class="{{ $parent.$data._styles.Col0 }} {{ $parent.$data._styles.Borderless }}">
-						</td>
-						<td class="{{ $parent.$data._styles.Col1 }} {{ $parent.$data._styles.Borderless }}">
-							<div class="{{ $parent.$data._styles.WindowContainer }}">
-								<iframe class="{{ $parent.$data._styles.Window }}">
-								</iframe>
-							</div>
-						</td>
-						<td class="{{ $parent.$data._styles.Col2 }} {{ $parent.$data._styles.Borderless }}">
-							<div class="{{ $parent.$data._styles.WindowContainer }}">
-								<iframe class="{{ $parent.$data._styles.Window }}">
-								</iframe>
-							</div>
-						</td>
-						<td class="{{ $parent.$data._styles.Col3 }} {{ $parent.$data._styles.Borderless }}">
-							<p class="{{ $parent.$data._styles.SameValues }}">
-								Lika fält
-							</p>
-							<p class="{{ $parent.$data._styles.DifferingValues }}">
-								Olika fält
-							</p>
-						</td>
-					</tr>
-				</template>
-			</tbody>
-		</table>
+<div style="min-height: 1000px">
+	<div v-show="pendingUpdate !== true" class="{{ $data._styles.DuplicatesList }}">
+		<slot name="DuplicatesListTitle"></slot>
+		<div class="row">
+			<div class="col-xs-8">
+				<slot name="DuplicatesListDescription"></slot>
+			</div>
+			<div class="col-xs-4">
+				<mail-export :query="query"></mail-export>
+			</div>
+		</div>
+		<hr>
+		<div class="{{ $data._styles.TableContainer }}">
+			<table class="table {{ $data._styles.StaticHeader }}" style="table-layout: inherit; width: 100%">
+				<thead class="{{ $data._styles.Thead }}" style="table-layout: initial;">
+					<th class="{{ $data._styles.Th }} {{ $data._styles.Col0 }}"></th>
+					<th class="{{ $data._styles.Th }} {{ $data._styles.Col1 }}">
+						<p class="{{ $data._styles.FieldName }}">
+							Organisation / publikation
+						</p>
+					</th>
+					<th class="{{ $data._styles.Th }} {{ $data._styles.Col2 }}">
+						<p class="{{ $data._styles.FieldName }}">
+							Organisation / publikation
+						</p>
+					</th>
+					<th class="{{ $data._styles.Th }} {{ $data._styles.Col3 }}">
+						<p class="{{ $data._styles.FieldName }}">
+							Viktning
+						</p>
+					</th>
+				</thead>
+				<tbody class="{{ $data._styles.Tbody }}">
+					<template v-for="article in ((result && result.results && result.results.bindings) ? result.results.bindings : [])">
+						<tr class="{{ $parent.$data._styles.DarkRow }}">
+							<td class="{{ $parent.$data._styles.Col0 }}">
+								<button v-on:click="setHandleArticle(article)" class="btn btn-md btn-success">
+									<i class="fa fa-expand"></i>
+								</button>
+							</td>
+							<td class="{{ $parent.$data._styles.Col1 }}">
+								{{ article._orgCode1.value }}
+							</td>
+							<td class="{{ $parent.$data._styles.Col2 }}">
+								{{ article._orgCode2.value }}
+							</td>
+							<td class="{{ $parent.$data._styles.Col3 }}">
+								{{ Math.round(article._total_match_weight.value*1000)/1000 }}
+							</td>
+						</tr>
+						<tr v-if="handleArticle === article">
+							<td class="{{ $parent.$data._styles.Col0 }} {{ $parent.$data._styles.Borderless }}">
+							</td>
+							<td class="{{ $parent.$data._styles.Col1 }} {{ $parent.$data._styles.Borderless }}">
+								<div class="{{ $parent.$data._styles.WindowContainer }}">
+									<iframe class="{{ $parent.$data._styles.Window }}">
+									</iframe>
+								</div>
+							</td>
+							<td class="{{ $parent.$data._styles.Col2 }} {{ $parent.$data._styles.Borderless }}">
+								<div class="{{ $parent.$data._styles.WindowContainer }}">
+									<iframe class="{{ $parent.$data._styles.Window }}">
+									</iframe>
+								</div>
+							</td>
+							<td class="{{ $parent.$data._styles.Col3 }} {{ $parent.$data._styles.Borderless }}">
+								<p class="{{ $parent.$data._styles.SameValues }}">
+									Lika fält
+								</p>
+								<p class="{{ $parent.$data._styles.DifferingValues }}">
+									Olika fält
+								</p>
+							</td>
+						</tr>
+					</template>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>

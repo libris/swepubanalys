@@ -6,9 +6,9 @@
 <div style="min-height: 1000px">
 	<div v-show="pendingUpdate !== true">
 		<slot name="SearchResultTitle"></slot>
-		<slot name="SearchResultDescription"></slot>
 		<div class="row">
-			<div class="col-md-8">
+			<div class="col-xs-8">
+				<slot name="SearchResultDescription"></slot>
 				<p>
 					<span>35 000 träffar</span>
 					<span v-for="d in labels" class="label label-default" style="margin-right: 10px; display: inline-block">
@@ -18,23 +18,9 @@
 					<b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills
 				</p>
 			</div>
-			<div class="col-md-4" style="text-align: right">
-				<div class="form-group">
-					<div class="dropdown pull-right">
-						<button class="btn btn-success dropdown-toggle" type="button" id="export" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-							Exportera
-							<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="export">
-							<mail-export :query="query"></mail-export>
-						</ul>
-					</div>
-				</div>
-				<iframe id="__downloadWindow__" style="display: none;"></iframe>
+			<div class="col-xs-4" style="text-align: right">
+				<mail-export :query="query"></mail-export>
 			</div>
-		</div>
-		<div v-show="pendingExport" class="{{ $data._styles.PendingExport }}">
-			<h4>Servern genererar din fil och den kommer snart att laddas ned...</h4>
 		</div>
 		<hr>
 		<div class="{{ $data._styles.Item }}">

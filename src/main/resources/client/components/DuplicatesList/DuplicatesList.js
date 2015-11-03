@@ -2,6 +2,8 @@
 
 // Vendor
 var _assign = require('lodash/object/assign');
+// Components
+var MailExport = require('components/MailExport/MailExport.js');
 // Utils
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
 // CSS-modules
@@ -20,6 +22,7 @@ var DuplicatesList = {
 	template: require('./DuplicatesList.html'),
 	data: function() {
 		return {
+			pendingUpdate: false,
 			query: '',
 			result: {},
 			handleArticle: '',
@@ -33,6 +36,9 @@ var DuplicatesList = {
 		'query': function() {
 			this.postQuery();
 		}
+	},
+	components: {
+		'mail-export': MailExport
 	},
 	ready: function() {
 		this.updateQuery();
@@ -63,6 +69,7 @@ var DuplicatesList = {
 		 * Posts the query
 		 */
 		postQuery: function() {
+			this.$set('pendingUpdate', true);
 			SparqlUtil.postQuery(this.query, function(result) {
 				if(!result.error) {
 					this.$set('result', result);
@@ -73,6 +80,7 @@ var DuplicatesList = {
 				if(this.onResultReceived) {
 					this.onResultReceived();
 				}
+				this.$set('pendingUpdate', false);
 			}.bind(this));
 		}
 	}
