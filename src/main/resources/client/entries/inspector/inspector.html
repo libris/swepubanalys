@@ -74,7 +74,11 @@
 			</div>
 			<div class="searchResult">
 				<!-- Error list activity -->
-				<search-result v-if="activity === 'ERROR_LIST'" :form-model="formData.formModel" :fields="formData.fields" :on-result-received.once="onResultReceived">
+				<search-result 
+						v-if="activity === 'ERROR_LIST'" 
+						:form-model="formData.formModel" 
+						:fields="formData.fields" 
+						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
 						<h2>Ofullständig metadata</h2>
 					</div>
@@ -83,7 +87,12 @@
 					</div>
 				</search-result>
 				<!-- Local duplicates activity -->
-				<search-result v-if="activity === 'LOCAL_DUPLICATES'" :form-model="formData.formModel" :fields="formData.fields" :on-result-received.once="onResultReceived">
+				<search-result 
+						v-if="activity === 'LOCAL_DUPLICATES'" 
+						:form-model="formData.formModel" 
+						:fields="formData.fields" 
+						:select-all-filter-fields.once="true"
+						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
 						<h2>Lokala dubblettkandidater</h2>
 					</div>
@@ -95,7 +104,11 @@
 					</div>
 				</search-result>
 				<!-- Duplicates activity -->
-				<duplicates-list v-if="activity === 'DUPLICATES'" :form-model="formData.formModel" :fields="formData.fields" :on-result-received.once="onResultReceived">
+				<duplicates-list 
+						v-if="activity === 'DUPLICATES'" 
+						:form-model="formData.formModel" 
+						:fields="formData.fields" 
+						:on-result-received.once="onResultReceived">
 					<div slot="DuplicatesListTitle">
 						<h2>Motsägelsefulla samarbetspublikationer</h2>
 					</div>

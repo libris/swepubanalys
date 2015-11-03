@@ -26,7 +26,7 @@ require('css/transitions.css');
 var SearchResult = {
 	mixins: [FieldLabelMixin],
 	template: require('./SearchResult.html'),
-	props: ['formModel', 'fields', 'onResultReceived'],
+	props: ['formModel', 'fields', 'selectAllFilterFields', 'onResultReceived'],
 	data: function() {
 		return {
 			// Flags
@@ -78,7 +78,11 @@ var SearchResult = {
 			if(this.formModel && this.formModel.templateName && this.formModel.templateName.length > 0) {
 				var filterFields = SparqlUtil.getFilterFields(this.formModel.templateName);
 				this.$set('formModelHasChanged', true);
-				this.$set('filterFields', _cloneDeep(filterFields).map(function(field, i) { field.checked = i === 0; return field; })); // Will in turn trigger updateQuery()
+				// Will in turn trigger updateQuery()
+				this.$set('filterFields', _cloneDeep(filterFields).map(function(field, i) { 
+					field.checked = (i === 0 || this.selectAllFilterFields); 
+					return field; 
+				}.bind(this))); 
 				this.$set('defaultFilterFields', filterFields); 
 			}
 		},

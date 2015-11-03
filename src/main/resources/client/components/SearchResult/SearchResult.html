@@ -15,7 +15,9 @@
 						{{ d.value }}
 					</span>
 					<br>
-					<b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills
+					<template v-if="selectAllFilterFields !== true">
+						<b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills
+					</template>
 				</p>
 			</div>
 			<div class="col-xs-4" style="text-align: right">
@@ -23,7 +25,7 @@
 			</div>
 		</div>
 		<hr>
-		<div class="{{ $data._styles.Item }}">
+		<div class="{{ $data._styles.Item }}" v-if="selectAllFilterFields !== true">
 			<h4>Välj fält till uttag</h4>
 			<slot name="FilterFieldsDescription"></slot>
 			<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields"></filter-fields>
