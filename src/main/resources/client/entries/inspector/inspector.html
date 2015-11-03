@@ -63,10 +63,13 @@
 				</search-form>
 				<!-- Activity buttons -->
 				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('ERROR_LIST')">
-					Lista ofullständig metadata
+					Ofullständig metadata
 				</button>
 				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
-					Lista lokala dubblettkandidater
+					Lokala dubblettkandidater
+				</button>
+				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('DUPLICATES')">
+					Samarbetspublikationer
 				</button>
 			</div>
 			<div class="searchResult">
@@ -91,6 +94,16 @@
 						<weighting-help></weighting-help>
 					</div>
 				</search-result>
+				<!-- Duplicates activity -->
+				<duplicates-list v-if="activity === 'DUPLICATES'" :form-model="formData.formModel" :fields="formData.fields" :on-result-received.once="onResultReceived">
+					<div slot="DuplicatesListTitle">
+						<h2>Motsägelsefulla samarbetspublikationer</h2>
+					</div>
+					<div slot="DuplicatesListDescription">
+						<p>Följ upp motsägelsefulla metadata i samarbetspublikationer för att skapa grund för nationella jämförelser.</p>
+						<weighting-help></weighting-help>
+					</div>
+				</duplicates-list>
 			</div>
 		</div>
 	</site-wrapper>

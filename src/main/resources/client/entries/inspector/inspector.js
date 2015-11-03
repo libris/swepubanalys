@@ -9,6 +9,7 @@ var SiteWrapper = require('components/SiteWrapper/SiteWrapper.js');
 var Chart = require('components/Chart/Chart.js');
 var SearchForm = require('components/SearchForm/SearchForm.js');
 var SearchResult = require('components/SearchResult/SearchResult.js');
+var DuplicatesList = require('components/DuplicatesList/DuplicatesList.js');
 var WeightingHelp = require('components/WeightingHelp/WeightingHelp.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
@@ -79,7 +80,8 @@ var Inspector = {
 		'chart': Chart,
 		'search-form': SearchForm,
 		'search-result': SearchResult,
-		'weighting-help': WeightingHelp
+		'weighting-help': WeightingHelp,
+		'duplicates-list': DuplicatesList
 	},
 	methods: {
 		/**
@@ -116,6 +118,9 @@ var Inspector = {
 					formData.formModel.templateName = 'quality';
 				break;
 				case 'LOCAL_DUPLICATES':
+					formData.formModel.templateName = 'duplicates';
+				break;
+				case 'DUPLICATES':
 					formData.formModel.templateName = 'duplicates';
 				break;
 			}
