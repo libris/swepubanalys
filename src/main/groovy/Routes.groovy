@@ -2,6 +2,7 @@ import Controllers.Api
 import Controllers.Beta
 import Controllers.Bibliometrician
 import Controllers.Inspector
+import Controllers.Security
 import spark.ModelAndView
 import static spark.Spark.*
 import spark.servlet.SparkApplication
@@ -22,6 +23,8 @@ public class Routes implements SparkApplication {
     @Override
     void init() {
         staticFileLocation("/public");
+        get("/logga-in", { req, res -> new ModelAndView(Security.Login(req, res), "Login.mustache")}, templateEngine)
+
         get("/uttag-av-data", { req, res -> Beta.index(req, res) }, templateEngine);
         post("/uttag-av-data/", { req, res -> Beta.index(req, res) }, templateEngine);
         get("/", { req, res -> Beta.index(req, res) }, templateEngine);

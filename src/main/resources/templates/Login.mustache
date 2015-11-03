@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="sv-SE">
+<head>
+    <title>{{pageTitle}}</title>
+    <META HTTP-EQUIV="Pragma" CONTENT="public">
+    <meta http-equiv="cache-control" content="public, max-age=7200">
+    <meta http-equiv="expires" content="', gmdate(" D, d M Y H:i:s", time() + (3600*2)), ' GMT', '">
+</head>
+<body>
+<div>
+    <script>
+    function startTimer(duration, display) {
+    var timer = duration, minutes, seconds;
+    setInterval(function () {
+    minutes = parseInt(timer / 60, 10)
+    seconds = parseInt(timer % 60, 10);
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    display.textContent =  seconds;
+
+    if (--timer < 0) {
+        //timer = duration;
+        window.location = '{{previous}}'
+    }
+
+    }, 1000);
+    }
+
+    window.onload = function () {
+    var fiveMinutes = 10,
+    display = document.querySelector('#time');
+    startTimer(fiveMinutes, display);
+    };
+    </script>
+    <div>Vi låtsas att du loggar in. Du skickas tillbaka om  <span id="time">10</span> sekunder!</div>
+</div>
+</body>
+
+</html>
