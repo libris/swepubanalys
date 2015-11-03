@@ -53,11 +53,11 @@ public class SparqlResultExporter {
     }
 
 
-    public void startQueryAndDownload(String query, String format, String emailAddress, boolean zipIt = true) {
+    public Map startQueryAndDownload(String query, String format, String emailAddress, boolean zipIt = true) {
 
         //Send notification that the file is on its way.
        // SMTP.simpleMail(emailAddress, "din fil skickas snart", "Din fil är på väg i väldig fart", config.smtp.host as String, config.smtp.port as String)
-
+        try{
         def prepData = prepareQueryExecution(sparqlEndpointURL, query, format, emailAddress, zipIt)
         Thread thread = Thread.start {
             try {
@@ -69,6 +69,7 @@ public class SparqlResultExporter {
                 content = makeRequest(sparqlEndpointURL, connectionManager, content, prepData.queryString, prepData.format, maxRows, prepData.fileStatus)
                 if (zipIt) {
                     saveZipFile(content, prepData.queryString, prepData.fileResults)
+                    log.info "Zipped:" + prepData.fileResults.absolutePath
                 } else {
                     prepData.fileResults.bytes = content;
                     log.info "Saved:" + prepData.fileResults.absolutePath
@@ -88,6 +89,12 @@ public class SparqlResultExporter {
             log.info "thread is alive. Sending email."
             SMTP.simpleMail(emailAddress, "din fil skickas snart", "Din fil är på väg i väldig fart", config.smtp.host as String, config.smtp.port as String)
         }
+            return [success:true,errorMessage: null]
+        }
+        catch(all){
+            return [success:false,errorMessage:all.message ]
+        }
+
 
 
     }
