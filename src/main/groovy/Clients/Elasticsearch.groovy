@@ -153,7 +153,7 @@ public class Elasticsearch {
             "field": "hasMods.qualityName"
         }
     },
-    "missing-violations-per-org": {
+    "missing_violations_per_org": {
         "terms": {
             "field": "hasMods.recordContentSourceValue",
             "size": 0
@@ -184,7 +184,7 @@ public class Elasticsearch {
             "size": 0
         }
     },
-    "violations-per-org-per-year": {
+    "violations_per_org_per_year": {
         "terms": {
             "field": "hasMods.qualityName",
             "size": 0
@@ -206,7 +206,7 @@ public class Elasticsearch {
             }
         }
     },
-    "org-per-year": {
+    "org_per_year": {
         "terms": {
             "field": "hasMods.recordContentSourceValue",
             "size": 0
