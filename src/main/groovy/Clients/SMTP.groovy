@@ -19,6 +19,7 @@ public class SMTP {
             Properties props = System.getProperties();
             props["mail.smtp.host"] = host;
             props["mail.smtp.port"] = port;
+            props["mail.smtp.connectiontimeout"] = 1000
             Session session = Session.getDefaultInstance(props, null);
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(from));

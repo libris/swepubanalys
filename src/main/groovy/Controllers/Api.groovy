@@ -65,8 +65,8 @@ class Api {
 
     static def dataQuery(Request request, Response response) {
         def exporter = new SparqlResultExporter();
-        String fileName = exporter.startQueryAndDownload(request.queryParams("query"), request.queryParams("format"),request.queryParams("email"), request.queryParams("zip") == "true" );
         response.type("application/json");
-        return  fileName;
+        return  exporter.startQueryAndDownload(request.queryParams("query"), request.queryParams("format"),request.queryParams("email"), request.queryParams("zip") == "true" );
+
     }
 }
