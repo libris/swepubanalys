@@ -135,7 +135,7 @@ var FormatAggregationUtil = {
 				arr = arr.concat(filler);
 				// Fill start with zeros
 				filler.push(null);
-				var val = Math.round(100.0 * bucket.missingViolations.doc_count / bucket.doc_count);
+				var val = bucket.missingViolations.doc_count / bucket.doc_count;
 				arr.push(val);
 				columns.push(arr);
 				groups.push(bucket.key);

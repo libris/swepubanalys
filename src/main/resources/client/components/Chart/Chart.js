@@ -46,6 +46,13 @@ var Chart = {
 			};
 			if(this.tickFormat) {
 				config.axis = config.axis || {};
+				config.axis = {
+					y: {
+						tick: {
+							format: d3.format(this.tickFormat)
+						}
+					}
+				};
 			}
 			if(this.xAxisType === 'category') { // X axis config
 				config.axis = config.axis || {};
