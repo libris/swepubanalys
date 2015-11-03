@@ -11,6 +11,7 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager
 import org.apache.http.message.BasicNameValuePair
 import org.apache.http.util.EntityUtils
 import groovy.util.logging.Slf4j
+import com.github.rjeschke.txtmark.*
 
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
@@ -54,47 +55,59 @@ public class SparqlResultExporter {
 
 
     public Map startQueryAndDownload(String query, String format, String emailAddress, boolean zipIt = true) {
+        def getMarkdownTemplate = {
+            templateFile ->
+                return Processor.process(Thread.currentThread().getContextClassLoader().getResource("client/docs/email_templates/${templateFile}").getText());
+        }
+        try {
+            def prepData = prepareQueryExecution(sparqlEndpointURL, query, format, emailAddress, zipIt)
+            Thread thread = Thread.start {
+                try {
+                    byte[] content = null;
+                    prepData.fileStatus.write("RUN: ${nowString()} \n")
+                    PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
+                    connectionManager.defaultMaxPerRoute = 10;
 
-        //Send notification that the file is on its way.
-       // SMTP.simpleMail(emailAddress, "din fil skickas snart", "Din fil är på väg i väldig fart", config.smtp.host as String, config.smtp.port as String)
-        try{
-        def prepData = prepareQueryExecution(sparqlEndpointURL, query, format, emailAddress, zipIt)
-        Thread thread = Thread.start {
-            try {
-                byte[] content = null;
-                prepData.fileStatus.write("RUN: ${nowString()} \n")
-                PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
-                connectionManager.defaultMaxPerRoute = 10;
-
-                content = makeRequest(sparqlEndpointURL, connectionManager, content, prepData.queryString, prepData.format, maxRows, prepData.fileStatus)
-                if (zipIt) {
-                    saveZipFile(content, prepData.queryString, prepData.fileResults)
-                    log.info "Zipped:" + prepData.fileResults.absolutePath
-                } else {
-                    prepData.fileResults.bytes = content;
-                    log.info "Saved:" + prepData.fileResults.absolutePath
+                    content = makeRequest(sparqlEndpointURL, connectionManager, content, prepData.queryString, prepData.format, maxRows, prepData.fileStatus)
+                    if (zipIt) {
+                        saveZipFile(content, prepData.queryString, prepData.fileResults)
+                        log.info "Zipped:" + prepData.fileResults.absolutePath
+                    } else {
+                        prepData.fileResults.bytes = content;
+                        log.info "Saved:" + prepData.fileResults.absolutePath
+                    }
+                    prepData.fileStatus.write("DONE: ${nowString()} \n")
+                    SMTP.simpleMail(emailAddress,
+                            "",
+                            "${getMarkdownTemplate("export_result.md")} \n ${config.ftp.ftpRoot + prepData.dirName + "/" + prepData.fileResults.name} \n ${getMarkdownTemplate("footer.md")}" as String,
+                            config.smtp.host as String,
+                            config.smtp.port as String)
+                } catch (all) {
+                    // TODO Auto-generated catch block
+                    prepData.fileStatus.write(all.message)
+                    log.error(all.message + all.stackTrace)
+                    prepData.fileStatus.write("FAILED: ${nowString()}")
+                    SMTP.simpleMail(emailAddress,
+                            "",
+                            "${getMarkdownTemplate("export_error.md")} \n Felmeddelande:\n${all.message} ${getMarkdownTemplate("footer.md")}" as String,
+                            config.smtp.host as String,
+                            config.smtp.port as String)
                 }
-                prepData.fileStatus.write("DONE: ${nowString()} \n")
-                SMTP.simpleMail(emailAddress, "Din fil är färdig", "Din fil är färdig för nedladdning ${config.ftp.ftpRoot + prepData.dirName + "/" + prepData.fileResults.name}", config.smtp.host as String, config.smtp.port as String)
-            } catch (all) {
-                // TODO Auto-generated catch block
-                prepData.fileStatus.write(all.message)
-                log.error(all.message + all.stackTrace)
-                prepData.fileStatus.write("FAILED: ${nowString()}")
-                SMTP.simpleMail(emailAddress, "Din fil kunde inte skapas", "Vi misslyckades med att skapa din fil.\n Felmeddelande:\n${all.message}Sökfråga:\n${prepData.dirName}", config.smtp.host as String, config.smtp.port as String)
             }
+            sleep(3000)
+            if (thread.isAlive()) {
+                log.info "thread is alive. Sending email."
+                SMTP.simpleMail(emailAddress,
+                        "",
+                        "${getMarkdownTemplate("export_teaser.md")} \n${getMarkdownTemplate("footer.md")}" as String,
+                        config.smtp.host as String,
+                        config.smtp.port as String)
+            }
+            return [success: true, errorMessage: null]
         }
-        sleep(3000)
-        if(thread.isAlive()){
-            log.info "thread is alive. Sending email."
-            SMTP.simpleMail(emailAddress, "din fil skickas snart", "Din fil är på väg i väldig fart", config.smtp.host as String, config.smtp.port as String)
+        catch (all) {
+            return [success: false, errorMessage: all.message]
         }
-            return [success:true,errorMessage: null]
-        }
-        catch(all){
-            return [success:false,errorMessage:all.message ]
-        }
-
 
 
     }

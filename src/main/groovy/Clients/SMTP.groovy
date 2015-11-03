@@ -26,7 +26,8 @@ public class SMTP {
             InternetAddress toAddress = new InternetAddress(to);
             message.addRecipient(Message.RecipientType.TO, toAddress);
             message.setSubject(subject);
-            message.setText(body);
+            message.setContent(body, "text/html; charset=utf-8");
+
             Transport transport = session.getTransport("smtp");
             transport.connect(host, port.toInteger(), "", "");
             transport.sendMessage(message, message.getAllRecipients());
