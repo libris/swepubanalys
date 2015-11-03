@@ -1,28 +1,38 @@
-<div class="{{ $data._styles.MailExport }}">
-	<div v-if="sent">
-		Servern genererar din fil och den kommer skickas till <b>{{ email }}</b>.
-	</div>
-	<div v-if="!sent">
-		<b>Exportera och skicka fil till min e-mail</b>
-		<hr>
-		<div class="row">
-			<div class="col-xs-3">
-				<input type="radio" name="format" v-model="format" value="application/sparql-results+json">.json</input><br>
-				<input type="radio" name="format" v-model="format" value="application/sparql-results+xml">.xml</input><br>
-				<input type="radio" name="format" v-model="format" value="text/csv">.tsv</input><br>
-				<input type="radio" name="format" v-model="format" value="text/tab-separated-values">.csv</input><br>
-			</div>
-			<div class="col-xs-9">
-				<div class="form-group">
-					<input v-model="email" class="form-control" type="text" placeholder="min@email.se"></input>
+<div class="form-group">
+	<div class="dropdown pull-right">
+		<button class="btn btn-success dropdown-toggle" type="button" id="export" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			Exportera
+			<span class="caret"></span>
+		</button>
+		<ul class="dropdown-menu" aria-labelledby="export">
+			<div class="{{ $data._styles.MailExport }}">
+				<div v-if="sent">
+					Servern genererar din fil och den kommer skickas till <b>{{ email }}</b>.
 				</div>
-				<form-error-label :errors="errors"></form-error-label>
-				<div class="form-group">
-					<button class="btn btn-info" v-on:click="performExport" :disabled="errors.length !== 0">
-						<i class="fa fa-envelope"></i>&nbsp;Skicka
-					</button>
+				<div v-if="!sent">
+					<b>Exportera och skicka fil till min e-mail</b>
+					<hr>
+					<div class="row">
+						<div class="col-xs-3">
+							<input type="radio" name="format" v-model="format" value="application/sparql-results+json">.json</input><br>
+							<input type="radio" name="format" v-model="format" value="application/sparql-results+xml">.xml</input><br>
+							<input type="radio" name="format" v-model="format" value="text/csv">.csv</input><br>
+							<input type="radio" name="format" v-model="format" value="text/tab-separated-values">.tsv</input><br>
+						</div>
+						<div class="col-xs-9">
+							<div class="form-group">
+								<input v-model="email" class="form-control" type="text" placeholder="min@email.se"></input>
+							</div>
+							<form-error-label :errors="errors"></form-error-label>
+							<div class="form-group">
+								<button class="btn btn-info" v-on:click="performExport" :disabled="errors.length !== 0">
+									<i class="fa fa-envelope"></i>&nbsp;Skicka
+								</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
+		</ul>
 	</div>
 </div>

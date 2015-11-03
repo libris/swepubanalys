@@ -16,8 +16,8 @@ var FormatAggregationUtil = {
 		var xs = {};
 		var columns = [];
 		// If there are any buckets on yars
-		if(aggregations['org-per-year'] && aggregations['org-per-year'].buckets && aggregations['org-per-year'].buckets.length > 0) {
-			var buckets = aggregations['org-per-year'].buckets;
+		if(aggregations.org_per_year && aggregations.org_per_year.buckets && aggregations.org_per_year.buckets.length > 0) {
+			var buckets = aggregations.org_per_year.buckets;
 			// For each org
 			buckets.map(function(bucket, i) {
 				if(bucket.year) {
@@ -125,7 +125,7 @@ var FormatAggregationUtil = {
 		var columns = [];
 		var filler = [];
 		var groups = [];
-		var aggregate = aggregations['missing-violations-per-org'];
+		var aggregate = aggregations.missing_violations_per_org;
 		if(aggregate && aggregate.buckets) {
 			aggregate.buckets = _sortByOrder(aggregate.buckets, function(bucket) {
 				return bucket.missingViolations.doc_count / bucket.doc_count;
@@ -135,7 +135,7 @@ var FormatAggregationUtil = {
 				arr = arr.concat(filler);
 				// Fill start with zeros
 				filler.push(null);
-				var val = Math.round(100.0 * bucket.missingViolations.doc_count / bucket.doc_count);
+				var val = bucket.missingViolations.doc_count / bucket.doc_count;
 				arr.push(val);
 				columns.push(arr);
 				groups.push(bucket.key);

@@ -37,7 +37,7 @@
 						<template v-if="barChart.getContent">
 							<p>% Felfria poster</p>
 							<div>
-								<chart type="bar" x-axis-type="category" :show-legend="false" height="270" tick-format="%" :get-content="barChart.getContent"></chart>
+								<chart type="bar" x-axis-type="category" :show-legend="false" height="270" tick-format="0%" :get-content="barChart.getContent"></chart>
 							</div>
 						</template>
 					</div>
@@ -63,26 +63,38 @@
 				</search-form>
 				<!-- Activity buttons -->
 				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('ERROR_LIST')">
-					Lista ofullständig metadata
+					Ofullständig metadata
 				</button>
 				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
-					Lista lokala dubblettkandidater
+					Lokala dubblettkandidater
+				</button>
+				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('DUPLICATES')">
+					Samarbetspublikationer
 				</button>
 			</div>
 			<div class="searchResult">
 				<!-- Error list activity -->
-				<search-result v-if="activity === 'ERROR_LIST'" :form-model="formData.formModel" :fields="formData.fields" :on-result-received.once="onResultReceived">
+				<search-result 
+						v-if="activity === 'ERROR_LIST'" 
+						:form-model="formData.formModel" 
+						:fields="formData.fields" 
+						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Ofullständig metadata: Granska och exportera lista</h2>
+						<h2>Ofullständig metadata</h2>
 					</div>
 					<div slot="SearchResultDescription">
 						<p>Exportera lista för att rätta bristfällig eller saknad metadata.</p>
 					</div>
 				</search-result>
 				<!-- Local duplicates activity -->
-				<search-result v-if="activity === 'LOCAL_DUPLICATES'" :form-model="formData.formModel" :fields="formData.fields" :on-result-received.once="onResultReceived">
+				<search-result 
+						v-if="activity === 'LOCAL_DUPLICATES'" 
+						:form-model="formData.formModel" 
+						:fields="formData.fields" 
+						:select-all-filter-fields.once="true"
+						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Lokala dubletter: Granska och exportera lista</h2>
+						<h2>Lokala dubblettkandidater</h2>
 					</div>
 					<div slot="SearchResultDescription">
 						<p>Exportera lista för att åtgärda lokala dubbletter.</p>
@@ -91,6 +103,20 @@
 						<weighting-help></weighting-help>
 					</div>
 				</search-result>
+				<!-- Duplicates activity -->
+				<duplicates-list 
+						v-if="activity === 'DUPLICATES'" 
+						:form-model="formData.formModel" 
+						:fields="formData.fields" 
+						:on-result-received.once="onResultReceived">
+					<div slot="DuplicatesListTitle">
+						<h2>Motsägelsefulla samarbetspublikationer</h2>
+					</div>
+					<div slot="DuplicatesListDescription">
+						<p>Följ upp motsägelsefulla metadata i samarbetspublikationer för att skapa grund för nationella jämförelser.</p>
+						<weighting-help></weighting-help>
+					</div>
+				</duplicates-list>
 			</div>
 		</div>
 	</site-wrapper>

@@ -3,10 +3,11 @@
 // Vendor
 var Vue = require('vue');
 var _find = require('lodash/collection/find');
+var _assign = require('lodash/object/assign');
 // Mixins
 var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
 // CSS modules
-var styles = require('!!style!css?modules!./ListPreview.css');
+var styles = _assign(require('!!style!css?modules!./ListPreview.css'), require('!!style!css?modules!css/StaticHeader.css'));
 
 /**
  * List Preview-component
