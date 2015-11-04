@@ -1,0 +1,38 @@
+#Lists records with Ambiguities
+PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+PREFIX mods_m: <http://swepub.kb.se/mods/model#>
+SELECT DISTINCT
+
+?_id1 #Record 1 ID #-
+?_id2 #Record 2 ID #-
+?_orgCode1
+?_orgCode2
+
+WHERE
+{
+{
+SELECT DISTINCT *
+{
+?AmbiguityCase swpa_m:ambiguityType ?AmbiguityType .
+?AmbiguityType rdfs:label ?_ambiguityType .
+?AmbiguityCase swpa_m:urlAdjudicationTool ?_urlAdjudicationTool .
+?AmbiguityCase swpa_m:publicationYear ?_pubYear .
+?AmbiguityCase swpa_m:reportingSite1 ?_orgCode1 .
+?AmbiguityCase swpa_m:reportingSite2 ?_orgCode2 .
+?AmbiguityCase rdfs:comment ?_comment .
+?AmbiguityCase swpa_m:violatingData ?_violatingData .
+?AmbiguityCase swpa_m:localID1 ?_id1 .
+?AmbiguityCase swpa_m:localID2 ?_id2 .
+
+###  FILTERS START ####
+#FILTER_<?AmbiguityType> ( ?AmbiguityType IN ( <?AmbiguityType> ) )
+#FILTER_<?_orgCode1> ( xsd:string(?_orgCode1) IN ( <?_orgCode1> ) )
+#FILTER_<?_orgCode2> ( xsd:string(?_orgCode2) IN ( <?_orgCode2> ) )
+#FILTER_<?_pubYear_low> ( ?_pubYear >= <?_pubYear_low> )
+#FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> )
+
+}
+LIMIT 50000
+}
+
+}
