@@ -53,6 +53,9 @@ var Inspector = {
 			},
 			pieChart: {
 				getContent: null,
+			},
+			violationTypeDistributionChart: {
+				getContent: null
 			}
 		};
 	},
@@ -133,40 +136,41 @@ var Inspector = {
 		 * @param {Object} aggregations
 		 */
 		setAggregations: function(aggregations) {
-			var lineAggregations = this.formModel.org.length === 0 ? FormatAggregationUtil.toYearTimeSeries(aggregations) : FormatAggregationUtil.toOrgYearTimeSeries(aggregations);
-			var barAggregations = FormatAggregationUtil.toOrgViolationRatio(aggregations);
-			var pieAggregations = FormatAggregationUtil.toViolationDistribution(aggregations);
-			// Set line chart
-			if(lineAggregations.columns.length > 0) {
-				this.$set('lineChart.getContent', function() {
-					return lineAggregations;
-				});	
-			} else {
-				this.$set('lineChart.getContent', false);
+			// *** LINE CHART *** //
+			this.setChartContent('lineChart', this.formModel.org.length === 0 ? FormatAggregationUtil.toYearTimeSeries(aggregations) : FormatAggregationUtil.toOrgYearTimeSeries(aggregations));
+			// *** BAR CHART *** //
+			if(this.formModel.org.indexOf(',') !== -1 || this.formModel.org.length === 0) {
+				this.setChartContent('barChart', FormatAggregationUtil.toOrgViolationRatio(aggregations));
 			}
-			// Set bar chart
-			if(barAggregations.columns.length > 0) {
-				this.$set('barChart.getContent', function() {
-					return barAggregations;
+			else {
+				this.setChartContent('barChart', { columns: [] });
+			}
+			// *** PIE CHART *** //
+			this.setChartContent('pieChart', FormatAggregationUtil.toViolationDistribution(aggregations));
+			// *** VIOLATION TYPE DISTRIBUTION CHART *** //
+			if(this.formModel.org && this.formModel.org.indexOf(',') === -1) {
+				this.setChartContent('violationTypeDistributionChart', FormatAggregationUtil.toViolationTypeDistributionForOneOrg(aggregations, this.formModel.org));
+			}
+			else {
+				this.setChartContent('violationTypeDistributionChart', { columns: [] });
+			}
+		},
+		/**
+		 * Sets .getContent function for a chart-object
+		 * @param {String} chartPath
+		 * @param {Object} aggregations
+		 */
+		setChartContent(chartPath, aggregations) {
+			if(aggregations.columns && aggregations.columns.length > 0) {
+				this.$set(chartPath + '.getContent', function() {
+					return aggregations;
 				});
-			} else {
-				this.$set('barChart.getContent', false);
 			}
-			// Set pie chart
-			if(pieAggregations.columns.length > 0) {
-				this.$set('pieChart.getContent', function() {
-					return pieAggregations;
-				});
-			} else {
-				this.$set('pieChart.getContent', false);
-			}
-			// Set empty aggregations bool
-			if(lineAggregations.columns.length === 0 && pieAggregations.columns.length === 0) {
-				this.$set('emptyAggregations', true);
-			} else {
-				this.$set('emptyAggregations', false);
+			else {
+				this.$set(chartPath + '.getContent', null);
 			}
 		}
+		
 	}
 };
 

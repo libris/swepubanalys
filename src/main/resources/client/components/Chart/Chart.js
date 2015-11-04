@@ -11,7 +11,7 @@ require('./Chart.css');
  */
 var Chart = {
 	_chart: null, // Reference to chart
-	props: ['type', 'xAxisType', 'showLegend', 'height', 'tickFormat', 'getContent'],
+	props: ['type', 'xAxisType', 'showLegend', 'legendPosition', 'colorPattern', 'height', 'tickFormat', 'getContent'],
 	template: '<div></div>',
 	ready: function() {
 		var el = this.$el;
@@ -38,11 +38,12 @@ var Chart = {
 					colors: colors
 				},
 				legend: {
-					show: this.showLegend === false ? false : true
+					show: this.showLegend === false ? false : true,
+					position: this.legendPosition
 				},
 				size: {
 					height: this.height
-				},
+				}
 			};
 			if(this.tickFormat) {
 				config.axis = config.axis || {};
@@ -61,6 +62,12 @@ var Chart = {
 					categories: []
 				};
 			}
+			if(this.colorPattern === true) {
+				config.colors = undefined;
+				config.color = {
+					pattern: ["#fd8d3c", "#fdae6b", "#fdd0a2", "#31a354", "#74c476", "#a1d99b", "#c7e9c0", "#756bb1", "#9e9ac8", "#bcbddc", "#dadaeb", "#636363", "#969696", "#bdbdbd", "#d9d9d9", "#3182bd", "#6baed6", "#9ecae1", "#c6dbef", "#e6550d", "#fd8d3c", "#fdae6b", "#fdd0a2", "#31a354", "#74c476", "#a1d99b", "#c7e9c0", "#756bb1", "#9e9ac8", "#bcbddc", "#dadaeb", "#636363", "#969696", "#bdbdbd", "#d9d9d9"]
+				}
+			}
 			this._chart = c3.generate(config);
 			this.update();
 		},
@@ -73,6 +80,7 @@ var Chart = {
 				content.unload = true;
 				this._chart.load(content);
 				this._chart.groups(content.groups);
+				this._chart.data.colors(content.colors);
 				if(content.categories) {
 					this._chart.categories(content.categories);
 				}

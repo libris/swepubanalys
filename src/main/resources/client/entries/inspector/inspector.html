@@ -27,25 +27,59 @@
 				<div class="row" v-show="!emptyAggregations && !error">
 					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
 						<template v-if="lineChart.getContent">
-							<p>Antal poster</p>
+							<div class="{{ $data._styles.GraphTitle }}">
+								<p>Antal poster</p>
+							</div>
 							<div>
-								<chart type="line" height="290" :get-content="lineChart.getContent"></chart>
+								<chart type="line" 
+									height="330" 
+									:get-content="lineChart.getContent">
+								</chart>
 							</div>
 						</template>
 					</div>
-					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
+					<div class="col-md-5 {{ $data._styles.ChartContainer }}">
 						<template v-if="barChart.getContent">
-							<p>% Felfria poster</p>
+							<div class="{{ $data._styles.GraphTitle }}">
+								<p>Andel felfria poster</p>
+							</div>
 							<div>
-								<chart type="bar" x-axis-type="category" :show-legend="false" height="270" tick-format="0%" :get-content="barChart.getContent"></chart>
+								<chart 
+									type="bar" 
+									x-axis-type="category" 
+									:show-legend="false" 
+									height="310" 
+									tick-format="0%" 
+									:get-content="barChart.getContent">
+								</chart>
+							</div>
+						</template>
+						<template v-if="violationTypeDistributionChart.getContent">
+							<div class="{{ $data._styles.GraphTitle }}">
+								<p>Distribution av feltyper i metadata inom {{ labels.length > 0 ? labels[labels.length-1].value : '' }}</p>
+							</div>
+							<div>
+								<chart 
+									type="donut" 
+									legend-position="bottom" 
+									:color-pattern="true" 
+									height="370" 
+									:get-content="violationTypeDistributionChart.getContent">
+								</chart>
 							</div>
 						</template>
 					</div>
-					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
+					<div class="col-md-3 {{ $data._styles.ChartContainer }}">
 						<template v-if="pieChart.getContent">
-							<p>Total andel felfria poster</p>
+							<div class="{{ $data._styles.GraphTitle }}">
+								<p>Total andel felfria poster</p>
+							</div>
 							<div>
-								<chart type="donut" height="290" :get-content="pieChart.getContent"></chart>
+								<chart 
+									type="donut" 
+									height="330" 
+									:get-content="pieChart.getContent">
+								</chart>
 							</div>
 						</template>
 					</div>

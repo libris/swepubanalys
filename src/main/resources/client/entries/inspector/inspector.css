@@ -1,5 +1,5 @@
 .Visualisations {
-	min-height: 420px;
+	min-height: 460px;
 	margin-top: 5px;
 	margin-bottom: 45px;
 	border-top: 1px solid #efefef;
@@ -15,7 +15,7 @@
 
 .ChartContainer {
 	text-align: center;
-	padding: 0px;
+	padding-right: 20px;
 	margin: 0px;
 }
 
@@ -38,4 +38,8 @@
     -webkit-border-radius: 8px;
        -moz-border-radius: 8px;
             border-radius: 8px;
+}
+
+.GraphTitle {
+	min-height: 50px;
 }
