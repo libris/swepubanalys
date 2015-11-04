@@ -1,0 +1,63 @@
+#Ambiguity
+PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+PREFIX mods_m: <http://swepub.kb.se/mods/model#>
+
+SELECT DISTINCT
+?_ambiguityType #Tvetydighet typ
+?_comment #Kommentar #-
+?_violatingData #Tvetydig data
+?_id1 #Record 1 ID #-
+?_id2 #Record 2 ID #-
+?_recordID1
+?_orgCode1
+?_uri1
+?_recordID2
+?_orgCode2
+?_uri2
+
+
+WHERE
+{
+{
+SELECT DISTINCT *
+{
+?AmbiguityCase swpa_m:ambiguityType ?AmbiguityType .
+?AmbiguityType rdfs:label ?_ambiguityType .
+?AmbiguityCase rdfs:comment ?_comment .
+?AmbiguityCase swpa_m:violatingData ?_violatingData .
+?AmbiguityCase swpa_m:localID1 ?_id1 .
+?AmbiguityCase swpa_m:localID2 ?_id2 .
+
+?Record1 a mods_m:Record .
+?Mods1 a mods_m:Mods .
+?Record1 mods_m:hasMods ?Mods1 .
+?Mods1 mods_m:identifierValue ?_recordID1 .
+?Mods1 mods_m:recordContentSourceValue ?_orgCode1 .
+?Record1 swpa_m:uriRepository ?_uri1 .
+
+?Record2 a mods_m:Record .
+?Mods2 a mods_m:Mods .
+?Record2 mods_m:hasMods ?Mods2 .
+?Mods2 mods_m:identifierValue ?_recordID2 .
+?Mods2 mods_m:recordContentSourceValue ?_orgCode2 .
+?Record2 swpa_m:uriRepository ?_uri2 .
+
+
+
+###  FILTERS START ####
+#FILTER_<?AmbiguityType> ( ?AmbiguityType IN ( <?AmbiguityType> ) )
+#FILTER_<?_orgCode1> ( xsd:string(?_orgCode1) IN ( <?_orgCode1> ) )
+#FILTER_<?_orgCode2> ( xsd:string(?_orgCode2) IN ( <?_orgCode2> ) )
+#FILTER_<?_pubYear_low> ( ?_pubYear >= <?_pubYear_low> )
+#FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> )
+FILTER (?_id1 IN ("!!rec1Id!!"^^<http://www.w3.org/2001/XMLSchema#string>))
+FILTER (?_id2 IN ("!!rec2Id!!"^^<http://www.w3.org/2001/XMLSchema#string>))
+Filter(?_id1 = ?_recordID1)
+Filter(?_id2 = ?_recordID2)
+###  FILTERS END ####
+}
+LIMIT 50000
+}
+
+
+}

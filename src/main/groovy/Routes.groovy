@@ -44,6 +44,8 @@ public class Routes implements SparkApplication {
         get("api/2.0/validate/orcid",{ req, res -> Api.validateOrcid(req, res);})
         get("api/2.0/data/query",{req,res->Api.dataQuery(req,res)})
         post("api/2.0/data/query",{req,res->Api.dataQuery(req,res)})
+        get("api/2.0/ambiguity/case",{req,res->Api.AmbiguityCase(req,res)})
+
     }
 
 

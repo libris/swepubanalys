@@ -1,6 +1,7 @@
 package Controllers
 
 import Clients.Elasticsearch
+import Doers.AmbiguityCase
 import Doers.SparqlResultExporter
 import Clients.Virtuoso
 import Validators.OrcidValidator
@@ -69,4 +70,12 @@ class Api {
         return  exporter.startQueryAndDownload(request.queryParams("query"), request.queryParams("format"),request.queryParams("email"), request.queryParams("zip") == "true" );
 
     }
+
+    static def AmbiguityCase(Request request, Response response) {
+        response.type("application/json");
+        def ambiguityCase = new AmbiguityCase(request.queryParams("record1_id"), request.queryParams("record2_id"))
+        return JsonOutput.toJson([ambiguities:ambiguityCase.ambiguities, record1: ambiguityCase.record1, record2:ambiguityCase.record2 ])
+    }
+
+
 }
