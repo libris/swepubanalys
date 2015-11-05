@@ -16,10 +16,16 @@
 	border-top: none !important; 
  }
 
-.Col0 {
-	width: 5%;
-	padding-top: 10px;
-	padding: 5px;
+.LoadingRow {
+	text-align: center; 
+	padding: 55px;
+	padding-bottom: 70px;
+}
+
+.ExpandButtonContainer {
+	text-align: right; 
+	padding-top: 15px; 
+	padding-right: 15px;
 }
 
 .Col1 {

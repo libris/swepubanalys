@@ -49,7 +49,19 @@ var DuplicatesList = {
 		 * @param {Object} article
 		 */
 		setHandleArticle: function(article) {
-			this.$set('handleArticle', article);
+			var articles = this.result.results.bindings;
+			var index = articles.indexOf(article);
+			if(!article.ambiguities) {
+				article.loading = true;
+				articles.$set(index, article);
+				// Get ambiguities 
+				SparqlUtil.getAmbiguity(article._id1.value, article._id2.value, function(ambiguities) {
+					article.loading = false;
+					article.ambiguities = ambiguities;
+					articles.$set(index, article);
+				}.bind(this));
+			}
+			this.$set('handleArticle', article === this.handleArticle ? null : article);
 		},
 		/**
 		 * Update the query

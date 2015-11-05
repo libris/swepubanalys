@@ -32,7 +32,8 @@
 							</div>
 							<div>
 								<chart type="line" 
-									height="330" 
+									height="330"
+									:color-categories.once="colorCategories"
 									:get-content="lineChart.getContent">
 								</chart>
 							</div>
@@ -47,7 +48,8 @@
 								<chart 
 									type="bar" 
 									x-axis-type="category" 
-									:show-legend="false" 
+									:show-legend="false"
+									:color-categories.once="colorCategories"
 									height="310" 
 									tick-format="0%" 
 									:get-content="barChart.getContent">
@@ -62,7 +64,7 @@
 								<chart 
 									type="donut" 
 									legend-position="bottom" 
-									:color-pattern="true" 
+									:color-pattern.once="colorPattern" 
 									height="370" 
 									:get-content="violationTypeDistributionChart.getContent">
 								</chart>
@@ -77,7 +79,8 @@
 							<div>
 								<chart 
 									type="donut" 
-									height="330" 
+									height="330"
+									:color-categories.once="colorCategories"
 									:get-content="pieChart.getContent">
 								</chart>
 							</div>
@@ -87,7 +90,7 @@
 			</div>
 			<!-- Search form -->
 			<div class="{{ $data._styles.SearchForm }}">
-				<search-form :on-change.once="onChange" from="1992" default-template="duplicates">
+				<search-form :on-change.once="onChange" from="2012" default-template="duplicates">
 					<div slot="SearchFormTitle">
 						<h2>Tre vägar till högre datakvalitet</h2>
 					</div>
@@ -148,7 +151,6 @@
 					</div>
 					<div slot="DuplicatesListDescription">
 						<p>Följ upp motsägelsefulla metadata i samarbetspublikationer för att skapa grund för nationella jämförelser.</p>
-						<weighting-help></weighting-help>
 					</div>
 				</duplicates-list>
 			</div>

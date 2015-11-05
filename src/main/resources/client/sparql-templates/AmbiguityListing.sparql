@@ -3,8 +3,8 @@ PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
 PREFIX mods_m: <http://swepub.kb.se/mods/model#>
 SELECT DISTINCT
 
-?_id1 #Record 1 ID #-
-?_id2 #Record 2 ID #-
+?_id1 #Record 1 ID
+?_id2 #Record 2 ID
 ?_orgCode1
 ?_orgCode2
 
