@@ -7,7 +7,7 @@ Vi har tagit emot din begäran om uttagsfil. Den levereras till din e-post så s
 Vänliga hälsningar,  
 [SwePub för analys och bibliometri](http://spf.libris.kb.se/bibliometriker)  
 
-**Frågor**  
+**Kontakt**  
 [Libris kundservice] (libris@kb.se)  
 010-709 30 60    
 
