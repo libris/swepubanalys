@@ -1,6 +1,7 @@
 # Publication list of a Creator
 PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
-PREFIX mods_m: <http://swepub.kb.se/mods/model#> 
+PREFIX mods_m: <http://swepub.kb.se/mods/model#>
+PREFIX outt_m: <http://swepub.kb.se/SwePubAnalysis/OutputTypes/model#>
 PREFIX xlink: <http://www.w3.org/1999/xlink#> 
 SELECT DISTINCT
 ?_recordID #Record ID
@@ -9,6 +10,7 @@ SELECT DISTINCT
 ?_status #Publiceringsstatus #-
 ?_publicatType #Publikationstyp/output (*)
 ?_contentType #Innehållstyp #-
+?_outputCode  #Vetenskaplig output
 ?_OA #OA typ (*) #-
 ?_hsv1 #Ämne nivå 1 (*) #-
 ?_hsv3 #Ämne nivå 2 (*)
@@ -60,7 +62,12 @@ MINUS { ?TitleInfo mods_m:type 'alternative'^^xsd:string }
 #START_<?_fulltext>
 OPTIONAL { ?Record swpa_m:uriFulltext ?_fulltext . }
 #END_<?_fulltext>
-
+#START_<?_outputCode>
+OPTIONAL {
+?Record swpa_m:hasOutputType ?OutputType .
+?OutputType outt_m:code ?_outputCode .
+}
+#END_<?_outputCode>
 #START_<?_doiValue>
 OPTIONAL
 {
