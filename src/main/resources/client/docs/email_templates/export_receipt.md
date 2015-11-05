@@ -1,4 +1,4 @@
-##### Kvitto på beställning av din fil från SwePub för analys och bibliometri
+##### Kvitto på beställning av fil från SwePub för analys och bibliometri
 
 Hej,
 
