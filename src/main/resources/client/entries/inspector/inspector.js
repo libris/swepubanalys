@@ -53,7 +53,12 @@ var Inspector = {
 			},
 			pieChart: {
 				getContent: null,
-			}
+			},
+			violationTypeDistributionChart: {
+				getContent: null
+			},
+			colorCategories: colorCategories,
+			colorPattern: colorPattern
 		};
 	},
 	watch: {
@@ -121,7 +126,7 @@ var Inspector = {
 					formData.formModel.templateName = 'duplicates';
 				break;
 				case 'DUPLICATES':
-					formData.formModel.templateName = 'duplicates';
+					formData.formModel.templateName = 'AmbiguityListing';
 				break;
 			}
 			this.$set('pendingScroll', true);
@@ -133,41 +138,127 @@ var Inspector = {
 		 * @param {Object} aggregations
 		 */
 		setAggregations: function(aggregations) {
-			var lineAggregations = this.formModel.org.length === 0 ? FormatAggregationUtil.toYearTimeSeries(aggregations) : FormatAggregationUtil.toOrgYearTimeSeries(aggregations);
-			var barAggregations = FormatAggregationUtil.toOrgViolationRatio(aggregations);
-			var pieAggregations = FormatAggregationUtil.toViolationDistribution(aggregations);
-			// Set line chart
-			if(lineAggregations.columns.length > 0) {
-				this.$set('lineChart.getContent', function() {
-					return lineAggregations;
-				});	
-			} else {
-				this.$set('lineChart.getContent', false);
+			// *** LINE CHART *** //
+			this.setChartContent('lineChart', this.formModel.org.length === 0 ? FormatAggregationUtil.toYearTimeSeries(aggregations) : FormatAggregationUtil.toOrgYearTimeSeries(aggregations));
+			// *** BAR CHART *** //
+			if(this.formModel.org.indexOf(',') !== -1 || this.formModel.org.length === 0) {
+				this.setChartContent('barChart', FormatAggregationUtil.toOrgViolationRatio(aggregations));
 			}
-			// Set bar chart
-			if(barAggregations.columns.length > 0) {
-				this.$set('barChart.getContent', function() {
-					return barAggregations;
+			else {
+				this.setChartContent('barChart', { columns: [] });
+			}
+			// *** PIE CHART *** //
+			this.setChartContent('pieChart', FormatAggregationUtil.toViolationDistribution(aggregations));
+			// *** VIOLATION TYPE DISTRIBUTION CHART *** //
+			if(this.formModel.org && this.formModel.org.indexOf(',') === -1) {
+				this.setChartContent('violationTypeDistributionChart', FormatAggregationUtil.toViolationTypeDistributionForOneOrg(aggregations, this.formModel.org));
+			}
+			else {
+				this.setChartContent('violationTypeDistributionChart', { columns: [] });
+			}
+		},
+		/**
+		 * Sets .getContent function for a chart-object
+		 * @param {String} chartPath
+		 * @param {Object} aggregations
+		 */
+		setChartContent(chartPath, aggregations) {
+			if(aggregations.columns && aggregations.columns.length > 0) {
+				this.$set(chartPath + '.getContent', function() {
+					return aggregations;
 				});
-			} else {
-				this.$set('barChart.getContent', false);
 			}
-			// Set pie chart
-			if(pieAggregations.columns.length > 0) {
-				this.$set('pieChart.getContent', function() {
-					return pieAggregations;
-				});
-			} else {
-				this.$set('pieChart.getContent', false);
-			}
-			// Set empty aggregations bool
-			if(lineAggregations.columns.length === 0 && pieAggregations.columns.length === 0) {
-				this.$set('emptyAggregations', true);
-			} else {
-				this.$set('emptyAggregations', false);
+			else {
+				this.$set(chartPath + '.getContent', null);
 			}
 		}
+		
 	}
+};
+
+// Based on d3.scale.category20c()
+var colorPattern = [
+	'#fd8d3c', 
+	'#fdae6b', 
+	'#fdd0a2', 
+	'#31a354', 
+	'#74c476', 
+	'#a1d99b', 
+	'#c7e9c0', 
+	'#756bb1', 
+	'#9e9ac8', 
+	'#bcbddc', 
+	'#dadaeb', 
+	'#636363', 
+	'#969696', 
+	'#bdbdbd', 
+	'#d9d9d9', 
+	'#3182bd', 
+	'#6baed6', 
+	'#9ecae1', 
+	'#c6dbef', 
+	'#e6550d', 
+	'#fd8d3c', 
+	'#fdae6b', 
+	'#fdd0a2', 
+	'#31a354', 
+	'#74c476', 
+	'#a1d99b', 
+	'#c7e9c0', 
+	'#756bb1', 
+	'#9e9ac8', 
+	'#bcbddc', 
+	'#dadaeb', 
+	'#636363', 
+	'#969696', 
+	'#bdbdbd', 
+	'#d9d9d9'
+];
+var colorCategories = {
+	'bth': '#e6550d',
+	'cth': '#fdd0a2',
+	'du': '#d9d9d9',
+	'esh': '#a1d99b',
+	'fhs': '#31a354',
+	'gih': '#c7e9c0',
+	'gu': '#c6dbef',
+	'hb': '#3182bd',
+	'hh': '#6baed6',
+	'hhs': '#9e9ac8',
+	'hig': '#9ecae1',
+	'his': '#fdae6b',
+	'hj': '#bcbddc',
+	'hkr': '#fd8d3c',
+	'hv': '#fdd0a2',
+	'kau': '#756bb1',
+	'ki': '#9ecae1',
+	'kmh': '#d9d9d9',
+	'konstfack': '#969696',
+	'kth': '#e6550d',
+	'liu': '#fd8d3c',
+	'lnu': '#c7e9c0',
+	'ltu': '#a1d99b',
+	'lu': '#6baed6',
+	'mah': '#bdbdbd',
+	'mdh': '#969696',
+	'miun': '#dadaeb',
+	'nai': '#756bb1',
+	'nationalmuseum': '#bdbdbd',
+	'naturvardsverket': '#74c476',
+	'nrm': '#bcbddc',
+	'oru': '#9e9ac8',
+	'rkh': '#dadaeb',
+	'sh': '#636363',
+	'shh': '#636363',
+	'slu': '#74c476',
+	'su': '#fdae6b',
+	'umu': '#31a354',
+	'uu': '#3182bd',
+	'vti': '#c6dbef',
+	'Övriga': '#74c476',
+	'Alla lärosäten': '#cfbede',
+	'Felaktiga poster': '#eee8f3',
+	'Felfria poster': '#bba3d0',
 };
 
 Vue.component('view', Inspector);

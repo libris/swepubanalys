@@ -17,8 +17,7 @@
 		<hr>
 		<div class="{{ $data._styles.TableContainer }}">
 			<table class="table {{ $data._styles.StaticHeader }}" style="table-layout: inherit; width: 100%">
-				<thead class="{{ $data._styles.Thead }}" style="table-layout: initial;">
-					<th class="{{ $data._styles.Th }} {{ $data._styles.Col0 }}"></th>
+				<thead class="{{ $data._styles.Thead }}" style="table-layout: initial;">					
 					<th class="{{ $data._styles.Th }} {{ $data._styles.Col1 }}">
 						<p class="{{ $data._styles.FieldName }}">
 							Organisation / publikation
@@ -29,57 +28,68 @@
 							Organisation / publikation
 						</p>
 					</th>
-					<th class="{{ $data._styles.Th }} {{ $data._styles.Col3 }}">
-						<p class="{{ $data._styles.FieldName }}">
-							Viktning
-						</p>
-					</th>
+					<th class="{{ $data._styles.Th }} {{ $data._styles.Col3 }}"></th>
 				</thead>
 				<tbody class="{{ $data._styles.Tbody }}">
-					<template v-for="article in ((result && result.results && result.results.bindings) ? result.results.bindings : [])">
+					<template track-by="$index" v-for="article in ((result && result.results && result.results.bindings) ? result.results.bindings : [])" transition="expand">
 						<tr class="{{ $parent.$data._styles.DarkRow }}">
-							<td class="{{ $parent.$data._styles.Col0 }}">
-								<button v-on:click="setHandleArticle(article)" class="btn btn-md btn-success">
-									<i class="fa fa-expand"></i>
-								</button>
-							</td>
 							<td class="{{ $parent.$data._styles.Col1 }}">
-								{{ article._orgCode1.value }}
+								
+								<p><b>{{ article._orgCode1.value }}</b></p>
+								<p>{{ article._id1.value }}</p>
 							</td>
 							<td class="{{ $parent.$data._styles.Col2 }}">
-								{{ article._orgCode2.value }}
+								<p><b>{{ article._orgCode2.value }}</b></p>
+								<p>{{ article._id2.value }}</p>
 							</td>
 							<td class="{{ $parent.$data._styles.Col3 }}">
-								{{ Math.round(article._total_match_weight.value*1000)/1000 }}
+								<div class="{{ $parent.$data._styles.ExpandButtonContainer }}">
+									<button v-on:click="setHandleArticle(article)" class="btn btn-md btn-success">
+										<i class="fa fa-expand"></i>
+									</button>
+								</div>
 							</td>
 						</tr>
-						<tr v-if="handleArticle === article">
-							<td class="{{ $parent.$data._styles.Col0 }} {{ $parent.$data._styles.Borderless }}">
-							</td>
-							<td class="{{ $parent.$data._styles.Col1 }} {{ $parent.$data._styles.Borderless }}">
-								<div class="{{ $parent.$data._styles.WindowContainer }}">
-									<iframe class="{{ $parent.$data._styles.Window }}">
-									</iframe>
-								</div>
-							</td>
-							<td class="{{ $parent.$data._styles.Col2 }} {{ $parent.$data._styles.Borderless }}">
-								<div class="{{ $parent.$data._styles.WindowContainer }}">
-									<iframe class="{{ $parent.$data._styles.Window }}">
-									</iframe>
-								</div>
-							</td>
-							<td class="{{ $parent.$data._styles.Col3 }} {{ $parent.$data._styles.Borderless }}">
-								<p class="{{ $parent.$data._styles.SameValues }}">
-									Lika fält
-								</p>
-								<p class="{{ $parent.$data._styles.DifferingValues }}">
-									Olika fält
-								</p>
-							</td>
+						<tr v-if="article.show" transition="expand">
+							<template v-if="article.loading">
+								<td colpan="3">
+									<div class="{{ $parent.$data._styles.LoadingRow }}">
+										<h1>Loading...</h1>
+									</div>
+								</td>
+							</template>
+							<template v-if="!article.loading && article.show === true">
+								<td class="{{ $parent.$data._styles.Col1 }} {{ $parent.$data._styles.Borderless }}">
+									<div class="{{ $parent.$data._styles.WindowContainer }}">
+										<iframe v-if="article.ambiguityCase" class="{{ $parent.$data._styles.Window }}" v-bind:src="article.ambiguityCase.record1.uri">
+										</iframe>
+									</div>
+								</td>
+								<td class="{{ $parent.$data._styles.Col2 }} {{ $parent.$data._styles.Borderless }}">
+									<div class="{{ $parent.$data._styles.WindowContainer }}">
+										<iframe v-if="article.ambiguityCase" class="{{ $parent.$data._styles.Window }}" v-bind:src="article.ambiguityCase.record2.uri">
+										</iframe>
+									</div>
+								</td>
+								<td class="{{ $parent.$data._styles.Col3 }} {{ $parent.$data._styles.Borderless }}">
+									<p class="{{ $parent.$data._styles.DifferingValues }}">
+										Konflikter
+									</p>
+									<div v-for="ambiguity in article.ambiguityCase.ambiguities || []">
+										<p>
+											<b>{{ ambiguity.type }}</b>: <i>{{ ambiguity.comment }}</i>
+										</p>
+									</div>
+								</td>
+							</template>
 						</tr>
 					</template>
 				</tbody>
 			</table>
+		</div>
+		<div style="margin-top: 55px">
+			<h4>Sökfråga</h4>
+			<pre>{{ query }}</pre>
 		</div>
 	</div>
 </div>

@@ -10,7 +10,9 @@ var _sortByOrder = require('lodash/collection/sortByOrder');
  */
 var FormatAggregationUtil = {
 	/**
-	 *
+	 * Turn aggregations in to number of posts per year per org
+	 * @param {Object} aggregations
+	 * @return {Object}
 	 */
 	toOrgYearTimeSeries: function(aggregations) {
 		var xs = {};
@@ -101,11 +103,12 @@ var FormatAggregationUtil = {
 	/**
 	 * Turn aggregations in to overall distribution of violations
 	 * @param {Object} aggregations
+	 * @return {Object}
 	 */
 	toViolationDistribution: function(aggregations) {
 		var formattedData = []; // Data to be returned
 		// If there are buckets on organisations
-		if(aggregations.org && aggregations.org.buckets && aggregations.org.buckets.length > 0 && aggregations.missingViolations && aggregations.missingViolations.doc_count) {
+		if(aggregations.org && aggregations.org.buckets && aggregations.org.buckets.length > 0 && aggregations.missingViolations) {
 			formattedData.push(['Felaktiga poster']);
 			aggregations.org.buckets.map(function(bucket, i) {
 				formattedData[0].push(bucket.doc_count)
@@ -120,6 +123,7 @@ var FormatAggregationUtil = {
 	/**
 	 * Turn aggregations in to missing violation ratio per org
 	 * @param {Object} aggregations
+	 * @return {Object}
 	 */
 	toOrgViolationRatio: function(aggregations) {
 		var columns = [];
@@ -142,8 +146,8 @@ var FormatAggregationUtil = {
 			});
 		}
 		// Top 7
-		columns = columns.slice(0, 7);
-		groups = groups.slice(0, 7);
+		columns = columns.slice(0, 10);
+		groups = groups.slice(0, 10);
 		// Fill tail with zeros
 		columns.forEach(function(column) {
 			var desiredLength = columns.length + 1;
@@ -155,6 +159,40 @@ var FormatAggregationUtil = {
 			columns: columns,
 			groups: [groups],
 			categories: groups
+		};
+		return chart;
+	},
+	/**
+	 * Turn aggregations into distribution over violation types for one specific org
+	 * @param {Object} aggregations
+	 * @param {String} orgKey
+	 * @return {Object}
+	 */
+	toViolationTypeDistributionForOneOrg: function(aggregations, orgKey) {
+		var columns = [];
+		if(aggregations.violations_per_org_per_year && aggregations.violations_per_org_per_year.buckets) {
+			var violationTypes = aggregations.violations_per_org_per_year.buckets;
+			violationTypes.forEach(function(violationType) {
+				var key = violationType.key;
+				key = key.charAt(0).toUpperCase() + key.slice(1);
+				columns.push([key]);
+				if(violationType.org && violationType.org.buckets) {
+					var orgs = violationType.org.buckets;
+					orgs.forEach(function(org) {
+						if(org.key === orgKey) {
+							columns[columns.length-1].push(org.doc_count);
+						}
+					});					
+				}
+			});
+		}
+		var chart = {
+			columns: columns,
+			donut: {
+				label: {
+					format: function (value, ratio) { return value; }
+				}
+			}
 		};
 		return chart;
 	}

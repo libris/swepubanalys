@@ -9,6 +9,7 @@ var $ = jQuery;
  */
 var SparqlUtil = {
 	apiUrl: '/api/1.0/sparql',
+	ambiguityCaseUrl: 'api/2.0/ambiguity/case',
 	sendFileToEmailUrl: '/api/2.0/data/query',
 	getFileUrl: 'http://virhp07.libris.kb.se/sparql',
 	/**
@@ -31,6 +32,28 @@ var SparqlUtil = {
 			},
 		})
 	},
+	/**
+	 * Fetch an ambiguity case from server
+	 * @param {String} record1
+	 * @param {String} record2
+	 * @param {Function} callback
+	 */
+    getAmbiguityCase: function(record1, record2, callback) {
+		$.ajax({
+			url: this.ambiguityCaseUrl,
+			type: 'GET',
+			data: {
+				record1_id: record1,
+				record2_id: record2
+			},
+			success: function(response) {
+				callback(response);
+			},
+			error: function(response) {
+				callback({ error: response });
+			}
+		});
+    },
 	/**
 	 * Generates a SPARQL Query
      *
@@ -107,8 +130,9 @@ var SparqlUtil = {
                     if(formModel.templateName === 'duplicates') {
                         filters_string = filters_string.replace(/#(FILTER)_<\?_orgCode1>(.*?)<\?_orgCode1>(.*)$/mi, "$1$2" + qs(org) + "$3");
                         filters_string = filters_string.replace(/#(FILTER)_<\?_orgCode2>(.*?)<\?_orgCode2>(.*)$/mi, "$1$2" + qs(org) + "$3");
-                    }
-                    else {
+                    } else if(formModel.templateName === 'AmbiguityListing') {
+						filters_string = filters_string.replace(/#(FILTER)_<\?_orgCode1>(.*?)<\?_orgCode1>(.*)$/mi, "$1$2" + qs(org) + "$3");
+					} else {
                         filters_string = filters_string.replace(/#(FILTER)_<\?_orgCode>(.*?)<\?_orgCode>(.*)$/mi, "$1$2" + qs(org) + "$3");
                     }
                 }
@@ -293,6 +317,10 @@ var Templates = {
     'quality': {
         title: 'Feltyper',
         template: require('raw!sparql-templates/quality.sparql')
+    },
+    'AmbiguityListing': {
+        title: 'Samarbetspublikationer',
+        template: require('raw!sparql-templates/AmbiguityListing.sparql')
     }
 };
 

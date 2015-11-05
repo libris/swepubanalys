@@ -27,25 +27,62 @@
 				<div class="row" v-show="!emptyAggregations && !error">
 					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
 						<template v-if="lineChart.getContent">
-							<p>Antal poster</p>
+							<div class="{{ $data._styles.GraphTitle }}">
+								<p>Antal poster</p>
+							</div>
 							<div>
-								<chart type="line" height="290" :get-content="lineChart.getContent"></chart>
+								<chart type="line" 
+									height="330"
+									:color-categories.once="colorCategories"
+									:get-content="lineChart.getContent">
+								</chart>
 							</div>
 						</template>
 					</div>
-					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
+					<div class="col-md-5 {{ $data._styles.ChartContainer }}">
 						<template v-if="barChart.getContent">
-							<p>% Felfria poster</p>
+							<div class="{{ $data._styles.GraphTitle }}">
+								<p>Andel felfria poster</p>
+							</div>
 							<div>
-								<chart type="bar" x-axis-type="category" :show-legend="false" height="270" tick-format="0%" :get-content="barChart.getContent"></chart>
+								<chart 
+									type="bar" 
+									x-axis-type="category" 
+									:show-legend="false"
+									:color-categories.once="colorCategories"
+									height="310" 
+									tick-format="0%" 
+									:get-content="barChart.getContent">
+								</chart>
+							</div>
+						</template>
+						<template v-if="violationTypeDistributionChart.getContent">
+							<div class="{{ $data._styles.GraphTitle }}">
+								<p>Distribution av feltyper i metadata inom {{ labels.length > 0 ? labels[labels.length-1].value : '' }}</p>
+							</div>
+							<div>
+								<chart 
+									type="donut" 
+									legend-position="bottom" 
+									:color-pattern.once="colorPattern" 
+									height="370" 
+									:get-content="violationTypeDistributionChart.getContent">
+								</chart>
 							</div>
 						</template>
 					</div>
-					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
+					<div class="col-md-3 {{ $data._styles.ChartContainer }}">
 						<template v-if="pieChart.getContent">
-							<p>Total andel felfria poster</p>
+							<div class="{{ $data._styles.GraphTitle }}">
+								<p>Total andel felfria poster</p>
+							</div>
 							<div>
-								<chart type="donut" height="290" :get-content="pieChart.getContent"></chart>
+								<chart 
+									type="donut" 
+									height="330"
+									:color-categories.once="colorCategories"
+									:get-content="pieChart.getContent">
+								</chart>
 							</div>
 						</template>
 					</div>
@@ -53,7 +90,7 @@
 			</div>
 			<!-- Search form -->
 			<div class="{{ $data._styles.SearchForm }}">
-				<search-form :on-change.once="onChange" from="1992" default-template="duplicates">
+				<search-form :on-change.once="onChange" from="2012" default-template="duplicates">
 					<div slot="SearchFormTitle">
 						<h2>Tre vägar till högre datakvalitet</h2>
 					</div>
@@ -114,7 +151,6 @@
 					</div>
 					<div slot="DuplicatesListDescription">
 						<p>Följ upp motsägelsefulla metadata i samarbetspublikationer för att skapa grund för nationella jämförelser.</p>
-						<weighting-help></weighting-help>
 					</div>
 				</duplicates-list>
 			</div>

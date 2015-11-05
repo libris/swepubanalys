@@ -1,6 +1,8 @@
 'use strict';
 
 // Vendor
+var Vue = require('vue');
+var _cloneDeep = require('lodash/lang/cloneDeep');
 var _assign = require('lodash/object/assign');
 // Components
 var MailExport = require('components/MailExport/MailExport.js');
@@ -49,7 +51,27 @@ var DuplicatesList = {
 		 * @param {Object} article
 		 */
 		setHandleArticle: function(article) {
-			this.$set('handleArticle', article);
+			// Show article
+			var articles = this.result.results.bindings;
+			var index = articles.indexOf(article);
+			article = _cloneDeep(article);
+			article.show = !article.show;
+			articles.$set(index, article);
+			// Fetch ambiguityCase
+			if(!article.ambiguityCase && article.show === true) {
+				article.loading = true;
+				articles.$set(index, article);
+				// Get ambiguities 
+				SparqlUtil.getAmbiguityCase(article._id1.value, article._id2.value, function(ambiguityCase) {
+					// Replace article object
+					article = _cloneDeep(article);
+					article.loading = false;
+					article.ambiguityCase = ambiguityCase;
+					articles.$set(index, article);
+				}.bind(this));
+			}
+			
+			
 		},
 		/**
 		 * Update the query
@@ -72,6 +94,7 @@ var DuplicatesList = {
 			this.$set('pendingUpdate', true);
 			SparqlUtil.postQuery(this.query, function(result) {
 				if(!result.error) {
+					result.results.bindings = result.results.bindings.slice(0, 100);
 					this.$set('result', result);
 				} else {
 					console.error('*** DuplicatesList.updateQuery: Failed to post query. Error:');
