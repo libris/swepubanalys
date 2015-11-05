@@ -150,7 +150,7 @@ public class Elasticsearch {
     static String inspectorAggregate="""{
     "missingViolations": {
         "missing": {
-            "field": "hasMods.qualityName"
+            "field": "qualityViolations.label"
         }
     },
     "missing_violations_per_org": {
@@ -161,14 +161,32 @@ public class Elasticsearch {
         "aggs": {
             "missingViolations": {
                 "missing": {
-                    "field": "hasMods.qualityName"
+                    "field": "qualityViolations.label"
+                }
+            }
+        }
+    },
+     "violation_severity_per_org_per_year": {
+        "terms": {
+            "field": "hasMods.recordContentSourceValue",
+            "size": 0
+        },
+        "aggs": {
+            "year": {
+                "terms": {
+                    "field": "hasMods.publicationYear","size":"0"
+                },
+                  "aggs": {
+                     "severity": {
+                      "terms": { "field": "qualityViolations.severity", "size":0 }
+                    }
                 }
             }
         }
     },
     "qualityViolations": {
         "terms": {
-            "field": "hasMods.qualityName",
+            "field": "qualityViolations.label",
             "size": 0
         }
     },
@@ -186,7 +204,7 @@ public class Elasticsearch {
     },
     "violations_per_org_per_year": {
         "terms": {
-            "field": "hasMods.qualityName",
+            "field": "qualityViolations.label",
             "size": 0
         },
         "aggs": {
