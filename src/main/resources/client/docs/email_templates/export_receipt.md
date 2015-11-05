@@ -4,10 +4,9 @@ Hej,
 
 Vi har tagit emot din begäran om uttagsfil. Den levereras till din e-post så snart den är skapad. 
 
-Med vänlig hälsning,
+Vänliga hälsningar,
 
-SwePub  
-Kungl. biblioteket
+[SwePub för analys och bibliometri](http://spf.libris.kb.se/bibliometriker)
 
 
 
