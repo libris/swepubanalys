@@ -31,6 +31,9 @@ var SparqlUtil = {
 			},
 		})
 	},
+    getAmbiguity: function(record1, record2, callback) {
+        callback({});
+    },
 	/**
 	 * Generates a SPARQL Query
      *
@@ -293,6 +296,10 @@ var Templates = {
     'quality': {
         title: 'Feltyper',
         template: require('raw!sparql-templates/quality.sparql')
+    },
+    'AmbiguityListing': {
+        title: 'Samarbetspublikationer',
+        template: require('raw!sparql-templates/AmbiguityListing.sparql')
     }
 };
 
