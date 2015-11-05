@@ -4,8 +4,7 @@ Hej,
 
 Här kommer din beställda fil för nedladdning.
 
-Vänliga hälsningar,
-
+Vänliga hälsningar,  
 [SwePub för analys och bibliometri](http://spf.libris.kb.se/bibliometriker)  
 
 **Frågor**  
