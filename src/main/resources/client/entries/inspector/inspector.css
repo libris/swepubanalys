@@ -1,5 +1,5 @@
 .Visualisations {
-	min-height: 460px;
+	min-height: 500px;
 	margin-top: 5px;
 	margin-bottom: 45px;
 	border-top: 1px solid #efefef;
@@ -21,7 +21,7 @@
 
 .Info {
 	width: 100%;
-	padding-top: 130px;
+	padding-top: 170px;
 	text-align: center; 
 }
 
