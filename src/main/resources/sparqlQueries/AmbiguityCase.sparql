@@ -54,6 +54,10 @@ FILTER (?_id1 IN ("!!rec1Id!!"^^<http://www.w3.org/2001/XMLSchema#string>))
 FILTER (?_id2 IN ("!!rec2Id!!"^^<http://www.w3.org/2001/XMLSchema#string>))
 Filter(?_id1 = ?_recordID1)
 Filter(?_id2 = ?_recordID2)
+Filter(?_orgCode1 = ?_reportingSite1)
+Filter(?_orgCode2 =?_reportingSite2)
+FILTER ( xsd:string(?_reportingSite1) IN ( "!!rec1Org!!" ) )
+FILTER ( xsd:string(?_reportingSite2) IN ( "!!rec2Org!!" ) )
 ###  FILTERS END ####
 }
 LIMIT 50000
