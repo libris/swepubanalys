@@ -73,7 +73,7 @@ class Api {
 
     static def AmbiguityCase(Request request, Response response) {
         response.type("application/json");
-        def ambiguityCase = new AmbiguityCase(request.queryParams("record1_id"), request.queryParams("record2_id"))
+        def ambiguityCase = new AmbiguityCase(request.queryParams("record1_id"), request.queryParams("record2_id"), request.queryParams("record1_org"), request.queryParams("record2_org"))
         return JsonOutput.toJson([ambiguities:ambiguityCase.ambiguities, record1: ambiguityCase.record1, record2:ambiguityCase.record2 ])
     }
 

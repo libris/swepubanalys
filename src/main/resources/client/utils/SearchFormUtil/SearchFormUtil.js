@@ -262,7 +262,8 @@ var filterFieldGroups = {
     "?_workID": "Publikation",
     "?_contract": "Övrigt",
     "?_program": "Övrigt",
-    "?_projekt": "Övrigt"
+    "?_projekt": "Övrigt",
+	"?_outputCode": "Övrigt"
 };
 
 module.exports = SearchFormUtil;

@@ -5,7 +5,7 @@ SELECT
 ?_orgCode1 #Organisation för post 1
 ?_orgCode2 #Organisation för post 2
 ?_total_match_weight #Viktning
-?_compare #Poster
+#?_compare #Poster
 WHERE
 {
 ?Record1 mods_m:hasMods ?Mods1 .
