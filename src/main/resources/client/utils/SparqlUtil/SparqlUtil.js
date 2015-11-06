@@ -121,8 +121,9 @@ var SparqlUtil = {
             	var checked = filterFields[i].checked;
             	if(!(conf.filter && conf.filter === 'all') && (checked === true || conf.filter === 'none')) {
                 	checked_string += key + '\n';
-                }
-                else {
+                } else if(key === '?_hsv3' && subject.length > 0) {
+					// Do nothing
+				} else {
 					regex_string = "#START_<\\" + key + ">[^]*?#END_<\\" + key + ">.*?";
 					re = new RegExp(regex_string , 'i');
 					options_string = options_string.replace(re, '');
@@ -162,7 +163,7 @@ var SparqlUtil = {
                         filters_string = filters_string.replace(/#(FILTER)_<\?_isPublished>(.*?)<\?_isPublished>(.*)$/mi, "$1$2" + (status==='published'?"1":"0") + "$3");
                     }
                 }
-                if(formModel.templateName === 'QfBibliometrics') {
+                if(formModel.templateName === 'QfBibliometrics' || formModel.templateName === 'simple') {
                     if ( author && orcid ) {
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_NAME_FILTER>[^]*?#END_<ONE_CREATOR_NAME_FILTER>.*?/, '');
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_ORCID_FILTER>[^]*?#END_<ONE_CREATOR_ORCID_FILTER>.*?/, '');
