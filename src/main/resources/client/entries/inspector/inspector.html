@@ -1,16 +1,17 @@
 <div>
 	<site-wrapper activity="inspector">
 		<div>
-			<h2>Förändring av kvalitet på data - 
+			<h2>Översikt datakvalitet - 
 				<span v-if="labels.length === 0">
 					Alla lärosäten
 				</span>
 				<span v-for="d in (labels || [])" style="display: inline-block">
-					{{ d.value }}<template v-if="d.index !== $parent.labels.length-1">,&nbsp;</template>
+					{{ d.value }}
+					<template v-if="d.index !== $parent.labels.length-1">,&nbsp;</template>
 				</span>
 			</h2>
 			<div class="{{ $data._styles.YearIndicator }}">
-				<p>{{ formModel.from }} {{ formModel.from || formModel.to ? '-' : '' }} {{ formModel.to }}</p>
+				<h4>{{ formModel.from }} {{ formModel.from || formModel.to ? '-' : '' }} {{ formModel.to }}</h4>
 			</div>
 			<!-- Visualisations -->
 			<div class="{{ $data._styles.Visualisations }}">
@@ -28,12 +29,15 @@
 					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
 						<template v-if="lineChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Antal poster</p>
+								<p>Andel poster innehållandes fel av grad 3</p>
 							</div>
 							<div>
 								<chart type="line" 
 									height="330"
 									:color-categories.once="colorCategories"
+									tick-format="0%"
+									:min="0.0"
+									:max="1.0"
 									:get-content="lineChart.getContent">
 								</chart>
 							</div>
@@ -42,7 +46,7 @@
 					<div class="col-md-5 {{ $data._styles.ChartContainer }}">
 						<template v-if="barChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Andel felfria poster</p>
+								<p>Andel poster innehållandes fel</p>
 							</div>
 							<div>
 								<chart 
@@ -50,8 +54,8 @@
 									x-axis-type="category" 
 									:show-legend="false"
 									:color-categories.once="colorCategories"
-									height="310" 
-									tick-format="0%" 
+									height="310"
+									tick-format="0%"
 									:get-content="barChart.getContent">
 								</chart>
 							</div>
@@ -63,9 +67,10 @@
 							<div>
 								<chart 
 									type="donut" 
+									order="asc"
 									legend-position="bottom" 
 									:color-pattern.once="colorPattern" 
-									height="370" 
+									height="355" 
 									:get-content="violationTypeDistributionChart.getContent">
 								</chart>
 							</div>
@@ -74,7 +79,7 @@
 					<div class="col-md-3 {{ $data._styles.ChartContainer }}">
 						<template v-if="pieChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Total andel felfria poster</p>
+								<p>Total andel poster innehållandes fel</p>
 							</div>
 							<div>
 								<chart 
@@ -92,21 +97,21 @@
 			<div class="{{ $data._styles.SearchForm }}">
 				<search-form :on-change.once="onChange" from="2012" default-template="duplicates">
 					<div slot="SearchFormTitle">
-						<h2>Tre vägar till högre datakvalitet</h2>
+						<h2>Tre vägar till hög datakvalitet</h2>
 					</div>
 					<div slot="SearchFormDescription">
-						<p>Välj organisation och år, välj sedan aktivitet. </p>
+						<p>Här söker du fram ofullständig metadata och vetenskaplig output.</p>
 					</div>
 				</search-form>
 				<!-- Activity buttons -->
 				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('ERROR_LIST')">
-					Ofullständig metadata
+					Visa ofullständig metadata
 				</button>
 				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
-					Lokala dubblettkandidater
+					Visa dubblettkandidater
 				</button>
 				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('DUPLICATES')">
-					Samarbetspublikationer
+					Visa samarbetspublikationer
 				</button>
 			</div>
 			<div class="searchResult">
@@ -117,11 +122,9 @@
 						:fields="formData.fields" 
 						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Ofullständig metadata</h2>
+						<h2>Ofullständig metadata: Anpassa för export</h2>
 					</div>
-					<div slot="SearchResultDescription">
-						<p>Exportera lista för att rätta bristfällig eller saknad metadata.</p>
-					</div>
+					<div slot="SearchResultDescription"></div>
 				</search-result>
 				<!-- Local duplicates activity -->
 				<search-result 
@@ -131,11 +134,9 @@
 						:select-all-filter-fields.once="true"
 						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Lokala dubblettkandidater</h2>
+						<h2>Dubblettkandidater: Anpassa för export</h2>
 					</div>
-					<div slot="SearchResultDescription">
-						<p>Exportera lista för att åtgärda lokala dubbletter.</p>
-					</div>
+					<div slot="SearchResultDescription"></div>
 					<div id="WeightingHelp" slot="FilterFieldsDescription">
 						<weighting-help></weighting-help>
 					</div>

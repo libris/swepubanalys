@@ -26,12 +26,12 @@
 		</div>
 		<hr>
 		<div class="{{ $data._styles.Item }}" v-if="selectAllFilterFields !== true">
-			<h4>Välj fält till uttag</h4>
+			<h4>Välj fält för export</h4>
 			<slot name="FilterFieldsDescription"></slot>
 			<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields"></filter-fields>
 		</div>
 		<div class="{{ $data._styles.Item }}">
-			<h4>Förhandsvisning av uttag</h4>
+			<h4>Förhandsvisning av export</h4>
 			<br>
 			<div style="min-height: 480px;">
 				<div v-show="pendingRefresh !== true">
@@ -43,7 +43,7 @@
 			</div>
 		</div>
 		<div class="{{ $data._styles.Item }}">
-			<h4>Sökfråga</h4>
+			<h4>Utsökningsfråga</h4>
 			<pre>{{ query }}</pre>
 		</div>
 	</div>
