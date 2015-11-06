@@ -1,7 +1,7 @@
 <div>
 	<site-wrapper activity="inspector">
 		<div>
-			<h2>Förändring av kvalitet på data - 
+			<h2>Översikt datakvalitet - 
 				<span v-if="labels.length === 0">
 					Alla lärosäten
 				</span>
@@ -46,7 +46,7 @@
 					<div class="col-md-5 {{ $data._styles.ChartContainer }}">
 						<template v-if="barChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Andel felaktiga poster poster</p>
+								<p>Andel poster innehållandes fel</p>
 							</div>
 							<div>
 								<chart 
@@ -79,7 +79,7 @@
 					<div class="col-md-3 {{ $data._styles.ChartContainer }}">
 						<template v-if="pieChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Total andel felaktiga poster</p>
+								<p>Total andel poster innehållandes fel</p>
 							</div>
 							<div>
 								<chart 
@@ -97,21 +97,21 @@
 			<div class="{{ $data._styles.SearchForm }}">
 				<search-form :on-change.once="onChange" from="2012" default-template="duplicates">
 					<div slot="SearchFormTitle">
-						<h2>Tre vägar till högre datakvalitet</h2>
+						<h2>Tre vägar till hög datakvalitet</h2>
 					</div>
 					<div slot="SearchFormDescription">
-						<p>Välj organisation och år, välj sedan aktivitet. </p>
+						<p>Här söker du fram ofullständig metadata och vetenskaplig output.</p>
 					</div>
 				</search-form>
 				<!-- Activity buttons -->
 				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('ERROR_LIST')">
-					Ofullständig metadata
+					Visa ofullständig metadata
 				</button>
 				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
-					Lokala dubblettkandidater
+					Visa dubblettkandidater
 				</button>
 				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('DUPLICATES')">
-					Samarbetspublikationer
+					Visa samarbetspublikationer
 				</button>
 			</div>
 			<div class="searchResult">
@@ -122,11 +122,9 @@
 						:fields="formData.fields" 
 						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Ofullständig metadata</h2>
+						<h2>Ofullständig metadata: Anpassa för export</h2>
 					</div>
-					<div slot="SearchResultDescription">
-						<p>Exportera lista för att rätta bristfällig eller saknad metadata.</p>
-					</div>
+					<div slot="SearchResultDescription"></div>
 				</search-result>
 				<!-- Local duplicates activity -->
 				<search-result 
@@ -136,11 +134,9 @@
 						:select-all-filter-fields.once="true"
 						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Lokala dubblettkandidater</h2>
+						<h2>Dubblettkandidater: Anpassa för export</h2>
 					</div>
-					<div slot="SearchResultDescription">
-						<p>Exportera lista för att åtgärda lokala dubbletter.</p>
-					</div>
+					<div slot="SearchResultDescription"></div>
 					<div id="WeightingHelp" slot="FilterFieldsDescription">
 						<weighting-help></weighting-help>
 					</div>

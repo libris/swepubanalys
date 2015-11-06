@@ -5,10 +5,10 @@
 		<div class="col-md-5">
 			<div class="row">
 				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ activity === 'bibliometrician' ? $data._styles.ActiveMenuItem : '' }}">
-					<a href="/bibliometriker">Gör uttag</a>
+					<a href="/bibliometriker">Bibliometri</a>
 				</div>
 				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ activity === 'inspector' ? $data._styles.ActiveMenuItem : '' }}">
-					<a href="/granskare">Validera data</a>
+					<a href="/granskare">Databearbetning</a>
 				</div>
 				<div class="col-xs-4 {{ $data._styles.MenuItem }}">
 					Hjälp
@@ -27,7 +27,11 @@
 				<td>
 					<div class="{{ $data._styles.TitleContainer }}">
 						<h2>SwePub för analys och bibliometri</h2>
-						<p>SwePub för analys och bibliometri samlar vetenskapliga publikationer från svenska lärosäten och myndigheter. Använd tjänsten för att göra uttag för databearbetning och utsökningar till statistiska analyser.</p>
+						<p>
+							SwePub för analys och bibliometri samlar vetenskapliga publikationer 
+							från svenska lärosäten och myndigheter. Använd tjänsten för att ta ut
+							underlag till bibliometri och databearbetning.
+						</p>
 					</div>
 				</td>
 			</tr>

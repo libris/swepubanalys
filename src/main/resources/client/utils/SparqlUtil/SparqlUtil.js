@@ -27,7 +27,7 @@ var SparqlUtil = {
 			data: {
 				email: email,
 				format: format,
-				zip: false,
+				zip: true,
 				query: query
 			},
 		})
