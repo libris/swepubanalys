@@ -78,7 +78,7 @@ public class SparqlResultExporter {
                     }
                     prepData.fileStatus.write("DONE: ${nowString()} \n")
                     SMTP.simpleMail(emailAddress,
-                            "",
+                            "Här kommer din beställda fil för nedladdning.",
                             "${getMarkdownTemplate("export_result.md")} \n ${config.ftp.ftpRoot + prepData.dirName + "/" + prepData.fileResults.name} \n ${getMarkdownTemplate("footer.md")}" as String,
                             config.smtp.host as String,
                             config.smtp.port as String)
@@ -88,8 +88,8 @@ public class SparqlResultExporter {
                     log.error(all.message + all.stackTrace)
                     prepData.fileStatus.write("FAILED: ${nowString()}")
                     SMTP.simpleMail(emailAddress,
-                            "",
-                            "${getMarkdownTemplate("export_error.md")} \n Felmeddelande:\n${all.message} ${getMarkdownTemplate("footer.md")}" as String,
+                            "Något gick fel när din fil skulle skapas",
+                            "${getMarkdownTemplate("export_error.md")} \n Felmeddelande:\n${all.message} \n ${query} \n ${format} \n ${getMarkdownTemplate("footer.md")}" as String,
                             config.smtp.host as String,
                             config.smtp.port as String)
                 }
@@ -98,8 +98,8 @@ public class SparqlResultExporter {
             if (thread.isAlive()) {
                 log.info "thread is alive. Sending email."
                 SMTP.simpleMail(emailAddress,
-                        "",
-                        "${getMarkdownTemplate("export_teaser.md")} \n${getMarkdownTemplate("footer.md")}" as String,
+                        "Vi har tagit emot din begäran om uttagsfil.",
+                        "${getMarkdownTemplate("export_receipt.md")} \n${getMarkdownTemplate("footer.md")}" as String,
                         config.smtp.host as String,
                         config.smtp.port as String)
             }
@@ -205,6 +205,7 @@ public class SparqlResultExporter {
         log.info "Create result zip file"
         def bytesFile = createResultFile(content, query);
         log.info "Created"
+
 
         file.withOutputStream { fos ->
             fos.write(bytesFile);
