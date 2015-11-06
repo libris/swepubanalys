@@ -71,6 +71,9 @@ Vue.filter('filterFields', function(cells, filterFields) {
 				if(fieldName) {
 					var cell = cells[fieldName];
 					if(cell) {
+						if(fieldName === '_doiValue' && !this.startsWithHttp(cell.value)) {
+							cell.value = 'http://dx.doi.org/' + cell.value;
+						}
 						filteredCells.push(cell);
 					} else {
 						filteredCells.push({ value: '' });
