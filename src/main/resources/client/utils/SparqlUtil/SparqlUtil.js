@@ -39,7 +39,6 @@ var SparqlUtil = {
 	 * @param {Function} callback
 	 */
     getAmbiguityCase: function(org1, record1, org2, record2, callback) {
-		console.log(org1, record1, org2, record2);
 		$.ajax({
 			url: this.ambiguityCaseUrl,
 			type: 'GET',
