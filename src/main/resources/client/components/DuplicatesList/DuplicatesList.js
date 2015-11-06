@@ -62,7 +62,7 @@ var DuplicatesList = {
 				article.loading = true;
 				articles.$set(index, article);
 				// Get ambiguities 
-				SparqlUtil.getAmbiguityCase(article._id1.value, article._id2.value, function(ambiguityCase) {
+				SparqlUtil.getAmbiguityCase(article._orgCode1.value, article._id1.value, article._orgCode2.value, article._id2.value, function(ambiguityCase) {
 					// Replace article object
 					article = _cloneDeep(article);
 					article.loading = false;
@@ -70,8 +70,6 @@ var DuplicatesList = {
 					articles.$set(index, article);
 				}.bind(this));
 			}
-			
-			
 		},
 		/**
 		 * Update the query

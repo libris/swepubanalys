@@ -5,7 +5,6 @@ SELECT
 ?_orgCode1 #Organisation för post 1
 ?_orgCode2 #Organisation för post 2
 ?_total_match_weight #Viktning
-#?_compare #Poster
 WHERE
 {
 ?Record1 mods_m:hasMods ?Mods1 .
@@ -14,7 +13,6 @@ WHERE
 ?Mods2 mods_m:recordContentSourceValue ?_orgCode2 .
 {
 SELECT DISTINCT
-bif:sprintf('http://hp07.libris.kb.se/Adjudication/Duplicates/Compare?record1=%s&record2=%s', bif:substring(?Record1,31,1000), bif:substring(?Record2,31,1000)) as ?_compare
 sum(?_weight) as ?_total_match_weight
 ?Record1 ?Record2
 WHERE
