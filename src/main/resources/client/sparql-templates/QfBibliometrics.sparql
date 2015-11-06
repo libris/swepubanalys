@@ -54,6 +54,7 @@ OPTIONAL { ?Record swpa_m:localCreatorCount ?_numLocalCreator . }
 #END_<?_numLocalCreator>
 
 #START_<?_titleValue>
+
 ?Mods mods_m:hasTitleInfo ?TitleInfo .
 MINUS { ?TitleInfo mods_m:type 'alternative'^^xsd:string }
 ?TitleInfo mods_m:hasTitle ?Title .
@@ -138,6 +139,7 @@ WHERE
 ?Mods swpa_m:publicationTypeCode ?_publicatType .
 ?Mods swpa_m:contentTypeCode ?_contentType .
 ?Record swpa_m:isPublished ?_isPublished .
+?Mods mods_m:hasName ?Name .
 OPTIONAL { ?Mods swpa_m:oaType ?_OA }
 
 #START_<?_hsv1>
@@ -172,8 +174,9 @@ OPTIONAL
 }
 #END_<?_hsv5>
 
-?Mods mods_m:hasName ?Name . 
+
 #START_<?_name>
+
 ?Name foaf:name ?_name .
 #END_<?_name>
 #START_<?_localID>
