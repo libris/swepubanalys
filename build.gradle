@@ -1,4 +1,5 @@
 import org.apache.tools.ant.taskdefs.condition.Os
+import static java.util.UUID.randomUUID
 
 configurations {
     moreLibs
@@ -13,6 +14,7 @@ def loadConfiguration() {
     def config = new ConfigSlurper(environment).parse(configFile.toURI().toURL())
     println config.toString()
     config.mode = ext.environment
+    config.buildStamp = (randomUUID() as String).toUpperCase()
     config.buildTimeStamp = (new Date()).format('yyyy-MM-dd HH:mm:ss')
     file('./src/main/resources/config.groovy').text = config.prettyPrint()
 }

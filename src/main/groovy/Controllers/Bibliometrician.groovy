@@ -1,6 +1,6 @@
 package Controllers
 
-import spark.ModelAndView
+import static java.util.UUID.randomUUID
 import spark.Request
 import spark.Response
 
@@ -13,7 +13,8 @@ class Bibliometrician {
         URL url = Bibliometrician.getClassLoader().getResource("config.groovy");
         def config = new ConfigSlurper().parse(url)
         final Map map = new HashMap();
-        map.put("pageTitle",config.mode =='dev' ? config.buildTimeStamp: "SIDTITEL");
+        map.put("cacheBustingUid",config.buildStamp)
+        map.put("pageTitle","SIDTITEL");
         return map;
 
     }
