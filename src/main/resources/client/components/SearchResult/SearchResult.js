@@ -32,6 +32,7 @@ var SearchResult = {
 			// Flags
 			formModelHasChanged: false, // To let methods.updateQuery() know that formModel has changed and that a POST should be performed
 			// UI state
+			error: false,
 			pendingUpdate: true,
 			pendingRefresh: true,
 			// Data
@@ -107,6 +108,7 @@ var SearchResult = {
 		 * @param {Object} conf
 		 */
 		updateQuery: function() {
+			this.$set('error', false);
 			var formModel = _cloneDeep(this.formModel);
 			formModel.filterFields = this.filterFields;
 			var formModelChanged = this.formModelHasChanged;
@@ -135,6 +137,7 @@ var SearchResult = {
 										} else {
 											console.error('*** SearchResult.updateQuery: Failed to post query. Error:');
 											console.log(result);
+											this.$set('error', true);
 										}
 										this.$set('pendingUpdate', false);
 										this.$set('pendingRefresh', false);

@@ -17,3 +17,9 @@
 .Item {
 	margin-bottom: 50px;
 }
+
+.Error {
+	text-align: center;
+	color: red;
+	padding: 55px;
+}
