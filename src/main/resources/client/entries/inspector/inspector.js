@@ -164,7 +164,7 @@ var Inspector = {
 		 * @param {String} chartPath
 		 * @param {Object} aggregations
 		 */
-		setChartContent(chartPath, aggregations) {
+		setChartContent: function(chartPath, aggregations) {
 			if(aggregations.columns && aggregations.columns.length > 0) {
 				this.$set(chartPath + '.getContent', function() {
 					return aggregations;
