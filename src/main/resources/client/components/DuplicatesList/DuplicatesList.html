@@ -72,13 +72,16 @@
 									</div>
 								</td>
 								<td class="{{ $parent.$data._styles.Col3 }} {{ $parent.$data._styles.Borderless }}">
-									<p class="{{ $parent.$data._styles.DifferingValues }}">
+									<h4 class="{{ $parent.$data._styles.DifferingValues }}">
 										Konflikter
-									</p>
+									</h4>
 									<div v-for="ambiguity in article.ambiguityCase.ambiguities || []">
 										<p>
-											<b>{{ ambiguity.type }}</b>: <i>{{ ambiguity.comment }}</i>
+											<b>{{ ambiguity.type }}</b>: {{ ambiguity.violatingData }}											
+											<br><br>
+											<i>{{ ambiguity.comment }}</i>
 										</p>
+										<hr>
 									</div>
 								</td>
 							</template>
@@ -87,7 +90,7 @@
 				</tbody>
 			</table>
 		</div>
-		<div style="margin-top: 55px">
+		<div class="{{ $data._styles.Query }}">
 			<h4>Sökfråga</h4>
 			<pre>{{ query }}</pre>
 		</div>

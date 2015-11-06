@@ -6,11 +6,12 @@
 					Alla lärosäten
 				</span>
 				<span v-for="d in (labels || [])" style="display: inline-block">
-					{{ d.value }}<template v-if="d.index !== $parent.labels.length-1">,&nbsp;</template>
+					{{ d.value }}
+					<template v-if="d.index !== $parent.labels.length-1">,&nbsp;</template>
 				</span>
 			</h2>
 			<div class="{{ $data._styles.YearIndicator }}">
-				<p>{{ formModel.from }} {{ formModel.from || formModel.to ? '-' : '' }} {{ formModel.to }}</p>
+				<h4>{{ formModel.from }} {{ formModel.from || formModel.to ? '-' : '' }} {{ formModel.to }}</h4>
 			</div>
 			<!-- Visualisations -->
 			<div class="{{ $data._styles.Visualisations }}">
@@ -28,12 +29,15 @@
 					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
 						<template v-if="lineChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Antal poster</p>
+								<p>Andel poster innehållandes fel av grad 3</p>
 							</div>
 							<div>
 								<chart type="line" 
 									height="330"
 									:color-categories.once="colorCategories"
+									tick-format="0%"
+									:min="0.0"
+									:max="1.0"
 									:get-content="lineChart.getContent">
 								</chart>
 							</div>
@@ -42,7 +46,7 @@
 					<div class="col-md-5 {{ $data._styles.ChartContainer }}">
 						<template v-if="barChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Andel felfria poster</p>
+								<p>Andel felaktiga poster poster</p>
 							</div>
 							<div>
 								<chart 
@@ -50,8 +54,8 @@
 									x-axis-type="category" 
 									:show-legend="false"
 									:color-categories.once="colorCategories"
-									height="310" 
-									tick-format="0%" 
+									height="310"
+									tick-format="0%"
 									:get-content="barChart.getContent">
 								</chart>
 							</div>
@@ -63,9 +67,10 @@
 							<div>
 								<chart 
 									type="donut" 
+									order="asc"
 									legend-position="bottom" 
 									:color-pattern.once="colorPattern" 
-									height="370" 
+									height="355" 
 									:get-content="violationTypeDistributionChart.getContent">
 								</chart>
 							</div>
@@ -74,7 +79,7 @@
 					<div class="col-md-3 {{ $data._styles.ChartContainer }}">
 						<template v-if="pieChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Total andel felfria poster</p>
+								<p>Total andel felaktiga poster</p>
 							</div>
 							<div>
 								<chart 

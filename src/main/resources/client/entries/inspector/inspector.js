@@ -139,10 +139,12 @@ var Inspector = {
 		 */
 		setAggregations: function(aggregations) {
 			// *** LINE CHART *** //
-			this.setChartContent('lineChart', this.formModel.org.length === 0 ? FormatAggregationUtil.toYearTimeSeries(aggregations) : FormatAggregationUtil.toOrgYearTimeSeries(aggregations));
+			var collapse = this.formModel.org.length === 0;
+			this.setChartContent('lineChart', FormatAggregationUtil.toGrade3ViolationRatioYearTimeSeries(aggregations, collapse));
 			// *** BAR CHART *** //
 			if(this.formModel.org.indexOf(',') !== -1 || this.formModel.org.length === 0) {
-				this.setChartContent('barChart', FormatAggregationUtil.toOrgViolationRatio(aggregations));
+				var top = this.formModel.org.length === 0 ? 6 : 10000;
+				this.setChartContent('barChart', FormatAggregationUtil.toOrgViolationRatio(aggregations, top));
 			}
 			else {
 				this.setChartContent('barChart', { columns: [] });
@@ -257,8 +259,8 @@ var colorCategories = {
 	'vti': '#c6dbef',
 	'Övriga': '#74c476',
 	'Alla lärosäten': '#cfbede',
-	'Felaktiga poster': '#eee8f3',
-	'Felfria poster': '#bba3d0',
+	'Felaktiga poster': '#bba3d0',
+	'Felfria poster': '#eee8f3',
 };
 
 Vue.component('view', Inspector);

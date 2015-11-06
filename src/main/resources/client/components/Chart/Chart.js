@@ -10,7 +10,20 @@ require('./Chart.css');
  * Chart-component
  */
 var Chart = {
-	props: ['type', 'xAxisType', 'showLegend', 'legendPosition', 'colorCategories', 'colorPattern', 'height', 'tickFormat', 'getContent'],
+	props: [
+		'type', 
+		'order', 
+		'xAxisType', 
+		'showLegend', 
+		'legendPosition', 
+		'colorCategories', 
+		'colorPattern', 
+		'height', 
+		'tickFormat', 
+		'min',
+		'max',
+		'getContent'
+	],
 	template: '<div></div>',
 	ready: function() {
 		var el = this.$el;
@@ -33,7 +46,7 @@ var Chart = {
 				data: {
 					type: this.type,
 					columns: [],
-					order: 'asc',
+					order: this.order || '',
 					colors: this.colorCategories
 				},
 				legend: {
@@ -42,8 +55,9 @@ var Chart = {
 				},
 				size: {
 					height: this.height
-				}
+				},
 			};
+			// Tick format
 			if(this.tickFormat) {
 				config.axis = config.axis || {};
 				config.axis = {
@@ -54,6 +68,23 @@ var Chart = {
 					}
 				};
 			}
+			// Set Y min/max
+			if(typeof this.min !== 'undefined') {
+				config.axis = config.axis || {};
+				config.axis.y = config.axis.y || {};
+				config.axis.y.min = this.min;
+				config.axis.y.padding = { top: 0, bottom: 0 };
+			}
+			if(typeof this.max !== 'undefined') {
+				config.axis = config.axis || {};
+				config.axis.y = config.axis.y || {};
+				config.axis.y.max = this.max;
+			}
+			// Set Y-padding
+			config.axis = config.axis || {};
+			config.axis.y = config.axis.y || {};
+			config.axis.y.padding = { top: 0, bottom: 0 };
+			// X axis
 			if(this.xAxisType === 'category') { // X axis config
 				config.axis = config.axis || {};
 				config.axis.x = {
