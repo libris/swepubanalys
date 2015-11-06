@@ -1,6 +1,7 @@
-# Max table Original data
+# Publication list of a Creator
 PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
-PREFIX mods_m: <http://swepub.kb.se/mods/model#> 
+PREFIX mods_m: <http://swepub.kb.se/mods/model#>
+PREFIX outt_m: <http://swepub.kb.se/SwePubAnalysis/OutputTypes/model#>
 PREFIX xlink: <http://www.w3.org/1999/xlink#> 
 SELECT DISTINCT
 ?_recordID #Record ID
@@ -9,9 +10,10 @@ SELECT DISTINCT
 ?_status #Publiceringsstatus #-
 ?_publicatType #Publikationstyp/output (*)
 ?_contentType #Innehållstyp #-
+?_outputCode  #Vetenskaplig output
 ?_OA #OA typ (*) #-
 ?_hsv1 #Ämne nivå 1 (*) #-
-?_hsv3 #Ämne nivå 2 (*) 
+?_hsv3 #Ämne nivå 2 (*)
 ?_hsv5 #Ämne nivå 3 (*) #-
 ?_titleValue #Titel (*) #-
 ?_creatorCount #Totalt antal upphovspersoner
@@ -29,11 +31,12 @@ SELECT DISTINCT
 ?_doiValue #DOI (*)
 ?_scopusValue #Scopus ID
 ?_pmidValue #Pubmed ID
-?_isbnValue #ISBN (*) 
+?_isbnValue #ISBN (*)
 ?_projekt #Projekt #-
 ?_program #Program #-
 ?_contract #Kontrakt #-
-?_dubblettID # Dublett ID
+?_subject #Ämne nivå 2 (*) -
+?_dubblettID #Dubblett ID #-
 WHERE
 {
 ?Record a mods_m:Record .
@@ -44,14 +47,6 @@ WHERE
 #START_<?_status>
 ?Record swpa_m:publicationStatus ?_status . 
 #END_<?_status>
-
-#START_<?_creatorCount>
-OPTIONAL { ?Record swpa_m:creatorCount ?_creatorCount }
-#END_<?_creatorCount>
-
-#START_<?_numLocalCreator>
-OPTIONAL { ?Record swpa_m:localCreatorCount ?_numLocalCreator . } 
-#END_<?_numLocalCreator>
 
 #START_<?_titleValue>
 ?Mods mods_m:hasTitleInfo ?TitleInfo .
@@ -67,7 +62,12 @@ MINUS { ?TitleInfo mods_m:type 'alternative'^^xsd:string }
 #START_<?_fulltext>
 OPTIONAL { ?Record swpa_m:uriFulltext ?_fulltext . }
 #END_<?_fulltext>
-
+#START_<?_outputCode>
+OPTIONAL {
+?Record swpa_m:hasOutputType ?OutputType .
+?OutputType outt_m:code ?_outputCode .
+}
+#END_<?_outputCode>
 #START_<?_doiValue>
 OPTIONAL
 {
@@ -100,14 +100,6 @@ OPTIONAL
 }
 #END_<?_pmidValue>
 
-#START_<?_isbnValue>
-OPTIONAL
-{ 
-?Mods mods_m:hasIdentifier ?ISBN .
-?ISBN mods_m:isbnValue ?_isbnValue .
-} 
-#END_<?_isbnValue>
-
 #START_<?_channel>
 OPTIONAL { ?Mods swpa_m:titleValueRelatedItem ?_channel }
 #END_<?_channel>
@@ -115,17 +107,25 @@ OPTIONAL { ?Mods swpa_m:titleValueRelatedItem ?_channel }
 OPTIONAL { ?Mods swpa_m:issnRelatedItem ?_issn }
 #END_<?_issn>
 
-#START_<?_publisher>
+#START_<?_affiliation>
 OPTIONAL
 {
-?Mods mods_m:hasOriginInfo ?OriginInfo .
-?OriginInfo mods_m:hasPublisher ?Publisher .
-?Publisher mods_m:publisherValue ?_publisher .
+?Name mods_m:hasAffiliation ?Affiliation .
+?Affiliation mods_m:authority 'kb.se'^^xsd:string .
+?Affiliation mods_m:valueURI ?_affiliation .
 }
-#END_<?_publisher>
+#END_<?_affiliation>
 
+#START_<?_dubblettID>
+OPTIONAL
 {
-SELECT DISTINCT ?Record ?Mods ?_pubYear ?_orgCode ?_publicatType ?_contentType ?_hsv1 ?_hsv3 ?_hsv5 ?_OA ?_name ?_localID ?_orcid ?_affiliation
+?Record swpa_m:possiblySameAs ?Dubblett .
+?Dubblett mods_m:hasMods ?Mods2 .
+?Mods2 mods_m:identifierValue ?_dubblettID .
+}
+#END_<?_dubblettID>
+{
+SELECT DISTINCT ?Record ?Mods ?_pubYear ?_orgCode ?_publicatType ?_hsv3 ?_subject ?_OA ?Name ?_name ?_orcid
 WHERE
 {
 ?Record mods_m:hasMods ?Mods .
@@ -136,70 +136,35 @@ WHERE
 ?Mods mods_m:recordContentSourceValue ?_orgCode .
 
 ?Mods swpa_m:publicationTypeCode ?_publicatType .
-?Mods swpa_m:contentTypeCode ?_contentType .
 ?Record swpa_m:isPublished ?_isPublished .
 OPTIONAL { ?Mods swpa_m:oaType ?_OA }
-
-#START_<?_hsv1>
-OPTIONAL
-{ 
-?Mods mods_m:hasSubject ?Subject .
-?Subject swpa_m:hsv1 ?_hsv1 .
-}
-#END_<?_hsv1>
 
 #START_<?_hsv3>
 OPTIONAL
 { 
 ?Mods mods_m:hasSubject ?Subject .
 ?Subject swpa_m:hsv3 ?_hsv3 .
+GRAPH <http://www.ub.uu.se/epub/categories/hsv#graph> 
+{ 
+?Class a owl:Class . 
+}
+?Class swpa_m:id ?_hsv3  . 
+?Class rdfs:label ?_subject . 
+?Class swpa_m:level "3"^^xsd:integer . 
+FILTER ( lang(?_subject) = 'sv') 
 }
 #END_<?_hsv3>
 
-#START_<?_dubblettID>
-OPTIONAL
-{
-?Record swpa_m:possiblySameAs ?Dubblett .
-?Dubblett mods_m:hasMods ?Mods2 .
-?Mods2 mods_m:identifierValue ?_dubblettID .
-}
-#END_<?_dubblettID>
-#START_<?_hsv5>
-OPTIONAL
-{ 
-?Mods mods_m:hasSubject ?Subject .
-?Subject swpa_m:hsv5 ?_hsv5 .
-}
-#END_<?_hsv5>
-
-?Mods mods_m:hasName ?Name . 
-#START_<?_name>
-?Name foaf:name ?_name .
-#END_<?_name>
-#START_<?_localID>
-OPTIONAL{ ?Name xlink:href ?_localID }
-#END_<?_localID>
-#START_<?_orcid>
-OPTIONAL{ ?Name swpa_m:orcid ?_orcid }
-#END_<?_orcid>
-#START_<?_affiliation>
-OPTIONAL
-{
-?Name mods_m:hasAffiliation ?Affiliation .
-?Affiliation mods_m:authority 'kb.se'^^xsd:string .
-?Affiliation mods_m:valueURI ?_affiliation .
-}
-#END_<?_affiliation>
 ###  FILTERS START ####
 #START_<ONE_CREATOR_NAME_FILTER>
-?Mods mods_m:hasName ?Name .
+?Mods mods_m:hasName ?Name . 
 ?Name foaf:name ?_name .
 #FILTER_<?_name> ( bif:contains(?_name, <?_name> ) )
 OPTIONAL { ?Name swpa_m:orcid ?_orcid }
 #END_<ONE_CREATOR_NAME_FILTER>
 
 #START_<ONE_CREATOR_ORCID_FILTER>
-?Mods mods_m:hasName ?Name .
+?Mods mods_m:hasName ?Name . 
 ?Name foaf:name ?_name .
 ?Name swpa_m:orcid ?_orcid .
 #FILTER_<?_orcid> ( xsd:string(?_orcid) = <?_orcid> )
@@ -207,25 +172,24 @@ OPTIONAL { ?Name swpa_m:orcid ?_orcid }
 
 #START_<ONE_CREATOR_TWO_FILTERS>
 {
-?Mods mods_m:hasName ?Name .
+?Mods mods_m:hasName ?Name . 
 ?Name foaf:name ?_name .
 OPTIONAL { ?Name swpa_m:orcid ?_orcid }
 #FILTER_<?_name> ( bif:contains(?_name, <?_name> ) )
 }
 UNION
 {
-?Mods mods_m:hasName ?Name .
+?Mods mods_m:hasName ?Name . 
 ?Name foaf:name ?_name .
 ?Name swpa_m:orcid ?_orcid .
 #FILTER_<?_orcid> ( xsd:string(?_orcid) = <?_orcid> )
 }
 #END_<ONE_CREATOR_TWO_FILTERS>
-###  FILTERS START ####
+
 #FILTER_<?_orgCode> ( xsd:string(?_orgCode) IN ( <?_orgCode> ) ) 
 #FILTER_<?_pubYear_low> ( ?_pubYear >= <?_pubYear_low> ) 
 #FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> ) 
 #FILTER_<?_publicatType> (xsd:string(?_publicatType) IN ( <?_publicatType> ) ) 
-#FILTER_<?_contentType> (xsd:string(?_contentType) IN ( <?_contentType> ) ) 
 #FILTER_<?_isPublished> ( ?_isPublished = <?_isPublished> ) 
 #FILTER_<?_hsv3> ( xsd:int(?_hsv3) IN ( <?_hsv3> ) )
 #FILTER_<?_OA> ( BOUND(?_OA ))
