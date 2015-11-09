@@ -17,7 +17,7 @@ var MailExport = {
 	data: function() {
 		return {
 			sent: false,
-			format: 'application/sparql-results+json',
+			format: 'text/csv',
 			email: '',
 			_styles: styles
 		}
