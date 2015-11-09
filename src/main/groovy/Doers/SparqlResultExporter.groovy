@@ -71,7 +71,7 @@ public class SparqlResultExporter {
 
                     content = makeRequest(sparqlEndpointURL, connectionManager, content, prepData.queryString, prepData.format, maxRows, prepData.fileStatus)
                     if (zipIt) {
-                        saveZipFile(content, prepData.queryString, prepData.fileResults)
+                        saveZipFile(content, prepData.queryString, prepData.fileResults, format)
                         log.info "Zipped:" + prepData.fileResults.absolutePath
                     } else {
                         prepData.fileResults.bytes = content;
@@ -90,7 +90,7 @@ public class SparqlResultExporter {
                     prepData.fileStatus.write("FAILED: ${nowString()}")
                     SMTP.simpleMail(emailAddress,
                             "Felmeddelande",
-                            "${getMarkdownTemplate("export_error.md")} <br/> Felmeddelande:<br/>${processMarkdown(all.message)} <br /> ${processMarkdown(query)} <br/> ${processMarkdown(format)} <br/> ${getMarkdownTemplate("footer.md")}" as String,
+                            "${getMarkdownTemplate("export_error.md")} <br/> Felmeddelande:<br/>${processMarkdown(all.message)} <br /> ${processMarkdown("    "+ query.replace("\n","\n    "))} <br/> ${processMarkdown(format)} <br/> ${getMarkdownTemplate("footer.md")}" as String,
                             config.smtp.host as String,
                             config.smtp.port as String)
                 }
@@ -202,9 +202,9 @@ public class SparqlResultExporter {
         return content
     }
 
-    static void saveZipFile(byte[] content, String query, File file) throws IOException {
+    static void saveZipFile(byte[] content, String query, File file, String format) throws IOException {
         log.info "Create result zip file"
-        def bytesFile = createResultFile(content, query);
+        def bytesFile = createResultFile(content, query, format);
         log.info "Created"
 
 
@@ -215,7 +215,7 @@ public class SparqlResultExporter {
     }
 
 
-    public static createResultFile(def content, String query) {
+    public static createResultFile(def content, String query, String format) {
 
         def byteArrayOutputStream = new ByteArrayOutputStream();
         ZipOutputStream gZipOutputStream;
@@ -229,7 +229,7 @@ public class SparqlResultExporter {
             gZipOutputStream.closeEntry();
 
             // Entry for Data file
-            gZipOutputStream.putNextEntry(new ZipEntry("query_result.data"))
+            gZipOutputStream.putNextEntry(new ZipEntry("query_result${determineFileExtension(format)}"))
             log.info "start write to gZipOutputStream"
             gZipOutputStream.write(content as byte[])
             gZipOutputStream.closeEntry();
