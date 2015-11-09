@@ -1,6 +1,7 @@
 package Doers
 
 import Clients.SMTP
+import Clients.Virtuoso
 import org.apache.http.HttpEntity
 import org.apache.http.HttpResponse
 import org.apache.http.client.entity.UrlEncodedFormEntity
@@ -59,7 +60,7 @@ public class SparqlResultExporter {
             templateFile ->
                 return Processor.process(Thread.currentThread().getContextClassLoader().getResource("client/docs/email_templates/${templateFile}").getText());
         }
-        def processMarkdown = {myString -> return Processor.process(myString)}
+        def processMarkdown = { myString -> return Processor.process(myString) }
         try {
             def prepData = prepareQueryExecution(sparqlEndpointURL, query, format, emailAddress, zipIt)
             Thread thread = Thread.start {
@@ -69,7 +70,8 @@ public class SparqlResultExporter {
                     PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
                     connectionManager.defaultMaxPerRoute = 10;
 
-                    content = makeRequest(sparqlEndpointURL, connectionManager, content, prepData.queryString, prepData.format, maxRows, prepData.fileStatus)
+                    //content = makeRequest(sparqlEndpointURL, connectionManager, content, prepData.queryString, prepData.format, maxRows, prepData.fileStatus)
+                    content = makeRequestWsLite(content, prepData.queryString, prepData.format, maxRows, prepData.fileStatus)
                     if (zipIt) {
                         saveZipFile(content, prepData.queryString, prepData.fileResults, format)
                         log.info "Zipped:" + prepData.fileResults.absolutePath
@@ -94,7 +96,7 @@ public class SparqlResultExporter {
                             config.smtp.from as String,
                             emailAddress,
                             "Felmeddelande",
-                            "${getMarkdownTemplate("export_error.md")} <br/> Felmeddelande:<br/>${processMarkdown(all.message)} <br /> ${processMarkdown("    "+ query.replace("\n","\n    "))} <br/> ${processMarkdown(format)} <br/> ${getMarkdownTemplate("footer.md")}" as String,
+                            "${getMarkdownTemplate("export_error.md")} <br/> Felmeddelande:<br/>${processMarkdown(all.message)} <br /> ${processMarkdown("    " + query.replace("\n", "\n    "))} <br/> ${processMarkdown(format)} <br/> ${getMarkdownTemplate("footer.md")}" as String,
                             config.smtp.host as String,
                             config.smtp.port as String)
                 }
@@ -206,6 +208,19 @@ public class SparqlResultExporter {
             fileStatus.write("${new Date().format('yyyy-MM-dd HH:mm:ss')}: Query execution successful. Starting saving the file\n")
         }
         return content
+    }
+
+    public
+    static byte[] makeRequestWsLite(byte[] content, String queryString, String format, int maxRows, File fileStatus) {
+        fileStatus.write("PING!")
+        def response = new Virtuoso().postGetBytes(queryString,format,maxRows)
+        if (response.statusCode != 200) {
+            fileStatus.write(response.statusMessage + "\n" + new String(content) + "\n")
+            throw new Exception("Fel i anropet till Sparql-endpointen. \n ${response.statusMessage}")
+        } else {
+            fileStatus.write("${new Date().format('yyyy-MM-dd HH:mm:ss')}: Query execution successful. Starting saving the file\n")
+        }
+        return response.data
     }
 
     static void saveZipFile(byte[] content, String query, File file, String format) throws IOException {

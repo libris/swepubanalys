@@ -32,4 +32,12 @@ public class Virtuoso {
         assert 200 == response.statusCode
         return contentType == "application/json" ? response.json : response.text;
     }
+
+    public Map postGetBytes(String sparql, String contentType, int maxRows) {
+        def response = VirtuosoRESTClient().post(
+                accept: contentType,
+                path: '/',
+                query: [query: sparql, format: contentType, maxrows: maxRows.toString()])
+        return [data: response.data, statusCode: response.statusCode, statusMessage: response.statusMessage ]
+    }
 }
