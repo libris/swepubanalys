@@ -14,4 +14,4 @@ Analyser är ofta baserade på metadata om publikationer som är formellt public
 Poster som saknar anmärkning om publiceringsstatus räknas som "Published" av systemet och ingår i uttag av publicerat material.
 
 ##### LÄS MER  
-[Nationella riktlinjer för beskrivning av vetenskaplig output avsnitt 3.4 och 3.13](http://info.swepub.kb.se Nationella riktlinjer)
+[Nationella riktlinjer för beskrivning av vetenskaplig output avsnitt 3.4 och 3.13](http://info.swepub.kb.se/wp-content/uploads/2015/02/v-1.2-Nationella-riktlinjer-f%C3%B6r-beskrivning-av-vetenskaplig-output_2015_09_10.pdf)
