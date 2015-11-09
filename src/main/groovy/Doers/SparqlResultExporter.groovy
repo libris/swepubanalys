@@ -59,6 +59,7 @@ public class SparqlResultExporter {
             templateFile ->
                 return Processor.process(Thread.currentThread().getContextClassLoader().getResource("client/docs/email_templates/${templateFile}").getText());
         }
+        def processMarkdown = {myString -> return Processor.process(myString)}
         try {
             def prepData = prepareQueryExecution(sparqlEndpointURL, query, format, emailAddress, zipIt)
             Thread thread = Thread.start {
@@ -78,7 +79,7 @@ public class SparqlResultExporter {
                     }
                     prepData.fileStatus.write("DONE: ${nowString()} \n")
                     SMTP.simpleMail(emailAddress,
-                            "Här kommer din beställda fil för nedladdning.",
+                            "Leveransbesked för uttagsfil från SwePub för analys och bibliometri",
                             "${getMarkdownTemplate("export_result.md")} \n ${config.ftp.ftpRoot + prepData.dirName + "/" + prepData.fileResults.name} \n ${getMarkdownTemplate("footer.md")}" as String,
                             config.smtp.host as String,
                             config.smtp.port as String)
@@ -88,8 +89,8 @@ public class SparqlResultExporter {
                     log.error(all.message + all.stackTrace)
                     prepData.fileStatus.write("FAILED: ${nowString()}")
                     SMTP.simpleMail(emailAddress,
-                            "Något gick fel när din fil skulle skapas",
-                            "${getMarkdownTemplate("export_error.md")} \n Felmeddelande:\n${all.message} \n ${query} \n ${format} \n ${getMarkdownTemplate("footer.md")}" as String,
+                            "Felmeddelande",
+                            "${getMarkdownTemplate("export_error.md")} <br/> Felmeddelande:<br/>${processMarkdown(all.message)} <br /> ${processMarkdown(query)} <br/> ${processMarkdown(format)} <br/> ${getMarkdownTemplate("footer.md")}" as String,
                             config.smtp.host as String,
                             config.smtp.port as String)
                 }
@@ -98,7 +99,7 @@ public class SparqlResultExporter {
             if (thread.isAlive()) {
                 log.info "thread is alive. Sending email."
                 SMTP.simpleMail(emailAddress,
-                        "Vi har tagit emot din begäran om uttagsfil.",
+                        "Kvitto på beställning av fil från SwePub för analys och bibliometri",
                         "${getMarkdownTemplate("export_receipt.md")} \n${getMarkdownTemplate("footer.md")}" as String,
                         config.smtp.host as String,
                         config.smtp.port as String)
