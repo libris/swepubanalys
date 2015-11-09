@@ -3,10 +3,10 @@ SwePub följer [Standard för svensk indelning av forskningsämnen 2011](http://
 nivån (1-siffernivån) omfattar sex forskningsämnesområden: naturvetenskap, teknik, medicin och hälsovetenskap, lantbruksvetenskap, samhällsvetenskap och humaniora. 
 
 ##### PRAXIS
-Varje publikation ska enligt [Nationella riktlinjer för beskrivning av vetenskaplig output](http://info.swepub.kb.se/format-och-praxis) klassificeras i minst en ämneskategori på 3-siffernivån för att stödja analys.
+Varje publikation ska klassificeras i minst en ämneskategori på 3-siffernivån för att stödja analys enligt [Nationella riktlinjer för beskrivning av vetenskaplig output](http://info.swepub.kb.se/format-och-praxis).
 
 ##### TÄNK PÅ
-Alla poster i SwePub är inte ämnesklassificerade och ett uttag baserat på ämne resulterar i en liten träffmängd. 
+Alla poster i SwePub är inte ämnesklassificerade och ett uttag baserat på ämne kan resultera i en liten träffmängd. 
 
 ##### LÄS MER
 [Nationella riktlinjer för beskrivning av vetenskaplig output avsnitt 3.19](http://info.swepub.kb.se/format-och-praxis)
