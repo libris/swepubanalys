@@ -1,7 +1,7 @@
-Vänliga hälsningar,
+Vänliga hälsningar,     
 [SwePub för analys och bibliometri](http://spf.libris.kb.se/bibliometriker)
 
-**Kontakt**
+**Kontakt**    
 [Libris kundservice](libris@kb.se)
 010-709 30 60
 
