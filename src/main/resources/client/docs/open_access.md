@@ -1,4 +1,4 @@
-### DEFINITION  
+#### DEFINITION  
 Open access är den engelska, och internationellt använda, termen för öppen tillgång till vetenskaplig forskning. Detta innebär att all forskning som är finansierad av offentliga medel går att finna via en sökning på internet och kan läsas av alla utan kostnad, samt att materialet är fritt att återanvända. De huvudsakliga metoderna för open access-publicering beskrivs internationellt med begreppen **green** och **gold**. 
 
 ##### Öppen tillgång i grön version
