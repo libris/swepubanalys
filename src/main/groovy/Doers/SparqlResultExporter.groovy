@@ -78,8 +78,10 @@ public class SparqlResultExporter {
                         log.info "Saved:" + prepData.fileResults.absolutePath
                     }
                     prepData.fileStatus.write("DONE: ${nowString()} \n")
-                    SMTP.simpleMail(emailAddress,
-                            "Leveransbesked för uttagsfil från SwePub för analys och bibliometri",
+                    SMTP.simpleMail(
+                            config.smtp.from as String,
+                            emailAddress,
+                            "Fil för nedladdning",
                             "${getMarkdownTemplate("export_result.md")} \n ${config.ftp.ftpRoot + prepData.dirName + "/" + prepData.fileResults.name} \n ${getMarkdownTemplate("footer.md")}" as String,
                             config.smtp.host as String,
                             config.smtp.port as String)
@@ -88,7 +90,9 @@ public class SparqlResultExporter {
                     prepData.fileStatus.write(all.message)
                     log.error(all.message + all.stackTrace)
                     prepData.fileStatus.write("FAILED: ${nowString()}")
-                    SMTP.simpleMail(emailAddress,
+                    SMTP.simpleMail(
+                            config.smtp.from as String,
+                            emailAddress,
                             "Felmeddelande",
                             "${getMarkdownTemplate("export_error.md")} <br/> Felmeddelande:<br/>${processMarkdown(all.message)} <br /> ${processMarkdown("    "+ query.replace("\n","\n    "))} <br/> ${processMarkdown(format)} <br/> ${getMarkdownTemplate("footer.md")}" as String,
                             config.smtp.host as String,
@@ -98,7 +102,9 @@ public class SparqlResultExporter {
             sleep(3000)
             if (thread.isAlive()) {
                 log.info "thread is alive. Sending email."
-                SMTP.simpleMail(emailAddress,
+                SMTP.simpleMail(
+                        config.smtp.from as String,
+                        emailAddress,
                         "Kvitto på beställning av fil från SwePub för analys och bibliometri",
                         "${getMarkdownTemplate("export_receipt.md")} \n${getMarkdownTemplate("footer.md")}" as String,
                         config.smtp.host as String,

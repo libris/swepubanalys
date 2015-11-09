@@ -1,9 +1,9 @@
 <div>
 	<site-wrapper activity="inspector">
 		<div>
-			<h2>Översikt datakvalitet - 
+			<h2>Översikt datakvalitet
 				<span v-if="labels.length === 0">
-					Alla lärosäten
+
 				</span>
 				<span v-for="d in (labels || [])" style="display: inline-block">
 					{{ d.value }}
@@ -29,7 +29,7 @@
 					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
 						<template v-if="lineChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Andel poster innehållandes fel av grad 3</p>
+								<p>Andel poster med fel av allvarlighetsgrad 3</p>
 							</div>
 							<div>
 								<chart type="line" 
@@ -46,7 +46,7 @@
 					<div class="col-md-5 {{ $data._styles.ChartContainer }}">
 						<template v-if="barChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Andel poster innehållandes fel</p>
+								<p>Andel poster med fel</p>
 							</div>
 							<div>
 								<chart 
@@ -61,9 +61,9 @@
 							</div>
 						</template>
 						<template v-if="violationTypeDistributionChart.getContent">
-							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Distribution av feltyper i metadata inom {{ labels.length > 0 ? labels[labels.length-1].value : '' }}</p>
+								<p>Distribution av feltyper</p>
 							</div>
+							<div class="{{ $data._styles.GraphTitle }}">
 							<div>
 								<chart 
 									type="donut" 
@@ -79,7 +79,7 @@
 					<div class="col-md-3 {{ $data._styles.ChartContainer }}">
 						<template v-if="pieChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Total andel poster innehållandes fel</p>
+								<p>Total andel poster med fel</p>
 							</div>
 							<div>
 								<chart 
@@ -100,7 +100,7 @@
 						<h2>Tre vägar till hög datakvalitet</h2>
 					</div>
 					<div slot="SearchFormDescription">
-						<p>Här söker du fram ofullständig metadata och vetenskaplig output.</p>
+						<p>Här söker du fram ofullständig metadata om vetenskaplig output.</p>
 					</div>
 				</search-form>
 				<!-- Activity buttons -->
@@ -134,7 +134,7 @@
 						:select-all-filter-fields.once="true"
 						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Dubblettkandidater: Anpassa för export</h2>
+						<h2>Dubblettkandidater</h2>
 					</div>
 					<div slot="SearchResultDescription"></div>
 					<div id="WeightingHelp" slot="FilterFieldsDescription">
@@ -148,10 +148,10 @@
 						:fields="formData.fields" 
 						:on-result-received.once="onResultReceived">
 					<div slot="DuplicatesListTitle">
-						<h2>Motsägelsefulla samarbetspublikationer</h2>
+						<h2>Samarbetspublikationer</h2>
 					</div>
 					<div slot="DuplicatesListDescription">
-						<p>Följ upp motsägelsefulla metadata i samarbetspublikationer för att skapa grund för nationella jämförelser.</p>
+						<p>Valda publikationsposter innehåller motstridiga metadata. Dessa behöver följas upp för att posterna ska tas med i datauttag för analyser på nationell nivå</p>
 					</div>
 				</duplicates-list>
 			</div>

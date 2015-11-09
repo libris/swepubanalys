@@ -20,12 +20,12 @@
 				<thead class="{{ $data._styles.Thead }}" style="table-layout: initial;">					
 					<th class="{{ $data._styles.Th }} {{ $data._styles.Col1 }}">
 						<p class="{{ $data._styles.FieldName }}">
-							Organisation / publikation
+							Organisation
 						</p>
 					</th>
 					<th class="{{ $data._styles.Th }} {{ $data._styles.Col2 }}">
 						<p class="{{ $data._styles.FieldName }}">
-							Organisation / publikation
+							Organisation
 						</p>
 					</th>
 					<th class="{{ $data._styles.Th }} {{ $data._styles.Col3 }}"></th>
@@ -73,7 +73,7 @@
 								</td>
 								<td class="{{ $parent.$data._styles.Col3 }} {{ $parent.$data._styles.Borderless }}">
 									<h4 class="{{ $parent.$data._styles.DifferingValues }}">
-										Konflikter
+										Motstridighet
 									</h4>
 									<div v-for="ambiguity in article.ambiguityCase.ambiguities || []">
 										<p>

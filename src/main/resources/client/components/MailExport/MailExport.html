@@ -10,18 +10,18 @@
 					Servern genererar din fil och den kommer skickas till <b>{{ email }}</b>.
 				</div>
 				<div v-if="!sent">
-					<b>Exportera och skicka fil till min e-mail</b>
+					<b>Exportera och skicka fil till min e-post</b>
 					<hr>
 					<div class="row">
 						<div class="col-xs-3">
-							<input type="radio" name="format" v-model="format" value="application/sparql-results+json">.json</input><br>
-							<input type="radio" name="format" v-model="format" value="application/sparql-results+xml">.xml</input><br>
 							<input type="radio" name="format" v-model="format" value="text/csv">.csv</input><br>
 							<input type="radio" name="format" v-model="format" value="text/tab-separated-values">.tsv</input><br>
+							<input type="radio" name="format" v-model="format" value="application/sparql-results+xml">.xml</input><br>
+							<input type="radio" name="format" v-model="format" value="application/sparql-results+json">.json</input><br>
 						</div>
 						<div class="col-xs-9">
 							<div class="form-group">
-								<input v-model="email" class="form-control" type="text" placeholder="min@email.se"></input>
+								<input v-model="email" class="form-control" type="text" placeholder="min@epost	.se"></input>
 							</div>
 							<form-error-label :errors="errors"></form-error-label>
 							<div class="form-group">

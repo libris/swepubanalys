@@ -12,10 +12,8 @@ import javax.mail.internet.*
 public class SMTP {
 
 
-    public static void simpleMail(String to, String subject, String body, String host, String port) {
+    public static void simpleMail(String from, String to, String subject, String body, String host, String port) {
         try {
-            //TODO: configurable email address.
-            def from = "theodor.tolstoy@kb.se"
             Properties props = System.getProperties();
             props["mail.smtp.host"] = host;
             props["mail.smtp.port"] = port;
