@@ -1,5 +1,7 @@
 This is the source code for the web interface for the SwePub för analys och bibliometri service (http://info.swepub.kb.se/)
 
+There is also a repository dedicated to direct SPARQL interaction with the data in SwePub at https://github.com/libris/swepub-sparql
+
 Please note that configuration and a few more key koncepts are not yet implemented into the solution.
 
 #Dependencies
