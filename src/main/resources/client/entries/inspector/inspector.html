@@ -29,7 +29,7 @@
 					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
 						<template v-if="lineChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Andel poster med fel av allvarlighetsgrad 3</p>
+								<p>Andel poster som utesluts från nationella analyser</p>
 							</div>
 							<div>
 								<chart type="line" 
@@ -46,7 +46,7 @@
 					<div class="col-md-5 {{ $data._styles.ChartContainer }}">
 						<template v-if="barChart.getContent">
 							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Andel poster med fel</p>
+								<p>Lärosäten med minst andel felaktiga poster</p>
 							</div>
 							<div>
 								<chart 
