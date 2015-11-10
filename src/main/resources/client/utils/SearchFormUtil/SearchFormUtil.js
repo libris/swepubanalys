@@ -249,6 +249,7 @@ var filterFieldGroups = {
     "?_isPublished": "Publikation",
     "?_OA": "Publikation",
     "?_outputType": "Publikation",
+	"?_outputCode": "Publikation",
     "?_publicationID": "Publikation",
     "?_publicatType": "Publikation",
     "?_publisher": "Publikation",
@@ -262,8 +263,8 @@ var filterFieldGroups = {
     "?_workID": "Publikation",
     "?_contract": "Övrigt",
     "?_program": "Övrigt",
-    "?_projekt": "Övrigt",
-	"?_outputCode": "Publikation"
+    "?_projekt": "Övrigt"
+
 };
 
 module.exports = SearchFormUtil;

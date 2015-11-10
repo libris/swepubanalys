@@ -1,13 +1,14 @@
 # Max table Original data
 PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
-PREFIX mods_m: <http://swepub.kb.se/mods/model#> 
+PREFIX mods_m: <http://swepub.kb.se/mods/model#>
+PREFIX outt_m: <http://swepub.kb.se/SwePubAnalysis/OutputTypes/model#>
 PREFIX xlink: <http://www.w3.org/1999/xlink#> 
 SELECT DISTINCT
 ?_recordID #Record ID
 ?_orgCode #Organisation (*)
 ?_pubYear #Publiceringsår
 ?_status #Publiceringsstatus #-
-?_publicatType #Publikationstyp/output (*)
+?_publicatType #Publikationstyp (*)
 ?_contentType #Innehållstyp #-
 ?_outputCode  #Vetenskaplig output
 ?_OA #OA typ (*) #-
