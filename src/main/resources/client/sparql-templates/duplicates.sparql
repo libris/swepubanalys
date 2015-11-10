@@ -5,12 +5,16 @@ SELECT
 ?_orgCode1 #Organisation för post 1
 ?_orgCode2 #Organisation för post 2
 ?_total_match_weight #Viktning
+?_uri1 #Länk till post 1
+?_uri2 #Länk till post 2
 WHERE
 {
 ?Record1 mods_m:hasMods ?Mods1 .
 ?Mods1 mods_m:recordContentSourceValue ?_orgCode1 .
 ?Record2 mods_m:hasMods ?Mods2 .
 ?Mods2 mods_m:recordContentSourceValue ?_orgCode2 .
+?Record1 swpa_m:uriRepository ?_uri1 .
+?Record2 swpa_m:uriRepository ?_uri2 .
 {
 SELECT DISTINCT
 sum(?_weight) as ?_total_match_weight
@@ -63,4 +67,4 @@ HAVING ( sum( ?_weight )  >= 0.8 && sum( ?_weight ) <= 1.1 )
 }
 }
 ORDER BY DESC( ?_total_match_weight) 
-LIMIT 100
+
