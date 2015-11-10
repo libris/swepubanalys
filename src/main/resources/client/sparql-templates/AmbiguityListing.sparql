@@ -32,7 +32,7 @@ SELECT DISTINCT *
 #FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> )
 
 }
-LIMIT 500
+LIMIT 5000
 }
 
 }
