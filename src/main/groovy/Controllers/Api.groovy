@@ -20,8 +20,10 @@ class Api {
     //TODO: Refactor so the methods are testable....
 
     static sparql(Request request, Response response) {
+        println request.queryParams()
         def query = request.queryParams("query");
         def format = request.queryParams("format");
+
         def resp = new Virtuoso().post(query, format)
         response.type(format);
         return resp;
