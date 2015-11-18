@@ -138,7 +138,8 @@ var SearchResult = {
 											// Set result
 											this.$set('result', result);
 											// Get total hits
-											DataUtil.getFilterAggregations(formModel, function(aggregations) {
+											DataUtil.getFilterAggregations(this.formModel, function(aggregations) {
+												console.log(aggregations.total_hits);
 												if(aggregations.total_hits) {
 													this.$set('totalHits', aggregations.total_hits);
 												} else {

@@ -11,7 +11,7 @@
 				<div class="col-xs-8">
 					<slot name="SearchResultDescription"></slot>
 					<p>
-						<p>Ca. {{ totalHits !== false ? totalHits : 'Okänt antal' }} poster</p>
+						<p>{{ totalHits !== false ? 'Ca. ' + totalHits : 'Okänt antal' }} poster</p>
 						<p>
 							<span v-for="d in labels" class="label label-default" style="margin-right: 10px; display: inline-block">
 								{{ d.value }}
