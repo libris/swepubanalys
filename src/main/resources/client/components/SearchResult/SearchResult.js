@@ -12,6 +12,7 @@ var MailExport = require('components/MailExport/MailExport.js');
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
+var DataUtil = require('utils/DataUtil/DataUtil.js');
 // CSS-modules
 var styles = require('!!style!css?modules!./SearchResult.css');
 // CSS
@@ -26,7 +27,7 @@ require('css/transitions.css');
 var SearchResult = {
 	mixins: [FieldLabelMixin],
 	template: require('./SearchResult.html'),
-	props: ['formModel', 'fields', 'selectAllFilterFields', 'onResultReceived'],
+	props: ['formModel', 'fields', 'selectAllFilterFields', 'onResultReceived', 'onGenerateQuery'],
 	data: function() {
 		return {
 			// Flags
@@ -47,6 +48,7 @@ var SearchResult = {
 					bindings: [],
 				}
 			},
+			totalHits: false,
 			_styles: styles
 		};
 	},
@@ -133,7 +135,16 @@ var SearchResult = {
 									this.$set(formModelChanged === true ? 'pendingUpdate' : 'pendingRefresh', true);
 									this.postQuery(query, function(result) {
 										if(!result.error) {
+											// Set result
 											this.$set('result', result);
+											// Get total hits
+											DataUtil.getFilterAggregations(formModel, function(aggregations) {
+												if(aggregations.total_hits) {
+													this.$set('totalHits', aggregations.total_hits);
+												} else {
+													this.$set('totalHits', false);
+												}
+											}.bind(this));
 										} else {
 											console.error('*** SearchResult.updateQuery: Failed to post query. Error:');
 											console.log(result);
@@ -163,6 +174,9 @@ var SearchResult = {
 					formModel: formModel
 				}, function(query) {
 					this.$set('query', query);
+					if(this.onGenerateQuery) {
+						this.onGenerateQuery(query);
+					}
 				}.bind(this));
 			}
 		},
