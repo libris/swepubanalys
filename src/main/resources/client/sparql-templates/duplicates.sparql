@@ -55,7 +55,7 @@ MINUS
 #FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> ) 
 ###  FILTERS END ####
 }
-LIMIT 10000
+LIMIT 100000
 }
 ###  FILTERS START ####
 #FILTER_<?_orgCode2> ( ?_orgCode2 IN ( <?_orgCode2> ) ) 
@@ -66,5 +66,5 @@ HAVING ( sum( ?_weight )  >= 0.8 && sum( ?_weight ) <= 1.1 )
 #HAVING ( sum( ?_weight )  >= <?_total_match_weight_low> && sum( ?_weight ) <= <?_total_match_weight_high> ) 
 }
 }
-ORDER BY DESC( ?_total_match_weight) 
+#ORDER BY DESC( ?_total_match_weight)
 

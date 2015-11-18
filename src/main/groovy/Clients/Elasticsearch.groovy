@@ -43,6 +43,7 @@ public class Elasticsearch {
         assert response.json instanceof JSONObject;
         def jsonresp = response.json;
         assert jsonresp.aggregations.collect { it }.count { it } > 0;
+        jsonresp.aggregations.totalHits = jsonresp.hits.total;
         def output = JsonOutput.toJson(jsonresp.aggregations)
         return JsonOutput.prettyPrint(output);
     }
