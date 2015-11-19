@@ -10,9 +10,7 @@
 					<template v-if="d.index !== $parent.labels.length-1">,&nbsp;</template>
 				</span>
 			</h2>
-			<div class="{{ $data._styles.YearIndicator }}">
-				<h4>{{ formModel.from }} {{ formModel.from || formModel.to ? '-' : '' }} {{ formModel.to }}</h4>
-			</div>
+			<p>{{ formModel.from }} {{ formModel.from || formModel.to ? '-' : '' }} {{ formModel.to }}</p>
 			<!-- Visualisations -->
 			<div class="{{ $data._styles.Visualisations }}">
 				<div v-if="loadingData" class="{{ $data._styles.Info }}">
