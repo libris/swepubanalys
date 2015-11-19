@@ -93,7 +93,7 @@
 			</div>
 			<!-- Search form -->
 			<div class="{{ $data._styles.SearchForm }}">
-				<search-form :on-change.once="onChange" from="2012" default-template="duplicates">
+				<search-form :on-change.once="onChange" from="2012" :to="new Date().getFullYear()" default-template="duplicates">
 					<div slot="SearchFormTitle">
 						<h2>Tre vägar till hög datakvalitet</h2>
 					</div>
