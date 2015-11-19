@@ -55,7 +55,7 @@ MINUS
 #FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> ) 
 ###  FILTERS END ####
 }
-LIMIT 100000
+LIMIT 500
 }
 ###  FILTERS START ####
 #FILTER_<?_orgCode2> ( ?_orgCode2 IN ( <?_orgCode2> ) ) 
