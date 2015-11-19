@@ -59,9 +59,9 @@
 							</div>
 						</template>
 						<template v-if="violationTypeDistributionChart.getContent">
+							<div class="{{ $data._styles.GraphTitle }}">
 								<p>Distribution av feltyper</p>
 							</div>
-							<div class="{{ $data._styles.GraphTitle }}">
 							<div>
 								<chart 
 									type="donut" 
