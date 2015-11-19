@@ -260,7 +260,7 @@ var colorCategories = {
 	'Övriga': '#74c476',
 	'Alla lärosäten': '#cfbede',
 	'Felaktiga poster': '#bba3d0',
-	'Felfria poster': '#eee8f3',
+	'Felfria poster': '#eee8f3'
 };
 
 Vue.component('view', Inspector);
