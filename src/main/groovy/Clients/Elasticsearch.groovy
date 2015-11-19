@@ -34,9 +34,10 @@ public class Elasticsearch {
         def aggs = new JsonSlurper().parseText(selectAggs(model.aggregate))
         def jsonToPost = model != null ? JsonOutput.toJson([query: filterByModel(model), aggs: aggs]) : JsonOutput.toJson([aggs: aggs])
         def client = ElasticRESTClient()
+        def path = "/swepub/${model.aggregate == 'inspector' ? 'dataQuality': 'bibliometrician'}/_search"
         def response = client.post(
                 accept: ContentType.JSON,
-                path: "/swepub/${model.aggregate == 'bibliometrician' ? 'bibliometrician': 'dataQuality' }/_search",
+                path: path,
         ) { text jsonToPost }
         assert 200 == response.statusCode
         assert response != null;
@@ -57,7 +58,7 @@ public class Elasticsearch {
                 return inspectorAggregate
                 break
             default:
-                return inspectorAggregate
+                return bibliometricianAggregate
         }
     }
 
@@ -67,7 +68,7 @@ public class Elasticsearch {
         addToFilter(model.org, 'hasMods.recordContentSourceValue', filters)
         addToFilter(model.subject, 'hsv3', filters)
         addToFilter(model.openaccess, 'hasMods.oaType', filters)
-        addToFilter(model.status, 'publicationStatus', filters)
+        addToFilter (model.status.toUpperCase(), 'publicationStatus', filters)
         addToFilter(model.publtype, 'hasMods.publicationTypeCode', filters)
 
         filters.add(getRangeFilter("hasMods.publicationYear",model.from,model.to))
