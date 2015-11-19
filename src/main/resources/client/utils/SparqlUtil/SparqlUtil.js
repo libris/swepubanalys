@@ -163,20 +163,20 @@ var SparqlUtil = {
                     }
                 }
                 if(formModel.templateName === 'QfBibliometrics' || formModel.templateName === 'simple') {
-                    if ( author && orcid ) {
+                    if (author && orcid) {
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_NAME_FILTER>[^]*?#END_<ONE_CREATOR_NAME_FILTER>.*?/, '');
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_ORCID_FILTER>[^]*?#END_<ONE_CREATOR_ORCID_FILTER>.*?/, '');
                         author = "'" + author.split(/\s+/).map(function(v){return "\"" + v + "\"";}).join(' AND ') + "'"
                         filters_string = filters_string.replace(/#(FILTER)_<\?_name>(.*?)<\?_name>(.*?)$/mi, "$1$2" + author + "$3" );
                         filters_string = filters_string.replace(/#(FILTER)_<\?_orcid>(.*?)<\?_orcid>(.*)$/mi, "$1$2" + "\"" + orcid + "\"" + "$3");
                     }
-                    else if ( author ) {
+                    else if (author) {
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_TWO_FILTERS>[^]*?#END_<ONE_CREATOR_TWO_FILTERS>.*?/, '');
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_ORCID_FILTER>[^]*?#END_<ONE_CREATOR_ORCID_FILTER>.*?/, '');
                         author = "'" + author.split(/\s+/).map(function(v){return "\"" + v + "\"";}).join(' AND ') + "'"
                         filters_string = filters_string.replace(/#(FILTER)_<\?_name>(.*?)<\?_name>(.*)$/mi, "$1$2" + author + "$3");
                     }
-                    else if ( orcid ) {
+                    else if (orcid) {
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_TWO_FILTERS>[^]*?#END_<ONE_CREATOR_TWO_FILTERS>.*?/, '');
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_NAME_FILTER>[^]*?#END_<ONE_CREATOR_NAME_FILTER>.*?/, '');
                         filters_string = filters_string.replace(/#(FILTER)_<\?_orcid>(.*?)<\?_orcid>(.*)$/mi, "$1$2" + "\"" + orcid + "\"" + "$3");
@@ -185,7 +185,6 @@ var SparqlUtil = {
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_TWO_FILTERS>[^]*?#END_<ONE_CREATOR_TWO_FILTERS>.*?/, '');
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_NAME_FILTER>[^]*?#END_<ONE_CREATOR_NAME_FILTER>.*?/, '');
                         filters_string = filters_string.replace(/#START_<ONE_CREATOR_ORCID_FILTER>[^]*?#END_<ONE_CREATOR_ORCID_FILTER>.*?/, '');
-
                     }
                 }
             }
@@ -203,6 +202,44 @@ var SparqlUtil = {
 		callback(query);
 	},
 	/**
+	 * Similar function to generateQuery(), but takes a query rather than a formModel. It is used
+	 * to select/deselect filterFields and adding limits while doing "advanced" searches
+	 * @param {String} query
+	 * @param {Array} filterFields
+	 * @param {Function} callback
+	 * @param {Object} conf
+	 */
+	regenerateQuery: function(query, filterFields, callback, conf) {
+		var newQuery = '';
+		// Remove/add filterFields
+		var re_select;
+		var res;
+		var checked_string = '\n';
+		for(var i = 0; i < filterFields.length; i++) {
+	    	var key = filterFields[i].field;
+	    	var checked = filterFields[i].checked;
+	    	if(checked === true) {
+	        	checked_string += key + '\n';
+	        }
+	    }
+		re_select = /((?:prefix.[\S\s]*?)?select\s*(?:distinct)?)[\S\s]*?(where[\S\s]*)/i;
+        res = re_select.exec(query);
+        if(res && res.length > 2) {
+        	newQuery = res[1] + checked_string + res[2];
+        }
+        // Set limit if conf.limit === true
+        if(conf && conf.limit === true) {
+        	// Kolla/skapa LIMIT 100
+            if (newQuery.search(/LIMIT\s+\d+\s*$/i) > -1) {
+                newQuery = newQuery.replace(/LIMIT\s+\d+\s*$/gmi, "LIMIT 100\n");
+            }
+            else {
+                newQuery += "\nLIMIT 100";
+            }
+        }
+	    callback(newQuery);
+	},
+	/**
 	 * Returns available fields to filter on
 	 * @param {String} templateName
 	 */
@@ -212,6 +249,12 @@ var SparqlUtil = {
 			return false;
 		}
 		var query = Templates[templateName].template;
+		return this.getFilterFieldsFromQuery(query);
+	},
+	/**
+	 *
+	 */
+	getFilterFieldsFromQuery: function(query) {
 		var re = /[\S\s]*?select\s*(?:distinct)?\s*([\S\s]*?)where/i;
 		var parent = undefined;
 		var key = '';

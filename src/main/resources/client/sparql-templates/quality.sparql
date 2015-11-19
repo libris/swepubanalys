@@ -5,8 +5,8 @@ SELECT DISTINCT
 ?_recordID #Record ID
 ?_oaipmh_SwePub #Länk till MODS-post i SwePub
 ?_orgCode #Organisation
-?_violationType #Problemtyp kod #-
-?_violationTypeLabel #Problemtyp namn
+?_violationType #Feltyp kod #-
+?_violationTypeLabel #Feltyp namn
 ?_incorrect #Bristfällig data
 ?_severity #Nivå
 ?_pubYear #Publiceringsår

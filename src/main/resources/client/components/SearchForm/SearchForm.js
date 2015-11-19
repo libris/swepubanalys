@@ -267,7 +267,7 @@ var getDefaultFields = function() {
 			labels: [],
 			suggestions: [],
 			fieldName: 'subject',
-			name: 'Ämne'
+			name: 'Forskningsämne'
 		},
 		publType: {
 			index: 5,
