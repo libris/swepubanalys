@@ -68,7 +68,7 @@ public class Elasticsearch {
         addToFilter(model.org, 'hasMods.recordContentSourceValue', filters)
         addToFilter(model.subject, 'hsv3', filters)
         addToFilter(model.openaccess, 'hasMods.oaType', filters)
-        addToFilter (model.status.toUpperCase(), 'publicationStatus', filters)
+        addToFilter ((model.status ?:"").toUpperCase(), 'publicationStatus', filters)
         addToFilter(model.publtype, 'hasMods.publicationTypeCode', filters)
 
         filters.add(getRangeFilter("hasMods.publicationYear",model.from,model.to))
