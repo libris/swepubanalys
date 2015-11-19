@@ -1,0 +1,22 @@
+.Loading {
+	height: 25px;
+	padding-top: 50px;
+}
+
+.Container {
+	min-height: 1000px;
+}
+
+.PendingUpdate {
+	text-align: center;
+}
+
+.Item {
+	margin-bottom: 50px;
+}
+
+.Error {
+	text-align: center;
+	color: red;
+	padding: 55px;
+}

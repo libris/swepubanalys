@@ -1,25 +1,3 @@
-.PendingUpdate {
-	text-align: center;
-}
-
-.PendingExport {
-	background-color: #dadada; 
-	width: 100%; 
-	text-align: center; 
-	padding: 35px; 
-	margin-top: 15px;
-}
-
 .PendingRefresh {
 	text-align: center;
-}
-
-.Item {
-	margin-bottom: 50px;
-}
-
-.Error {
-	text-align: center;
-	color: red;
-	padding: 55px;
 }

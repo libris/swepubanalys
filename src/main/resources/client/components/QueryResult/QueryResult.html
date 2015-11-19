@@ -5,17 +5,11 @@
 </div>
 <div class="{{ $data._resultStyles.Container }}">
 	<div v-show="pendingUpdate !== true">
-		<slot name="SearchResultTitle"></slot>
+		<slot name="QueryResultTitle"></slot>
 		<div v-show="!error">
 			<div class="row">
 				<div class="col-xs-8">
 					<slot name="SearchResultDescription"></slot>
-					<p>{{ totalHits !== false ? '~' + totalHits : 'Okänt antal' }} poster</p>
-					<p>
-						<span v-for="d in labels" class="label label-default" style="margin-right: 10px; display: inline-block">
-							{{ d.value }}
-						</span>
-					</p>
 					<template v-if="selectAllFilterFields !== true">
 						<p><b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills</p>
 					</template>
@@ -25,21 +19,16 @@
 				</div>
 			</div>
 			<hr>
-			<div class="{{ $data._resultStyles.Item }}" v-if="selectAllFilterFields !== true">
+			<div class="{{ $data._resultStyles.Item }}" >
 				<h4>Välj fält för export</h4>
 				<slot name="FilterFieldsDescription"></slot>
 				<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields"></filter-fields>
 			</div>
-			<div class="{{ $data._resultStyles.Item }}">
+			<div class="{{ $data._resultStyles.Item }}" >
 				<h4>Förhandsvisning av export</h4>
 				<br>
 				<div style="min-height: 480px;">
-					<div v-show="pendingRefresh !== true">
-						<list-preview :result="result" :filter-fields="filterFields"></list-preview>
-					</div>
-					<div v-show="pendingRefresh == true" class="{{ $data._styles.PendingRefresh }}">
-						<h2>Hämtar förhandsvisning...</h2>
-					</div>
+					<list-preview :result="result" :filter-fields="filterFields"></list-preview>
 				</div>
 			</div>
 		</div>

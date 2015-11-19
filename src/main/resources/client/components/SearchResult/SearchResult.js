@@ -4,11 +4,8 @@
 var Vue = require('vue');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 var _findIndex = require('lodash/array/findIndex');
-// Components
-var ListPreview = require('components/ListPreview/ListPreview.js');
-var FilterFields = require('components/FilterFields/FilterFields.js');
-var MailExport = require('components/MailExport/MailExport.js');
-// Mxins
+// Mixins
+var ResultMixin = require('mixins/ResultMixin/ResultMixin.js');
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
@@ -22,32 +19,20 @@ require('css/transitions.css');
  * Search Result-component
  * @prop {Object} formModel
  * @prop {Object} fields
- * @prop {Function} onResultReceived
+ * @prop {Boolean} selectAllFilterField
+ * @prop {Function} onGenerateQuery
  */
 var SearchResult = {
-	mixins: [FieldLabelMixin],
+	mixins: [ResultMixin, FieldLabelMixin],
 	template: require('./SearchResult.html'),
-	props: ['formModel', 'fields', 'selectAllFilterFields', 'onResultReceived', 'onGenerateQuery'],
+	props: ['formModel', 'fields', 'selectAllFilterFields', 'onGenerateQuery'],
 	data: function() {
 		return {
 			// Flags
 			formModelHasChanged: false, // To let methods.updateQuery() know that formModel has changed and that a POST should be performed
 			// UI state
-			error: false,
-			pendingUpdate: true,
 			pendingRefresh: true,
 			// Data
-			query: '',
-			filterFields: [],
-			defaultFilterFields: [],
-			result: {
-				head: {
-					vars: [],
-				},
-				results: {
-					bindings: [],
-				}
-			},
 			totalHits: false,
 			_styles: styles
 		};
@@ -66,11 +51,6 @@ var SearchResult = {
 		}.bind(this), { deep: true });
 		// Generate query on ready hook
 		this.formModelChanged();
-	},
-	components: {
-		'list-preview': ListPreview,
-		'filter-fields': FilterFields,
-		'mail-export': MailExport
 	},
 	methods: {
 		/** 
@@ -110,7 +90,6 @@ var SearchResult = {
 		 * @param {Object} conf
 		 */
 		updateQuery: function() {
-			this.$set('error', false);
 			var formModel = _cloneDeep(this.formModel);
 			formModel.filterFields = this.filterFields;
 			var formModelChanged = this.formModelHasChanged;
@@ -133,29 +112,17 @@ var SearchResult = {
 								if(index === -1 || formModelChanged === true) {
 									console.log('*** SearchResults.updateQuery: Posting query');
 									this.$set(formModelChanged === true ? 'pendingUpdate' : 'pendingRefresh', true);
-									this.postQuery(query, function(result) {
-										if(!result.error) {
-											// Set result
-											this.$set('result', result);
-											// Get total hits
-											DataUtil.getFilterAggregations(this.formModel, function(aggregations) {
-												console.log(aggregations.total_hits);
-												if(aggregations.total_hits) {
-													this.$set('totalHits', aggregations.total_hits);
-												} else {
-													this.$set('totalHits', false);
-												}
-											}.bind(this));
-										} else {
-											console.error('*** SearchResult.updateQuery: Failed to post query. Error:');
-											console.log(result);
-											this.$set('error', true);
-										}
+									this.getResult(query, function() {
 										this.$set('pendingUpdate', false);
 										this.$set('pendingRefresh', false);
-										if(this.onResultReceived) {
-											this.onResultReceived();
-										}
+										// Get total hits
+										DataUtil.getFilterAggregations(formModel, function(aggregations) {
+											if(aggregations && typeof aggregations.total_hits !== 'undefined') {
+												this.$set('totalHits', aggregations.total_hits);
+											} else {
+												this.$set('totalHits', false);
+											}
+										}.bind(this));
 									}.bind(this));
 									break;
 								}
@@ -180,35 +147,6 @@ var SearchResult = {
 					}
 				}.bind(this));
 			}
-		},
-		/**
-		 * Posts a query to the server
-		 * @param {String} query
-		 * @param {Function} callback
-		 */
-		postQuery: function(query, callback) {
-			if(!query) {
-				console.error('*** SearchResult.postQuery: No query argument provided');
-				return false;
-			}
-			if(!callback) {
-				console.error('*** SearchResult.postQuery: No callback provided');
-				return false;
-			}
-			SparqlUtil.postQuery(query, function(response) {
-				// Validate response here
-				callback(response);
-			}.bind(this));
-		},
-		/**
-		 * Count number of selected filter fields atm.
-		 */
-		countSelectedFilterFields: function() {
-			var n = 0;
-			this.filterFields.map(function(filterField) {
-				n += filterField.checked === true ? 1 : 0;
-			});
-			return n;
 		}
 	}
 };
