@@ -22,19 +22,23 @@ public class Routes implements SparkApplication {
 
     @Override
     void init() {
-        staticFileLocation("/public");
+        staticFileLocation("/public")
         get("/logga-in", { req, res -> new ModelAndView(Security.Login(req, res), "Login.mustache")}, templateEngine)
 
         get("/uttag-av-data", { req, res -> Beta.index(req, res) }, templateEngine);
         post("/uttag-av-data/", { req, res -> Beta.index(req, res) }, templateEngine);
-        get("/", { req, res -> Beta.index(req, res) }, templateEngine);
+        //get("/", { req, res -> Beta.index(req, res) }, templateEngine);
         post("/ladda-ner-fil", { req, res -> Beta.preview(req, res) }, templateEngine);
         post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
-        get("/form",{ req, res -> res.redirect("/bibliometriker")})
-        get("/qf/bibliometrics",{ req, res -> res.redirect("/bibliometriker")} )
-        get("/bibliometriker", { req, res -> new ModelAndView(Bibliometrician.index(req, res), "bibliometrician.mustache")}, templateEngine)
-        get("/granskare", { req, res -> new ModelAndView(Inspector.index(req, res), "inspector.mustache")}, templateEngine)
+        get("/form",{ req, res -> res.redirect("/bibliometri")})
+        get("/qf/bibliometrics",{ req, res -> res.redirect("/bibliometri")} )
+        get("/granskare",{ req, res -> res.redirect("/databearbetning")} )
+        get("/",{ req, res -> res.redirect("/bibliometri")})
+
+        get("/bibliometriker",{ req, res -> res.redirect("/bibliometri")} )
+        get("/bibliometri", { req, res -> new ModelAndView(Bibliometrician.index(req, res), "bibliometrician.mustache")}, templateEngine)
+        get("/databearbetning", { req, res -> new ModelAndView(Inspector.index(req, res), "inspector.mustache")}, templateEngine)
         post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/2.0/publicationYearSpan", { req, res -> Api.publicationYearSpan(res) })
