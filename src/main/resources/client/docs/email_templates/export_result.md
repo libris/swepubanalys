@@ -1,5 +1,5 @@
 Hej,
 
-Här kommer din beställda fil för nedladdning.
+Här kommer en länk till din beställda fil för nedladdning.
 
 
