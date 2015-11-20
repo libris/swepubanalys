@@ -4,8 +4,8 @@
 var Vue = require('vue');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 var _assign = require('lodash/object/assign');
-// Components
-var MailExport = require('components/MailExport/MailExport.js');
+// Mixins
+var ResultMixin = require('mixins/ResultMixin/ResultMixin.js');
 // Utils
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
 // CSS-modules
@@ -20,13 +20,12 @@ require('css/transitions.css');
  * @prop {Function} onResultReceived
  */
 var DuplicatesList = {
+	mixins: [ResultMixin],
 	props: ['formModel', 'fields', 'onResultReceived'],
 	template: require('./DuplicatesList.html'),
 	data: function() {
 		return {
 			pendingUpdate: false,
-			query: '',
-			result: {},
 			handleArticle: '',
 			_styles: styles
 		}
@@ -36,11 +35,8 @@ var DuplicatesList = {
 			this.updateQuery();
 		},
 		'query': function() {
-			this.postQuery();
+			this.postQuery(this.query);
 		}
-	},
-	components: {
-		'mail-export': MailExport
 	},
 	ready: function() {
 		this.updateQuery();
@@ -83,25 +79,6 @@ var DuplicatesList = {
 			};
 			SparqlUtil.generateQuery(conf, function(query) {
 				this.$set('query', query);
-			}.bind(this));
-		},
-		/**
-		 * Posts the query
-		 */
-		postQuery: function() {
-			this.$set('pendingUpdate', true);
-			SparqlUtil.postQuery(this.query, function(result) {
-				if(!result.error) {
-					result.results.bindings = result.results.bindings.slice(0, 100);
-					this.$set('result', result);
-				} else {
-					console.error('*** DuplicatesList.updateQuery: Failed to post query. Error:');
-					console.log(result);
-				}
-				if(this.onResultReceived) {
-					this.onResultReceived();
-				}
-				this.$set('pendingUpdate', false);
 			}.bind(this));
 		}
 	}

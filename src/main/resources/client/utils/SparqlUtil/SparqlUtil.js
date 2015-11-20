@@ -189,7 +189,8 @@ var SparqlUtil = {
                 }
             }
             if(!limit) {
-                filters_string = filters_string.replace(/LIMIT\s+\d+\s*\n}\s*\n}\s*\n\s*LIMIT\s+\d+/i, 'LIMIT 10000000\n}\n}');
+                //filters_string = filters_string.replace(/LIMIT\s+\d+\s*\n}\s*\n}\s*\n\s*LIMIT\s+\d+/i, 'LIMIT 10000000\n}\n}');
+                filters_string = filters_string.replace(/LIMIT\s+\d+\s*/gi, 'LIMIT 10000000\n');
             }
             query += checked_string + options_string + filters_string;
             query = query.replace(/^\s*#.*$/gm, '');
