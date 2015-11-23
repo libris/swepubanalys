@@ -132,11 +132,12 @@
 						:select-all-filter-fields.once="true"
 						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Dubblettkandidater</h2>
+						<h2>Dubblettkandidater enligt Swepubs viktningsregler</h2>
 					</div>
-					<div slot="SearchResultDescription"></div>
-					<div id="WeightingHelp" slot="FilterFieldsDescription">
-						<weighting-help></weighting-help>
+					<div slot="SearchResultDescription">
+						<p>
+							<match-weight-help></match-weight-help>
+						</p>
 					</div>
 				</search-result>
 				<!-- Duplicates activity -->

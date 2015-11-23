@@ -10,7 +10,8 @@ var Chart = require('components/Chart/Chart.js');
 var SearchForm = require('components/SearchForm/SearchForm.js');
 var SearchResult = require('components/SearchResult/SearchResult.js');
 var DuplicatesList = require('components/DuplicatesList/DuplicatesList.js');
-var WeightingHelp = require('components/WeightingHelp/WeightingHelp.js');
+var MatchWeightHelp = require('components/Helps/MatchWeightHelp/MatchWeightHelp.js');
+var DuplicatesHelp = require('components/Helps/DuplicatesHelp/DuplicatesHelp.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
@@ -85,7 +86,8 @@ var Inspector = {
 		'chart': Chart,
 		'search-form': SearchForm,
 		'search-result': SearchResult,
-		'weighting-help': WeightingHelp,
+		'duplicates-help': DuplicatesHelp,
+		'match-weight-help': MatchWeightHelp,
 		'duplicates-list': DuplicatesList
 	},
 	methods: {
