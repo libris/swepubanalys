@@ -35,7 +35,7 @@ var DuplicatesList = {
 			this.updateQuery();
 		},
 		'query': function() {
-			this.postQuery(this.query);
+			this.getResult(this.query);
 		}
 	},
 	ready: function() {
