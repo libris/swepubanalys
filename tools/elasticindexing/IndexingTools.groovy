@@ -16,9 +16,8 @@ class IndexingTools {
      * Calls a sparql enpoind and downloads paged turtle results.
      * @param fileNameFrom file containing sparql query
      * @param orgCode organisation code to filter the Sparql query
-     * @return the concatenated results from all the requests  **/
-    public saveTurtle(def fileNameFrom, def orgCode = null) {
-        //TODO: replace fileloading with string parameter
+     * @return the concatenated results from all the requests        **/
+    public getTurtle(String sparql, def orgCode = null) {
         //TODO: make more generic with more args. Rename orgCode
         //TODO: rename to something more apropiate
         try {
@@ -26,14 +25,14 @@ class IndexingTools {
             def defaultOffset = 0
             def defaultLimitClause = { int offset, int limit -> "\nOFFSET ${offset}  LIMIT ${limit}" }
 
-            String sparqlString = orgCode == null ? new File(fileNameFrom).text : new File(fileNameFrom).text.replace('${orgCodeArg}', orgCode)
+            String sparqlString = orgCode == null ? sparql : sparql.replace('${orgCodeArg}', orgCode)
             def currentResponse
             def result = "";
 
             while (true) {
                 currentResponse = makeSparqlRequest(sparqlString + defaultLimitClause(defaultOffset, defaultLimit))
 
-                // if ((defaultOffset/defaultLimit) >2) //
+                // if ((defaultOffset/defaultLimit) >2) //For debugging
                 if (currentResponse.startsWith("# Empty TURTLE"))
                     break;
                 else
@@ -47,17 +46,19 @@ class IndexingTools {
             println All.message
             throw All
         }
+
+
     }
     /**
-    * Makes request to a sparql endpoint
+     * Makes request to a sparql endpoint
      *
      * @param sparql raw sparql query
      * @return the result in turtle format
      * **/
-    public makeSparqlRequest(def sparql) {
+    public makeSparqlRequest(def sparql, def sparqlEndPoint) {
         //TODO replace hardcoded server string with configuration
 
-        RESTClient client = new RESTClient('http://virhp07.libris.kb.se/sparql')
+        RESTClient client = new RESTClient(sparqlEndPoint)
         def response = client.post(
                 accept: ContentType.TEXT,
                 path: '/',
@@ -71,9 +72,9 @@ class IndexingTools {
      * @param turtle graph in turtle format to expand
      * @return the expanded turtle graph in JSONLD format
      */
-    public static expand(String turtle) {
+    public static expand(String turtle, String orgCode) {
+
         if (turtle == null) {
-            //println "null turtle"
             return null;
         }
 
@@ -84,9 +85,11 @@ class IndexingTools {
         }
         catch (All) {
             println All.message
-            println turtle;
+            println All.stackTrace
+            println "Turtle:\n" turtle;
             return null;
         }
+
     }
 /**
  *
@@ -94,18 +97,17 @@ class IndexingTools {
  * @param context file in JSONLD format.
  * @return comapacted graph
  * **/
-    public static compact(def expando, def context) {
+    public static compact(def expando, def context, String orgCode) {
         if (expando == null) {
-            //println "null expando"
             return null;
         }
         try {
             return JsonLdProcessor.frame(expando, context, [embed: true] as JsonLdOptions)
         }
         catch (All) {
-            println All.message
             println expando;
-            return null;
+            println All.message
+            println All.stackTrace
         }
     }
 
@@ -113,10 +115,10 @@ class IndexingTools {
      *
      * @return all distinct org codes in the data
      */
-    public static allOrgs() {
+    public static allOrgs(String sparqlEndpoint) {
         //TODO: replace hardcoded strings with configuration    or arguments
-        String sparql = new File("allOrgs.sparql").text
-        def resp = postSparql(sparql, "application/json", "http://virhp07.libris.kb.se/sparql")
+        String sparql = new File("sparqls/allOrgs.sparql").text
+        def resp = postSparql(sparql, "application/json", sparqlEndpoint)
         return resp.results.bindings["callret-0"].value.collect { it }
     }
 /**
@@ -125,7 +127,7 @@ class IndexingTools {
  */
     public static publicationYearSpan() {
         //TODO: replace hardcoded strings with configuration or arguments
-        String sparql = new File("swepubPublicationYearLimits.sparql").text
+        String sparql = new File("sparqls/swepubPublicationYearLimits.sparql").text
         def resp = postSparql(sparql, "application/json", "http://virhp07.libris.kb.se/sparql")
         final Map map = new HashMap();
         map.put("min", ((String) resp.results.bindings["callret-0"].value[0]).toInteger());
@@ -150,9 +152,9 @@ class IndexingTools {
             return contentType == "application/json" ? response.json : response.text;
         }
         catch (All) {
-            println All.message
             println sparql
-            throw All
+            println All.message
+            println All.stackTrace
         }
     }
 
@@ -161,22 +163,61 @@ class IndexingTools {
      * @param fileName name of file
      * @param infoList list of json documents
      */
-    public static void createElasticExport(def fileName, def infoList) {
-        //TODO: make more generic/reusable
-        def insertCommand = '{ "create":  { "_index": "swepub", "_type": "bibliometric"}}';
-        try {
-            new File(fileName).withWriter { out ->
-                infoList.findAll { it -> it != null }.each {
-                    out.println insertCommand
-                    out.println new JsonBuilder(it).toString();
+    public static void createElasticExport(def fileName, def infoList, String indexName, String typeName) {
+        def insertCommand = { index, type, id ->
+            """{ "create":  { "_index": "${index}", "_type": "${type}", "_id" : "${id}"}}}"""
+        };
+        def chunks = infoList.collate(2000)
+        int i = 0;
+        chunks.each { chunk ->
+            i++;
+            try {
+                new File("${fileName}_${i}.json").withWriter { out ->
+                    chunk.findAll { record -> record != null }.each { record ->
+                        out.println insertCommand(indexName, typeName, record.hasMods.identifierValue)
+                        out.println new JsonBuilder(record).toString();
+                    }
                 }
             }
+            catch (All) {
+                println All.message
+                println All.stackTrace
+
+            }
         }
-        catch (All) {
-            println All.message
-            println All.stackTrace
-            throw All
+    }
+
+    public static sendToElastic(def infoList, String indexName, String typeName, String elasticEndPoint) {
+        def insertCommand = { index, type, id ->
+            """{ "create":  { "_index": "${index}", "_type": "${type}", "_id" : "${id}"}}}"""
+        };
+        def chunks = infoList.collate(2000)
+        int i = 0;
+        chunks.each { chunk ->
+            i++;
+            try {
+                putToElastic(infoList.collect { record ->
+                    insertCommand(indexName, typeName, record.hasMods.identifierValue)
+                    +"\n"
+                    +new JsonBuilder(record).toString();
+                }.join("\n"),elasticEndPoint)
+            }
+            catch (All) {
+                println All.message
+                println All.stackTrace
+
+            }
         }
+    }
+
+    public void putToElastic(String data, def elasticEndPoint) {
+        RESTClient client = new RESTClient(elasticEndPoint)
+        def response = client.put(
+                path: '/',
+                accept: ContentType.TEXT,
+
+        ) { text data }
+        assert 200 == response.statusCode
     }
 
     /**
@@ -185,13 +226,16 @@ class IndexingTools {
      * @return List of turtle objects with all name spaces attached
      */
     public static List splitTurtles(def text) {
+        //TODO: make more generic
         try {
-            def prefixes = ["@prefix\tfoaf:\t<http://xmlns.com/foaf/0.1/> ."];
+            def prefixes = ["@prefix foaf:\t<http://xmlns.com/foaf/0.1/> .",
+                            "@prefix rdf:\t<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .",
+                            "@prefix rdfs:\t<http://www.w3.org/2000/01/rdf-schema#> ."];
             String record;
             def list = [];
             text.eachLine { line ->
                 switch (line) {
-                    case { it -> (it.startsWith("\tns") || it.startsWith("\trdfs") || it.startsWith("\t\t")) }:
+                    case { it -> (it.startsWith("\t")) }:
                         record += line + "\n";
                         break;
                     case { it -> it.startsWith("@prefix ") && prefixes.contains(it) }:
@@ -199,9 +243,10 @@ class IndexingTools {
                     case { it -> it.startsWith("@prefix ") && !prefixes.contains(it) }:
                         prefixes.add(line)
                         break;
-                    case { it -> it.startsWith("ns1:Mods__oai_") }:
-                        list.add(record)
-                        record = prefixes.join("\n") + "\n" + line + "\n";
+                    case { it -> it.startsWith("ns1:") && (it.endsWith("rdf:type\tns2:Mods .") || it.endsWith("rdf:type\tns2:Mods ;")) }:
+                        if (record != null)
+                            list.add(record)
+                        record = line + "\n";
                         break;
                     case { it -> it.startsWith("ns") || it.startsWith("rdfs") }:
                         record = record ? record.replaceAll(/ *$/, '') : record
@@ -210,15 +255,60 @@ class IndexingTools {
                                 : record + line + "\n";
                         break;
                     default:
-                        print "\t" + line;
+                        record += line + "\n";
+                        println "Rad som inte konsumerats: \t" + line;
                 }
             }
-            return list;
+            list.add(record);
+            return list.collect { it -> prefixes.join("\n") + "\n" + it };
         }
         catch (All) {
             println All.message
-            println text
+            println All.stackTrace
             throw All
         }
+    }
+
+    static Map getDataQualityViolations(String sparqlEndpoint) {
+        String sparql = new File("sparqls/DataQualityViolation.sparql").text as String
+        def resp = postSparql(sparql, "application/json", sparqlEndpoint)
+        return [values: resp.results.bindings.collect { it -> [name: it["_label"].value, comment: it["_comment"].value, severity: it["_severity"].value] }]
+    }
+
+    def getCLISettings(args) {
+        def cli = new CliBuilder(usage: 'showdate.groovy -[chflms] [SparqlEndpoint] [FileStore]')
+        // Create the list of options.
+        cli.with {
+            h longOpt: 'help', 'Show usage information'
+            //i longOpt: 'format-custom', args: 1, argName: 'format', 'Format date with custom format defined by "format"'
+            i longOpt: 'index', 'Index into ElasticSearch'
+            c longOpt: 'clear', 'Clear ElasticSearch prior to indexing'
+        }
+        def options = cli.parse(args)
+        if (!options) {
+            return
+        }
+        // Show usage text when -h or --help option is used.
+        if (options.h) {
+            cli.usage()
+            return
+        }
+
+        // Determine formatter.
+        def settings = [index: false, fileStore: '', clearIndex: false, sparqlEndpoint: '']
+        if (options.i) {  // Using short option.
+            settings.index = true
+        }
+        if (options.c) {
+            settings.clearIndex = true
+        }
+
+        def extraArguments = options.arguments()
+        if (extraArguments) {
+            settings.fileStore = extraArguments[1]
+            settings.sparqlEndpoint = extraArguments[0]
+        }
+
+        return settings
     }
 }
