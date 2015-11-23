@@ -86,6 +86,17 @@ var ResultMixin = {
 				}
 			}.bind(this));
 		},
+        /**
+         * Returns true if the component either has no result, or if there is a result with .bindings.length > 0
+         * @return {Boolean}
+         */
+        hasNonEmptyResult: function() {
+            if(!this.error && !this.pendingUpdate && this.result && this.result.results && this.result.results.bindings) {
+                return this.result.results.bindings.length > 0;
+            } else {
+                return true;
+            }
+        },
 		/**
 		 * Count number of selected filter fields atm.
 		 */
