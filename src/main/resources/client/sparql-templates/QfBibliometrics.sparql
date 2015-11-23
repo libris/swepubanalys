@@ -133,7 +133,7 @@ OPTIONAL
 #END_<?_publisher>
 
 {
-SELECT DISTINCT ?Record ?Mods ?_pubYear ?_orgCode ?_publicatType ?_contentType ?_hsv1 ?_hsv3 ?_hsv5 ?_OA ?_name ?_localID ?_orcid ?_affiliation
+SELECT DISTINCT ?Record ?Mods ?_pubYear ?_orgCode ?_publicatType ?_contentType ?_dubblettID ?_hsv1 ?_hsv3 ?_hsv5 ?_OA ?_name ?_localID ?_orcid ?_affiliation
 WHERE
 {
 ?Record mods_m:hasMods ?Mods .
