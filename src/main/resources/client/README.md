@@ -1,7 +1,7 @@
 # Swepub client
 Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
 
-### File tree
+#### File tree
 ```
 |-- client
     |
@@ -15,14 +15,17 @@ Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
     |-- utils                 Utility files for data modules, making ajax requests, formatting data, etc ...
 ```
 
-### Vue components
+#### Views
 ...
 
-### Component mixins
+#### Vue components
 ...
 
-### CSS modules
+#### Component mixins
 ...
 
-### Unit tests
+#### CSS modules
+...
+
+#### Unit tests
 ...
