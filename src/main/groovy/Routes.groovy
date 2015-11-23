@@ -56,6 +56,11 @@ public class Routes implements SparkApplication {
         post("/api/2.0/data/query", { req, res -> Api.dataQuery(req, res) })
         get("/api/2.0/ambiguity/case", { req, res -> Api.AmbiguityCase(req, res) })
 
+        /**
+         * Authentication POC
+         */
+        get("/secure", { req, res -> new ModelAndView(Security.index(req, res), "secure.mustache") }, templateEngine)
+        post("/secure",{ req, res -> res.redirect(req.queryParams("referer")) })
     }
 
 
