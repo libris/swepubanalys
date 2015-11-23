@@ -5,12 +5,15 @@ Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
 ```
 + client
 |
-+--- components   Vue-components
-+--- css          CSS-modules
-+--- docs         Help-files and e-mail texts as markdown
-+--- entries      Entry-points for Webpack-bundles
-+--- mixins       Mixins for Vue-components
-+--- utils        Utility files for data modules, making ajax requests, formatting data, etc ...
++---- components            Vue-components
++---- css                   CSS-modules
++---- docs                  Help-files and e-mail texts as markdown
++---+ entries               Entry-points for Webpack-bundles
+|   |
+|   +---- bibliometrician   "Bibliometriker"-view
+|   +---- inspector         "Granskare"-view
++---- mixins                Mixins for Vue-components
++---- utils                 Utility files for data modules, making ajax requests, formatting data, etc ...
 ```
 
 ### Vue components
