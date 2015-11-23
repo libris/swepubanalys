@@ -16,6 +16,9 @@ Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
 ### Vue components
 ...
 
+### Component mixins
+...
+
 ### CSS modules
 ...
 
