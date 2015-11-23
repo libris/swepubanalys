@@ -1,4 +1,4 @@
-### Swepub client
+# Swepub client
 Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
 
 ### File structure
