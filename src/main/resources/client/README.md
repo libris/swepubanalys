@@ -1,7 +1,7 @@
 # Swepub client
 Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
 
-### File structure
+### File tree
 ```
 + client
 |
