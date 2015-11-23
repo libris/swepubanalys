@@ -10,9 +10,9 @@
 			<div class="row">
 				<div class="col-xs-8">
 					<slot name="SearchResultDescription"></slot>
-					<p>{{ totalHits !== false ? '~' + totalHits : 'Okänt antal' }} poster</p>
 					<p>
-						<span v-for="d in labels" class="label label-default" style="margin-right: 10px; display: inline-block">
+						{{ totalHits !== false ? '~' + totalHits + ' poster': '' }}
+						<span v-for="d in labels" class="label label-default" style="margin-right: 10px; display: inline-block; vertical-align: middle;">
 							{{ d.value }}
 						</span>
 					</p>

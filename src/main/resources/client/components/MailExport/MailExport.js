@@ -52,6 +52,13 @@ var MailExport = {
 			SparqlUtil.sendFileToEmail(this.email, this.format, false, this.query, function(response) {
 			});
 			this.$set('sent', true);
+		},
+		/**
+		 * Stop event propagation if user clicks the export container
+		 * @param {Object} e
+		 */
+		onClickContainer: function(e) {
+			e.stopPropagation();
 		}
 	}
 };

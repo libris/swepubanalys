@@ -49,16 +49,17 @@ var ResultMixin = {
 		 */
 		postQuery: function(query, callback) {
 			if(!query) {
-				console.error('*** SearchResult.postQuery: No query argument provided');
+				console.error('*** ResultMixin.postQuery: No query argument provided');
 				return false;
 			}
 			if(!callback) {
-				console.error('*** SearchResult.postQuery: No callback provided');
-				return false;
+				console.warning('*** ResultMixin.postQuery: No callback provided');
 			}
 			SparqlUtil.postQuery(query, function(response) {
 				// Validate response here
-				callback(response);
+				if(callback) {
+					callback(response);
+				}
 			}.bind(this));
 		},
 		/**
@@ -73,7 +74,7 @@ var ResultMixin = {
 					// Set result
 					this.$set('result', result);
 				} else {
-					console.error('*** SearchResult.updateQuery: Failed to post query. Error:');
+					console.error('*** ResultMixin.updateQuery: Failed to post query. Error:');
 					console.log(result);
 					this.$set('error', true);
 				}

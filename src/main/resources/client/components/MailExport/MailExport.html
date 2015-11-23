@@ -5,7 +5,7 @@
 			<span class="caret"></span>
 		</button>
 		<ul class="dropdown-menu" aria-labelledby="export">
-			<div class="{{ $data._styles.MailExport }}">
+			<div class="{{ $data._styles.MailExport }}" v-on:click="onClickContainer">
 				<div v-if="sent">
 					Servern skapar din fil och en länk kommer att skickas till <b>{{ email }}</b>.
 				</div>
@@ -25,7 +25,7 @@
 							</div>
 							<form-error-label :errors="errors"></form-error-label>
 							<div class="form-group">
-								<button class="btn btn-info" v-on:click="performExport" :disabled="errors.length !== 0">
+								<button class="btn btn-info" v-on:click="performExport" :disabled="email.length < 5 || errors.length !== 0">
 									<i class="fa fa-envelope"></i>&nbsp;Skicka
 								</button>
 							</div>

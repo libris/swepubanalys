@@ -4,11 +4,11 @@
 var HelpMixin = require('mixins/HelpMixin/HelpMixin.js');
 
 /**
- * Weighting Help-component
+ * match_weight Help-component
  */
-var WeightingHelp = {
+var MatchWeightHelp = {
 	mixins: [HelpMixin],
-	template: require('./WeightingHelp.html'),
+	template: require('./MatchWeightHelp.html'),
 	ready: function() {
 		this.initHelp({
 			title: 'VIKTNING',
@@ -18,4 +18,4 @@ var WeightingHelp = {
 	}
 };
 
-module.exports = WeightingHelp;
+module.exports = MatchWeightHelp;

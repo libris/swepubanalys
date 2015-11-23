@@ -115,14 +115,18 @@ var SearchResult = {
 									this.getResult(query, function() {
 										this.$set('pendingUpdate', false);
 										this.$set('pendingRefresh', false);
-										// Get total hits
-										DataUtil.getFilterAggregations(formModel, function(aggregations) {
-											if(aggregations && typeof aggregations.total_hits !== 'undefined') {
-												this.$set('totalHits', aggregations.total_hits);
-											} else {
-												this.$set('totalHits', false);
-											}
-										}.bind(this));
+										// Get total hits 
+										if(formModel.templateName === 'QfBibliometrics' || formModel.templateName === 'simple') {
+											DataUtil.getFilterAggregations(formModel, function(aggregations) {
+												if(aggregations && typeof aggregations.total_hits !== 'undefined') {
+													this.$set('totalHits', aggregations.total_hits);
+												} else {
+													this.$set('totalHits', false);
+												}
+											}.bind(this));
+										} else {
+											this.$set('totalHits', false);
+										}
 									}.bind(this));
 									break;
 								}
