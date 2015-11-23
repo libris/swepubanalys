@@ -35,7 +35,10 @@ var DuplicatesList = {
 			this.updateQuery();
 		},
 		'query': function() {
-			this.postQuery(this.query);
+            this.$set('pendingUpdate', true);
+			this.getResult(this.query, function() {
+                this.$set('pendingUpdate', false);
+            }.bind(this));
 		}
 	},
 	ready: function() {
