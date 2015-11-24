@@ -1,7 +1,7 @@
 # Swepub client
 Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
 
-### File tree
+### \# File tree
 ```
 |-- client
     |
@@ -15,15 +15,42 @@ Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
     |-- utils                 Utility files for data modules, making ajax requests, formatting data, etc ...
 ```
 
-### \# Views
-To come.
+### \# Entries
+Within our application, entries correspond to one bundle - and ultimately to one view. They are the entry-points where Webpack start in order to create a bundle, which is why they are not expressed as a module themselves. They are, however, Vue components that are mounted to a DOM node explicitly - constituting the root node for the application. These components use other components, passing down props - effectively creating a hierarchical GUI structure. Example:
+
+**entries/MyView/MyView.js**
+```
+var Vue = require('vue');
+var MyComponent = require('components/MyComponent/MyComponent.js');
+
+var MyView = {
+    template: require('./MyView.html'),
+    components: {
+        'my-component': MyComponent
+    }
+};
+
+Vue.component('view', MyView);
+
+new Vue({
+	el: '#app'
+});
+```
+
+**entries/MyView/MyView.html**
+```
+<div>
+    <h1>My application</h1>
+    <my-component text="hello world"></my-component>
+</div>
+```
 
 ### \# Vue components
 Components consist typically of three files: .js-, .html- and (maybe) a .css-file. Example:
 
 **components/MyComponent/MyComponent.js** (Component module)
 
-We define a component as a normal object, no need to do require('vue'). These components act as the Model and Controller, if you will, since it handles both data and logic - although many components accept properties from parents, making them reusable. Possible properties are by convention listed as a @prop in the comment description. Templates are loaded using the Webpack html-loader (https://github.com/webpack/html-loader). 
+We define a component as a normal object, no need to do require('vue'). These components act as the "Model" and "Controller", if you will, since it handles both data and logic - although many components accept properties from parents, making them reusable. Possible properties are by convention listed as a @prop in the comment description. Templates are loaded using the Webpack html-loader (https://github.com/webpack/html-loader), and these lastly constitute the "View".
 ```
 /**
  * My component
@@ -57,7 +84,7 @@ The component css-file contains CSS-modules to be used within the template. Scro
 }
 ```
 
-#### \# CSS modules
+### \# CSS modules
 Components are styled using CSS modules using the Webpack css-loader (https://github.com/webpack/css-loader) to avoid conflicting class-names. We use them the following way:
 
 Require a .css-file using the "modules" query parameter.
@@ -86,7 +113,7 @@ var myOtherStyles = require('!!style!css?modules!css/MyOtherCSSModules.css');
 
 var styles = _.assign(myStyles, myOtherStyles);
 ```
-#### \# Component mixins
+### \# Component mixins
 To come.
 
 ### \# Unit tests
