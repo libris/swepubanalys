@@ -75,7 +75,7 @@ var MyComponent = {
     }
 };
 ```
-Use it within the corresponding component template.
+Use it within the corresponding component template. We have to access this variable through the $data-object due to the underscore.
 ```
 <div class="{{ $data._styles.MyCSSModule }}"></div>
 ```
