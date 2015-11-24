@@ -19,21 +19,54 @@ Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
 To come.
 
 ### Vue components
-Components consist typically of three files: .js-, .html- and (maybe) a .css-file.
+Components consist typically of three files: .js-, .html- and (maybe) a .css-file. Example:
 
-#### Component mixins
-To come.
+**components/MyComponent/MyComponent.js** (Component module)
+
+We define a component as a normal object, no need to do require('vue'). These components act as the Model and Controller, if you will, since it handles both data and logic - although many components accept properties from parents, making them reusable. Possible properties are by convention listed as a @prop in the comment description. Templates are loaded using the Webpack html-loader (https://github.com/webpack/html-loader). 
+```
+/**
+ * My component
+ * @prop {String} text
+ */
+var MyComponent = {
+    props: ['text'],
+    template: require('./MyComponent.html'),
+    data: function() {
+        return {
+            title: 'My title',
+        }
+    }
+};
+
+module.exports = MyComponent;
+```
+**components/MyComponent/MyComponent.html**
+```
+<div>
+    <h1>{{ title }}</h1> <!-- from data -->
+    <p>{{ text }}</p> <!-- from props -->
+</div>
+```
+**components/MyComponent/MyComponent.css**
+
+The component css-file contains CSS-modules to be used within the template. Scroll down to "CSS modules" to see how.
+```
+.MyCSSModule {
+    margin: 5px;
+}
+```
 
 #### CSS modules
 Components are styled using CSS modules using the Webpack css-loader (https://github.com/webpack/css-loader) to avoid conflicting class-names. We use them the following way:
 
 Require a .css-file using the "modules" query parameter.
 ```
-var styles = require('!!style!css?modules!./MyCSSModules.css');
+var styles = require('!!style!css?modules!./MyComponent.css');
 ```
 Add it to the component data-function. We use an underscore-convention to avoid the style object being proxied by Vue.
 ```
-var MyVueComponent = {
+var MyComponent = {
     ...
     data: function() {
         return {
@@ -44,14 +77,17 @@ var MyVueComponent = {
 ```
 Use it within the corresponding component template.
 ```
-<div class="{{ $data._styles.CSSModule }}"></div>
+<div class="{{ $data._styles.MyCSSModule }}"></div>
 ```
 This will result in a hashed class name which will be equal to the corresponding css-selector within the Webpack-bundle. To get CSS modules from multiple files, we use either different data-members or the lodash-method _.assign, such as this:
 ```
-var myStyles = require('!!style!css?modules!./MyCSSModules.css');
-var myOtherStyles = require('!!style!css?modules!./MyOtherCSSModules.css');
+var myStyles = require('!!style!css?modules!./MyComponent.css');
+var myOtherStyles = require('!!style!css?modules!css/MyOtherCSSModules.css');
 
 var styles = _.assign(myStyles, myOtherStyles);
 ```
+#### Component mixins
+To come.
+
 ### Unit tests
 To come.
