@@ -27,8 +27,7 @@ To come.
 #### CSS modules
 Components are styled using CSS modules using the Webpack css-loader (https://github.com/webpack/css-loader) to avoid conflicting class-names. We use them the following way:
 
-Add CSS modules to the data object of a component by doing a require using the "modules" query parameter.
-
+Require a .css-file using the "modules" query parameter.
 ```
 var styles = require('!!style!css?modules!./MyCSSModules.css');
 ```
