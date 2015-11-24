@@ -15,10 +15,10 @@ Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
     |-- utils                 Utility files for data modules, making ajax requests, formatting data, etc ...
 ```
 
-### Views
+### \# Views
 To come.
 
-### Vue components
+### \# Vue components
 Components consist typically of three files: .js-, .html- and (maybe) a .css-file. Example:
 
 **components/MyComponent/MyComponent.js** (Component module)
@@ -57,7 +57,7 @@ The component css-file contains CSS-modules to be used within the template. Scro
 }
 ```
 
-#### CSS modules
+#### \# CSS modules
 Components are styled using CSS modules using the Webpack css-loader (https://github.com/webpack/css-loader) to avoid conflicting class-names. We use them the following way:
 
 Require a .css-file using the "modules" query parameter.
@@ -86,8 +86,8 @@ var myOtherStyles = require('!!style!css?modules!css/MyOtherCSSModules.css');
 
 var styles = _.assign(myStyles, myOtherStyles);
 ```
-#### Component mixins
+#### \# Component mixins
 To come.
 
-### Unit tests
+### \# Unit tests
 To come.
