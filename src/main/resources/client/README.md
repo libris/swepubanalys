@@ -16,7 +16,7 @@ Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
 ```
 
 ### \# Entries
-Within our application, entries correspond to one bundle - and ultimately to one view. They are the entry-points where Webpack start in order to create a bundle, which is why they are not expressed as a module themselves. They are, however, Vue components that are mounted to a DOM node explicitly - constituting the root node for the application. These components use other components, passing down props - effectively creating a hierarchical GUI structure. Example:
+Within our application, entries correspond to one bundle - and ultimately to one view. They are the entry-points where Webpack start in order to create a bundle, which is why they are not expressed as a module themselves. They are, however, Vue components that are mounted to a DOM node explicitly - constituting the root node for the application. These components use other components, passing down props - effectively creating a hierarchical GUI structure. Trivial example:
 
 **entries/MyView/MyView.js**
 ```
@@ -46,7 +46,7 @@ new Vue({
 ```
 
 ### \# Vue components
-Components consist typically of three files: .js-, .html- and (maybe) a .css-file. Example:
+Components consist typically of three files: .js-, .html- and (maybe) a .css-file. Trivial example:
 
 **components/MyComponent/MyComponent.js** (Component module)
 
