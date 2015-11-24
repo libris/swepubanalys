@@ -16,12 +16,13 @@ Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
 ```
 
 ### Views
-...
+To come.
 
 ### Vue components
 Components consist typically of three files: .js-, .html- and (maybe) a .css-file.
 
 #### Component mixins
+To come.
 
 #### CSS modules
 Components are styled using CSS modules using the Webpack css-loader (https://github.com/webpack/css-loader) to avoid conflicting class-names. We use them the following way:
@@ -49,4 +50,4 @@ Use it within the corresponding component template.
 This will result in a hashed class name which will be equal to the corresponding css-selector within the Webpack-bundle. To get CSS modules from multiple files, we use either different data-members or the lodash-method _.assign.
 
 ### Unit tests
-...
+To come.
