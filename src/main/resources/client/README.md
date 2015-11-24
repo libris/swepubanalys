@@ -46,7 +46,12 @@ Use it within the corresponding component template.
 ```
 <div class="{{ $data._styles.CSSModule }}"></div>
 ```
-This will result in a hashed class name which will be equal to the corresponding css-selector within the Webpack-bundle. To get CSS modules from multiple files, we use either different data-members or the lodash-method _.assign.
+This will result in a hashed class name which will be equal to the corresponding css-selector within the Webpack-bundle. To get CSS modules from multiple files, we use either different data-members or the lodash-method _.assign, such as this:
+```
+var myStyles = require('!!style!css?modules!./MyCSSModules.css');
+var myOtherStyles = require('!!style!css?modules!./MyOtherCSSModules.css');
 
+var styles = _.assign(myStyles, myOtherStyles);
+```
 ### Unit tests
 To come.
