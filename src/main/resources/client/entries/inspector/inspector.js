@@ -59,8 +59,14 @@ var Inspector = {
 			violationTypeDistributionChart: {
 				getContent: null
 			},
+			// Colors
 			colorCategories: colorCategories,
 			colorPattern: colorPattern,
+			violationTypeColorCategories: violationTypeColorCategories,
+			violationGrade3Color: violationGrade3Color,
+			violationGrade2Color: violationGrade2Color,
+			violationGrade1Color: violationGrade1Color,
+			// Carousel
 			_carouselConf: {
 				items: 2,
 				itemsDesktop : [1300,2],
@@ -198,90 +204,46 @@ Vue.filter('visible', function(d, index, visibleItems) {
 	}
 });
 
-// Based on d3.scale.category20c()
-var colorPattern = [
-	'#fd8d3c', 
-	'#fdae6b', 
-	'#fdd0a2', 
-	'#31a354', 
-	'#74c476', 
-	'#a1d99b', 
-	'#c7e9c0', 
-	'#756bb1', 
-	'#9e9ac8', 
-	'#bcbddc', 
-	'#dadaeb', 
-	'#636363', 
-	'#969696', 
-	'#bdbdbd', 
-	'#d9d9d9', 
-	'#3182bd', 
-	'#6baed6', 
-	'#9ecae1', 
-	'#c6dbef', 
-	'#e6550d', 
-	'#fd8d3c', 
-	'#fdae6b', 
-	'#fdd0a2', 
-	'#31a354', 
-	'#74c476', 
-	'#a1d99b', 
-	'#c7e9c0', 
-	'#756bb1', 
-	'#9e9ac8', 
-	'#bcbddc', 
-	'#dadaeb', 
-	'#636363', 
-	'#969696', 
-	'#bdbdbd', 
-	'#d9d9d9'
-];
-var colorCategories = {
-	'bth': '#e6550d',
-	'cth': '#fdd0a2',
-	'du': '#d9d9d9',
-	'esh': '#a1d99b',
-	'fhs': '#31a354',
-	'gih': '#c7e9c0',
-	'gu': '#c6dbef',
-	'hb': '#3182bd',
-	'hh': '#6baed6',
-	'hhs': '#9e9ac8',
-	'hig': '#9ecae1',
-	'his': '#fdae6b',
-	'hj': '#bcbddc',
-	'hkr': '#fd8d3c',
-	'hv': '#fdd0a2',
-	'kau': '#756bb1',
-	'ki': '#9ecae1',
-	'kmh': '#d9d9d9',
-	'konstfack': '#969696',
-	'kth': '#e6550d',
-	'liu': '#fd8d3c',
-	'lnu': '#c7e9c0',
-	'ltu': '#a1d99b',
-	'lu': '#6baed6',
-	'mah': '#bdbdbd',
-	'mdh': '#969696',
-	'miun': '#dadaeb',
-	'nai': '#756bb1',
-	'nationalmuseum': '#bdbdbd',
-	'naturvardsverket': '#74c476',
-	'nrm': '#bcbddc',
-	'oru': '#9e9ac8',
-	'rkh': '#dadaeb',
-	'sh': '#636363',
-	'shh': '#636363',
-	'slu': '#74c476',
-	'su': '#fdae6b',
-	'umu': '#31a354',
-	'uu': '#3182bd',
-	'vti': '#c6dbef',
-	'Övriga': '#74c476',
-	'Alla lärosäten': '#cfbede',
-	'Felaktiga poster': '#bba3d0',
-	'Felfria poster': '#eee8f3'
+// *** Define colors! *** //
+
+var colorPattern = ['#FFC300','#FFCB20','#FFD240','#FFDA60','#FFE180','#FFE99F','#FFF0BF','#FFF8DF','#EE681B','#F07B38','#F28E54','#F4A171','#F6B38D','#F9C6AA','#FBD9C6','#FDECE3','#9E0634','#AA254D','#B64467','#C26380','#CF839A','#DBA2B3','#E7C1CC','#F3E0E6','#5B2285','#703E94','#8459A4','#9875B3','#AD91C2','#C1ACD1','#D6C8E1','#EAE3F0','#61B5BF','#75BEC7','#89C8CF','#9CD1D7','#B0DADF','#C4E3E7','#D7ECEF','#EBF6F7'];
+
+var categories = ['bth','cth','du','esh','fhs','gih','gu','hb','hh','hhs','hig','his','hj','hkr','hv','kau','ki','kmh','konstfack','kth','liu','lnu','ltu','lu','mah','mdh','miun','nai','nationalmuseum','naturvardsverket','nrm','oru','rkh','sh','shh','slu','su','umu','uu','vti','Övriga','Alla lärosäten','Felaktiga poster','Felfria poster'];
+
+var colorCategories = {};
+
+var l = colorPattern.length;
+var offset = Math.floor(colorPattern.length/2);
+categories.forEach(function(category, i) {
+	colorCategories[category] = colorPattern[(i+offset)%l];
+});
+
+var violationGrade3Color = '#F07B38';
+var violationGrade2Color = '#FFDA60';
+var violationGrade1Color = '#9CD7A2';
+
+var violationTypeColorCategories = {
+	'Multiple variants of name': violationGrade2Color,
+	'Missing UK\u00c4/SCB 3-digit subject code': violationGrade1Color,
+	'Missing local creator': violationGrade3Color,
+    'Missing creator count': violationGrade3Color,
+	'Missing identifier of local creator': violationGrade3Color,
+    'Missing Conference Title Violation': violationGrade3Color,
+    'ISBN at wrong place violation': violationGrade3Color,
+    'Missing ISSN Violation': violationGrade3Color,
+    'DOI format violation': violationGrade3Color,
+    'ISBN format Violation': violationGrade2Color,
+    'ISSN format violation': violationGrade3Color,
+    'Href / local ID violation': violationGrade3Color,
+    'Creator count mismatch': violationGrade3Color,
+    'ORCID format violation': violationGrade3Color,
+    'Duplicate Name Violation': violationGrade2Color,
+    'ISBN country code Violation': violationGrade2Color,
+    'ISI format violation': violationGrade3Color,
+    'Obsolete publication status violation': violationGrade2Color,
 };
+
+// *** Render! *** //
 
 Vue.component('view', Inspector);
 

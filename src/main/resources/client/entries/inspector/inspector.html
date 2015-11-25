@@ -36,7 +36,7 @@
 								</div>
 								<div>
 									<chart type="line" 
-										height="380"
+										height="390"
 										:color-categories.once="colorCategories"
 										tick-format="0%"
 										:min="0.0"
@@ -60,7 +60,7 @@
 										x-axis-type="category" 
 										:show-legend="false"
 										:color-categories.once="colorCategories"
-										height="363"
+										height="373"
 										tick-format="0%"
 										:get-content="barChart.getContent">
 									</chart>
@@ -75,15 +75,24 @@
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>Distribution av feltyper</p>
 								</div>
-								<div>
-									<chart 
-										type="donut" 
-										order="asc"
-										legend-position="right" 
-										:color-pattern.once="colorPattern" 
-										height="350" 
-										:get-content="violationTypeDistributionChart.getContent">
-									</chart>
+								<chart 
+									type="donut" 
+									order="asc"
+									legend-position="right" 
+									:color-categories.once="violationTypeColorCategories"
+									height="350" 
+									:get-content="violationTypeDistributionChart.getContent">
+								</chart>
+								<div class="{{ $data._styles.ExtraLegend }}">
+									<span>
+										<i class="fa fa-circle" v-bind:style="{ color: violationGrade1Color }"></i> Allvarlighetsgrad 1
+									</span>
+									<span>
+										<i class="fa fa-circle" v-bind:style="{ color: violationGrade2Color }"></i> Allvarlighetsgrad 2
+									</span>
+									<span>
+										<i class="fa fa-circle" v-bind:style="{ color: violationGrade3Color }"></i> Allvarlighetsgrad 3
+									</span>
 								</div>
 							</template>
 						</div>
@@ -100,7 +109,7 @@
 										type="donut"
 										legend-position="right"  
 										:color-categories.once="colorCategories"
-										height="350"
+										height="360"
 										:get-content="pieChart.getContent">
 									</chart>
 								</div>

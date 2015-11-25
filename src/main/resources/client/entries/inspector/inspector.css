@@ -31,6 +31,19 @@
 	margin-bottom: 20px;
 }
 
+.ExtraLegend {
+	background: #f9f9f9; 
+	border-radius: 5px; 
+	display: inline-block; 
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.ExtraLegend span {
+	font-size: x-small;
+	margin-right: 15px;
+}
+
 .Info {
 	width: 100%;
 	padding-top: 245px;
