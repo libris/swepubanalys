@@ -1,6 +1,7 @@
 'use strict';
 
 // Vendor
+var Vue = require('vue');
 var $ = require('jquery');
 window.jQuery = window.$ = $;
 require('owl-carousel.js');
@@ -18,8 +19,12 @@ var Carousel = {
 	template: require('./Carousel.html'),
 	data: function() {
 		return {
-			instance: undefined, // reference to owlCarousel instance
-			_styles: styles
+			instance: undefined, // Reference to owlCarousel instance
+			instanceData: { // Reference to owlCarousel instance data
+				length: 0,
+				visibleItems: []
+			},  
+			_styles: styles,
 		}
 	},
 	ready: function() {
@@ -47,25 +52,35 @@ var Carousel = {
 		/**
 		 * Goto next slide
 		 */
-		next: function(e) {
-			e.preventDefault();
+		next: function() {
 			this.instance && $(this.instance).trigger('owl.next');
 			this.triggerNavigate();
 		},
 		/**
 		 * Goto previous slide
 		 */
-		prev: function(e) {
-			e.preventDefault();
+		prev: function() {
 			this.instance && $(this.instance).trigger('owl.prev');
 			this.triggerNavigate();
+		},
+		/**
+		 * Go to a slide
+		 * @prop {Number} i
+		 */
+		goto: function(i) {
+			this.instance && $(this.instance).trigger('owl.goTo', i);
+			this.triggerNavigate();	
 		},
 		/**
 		 * Trigger navigate. This is used to let carousel data bubble up to parent components
 		 */
 		triggerNavigate: function() {
+			var data = $(this.instance).data('owlCarousel');
+			this.$set('instanceData', {
+				length: data.itemsAmount,
+				visibleItems: data.visibleItems
+			});
 			if(this.onNavigate) {
-				var data = $(this.instance).data('owlCarousel');
 				// Finish current stack before callback
 				setTimeout(function() {
 					this.onNavigate({
@@ -76,5 +91,29 @@ var Carousel = {
 		}
 	}
 };
+
+/**
+ * Filter on an index "n" being present in visibleItems
+ * @prop {Number} n
+ * @prop {Array} visibleItems
+ */ 
+Vue.filter('carousel-visible-item', function(n, visibleItems) {
+	var visible = visibleItems.filter(function(item) {
+		return n === item;
+	});
+	return visible.length === 1;
+});
+
+/**
+ * Filter on an index "n" not being present in visibleItems
+ * @prop {Number} n
+ * @prop {Array} visibleItems
+ */
+Vue.filter('carousel-invisible-item', function(n, visibleItems) {
+	var visible = visibleItems.filter(function(item) {
+		return n === item;
+	});
+	return visible.length !== 1;
+});
 
 module.exports = Carousel;

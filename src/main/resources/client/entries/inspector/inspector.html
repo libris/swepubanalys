@@ -30,7 +30,7 @@
 					<div slot="CarouselContent-3">
 						<div>&nbsp;</div>
 						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="lineChart.getContent | visible 3">
+							<template v-if="lineChart.getContent | visible 3 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>Andel poster med allvarliga fel</p>
 								</div>
@@ -50,9 +50,9 @@
 					<div slot="CarouselContent-1">
 						<div>&nbsp;</div>
 						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="barChart.getContent | visible 1">
+							<template v-if="barChart.getContent | visible 1 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>Andel felaktiga poster per lärosäte <span v-if="labels.length === 0">(Top 5)</span></p>
+									<p>Andel felaktiga poster per lärosäte <span v-if="labels.length === 0">(top 5)</span></p>
 								</div>
 								<div>
 									<chart 
@@ -71,7 +71,7 @@
 					<div slot="CarouselContent-2">
 						<div>&nbsp;</div>
 						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="violationTypeDistributionChart.getContent | visible 2">
+							<template v-if="violationTypeDistributionChart.getContent | visible 2 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>Distribution av feltyper</p>
 								</div>
@@ -91,7 +91,7 @@
 					<div slot="CarouselContent-4">
 						<div>&nbsp;</div>
 						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="pieChart.getContent | visible 4">
+							<template v-if="pieChart.getContent | visible 4 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>Total andel poster med fel</p>
 								</div>

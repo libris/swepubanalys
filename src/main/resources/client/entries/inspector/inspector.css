@@ -2,10 +2,14 @@
 	min-height: 530px;
 	margin-top: 5px;
 	margin-bottom: 45px;
+	margin-left: -55px;
+	margin-right: -55px;
 	border-top: 1px solid #efefef;
 	border-bottom: 1px solid #efefef;
 	padding-top: 35px;
 	padding-bottom: 20px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 
 .YearIndicator {
@@ -15,7 +19,7 @@
 }
 
 .ChartContainer {
-	padding-right: 40px;
+	padding-right: 60px;
 	margin: 0px;
 	height: 460px;
 }
@@ -25,7 +29,6 @@
 	margin-left: 20px;
 	margin-right: 50px;
 	margin-bottom: 20px;
-	border-bottom: 1px solid #f9f9f9;
 }
 
 .Info {

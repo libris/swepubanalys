@@ -30,6 +30,18 @@
 					<slot name="CarouselContent-10">
 					</slot>
 				</div>
+				<div style="text-align: center;">
+					<p>
+						<span v-for="n in instanceData.length" v-on:click="goto(n)" class="{{ $data._styles.Arrow }} {{ $data._styles.CircleContainer }}">
+							<template v-if="n | carousel-visible-item instanceData.visibleItems">
+								<i class="fa fa-circle"></i>
+							</template>
+							<template v-if="n | carousel-invisible-item instanceData.visibleItems">
+								<i class="fa fa-circle-o"></i>
+							</template>
+						</span>
+					</p>
+				</div>
 			</td>
 			<td class="{{ $data._styles.ArrowContainer }}" style="text-align: right;">
 				<h1 class="{{ $data._styles.Arrow }}">

@@ -183,10 +183,12 @@ var Inspector = {
 };
 
 /**
- *
+ * Should a slide be mounted in the carousel?
+ * @ {Object} d
+ * @ {String} index
+ * @ {Array} visibleItems
  */
-Vue.filter('visible', function(d, index) {
-	var visibleItems = this.visibleItems;
+Vue.filter('visible', function(d, index, visibleItems) {
 	index = Number(index)-1;
 	var visible = visibleItems.filter(function(item) {
 		return item === index;
