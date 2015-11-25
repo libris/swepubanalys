@@ -32,7 +32,12 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<template v-if="lineChart.getContent | visible 3 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>Andel poster med allvarliga fel</p>
+									<p>
+										Andel poster med allvarliga fel 
+										<span style="font-size: x-small;">
+											(allvarlighetsgrad 3 <i class="fa fa-circle" v-bind:style="{ color: violationGrade3Color }"></i> )
+										</span>
+									</p>
 								</div>
 								<div>
 									<chart type="line" 
@@ -85,13 +90,13 @@
 								</chart>
 								<div class="{{ $data._styles.ExtraLegend }}">
 									<span>
-										<i class="fa fa-circle" v-bind:style="{ color: violationGrade1Color }"></i> Allvarlighetsgrad 1
+										Allvarlighetsgrad 1 <i class="fa fa-circle" v-bind:style="{ color: violationGrade1Color }"></i>
 									</span>
 									<span>
-										<i class="fa fa-circle" v-bind:style="{ color: violationGrade2Color }"></i> Allvarlighetsgrad 2
+										Allvarlighetsgrad 2 <i class="fa fa-circle" v-bind:style="{ color: violationGrade2Color }"></i>
 									</span>
 									<span>
-										<i class="fa fa-circle" v-bind:style="{ color: violationGrade3Color }"></i> Allvarlighetsgrad 3
+										Allvarlighetsgrad 3 <i class="fa fa-circle" v-bind:style="{ color: violationGrade3Color }"></i>
 									</span>
 								</div>
 							</template>
