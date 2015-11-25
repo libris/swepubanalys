@@ -14,13 +14,16 @@ module.exports = {
 		alias: {
 			'c3-js': 'c3/c3.min.js',
 			'c3-css': 'c3/c3.css',
+			'owl-carousel.js': 'owlcarousel/owl-carousel/owl.carousel.min.js',
+			'owl-carousel.css': 'owlcarousel/owl-carousel/owl.carousel.css'
 		}
     },
 	module: {
 		loaders: [
 			{ test: /\.html$/, loader: "html" },
 			{ test: /\.css$/, loader: "style-loader!css-loader" },
-			{ test: /\.md$/, loader: "html!markdown" }
+			{ test: /\.md$/, loader: "html!markdown" },
+			{ test: /\.(png|jpg)$/, loader: 'url-loader?limit=10000' }
 		],
 	},
     plugins: [

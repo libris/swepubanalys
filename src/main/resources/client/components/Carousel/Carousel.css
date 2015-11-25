@@ -1,0 +1,26 @@
+.Container {
+	max-width: 100%;
+}
+
+.Table {
+	table-layout: fixed; 
+	width: 100%;
+}
+
+.ArrowContainer {
+	width: 50px;
+}
+
+.Arrow {
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	cursor: pointer;
+}
+
+.Arrow:hover {
+	color: grey;
+}

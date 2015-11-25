@@ -12,6 +12,7 @@ var SearchResult = require('components/SearchResult/SearchResult.js');
 var DuplicatesList = require('components/DuplicatesList/DuplicatesList.js');
 var MatchWeightHelp = require('components/Helps/MatchWeightHelp/MatchWeightHelp.js');
 var DuplicatesHelp = require('components/Helps/DuplicatesHelp/DuplicatesHelp.js');
+var Carousel = require('components/Carousel/Carousel.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
@@ -59,7 +60,13 @@ var Inspector = {
 				getContent: null
 			},
 			colorCategories: colorCategories,
-			colorPattern: colorPattern
+			colorPattern: colorPattern,
+			_carouselConf: {
+				items: 2,
+				itemsDesktop : [1300,2],
+			    itemsDesktopSmall : [1050,1]
+			},
+			visibleItems: [],
 		};
 	},
 	watch: {
@@ -88,7 +95,8 @@ var Inspector = {
 		'search-result': SearchResult,
 		'duplicates-help': DuplicatesHelp,
 		'match-weight-help': MatchWeightHelp,
-		'duplicates-list': DuplicatesList
+		'duplicates-list': DuplicatesList,
+		'carousel': Carousel
 	},
 	methods: {
 		/**
@@ -110,6 +118,12 @@ var Inspector = {
 				}, 900);
 				this.$set('pendingScroll', false);
 			}
+		},
+		/**
+		 *
+		 */
+		onCarouselNavigate: function(status) {
+			this.$set('visibleItems', status.visibleItems);
 		},
 		/**
 		 * Starts an activity
@@ -141,25 +155,13 @@ var Inspector = {
 		 */
 		setAggregations: function(aggregations) {
 			// *** LINE CHART *** //
-			var collapse = this.formModel.org.length === 0;
-			this.setChartContent('lineChart', FormatAggregationUtil.toGrade3ViolationRatioYearTimeSeries(aggregations, collapse));
+			this.setChartContent('lineChart', FormatAggregationUtil.toGrade3ViolationRatioYearTimeSeries(aggregations, this.formModel.org.length === 0));	
 			// *** BAR CHART *** //
-			if(this.formModel.org.indexOf(',') !== -1 || this.formModel.org.length === 0) {
-				var top = this.formModel.org.length === 0 ? 6 : 10000;
-				this.setChartContent('barChart', FormatAggregationUtil.toOrgViolationRatio(aggregations, top));
-			}
-			else {
-				this.setChartContent('barChart', { columns: [] });
-			}
+			this.setChartContent('barChart', FormatAggregationUtil.toOrgViolationRatio(aggregations, this.formModel.org.length === 0 ? 5 : 10000));
+			// *** VIOLATION TYPE DISTRIBUTION CHART *** //
+			this.setChartContent('violationTypeDistributionChart', FormatAggregationUtil.toViolationTypeDistributions(aggregations, this.formModel.org));
 			// *** PIE CHART *** //
 			this.setChartContent('pieChart', FormatAggregationUtil.toViolationDistribution(aggregations));
-			// *** VIOLATION TYPE DISTRIBUTION CHART *** //
-			if(this.formModel.org && this.formModel.org.indexOf(',') === -1) {
-				this.setChartContent('violationTypeDistributionChart', FormatAggregationUtil.toViolationTypeDistributionForOneOrg(aggregations, this.formModel.org));
-			}
-			else {
-				this.setChartContent('violationTypeDistributionChart', { columns: [] });
-			}
 		},
 		/**
 		 * Sets .getContent function for a chart-object
@@ -179,6 +181,20 @@ var Inspector = {
 		
 	}
 };
+
+/**
+ *
+ */
+Vue.filter('visible', function(d, index) {
+	var visibleItems = this.visibleItems;
+	index = Number(index)-1;
+	var visible = visibleItems.filter(function(item) {
+		return item === index;
+	});
+	if(visible.length === 1) {
+		return d;
+	}
+});
 
 // Based on d3.scale.category20c()
 var colorPattern = [

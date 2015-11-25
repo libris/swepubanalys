@@ -2,94 +2,112 @@
 	<site-wrapper activity="inspector">
 		<div>
 			<h2>Översikt datakvalitet
-				<span v-if="labels.length === 0">
-
+				<span v-if="labels.length > 0">
+					- 
 				</span>
 				<span v-for="d in (labels || [])" style="display: inline-block">
-					{{ d.value }}
-					<template v-if="d.index !== $parent.labels.length-1">,&nbsp;</template>
+					{{ d.value }}<template v-if="d.index !== $parent.labels.length-1">,&nbsp;</template>
 				</span>
 			</h2>
 			<p>{{ formModel.from }} {{ formModel.from || formModel.to ? '-' : '' }} {{ formModel.to }}</p>
+			<!-- State notifications -->
+			<div style="position: relative; width: 100%;">
+				<div style="position: absolute; top: 0; width: 100%;">
+					<div v-if="loadingData" class="{{ $data._styles.Info }}">
+						<h1>Laddar visualiseringar...</h1>
+					</div>
+					<div v-if="emptyAggregations" class="{{ $data._styles.Info }}">
+						<h1>Tomt sökresultat</h1>
+					</div>
+					<div v-if="error" class="{{ $data._styles.Info }}">
+						<h1>Problem med att ladda data</h1>
+					</div>
+				</div>
+			</div>
 			<!-- Visualisations -->
 			<div class="{{ $data._styles.Visualisations }}">
-				<div v-if="loadingData" class="{{ $data._styles.Info }}">
-					<h1>Laddar...</h1>
-				</div>
-				<div v-if="emptyAggregations" class="{{ $data._styles.Info }}">
-					<h1>Tomt sökresultat</h1>
-				</div>
-				<div v-if="error" class="{{ $data._styles.Info }}">
-					<h1>Problem med att ladda data</h1>
-				</div>
-				<!-- Charts -->
-				<div class="row" v-show="!emptyAggregations && !error">
-					<div class="col-md-4 {{ $data._styles.ChartContainer }}">
-						<template v-if="lineChart.getContent">
-							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Andel poster med allvarliga fel</p>
-							</div>
-							<div>
-								<chart type="line" 
-									height="330"
-									:color-categories.once="colorCategories"
-									tick-format="0%"
-									:min="0.0"
-									:max="1.0"
-									:get-content="lineChart.getContent">
-								</chart>
-							</div>
-						</template>
+				<carousel :conf.once="$data._carouselConf" :on-navigate="onCarouselNavigate">
+					<div slot="CarouselContent-3">
+						<div>&nbsp;</div>
+						<div class="{{ $data._styles.ChartContainer }}">
+							<template v-if="lineChart.getContent | visible 3">
+								<div class="{{ $data._styles.GraphTitle }}">
+									<p>Andel poster med allvarliga fel</p>
+								</div>
+								<div>
+									<chart type="line" 
+										height="380"
+										:color-categories.once="colorCategories"
+										tick-format="0%"
+										:min="0.0"
+										:max="1.0"
+										:get-content="lineChart.getContent">
+									</chart>
+								</div>
+							</template>
+						</div>
 					</div>
-					<div class="col-md-5 {{ $data._styles.ChartContainer }}">
-						<template v-if="barChart.getContent">
-							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Andel felaktiga poster per lärosäte</p>
-							</div>
-							<div>
-								<chart 
-									type="bar" 
-									x-axis-type="category" 
-									:show-legend="false"
-									:color-categories.once="colorCategories"
-									height="310"
-									tick-format="0%"
-									:get-content="barChart.getContent">
-								</chart>
-							</div>
-						</template>
-						<template v-if="violationTypeDistributionChart.getContent">
-							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Distribution av feltyper</p>
-							</div>
-							<div>
-								<chart 
-									type="donut" 
-									order="asc"
-									legend-position="bottom" 
-									:color-pattern.once="colorPattern" 
-									height="355" 
-									:get-content="violationTypeDistributionChart.getContent">
-								</chart>
-							</div>
-						</template>
+					<div slot="CarouselContent-1">
+						<div>&nbsp;</div>
+						<div class="{{ $data._styles.ChartContainer }}">
+							<template v-if="barChart.getContent | visible 1">
+								<div class="{{ $data._styles.GraphTitle }}">
+									<p>Andel felaktiga poster per lärosäte <span v-if="labels.length === 0">(Top 5)</span></p>
+								</div>
+								<div>
+									<chart 
+										type="bar" 
+										x-axis-type="category" 
+										:show-legend="false"
+										:color-categories.once="colorCategories"
+										height="363"
+										tick-format="0%"
+										:get-content="barChart.getContent">
+									</chart>
+								</div>
+							</template>
+						</div>
 					</div>
-					<div class="col-md-3 {{ $data._styles.ChartContainer }}">
-						<template v-if="pieChart.getContent">
-							<div class="{{ $data._styles.GraphTitle }}">
-								<p>Total andel poster med fel</p>
-							</div>
-							<div>
-								<chart 
-									type="donut" 
-									height="330"
-									:color-categories.once="colorCategories"
-									:get-content="pieChart.getContent">
-								</chart>
-							</div>
-						</template>
+					<div slot="CarouselContent-2">
+						<div>&nbsp;</div>
+						<div class="{{ $data._styles.ChartContainer }}">
+							<template v-if="violationTypeDistributionChart.getContent | visible 2">
+								<div class="{{ $data._styles.GraphTitle }}">
+									<p>Distribution av feltyper</p>
+								</div>
+								<div>
+									<chart 
+										type="donut" 
+										order="asc"
+										legend-position="right" 
+										:color-pattern.once="colorPattern" 
+										height="350" 
+										:get-content="violationTypeDistributionChart.getContent">
+									</chart>
+								</div>
+							</template>
+						</div>
 					</div>
-				</div>
+					<div slot="CarouselContent-4">
+						<div>&nbsp;</div>
+						<div class="{{ $data._styles.ChartContainer }}">
+							<template v-if="pieChart.getContent | visible 4">
+								<div class="{{ $data._styles.GraphTitle }}">
+									<p>Total andel poster med fel</p>
+								</div>
+								<div>
+									<chart 
+										type="donut"
+										legend-position="right"  
+										:color-categories.once="colorCategories"
+										height="350"
+										:get-content="pieChart.getContent">
+									</chart>
+								</div>
+							</template>
+						</div>
+					</div>
+				</carousel>
 			</div>
 			<!-- Search form -->
 			<div class="{{ $data._styles.SearchForm }}">
@@ -132,7 +150,7 @@
 						:select-all-filter-fields.once="true"
 						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Dubblettkandidater enligt Swepubs viktningsregler</h2>
+						<h2>Dubblettkandidater enligt SwePubs viktningsregler</h2>
 					</div>
 					<div slot="SearchResultDescription">
 						<p>
