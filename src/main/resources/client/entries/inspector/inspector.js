@@ -59,6 +59,8 @@ var Inspector = {
 			violationTypeDistributionChart: {
 				getContent: null
 			},
+			// Misc
+			orgs: orgs,
 			// Colors
 			colorCategories: colorCategories,
 			colorPattern: colorPattern,
@@ -130,6 +132,15 @@ var Inspector = {
 		 */
 		onCarouselNavigate: function(status) {
 			this.$set('visibleItems', status.visibleItems);
+		},
+		/**
+		 * Callback sent to graphs containing org-buckets
+		 * @prop {Object} e
+		 */
+		onClickOrg: function(e) {
+			if(e && e.id && this.$refs.searchForm && this.$refs.searchForm.setOrgValue) {
+				this.$refs.searchForm.setOrgValue(e.id);	
+			}
 		},
 		/**
 		 * Starts an activity
@@ -208,7 +219,8 @@ Vue.filter('visible', function(d, index, visibleItems) {
 
 var colorPattern = ['#FFC300','#FFCB20','#FFD240','#FFDA60','#FFE180','#FFE99F','#FFF0BF','#FFF8DF','#EE681B','#F07B38','#F28E54','#F4A171','#F6B38D','#F9C6AA','#FBD9C6','#FDECE3','#9E0634','#AA254D','#B64467','#C26380','#CF839A','#DBA2B3','#E7C1CC','#F3E0E6','#5B2285','#703E94','#8459A4','#9875B3','#AD91C2','#C1ACD1','#D6C8E1','#EAE3F0','#61B5BF','#75BEC7','#89C8CF','#9CD1D7','#B0DADF','#C4E3E7','#D7ECEF','#EBF6F7'];
 
-var categories = ['bth','cth','du','esh','fhs','gih','gu','hb','hh','hhs','hig','his','hj','hkr','hv','kau','ki','kmh','konstfack','kth','liu','lnu','ltu','lu','mah','mdh','miun','nai','nationalmuseum','naturvardsverket','nrm','oru','rkh','sh','shh','slu','su','umu','uu','vti','Övriga','Alla lärosäten','Felaktiga poster','Felfria poster'];
+var orgs = ['bth','cth','du','esh','fhs','gih','gu','hb','hh','hhs','hig','his','hj','hkr','hv','kau','ki','kmh','konstfack','kth','liu','lnu','ltu','lu','mah','mdh','miun','nai','nationalmuseum','naturvardsverket','nrm','oru','rkh','sh','shh','slu','su','umu','uu','vti'];
+var categories = orgs.concat(['Övriga','Alla lärosäten','Felaktiga poster','Felfria poster']);
 
 var colorCategories = {};
 

@@ -13,3 +13,7 @@
 .c3-legend-item text { 
 	fill: grey;
 }
+
+.c3-arc[style] {
+	cursor: default !important;
+}

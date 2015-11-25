@@ -22,7 +22,8 @@ var Chart = {
 		'tickFormat', 
 		'min',
 		'max',
-		'getContent'
+		'getContent',
+		'onClick'
 	],
 	template: '<div></div>',
 	ready: function() {
@@ -47,7 +48,15 @@ var Chart = {
 					type: this.type,
 					columns: [],
 					order: this.order || '',
-					colors: this.colorCategories
+					colors: this.colorCategories,
+					onclick: function(e) { 
+						if(this.onClick) {
+							this.onClick(e);
+						}
+					}.bind(this),
+					selection: {
+						enabled: !!this.onClick
+					},
 				},
 				legend: {
 					show: this.showLegend === false ? false : true,

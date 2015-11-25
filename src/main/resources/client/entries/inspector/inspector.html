@@ -27,10 +27,10 @@
 			<!-- Visualisations -->
 			<div class="{{ $data._styles.Visualisations }}">
 				<carousel :conf.once="$data._carouselConf" :on-navigate="onCarouselNavigate">
-					<div slot="CarouselContent-3">
+					<div slot="CarouselContent-4">
 						<div>&nbsp;</div>
 						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="lineChart.getContent | visible 3 visibleItems">
+							<template v-if="lineChart.getContent | visible 4 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>
 										Andel poster med allvarliga fel 
@@ -46,16 +46,17 @@
 										tick-format="0%"
 										:min="0.0"
 										:max="1.0"
+										:on-click.once="onClickOrg"
 										:get-content="lineChart.getContent">
 									</chart>
 								</div>
 							</template>
 						</div>
 					</div>
-					<div slot="CarouselContent-1">
+					<div slot="CarouselContent-2">
 						<div>&nbsp;</div>
 						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="barChart.getContent | visible 1 visibleItems">
+							<template v-if="barChart.getContent | visible 2 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>Andel felaktiga poster per lärosäte <span v-if="labels.length === 0">(top 5)</span></p>
 								</div>
@@ -67,16 +68,17 @@
 										:color-categories.once="colorCategories"
 										height="373"
 										tick-format="0%"
+										:on-click.once="onClickOrg"
 										:get-content="barChart.getContent">
 									</chart>
 								</div>
 							</template>
 						</div>
 					</div>
-					<div slot="CarouselContent-2">
+					<div slot="CarouselContent-3">
 						<div>&nbsp;</div>
 						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="violationTypeDistributionChart.getContent | visible 2 visibleItems">
+							<template v-if="violationTypeDistributionChart.getContent | visible 3 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>Distribution av feltyper</p>
 								</div>
@@ -102,19 +104,19 @@
 							</template>
 						</div>
 					</div>
-					<div slot="CarouselContent-4">
+					<div slot="CarouselContent-1">
 						<div>&nbsp;</div>
 						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="pieChart.getContent | visible 4 visibleItems">
+							<template v-if="pieChart.getContent | visible 1 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>Total andel poster med fel</p>
 								</div>
 								<div>
 									<chart 
 										type="donut"
-										legend-position="right"  
+										legend-position="bottom"  
 										:color-categories.once="colorCategories"
-										height="360"
+										height="390"
 										:get-content="pieChart.getContent">
 									</chart>
 								</div>
@@ -125,7 +127,12 @@
 			</div>
 			<!-- Search form -->
 			<div class="{{ $data._styles.SearchForm }}">
-				<search-form :on-change.once="onChange" from="2012" :to="new Date().getFullYear()" default-template="duplicates">
+				<search-form 
+						:on-change.once="onChange" 
+						from="2012" 
+						:to="new Date().getFullYear()" 
+						default-template="duplicates"
+						v-ref:search-form>
 					<div slot="SearchFormTitle">
 						<h2>Tre vägar till hög datakvalitet</h2>
 					</div>

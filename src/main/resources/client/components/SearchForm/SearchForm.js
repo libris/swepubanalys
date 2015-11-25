@@ -137,6 +137,17 @@ var SearchForm = {
 			}
 		},
 		/**
+		 * Call directly on the org-input component to set its value
+		 * @prop {String} value
+		 */
+		setOrgValue: function(value) {
+			this.$children.forEach(function(child) {
+				if(child.$refs.orgInput && child.$refs.orgInput.setValue) {
+					child.$refs.orgInput.setValue(value);
+				}
+			});
+		},
+		/**
 		 * Generates formData
 		 * @return {Object} formData
 		 */

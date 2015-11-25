@@ -36,6 +36,15 @@ var OrgInput = {
 			content: require('docs/organisation.md'), 
 			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
 		});
+	},
+	methods: {
+		/**
+		 * Directly select an option in the autocomplete-input
+		 * @prop {String} value
+		 */
+		setValue: function(value) {
+			this.$refs.orgAutocompleteInput.selectOption(value);
+		}
 	}
 };
 
