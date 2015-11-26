@@ -32,7 +32,7 @@
 				</div>
 				<div style="text-align: center;">
 					<p>
-						<span v-for="n in instanceData.length" v-on:click="goto(n)" class="{{ $data._styles.Arrow }} {{ $data._styles.CircleContainer }}">
+						<span v-for="n in instanceData.length" v-on:click="goto(n)" class="{{ $data._styles.Arrow }} {{ $data._styles.CircleContainer }}" style="font-size: x-small;">
 							<template v-if="n | carousel-visible-item instanceData.visibleItems">
 								<i class="fa fa-circle"></i>
 							</template>

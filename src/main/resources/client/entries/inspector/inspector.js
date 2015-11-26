@@ -4,6 +4,7 @@
 var Vue = require('vue');
 var $ = require('jquery');
 var _cloneDeep = require('lodash/lang/cloneDeep');
+var _assign = require('lodash/object/assign');
 // Components
 var SiteWrapper = require('components/SiteWrapper/SiteWrapper.js');
 var Chart = require('components/Chart/Chart.js');
@@ -20,7 +21,7 @@ var DataUtil = require('utils/DataUtil/DataUtil.js');
 var FormatAggregationUtil = require('utils/FormatAggregationUtil/FormatAggregationUtil.js');
 require('utils/ConsoleUtil/ConsoleUtil.js');
 // CSS-modules
-var styles = require('!!style!css?modules!./inspector.css');
+var styles = _assign(require('!!style!css?modules!./inspector.css'), require('!!style!css?modules!css/modules/Colors.css'));
 
 /**
  * Inspector-view
@@ -227,7 +228,14 @@ var colorCategories = {};
 var l = colorPattern.length;
 var offset = Math.floor(colorPattern.length/2);
 categories.forEach(function(category, i) {
-	colorCategories[category] = colorPattern[(i+offset)%l];
+	if(category === 'Felfria poster') {
+		colorCategories[category] = '#FFDA60';
+	} else if(category === 'Felaktiga poster') {
+		colorCategories[category] = '#FFC300';
+	} else {
+		colorCategories[category] = colorPattern[(i+offset)%l];
+	}
+	
 });
 
 var violationGrade3Color = '#F07B38';

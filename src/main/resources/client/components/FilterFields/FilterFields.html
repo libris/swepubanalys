@@ -1,4 +1,4 @@
-<div class="well {{ $data._styles.FilterFields }}">
+<div class="{{ $data._styles.FilterFields }} {{ $data._styles.LightBackground }}">
 	<div class="row">
 		<div class="col-xs-6">
 			<div class="{{ $data._styles.SelectButtons }}">
@@ -14,7 +14,6 @@
 			</p>
 		</div>
 	</div>
-	<hr>
 	<div class="{{ $data._styles.FilterFieldsButtonsContainer }}">
 		<template v-for="filterFieldGroup in filterFields | filterFieldGroups filterFieldGroups" class="FilterFieldButtons">
 			<div v-for="filterField in filterFieldGroup.filterFields"

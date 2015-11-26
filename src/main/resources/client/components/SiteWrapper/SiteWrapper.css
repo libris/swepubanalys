@@ -3,11 +3,10 @@
 }
 
 .Header {
-	background-color: #2e2e2e; 
-	color: #bababa;
-	padding: 55px; 
-	padding-top: 25px; 
-	margin-bottom: 5px;
+	color: #FFFFFF;
+	padding: 50px; 
+	padding-top: 40px; 
+	margin-bottom: 0px;
 }
 
 .MenuBar {
@@ -18,7 +17,11 @@
 	padding-top: 15px;
 	padding-bottom: 15px;
 	text-align: center;
-	color: gray;
+	color: #FFFFFF;
+}
+
+.MenuItem a {
+	color: #FFFFFF !important;
 }
 
 .ActiveMenuItem {
@@ -36,7 +39,7 @@
 
 .Content {
 	max-width: 1450px; 
-	padding: 55px; 
+	padding: 25px; 
 	padding-top: 35px;
 }
 

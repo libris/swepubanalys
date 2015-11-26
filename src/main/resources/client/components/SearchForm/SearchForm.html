@@ -27,6 +27,8 @@
 		<div class="form-group" v-if="onSearch">
 			<button v-on:click="performSearch" class="btn btn-info SearchButton">Visa</button>
 		</div>
+		<slot name="Bottom">
+		</slot>
 	</div>
 	<div class="col-xs-4">
 	</div>

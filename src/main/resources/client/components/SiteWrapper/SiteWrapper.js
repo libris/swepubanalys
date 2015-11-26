@@ -1,7 +1,11 @@
 'use strict';
 
+// Vendor
+var _assign = require('lodash/object/assign');
 // CSS modules
-var styles = require('!!style!css?modules!./SiteWrapper.css');
+var styles = _assign(require('!!style!css?modules!./SiteWrapper.css'), require('!!style!css?modules!css/modules/Colors.css'));
+// CSS
+require('css/theme.css');
 
 /**
  * Site Wrapper Component

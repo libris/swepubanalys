@@ -18,7 +18,7 @@ var PublStatusInput = {
 		this.initHelp({
 			title: 'PUBLICERINGSSTATUS',
 			content: require('docs/publication_status.md'), 
-			anchorToElement: this.$el.getElementsByClassName('PublStatusInput')[0],
+			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
 		});
 	},
 	watch: {

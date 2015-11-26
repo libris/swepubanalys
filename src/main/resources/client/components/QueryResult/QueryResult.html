@@ -1,43 +1,40 @@
-<div class="{{ $data._resultStyles.Loading }}">
-	<div v-if="pendingUpdate === true" transition="expand" class="{{ $data._resultStyles.PendingUpdate }}">
-		<h2>Laddar...</h2>
-	</div>
-    <div v-if="!hasNonEmptyResult()" class="{{ $data._resultStyles.PendingUpdate }}">
-        <h2>Tomt sökresultat</h2>
-    </div>
-</div>
-<div class="{{ $data._resultStyles.Container }}" v-if="hasNonEmptyResult()">
-	<div v-show="pendingUpdate !== true">
-		<slot name="QueryResultTitle"></slot>
-		<div v-show="!error">
-			<div class="row">
-				<div class="col-xs-8">
-					<slot name="SearchResultDescription"></slot>
-					<template v-if="selectAllFilterFields !== true">
-						<p><b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills</p>
-					</template>
-				</div>
-				<div class="col-xs-4" style="text-align: right">
-					<mail-export :query="query"></mail-export>
-				</div>
-			</div>
-			<hr>
-			<div class="{{ $data._resultStyles.Item }}" >
-				<h4>Välj fält för export</h4>
-				<slot name="FilterFieldsDescription"></slot>
-				<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields"></filter-fields>
-			</div>
-			<div class="{{ $data._resultStyles.Item }}" >
-				<h4>Förhandsvisning av export</h4>
-				<br>
-				<div style="min-height: 480px;">
-					<list-preview :result="result" :filter-fields="filterFields"></list-preview>
-				</div>
-			</div>
+<div class="{{ $data._resultStyles.Result }}">
+	<div class="{{ $data._resultStyles.Loading }}">
+		<div v-if="pendingUpdate === true" transition="expand" class="{{ $data._resultStyles.PendingUpdate }}">
+			<h2>Laddar...</h2>
 		</div>
-		<div v-show="error">
-			<div class="{{ $data._resultStyles.Error }}">
-				<h1>Problem med sökfråga<h1>
+	    <div v-if="!hasNonEmptyResult()" class="{{ $data._resultStyles.PendingUpdate }}">
+	        <h2>Tomt sökresultat</h2>
+	    </div>
+	</div>
+	<div class="{{ $data._resultStyles.Container }}" v-if="hasNonEmptyResult()">
+		<div v-show="pendingUpdate !== true">
+			<div v-show="!error">
+				<div class="{{ $data._resultStyles.Item }}">
+					<slot name="QueryResultTitle"></slot>
+					<div class="row">
+						<div class="col-xs-8">
+							<slot name="SearchResultDescription"></slot>
+							<template v-if="selectAllFilterFields !== true">
+								<p><b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills</p>
+							</template>
+						</div>
+						<div class="col-xs-4" style="text-align: right">
+							<mail-export :query="query"></mail-export>
+						</div>
+					</div>
+				</div>
+				<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields"></filter-fields>
+				<div>
+					<div style="min-height: 480px;">
+						<list-preview :result="result" :filter-fields="filterFields"></list-preview>
+					</div>
+				</div>
+			</div>
+			<div v-show="error">
+				<div class="{{ $data._resultStyles.Error }}">
+					<h1>Problem med sökfråga<h1>
+				</div>
 			</div>
 		</div>
 	</div>

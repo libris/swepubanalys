@@ -1,10 +1,12 @@
 .ListPreview {
     max-height: 520px; 
+    background: #f3f3f3;
     overflow-y: auto;
 }
 
 .ListBody {
     max-height: 400px;
+    background: #ffffff;
 }
 
 .Ellipsis {

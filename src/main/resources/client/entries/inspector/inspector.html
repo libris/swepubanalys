@@ -1,7 +1,8 @@
 <div>
 	<site-wrapper activity="inspector">
-		<div>
-			<h2>Översikt datakvalitet
+		<div class="{{ $data._styles.Item }} {{ $data._styles.GreyBackground }}">
+			<!-- Visualisations -->
+			<h2>ÖVERSIKT DATAKVALITET
 				<span v-if="labels.length > 0">
 					- 
 				</span>
@@ -24,8 +25,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- Visualisations -->
-			<div class="{{ $data._styles.Visualisations }}">
+			<div>
 				<carousel :conf.once="$data._carouselConf" :on-navigate="onCarouselNavigate">
 					<div slot="CarouselContent-4">
 						<div>&nbsp;</div>
@@ -134,23 +134,27 @@
 						default-template="duplicates"
 						v-ref:search-form>
 					<div slot="SearchFormTitle">
-						<h2>Tre vägar till hög datakvalitet</h2>
+						<h2>TRE VÄGAR TILL HÖGRE DATAKVALITET</h2>
 					</div>
 					<div slot="SearchFormDescription">
 						<p>Här söker du fram ofullständig metadata om vetenskaplig output.</p>
 					</div>
+					<div slot="Bottom">
+					</div>
 				</search-form>
 				<!-- Activity buttons -->
-				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('ERROR_LIST')">
-					Visa ofullständig metadata
+				<button class="btn btn-info" v-on:click="startActivity('ERROR_LIST')">
+					VISA OFULLSTÄNDIG METADATA
 				</button>
-				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
-					Visa dubblettkandidater
+				<button class="btn btn-info" v-on:click="startActivity('LOCAL_DUPLICATES')">
+					VISA DUBBLETTKANDIDATER
 				</button>
-				<button class="btn btn-info {{ $data._styles.BtnHuge }}" v-on:click="startActivity('DUPLICATES')">
-					Visa samarbetspublikationer
+				<button class="btn btn-info" v-on:click="startActivity('DUPLICATES')">
+					VISA SAMARBETSPUBLIKATIONER
 				</button>
 			</div>
+		</div>
+		<div v-show="activity">
 			<div class="searchResult">
 				<!-- Error list activity -->
 				<search-result 
@@ -159,7 +163,7 @@
 						:fields="formData.fields" 
 						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Ofullständig metadata: Anpassa för export</h2>
+						<h2>OFULLSTÄNDIG METADATA: ANPASSA FÖR EXPORT</h2>
 					</div>
 					<div slot="SearchResultDescription"></div>
 				</search-result>
@@ -171,7 +175,7 @@
 						:select-all-filter-fields.once="true"
 						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
-						<h2>Dubblettkandidater enligt SwePubs viktningsregler</h2>
+						<h2>DUBBLETTKANDIDATER ENLIGT SWEPUBS VIKTNINGSREGLER</h2>
 					</div>
 					<div slot="SearchResultDescription">
 						<p>
@@ -186,7 +190,7 @@
 						:fields="formData.fields" 
 						:on-result-received.once="onResultReceived">
 					<div slot="DuplicatesListTitle">
-						<h2>Samarbetspublikationer</h2>
+						<h2>SAMARBETSPUBLIKATIONER</h2>
 					</div>
 					<div slot="DuplicatesListDescription">
 						<p>Valda publikationsposter innehåller motstridiga metadata. Dessa behöver följas upp för att posterna ska tas med i datauttag för analyser på nationell nivå</p>

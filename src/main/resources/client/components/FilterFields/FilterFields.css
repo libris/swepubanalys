@@ -5,7 +5,7 @@
 
 .FilterFields {
 	margin-top: 20px;
-	margin-bottom: 25px;
+	padding: 35px;
 }
 
 .FilterFieldButtonContainer {
@@ -16,6 +16,10 @@
 	border-right: 1px solid lightgray;
 	margin-right: 7px;
 	padding-right: 5px;
+}
+
+.FilterFieldsButtonsContainer {
+	margin-top: 15px;
 }
 
 .FilterFieldsButtonsContainer .FilterFieldButtonContainer:last-child {

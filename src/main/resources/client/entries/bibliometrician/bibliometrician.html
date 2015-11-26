@@ -3,24 +3,30 @@
 		<div>
 			<!-- Nav tabs -->
 			<ul class="nav nav-tabs" role="tablist">
-				<li role="presentation" class="active"><a href="#form" aria-controls="form" role="tab" data-toggle="tab">Utsökning</a></li>
-				<li role="presentation"><a href="#advanced" aria-controls="profile" role="tab" data-toggle="tab">Avancerad utsökning</a></li>
+				<li role="presentation" class="{{ $data._styles.LightBackground }}">
+					<a href="#form" aria-controls="form" role="tab" data-toggle="tab">UTSÖKNING</a>
+				</li>
+				<li role="presentation" class="{{ $data._styles.DarkBackground }}">
+					<a href="#advanced" aria-controls="profile" role="tab" data-toggle="tab">AVANCERAD UTSÖKNING</a>
+				</li>
 			</ul>
 			<!-- Tab panes -->
 			<div class="tab-content">
 				<!-- Form tab -->
 				<div role="tabpanel" class="tab-pane active" id="form">
 					<!-- Search form -->
-					<search-form :on-search="onFormSearch">
-						<div slot="SearchFormTitle">
-							<h2>1. Gör utsökning</h2>
-						</div>
-						<div slot="SearchFormDescription">
-							<p>
-								Här söker du fram metadata om vetenskaplig output för export.
-							</p>
-						</div>
-					</search-form>
+					<div class="{{ $data._styles.LightBackground }} {{ $data._styles.TabContent }}">
+						<search-form :on-search="onFormSearch">
+							<div slot="SearchFormTitle">
+								<h2>1. GÖR UTSÖKNING</h2>
+							</div>
+							<div slot="SearchFormDescription">
+								<p>
+									Här söker du fram metadata om vetenskaplig output för export.
+								</p>
+							</div>
+						</search-form>
+					</div>
 					<!-- Search results -->
 					<div v-show="formData.formModel.templateName" transition="expand">
 						<div class="result">
@@ -30,7 +36,7 @@
 									:on-result-received.once="onResultReceived"
 									:on-generate-query.once="onGenerateQuery">
 								<div slot="SearchResultTitle">
-									<h2>2. Anpassa för export</h2>
+									<h2>2. ANPASSA FÖR EXPORT</h2>
 								</div>
 							</search-result>
 						</div>
@@ -39,16 +45,18 @@
 				<!-- Query tab -->
 				<div role="tabpanel" class="tab-pane" id="advanced">
 					<!-- Query form -->
-					<query-form :query="generatedQuery" :on-search="onQuerySearch">
-					<div slot="QueryFormTitle">
-							<h2>1. Formulera SPARQL-fråga</h2>
-						</div>
-						<div slot="QueryFormDescription">
-							<p>
-								Här söker du fram metadata om vetenskaplig output för export.
-							</p>
-						</div>
-					</query-form>
+					<div class="{{ $data._styles.DarkBackground }} {{ $data._styles.TabContent }}">
+						<query-form :query="generatedQuery" :on-search="onQuerySearch">
+						<div slot="QueryFormTitle">
+								<h2>1. FORMULERA SPARQL-FRÅGA</h2>
+							</div>
+							<div slot="QueryFormDescription">
+								<p>
+									Här söker du fram metadata om vetenskaplig output för export.
+								</p>
+							</div>
+						</query-form>
+					</div>
 					<!-- Query results -->
 					<div v-show="inputQuery" transition="expand">
 						<div class="result">
@@ -56,7 +64,7 @@
 									:input-query="inputQuery"
 									:on-result-received.once="onResultReceived">
 								<div slot="QueryResultTitle">
-									<h2>2. Anpassa för export</h2>
+									<h2>2. ANPASSA FÖR EXPORT</h2>
 								</div>
 							</query-result>
 						</div>
