@@ -7,7 +7,7 @@ Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
     |
     |-- components/           	Vue-components
     |-- css/                  	CSS-files
-    	|--- modules/		CSS-modules
+    	|--- modules/           CSS-modules
     |-- docs/                 	Help-files and e-mail texts as markdown
     |-- entries/              	Entry-points for Webpack-bundles
     |   |-- bibliometrician/  	"Bibliometriker"-view
