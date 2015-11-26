@@ -51,7 +51,7 @@ Components consist typically of three files: .js-, .html- and (maybe) a .css-fil
 
 **components/MyComponent/MyComponent.js** (Component module)
 
-We define a component as a normal object, no need to do require('vue'). These components act as the "Model" and "Controller", if you will, since it handles both data and logic - although many components accept properties from parents, making them reusable. Possible properties are by convention listed as a @prop in the comment description. Templates are loaded using the Webpack html-loader (https://github.com/webpack/html-loader), and these lastly constitute the "View".
+We define a component as a normal object, no need to do require('vue'). Comparing with the MVC paradigm, these components act as the "Model" and "Controller", if you will, since it handles both data and logic - although many components accept properties from parents, making them reusable. Possible properties are by convention listed as a @prop in the comment description. Templates are loaded using the Webpack html-loader (https://github.com/webpack/html-loader), and these lastly constitute the "View".
 ```
 /**
  * My component
