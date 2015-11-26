@@ -3,16 +3,17 @@ Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
 
 ### \# File tree
 ```
-|-- client
+|-- client/
     |
-    |-- components            Vue-components
-    |-- css                   CSS-modules
-    |-- docs                  Help-files and e-mail texts as markdown
-    |-- entries               Entry-points for Webpack-bundles
-    |   |-- bibliometrician   "Bibliometriker"-view
-    |   |-- inspector         "Granskare"-view
-    |-- mixins                Mixins for Vue-components
-    |-- utils                 Utility files for data modules, making ajax requests, formatting data, etc ...
+    |-- components/           	Vue-components
+    |-- css/                  	CSS-files
+    	|--- modules/           CSS-modules
+    |-- docs/                 	Help-files and e-mail texts as markdown
+    |-- entries/              	Entry-points for Webpack-bundles
+    |   |-- bibliometrician/  	"Bibliometriker"-view
+    |   |-- inspector/        	"Granskare"-view
+    |-- mixins/               	Mixins for Vue-components
+    |-- utils/                	Utility files for data modules, making ajax requests, formatting data, etc ...
 ```
 
 ### \# Entries
@@ -50,7 +51,7 @@ Components consist typically of three files: .js-, .html- and (maybe) a .css-fil
 
 **components/MyComponent/MyComponent.js** (Component module)
 
-We define a component as a normal object, no need to do require('vue'). These components act as the "Model" and "Controller", if you will, since it handles both data and logic - although many components accept properties from parents, making them reusable. Possible properties are by convention listed as a @prop in the comment description. Templates are loaded using the Webpack html-loader (https://github.com/webpack/html-loader), and these lastly constitute the "View".
+We define a component as a normal object, no need to do require('vue'). Comparing with the MVC paradigm, these components act as the "Model" and "Controller", if you will, since it handles both data and logic - although many components accept properties from parents, making them reusable. Possible properties are by convention listed as a @prop in the comment description. Templates are loaded using the Webpack html-loader (https://github.com/webpack/html-loader), and these lastly constitute the "View".
 ```
 /**
  * My component
