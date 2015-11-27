@@ -52,33 +52,38 @@
 					<div class="col-md-1">
 					</div>
 					<div class="col-md-3">
-						<h1>Resurser</h1>
+						<h1>INFORMATION</h1>
 						<ul class="list-unstyled">
-							<li><a href="http://kb.se/libris/swepub" target="__new_tab__">Om SwePub</a></li>
+							<li><a href="http://kb.se/libris/swepub" target="{{ Math.random() }}">Om SwePub</a></li>
 							<li><a href="http://kb.se/libris/swepub/deltagande-organisationer" target="__new_tab__">Deltagande organisationer</a></li>
-							<li><a href="http://kb.se/libris/swepub/format-och-praxis" target="__new_tab__">Verktygslådan för beskrivning av vetenskaplig output</a></li>
 						</ul>
 					</div>
 					<div class="col-md-3">
-						<h1>Tjänster</h1>
+						<h1>RESURSER</h1>
 						<ul class="list-unstyled">
-							<li><a href="http://kb.se/libris/swepub/dataleverans" target="__new_tab__">SwePub Admin</a></li>
+							<li><a href="http://kb.se/libris/swepub/dataleverans" target="{{ Math.random() }}">SwePub Admin</a></li>
+							<li><a href="http://kb.se/libris/swepub/format-och-praxis" target="__new_tab__">Verktygslådan för beskrivning av vetenskaplig output</a></li>
 							<li>
-								<a href="https://github.com/libris/swepub-sparql" target="__new_tab__">
-									<img height="25" v-el:github-image-2></img> SwePubs SPARQL-bibliotek
+								<a href="https://github.com/libris/swepub-sparql" target="{{ Math.random() }}">
+									<img class="{{ $data._styles.GithubLogo }}" v-el:github-image-1></img> SwePubs SPARQL-bibliotek
 								</a>
 							</li>
 							<li>
-								<a href="https://github.com/libris/swepubanalys" target="__new_tab__">
-									<img height="25" v-el:github-image-1></img> SwePub på GitHub
+								<a href="https://github.com/libris/swepubanalys" target="{{ Math.random() }}">
+									<img class="{{ $data._styles.GithubLogo }}" v-el:github-image-2></img> SwePub på GitHub
 								</a>
 							</li>
 						</ul>
 					</div>
 					<div class="col-md-2">
-						<h1>Kontakt</h1>
+						<h1>KONTAKT</h1>
 						<ul class="list-unstyled">
 							<li><a href="http://kundo.se/org/swepub/" target="__new_tab__">Kundo</a></li>
+							<li>
+								<a href="https://twitter.com/swepub" target="{{ Math.random() }}">
+									<i class="fa fa-twitter {{ $data._styles.TwitterLogo }}"></i> Följ SwePub på Twitter
+								</a>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -87,7 +92,7 @@
 		<div class="{{ $data._styles.FooterLower }} bg-happy-muted-light-blue">
 			<div class="row">
 				<div class="col-md-1">
-					<img src="/2.0/vendor/kungbib-styles/dist/assets/kb_logo_black.svg" alt="" />
+					<img src="/2.0/vendor/kungbib-styles/dist/assets/kb_logo_black.svg" alt="" style="max-width: 100px;" />
 				</div>
 				<div class="col-md-11">
 					<div class="{{ $data._styles.FooterText }}">
