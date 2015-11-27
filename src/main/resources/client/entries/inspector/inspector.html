@@ -2,14 +2,13 @@
 	<site-wrapper activity="inspector">
 		<div class="{{ $data._styles.Item }} {{ $data._styles.GreyBackground }}">
 			<!-- Visualisations -->
-			<h2>ÖVERSIKT DATAKVALITET
-				<span v-if="labels.length > 0">
-					- 
-				</span>
-				<span v-for="d in (labels || [])" style="display: inline-block">
-					{{ d.value }}<template v-if="d.index !== $parent.labels.length-1">,&nbsp;</template>
-				</span>
-			</h2>
+			<h2 style="display: inline-block;">ÖVERSIKT DATAKVALITET</h2>
+			<span v-if="labels.length > 0">
+				- 
+			</span>
+			<span v-for="d in (labels || [])" style="display: inline-block">
+				{{ d.value }}<template v-if="d.index !== $parent.labels.length-1">,&nbsp;</template>
+			</span>
 			<p>{{ formModel.from }} {{ formModel.from || formModel.to ? '-' : '' }} {{ formModel.to }}</p>
 			<!-- State notifications -->
 			<div style="position: relative; width: 100%;">
@@ -33,7 +32,7 @@
 							<template v-if="lineChart.getContent | visible 4 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>
-										Andel poster med allvarliga fel 
+										ANDEL POSTER MED ALLVARLIGA FEL
 										<span style="font-size: x-small;">
 											(allvarlighetsgrad 3 <i class="fa fa-circle" v-bind:style="{ color: violationGrade3Color }"></i> )
 										</span>
@@ -58,7 +57,7 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<template v-if="barChart.getContent | visible 2 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>Andel felaktiga poster per lärosäte <span v-if="labels.length === 0">(top 5)</span></p>
+									<p>ANDEL FELAKTIGA POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(top 5)</span></p>
 								</div>
 								<div>
 									<chart 
@@ -80,7 +79,7 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<template v-if="violationTypeDistributionChart.getContent | visible 3 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>Distribution av feltyper</p>
+									<p>DISTRIBUTION AV FELTYPER</p>
 								</div>
 								<chart 
 									type="donut" 
@@ -109,7 +108,7 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<template v-if="pieChart.getContent | visible 1 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>Total andel poster med fel</p>
+									<p>TOTAL ANDEL POSTER MED FEL</p>
 								</div>
 								<div>
 									<chart 

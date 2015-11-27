@@ -22,16 +22,21 @@
 	text-align: center;
 }
 
+.ExtraLegendContainer {
+	width: 100%;
+	bordder: 1px solid black;
+}
+
 .ExtraLegend {
 	background: #f9f9f9; 
 	border-radius: 5px; 
-	display: inline-block; 
 	padding-left: 10px;
-	float: right;
+	text-align: center;
+	margin: auto;
 }
 
 .ExtraLegend span {
-	font-size: x-small;
+	font-size: small;
 	margin-right: 15px;
 }
 

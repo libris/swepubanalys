@@ -12,19 +12,14 @@
 			<div v-show="!error">
 				<div class="{{ $data._resultStyles.Item }}">
 					<slot name="QueryResultTitle"></slot>
-					<div class="row">
-						<div class="col-xs-8">
-							<slot name="SearchResultDescription"></slot>
-							<template v-if="selectAllFilterFields !== true">
-								<p><b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills</p>
-							</template>
-						</div>
-						<div class="col-xs-4" style="text-align: right">
-							<mail-export :query="query"></mail-export>
-						</div>
-					</div>
+					<slot name="SearchResultDescription"></slot>
+					<template v-if="selectAllFilterFields !== true">
+						<p><b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills</p>
+					</template>
 				</div>
-				<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields"></filter-fields>
+				<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields">
+					<div slot="Top"><mail-export :query="query"></mail-export></div>
+				</filter-fields>
 				<div>
 					<div style="min-height: 480px;">
 						<list-preview :result="result" :filter-fields="filterFields"></list-preview>
