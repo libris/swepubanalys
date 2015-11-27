@@ -41,7 +41,7 @@ public class SparqlResultExporter {
     String ftpRoot
     String sparqlEndpointURL
     String pathSeparator = System.getProperty("file.separator")
-    String limitClause = "\nLIMIT 2000000";
+    String limitClause = "" //"\nLIMIT 2000000";
     String prefix = "PREFIX swpa_d: <http://swepub.kb.se/SwePubAnalysis/data#>\n" +
             "PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>\n" +
             "PREFIX mods_d: <http://swepub.kb.se/mods/data#>\n";
