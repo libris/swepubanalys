@@ -21,9 +21,6 @@
 							{{ d.value }}
 						</span>
 					</p>
-					<template v-if="selectAllFilterFields !== true">
-						<p><b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills</p>
-					</template>
 				</div>
 				<div class="{{ $data._styles.MailExportContainer }}" v-if="selectAllFilterFields === true">
 					<mail-export :query="query"></mail-export>

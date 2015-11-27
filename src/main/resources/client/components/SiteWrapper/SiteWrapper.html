@@ -7,10 +7,10 @@
 				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ $data._styles.LightBlueBackground }}">
 					<a href="/bibliometriker">BIBLIOMETRI</a>
 				</div>
-				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ $data._styles.DarkBlueBackground }}">
+				<div class="col-xs-5 {{ $data._styles.MenuItem }} {{ $data._styles.DarkBlueBackground }}">
 					<a href="/granskare">DATABEARBETNING</a>
 				</div>
-				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ $data._styles.DarkGreyBackground }}">
+				<div class="col-xs-3 {{ $data._styles.MenuItem }} {{ $data._styles.DarkGreyBackground }}">
 					HJÄLP
 				</div>
 			</div>
@@ -51,11 +51,23 @@
 				<div class="row">
 					<div class="col-md-1">
 					</div>
-					<div class="col-md-3">
+					<div class="col-md-2">
 						<h1>INFORMATION</h1>
 						<ul class="list-unstyled">
 							<li><a href="http://kb.se/libris/swepub" target="{{ Math.random() }}">Om SwePub</a></li>
 							<li><a href="http://kb.se/libris/swepub/deltagande-organisationer" target="__new_tab__">Deltagande organisationer</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h1>KONTAKT</h1>
+						<ul class="list-unstyled">
+							<li><a href="http://kundo.se/org/swepub/" target="{{ Math.random() }}">Kundo</a></li>
+							<li><a href="http://librisbloggen.kb.se/?s=swepub" target="{{ Math.random() }}">SwePub på LIBRIS-bloggen</a></li>
+							<li>
+								<a href="https://twitter.com/swepub" target="{{ Math.random() }}">
+									<i class="fa fa-twitter {{ $data._styles.TwitterLogo }}"></i> Följ SwePub på Twitter
+								</a>
+							</li>
 						</ul>
 					</div>
 					<div class="col-md-3">
@@ -71,18 +83,6 @@
 							<li>
 								<a href="https://github.com/libris/swepubanalys" target="{{ Math.random() }}">
 									<img class="{{ $data._styles.GithubLogo }}" v-el:github-image-2></img> SwePub på GitHub
-								</a>
-							</li>
-						</ul>
-					</div>
-					<div class="col-md-2">
-						<h1>KONTAKT</h1>
-						<ul class="list-unstyled">
-							<li><a href="http://kundo.se/org/swepub/" target="{{ Math.random() }}">Kundo</a></li>
-							<li><a href="http://librisbloggen.kb.se/?s=swepub" target="{{ Math.random() }}">SwePub på LIBRIS-bloggen</a></li>
-							<li>
-								<a href="https://twitter.com/swepub" target="{{ Math.random() }}">
-									<i class="fa fa-twitter {{ $data._styles.TwitterLogo }}"></i> Följ SwePub på Twitter
 								</a>
 							</li>
 						</ul>
