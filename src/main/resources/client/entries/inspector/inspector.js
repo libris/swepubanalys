@@ -219,22 +219,44 @@ Vue.filter('visible', function(d, index, visibleItems) {
 // *** Define colors! *** //
 
 var colorPattern = ['#FFC300','#FFCB20','#FFD240','#FFDA60','#FFE180','#FFE99F','#FFF0BF','#FFF8DF','#EE681B','#F07B38','#F28E54','#F4A171','#F6B38D','#F9C6AA','#FBD9C6','#FDECE3','#9E0634','#AA254D','#B64467','#C26380','#CF839A','#DBA2B3','#E7C1CC','#F3E0E6','#5B2285','#703E94','#8459A4','#9875B3','#AD91C2','#C1ACD1','#D6C8E1','#EAE3F0','#61B5BF','#75BEC7','#89C8CF','#9CD1D7','#B0DADF','#C4E3E7','#D7ECEF','#EBF6F7'];
-var strongColorPattern = ['#FFC300','#FFCB20','#FFD240','#FFDA60','#FFE180','#FFE99F','#FFF0BF','#FFF8DF','#EE681B','#F07B38','#F28E54','#F4A171','#F6B38D','#F9C6AA','#FBD9C6','#FDECE3','#9E0634','#AA254D','#B64467','#C26380','#CF839A','#DBA2B3','#E7C1CC','#F3E0E6','#5B2285','#703E94','#8459A4','#9875B3','#AD91C2','#C1ACD1','#D6C8E1','#EAE3F0','#61B5BF','#75BEC7','#89C8CF','#9CD1D7','#B0DADF','#C4E3E7','#D7ECEF','#EBF6F7'];
+var strongColorPattern = [
+	'#FFC300',
+	'#FFCB20',
+	'#FFD240',
+	'#FFDA60',
+	'#EE681B',
+	'#F07B38',
+	'#F28E54',
+	'#F4A171',
+	'#9E0634',
+	'#AA254D',
+	'#B64467',
+	'#C26380',
+	'#5B2285',
+	'#703E94',
+	'#8459A4',
+	'#9875B3',
+	'#61B5BF',
+	'#75BEC7',
+	'#89C8CF',
+	'#9CD1D7'
+];
 
 var orgs = ['bth','cth','du','esh','fhs','gih','gu','hb','hh','hhs','hig','his','hj','hkr','hv','kau','ki','kmh','konstfack','kth','liu','lnu','ltu','lu','mah','mdh','miun','nai','nationalmuseum','naturvardsverket','nrm','oru','rkh','sh','shh','slu','su','umu','uu','vti'];
 var categories = orgs.concat(['Övriga','Alla lärosäten','Felaktiga poster','Felfria poster']);
 
 var colorCategories = {};
 
-var l = colorPattern.length;
-var offset = Math.floor(colorPattern.length/2);
+var l = strongColorPattern.length;
+var offset = Math.floor(strongColorPattern.length/2);
+offset = 2;
 categories.forEach(function(category, i) {
 	if(category === 'Felfria poster') {
 		colorCategories[category] = '#FFDA60';
 	} else if(category === 'Felaktiga poster') {
 		colorCategories[category] = '#FFC300';
 	} else {
-		colorCategories[category] = colorPattern[(i+offset)%l];
+		colorCategories[category] = strongColorPattern[(i+offset)%l];
 	}
 	
 });
