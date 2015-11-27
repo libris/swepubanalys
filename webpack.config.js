@@ -23,7 +23,7 @@ module.exports = {
 			{ test: /\.html$/, loader: "html" },
 			{ test: /\.css$/, loader: "style-loader!css-loader" },
 			{ test: /\.md$/, loader: "html!markdown" },
-			{ test: /\.(png|jpg)$/, loader: 'url-loader?limit=10000' }
+			{ test: /\.(png|jpg|svg)$/, loader: 'url-loader?limit=10000' }
 		],
 	},
     plugins: [

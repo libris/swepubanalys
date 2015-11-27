@@ -43,24 +43,66 @@
 	<div class="{{ $data._styles.Content }}">
 		<slot></slot>
 	</div>
-	<div class="{{ $data._styles.Footer }}">
-		<div class="row">
-			<div class="col-md-1">
-				<img src="/2.0/vendor/kungbib-styles/dist/assets/kb_logo_grey.svg" alt="" />
-			</div>
-			<div class="col-md-11">
-				<div class="{{ $data._styles.FooterText }}">
-					<p>
-						<strong>
-							<a href="http://www.kb.se" alt="Länk till Kungl. bibliotekets webbplats">
-								KUNGL. BIBLIOTEKET
-							</a>
-						</strong>
-						<br>
-						<span>Support: <a href="mailto:libris@kb.se">libris@kb.se</a></span>
-					</p>
+	<footer class="footer">
+		<div class="{{ $data._styles.FooterUpper }} bg-gray-lighter">
+
+
+			<div>
+				<div class="row">
+					<div class="col-md-1">
+					</div>
+					<div class="col-md-3">
+						<h1>Resurser</h1>
+						<ul class="list-unstyled">
+							<li><a href="http://kb.se/libris/swepub" target="__new_tab__">Om SwePub</a></li>
+							<li><a href="http://kb.se/libris/swepub/deltagande-organisationer" target="__new_tab__">Deltagande organisationer</a></li>
+							<li><a href="http://kb.se/libris/swepub/format-och-praxis" target="__new_tab__">Verktygslådan för beskrivning av vetenskaplig output</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h1>Tjänster</h1>
+						<ul class="list-unstyled">
+							<li><a href="http://kb.se/libris/swepub/dataleverans" target="__new_tab__">SwePub Admin</a></li>
+							<li>
+								<a href="https://github.com/libris/swepub-sparql" target="__new_tab__">
+									<img height="25" v-el:github-image-2></img> SwePubs SPARQL-bibliotek
+								</a>
+							</li>
+							<li>
+								<a href="https://github.com/libris/swepubanalys" target="__new_tab__">
+									<img height="25" v-el:github-image-1></img> SwePub på GitHub
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-2">
+						<h1>Kontakt</h1>
+						<ul class="list-unstyled">
+							<li><a href="http://kundo.se/org/swepub/" target="__new_tab__">Kundo</a></li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+		<div class="{{ $data._styles.FooterLower }} bg-happy-muted-light-blue">
+			<div class="row">
+				<div class="col-md-1">
+					<img src="/2.0/vendor/kungbib-styles/dist/assets/kb_logo_black.svg" alt="" />
+				</div>
+				<div class="col-md-11">
+					<div class="{{ $data._styles.FooterText }}">
+						<p>
+							<strong>
+								<a href="http://www.kb.se" alt="Länk till Kungl. bibliotekets webbplats">
+									KUNGL. BIBLIOTEKET
+								</a>
+							</strong>
+							<br>
+							<span>Support: <a href="mailto:libris@kb.se">libris@kb.se</a></span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
 </div>

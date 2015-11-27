@@ -17,6 +17,11 @@ var SiteWrapperMixin = {
 		return {
 			_styles: styles
 		}
+	},
+	ready: function() {
+		// Set GitHub-image
+		this.$els.githubImage1.src = require('octicons/svg/mark-github.svg');
+		this.$els.githubImage2.src = require('octicons/svg/mark-github.svg');
 	}
 };
 
