@@ -263,7 +263,7 @@ categories.forEach(function(category, i) {
 
 var violationGrade3Color = '#F07B38';
 var violationGrade2Color = '#FFDA60';
-var violationGrade1Color = '#9CD7A2';
+var violationGrade1Color = '#34eab4';
 
 var violationTypeColorCategories = {
 	'Multiple variants of name': violationGrade2Color,

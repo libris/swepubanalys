@@ -2,6 +2,8 @@
 
 // Mixins
 var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
+// CSS modules
+var styles = require('!!style!css?modules!./FilterFieldButton.css');
 
 /**
  * Filter Field Button Component
@@ -10,6 +12,11 @@ var FilterFieldButton = {
 	mixins: [FractionalMixin],
 	props: ['filterField'],
 	template: require('./FilterFieldButton.html'),
+	data: function() {
+		return {
+			_styles: styles
+		}
+	},
 	methods: {
 		/**
 		 * Toggle checked status

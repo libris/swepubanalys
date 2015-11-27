@@ -142,13 +142,13 @@
 					</div>
 				</search-form>
 				<!-- Activity buttons -->
-				<button class="btn btn-info" v-on:click="startActivity('ERROR_LIST')">
+				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('ERROR_LIST')">
 					VISA OFULLSTÄNDIG METADATA
 				</button>
-				<button class="btn btn-info" v-on:click="startActivity('LOCAL_DUPLICATES')">
+				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
 					VISA DUBBLETTKANDIDATER
 				</button>
-				<button class="btn btn-info" v-on:click="startActivity('DUPLICATES')">
+				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('DUPLICATES')">
 					VISA SAMARBETSPUBLIKATIONER
 				</button>
 			</div>

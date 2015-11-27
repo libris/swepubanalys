@@ -14,7 +14,9 @@
 					<slot name="SearchResultTitle"></slot>
 					<slot name="SearchResultDescription"></slot>
 					<p>
-						{{ totalHits !== false ? '~' + totalHits + ' poster': '' }}
+						{{ totalHits !== false ? 'Din sökning gav ' + totalHits + ' poster.' : '' }}
+					</p>
+					</p>
 						<span v-for="d in labels" class="label label-default" style="margin-right: 10px; display: inline-block; vertical-align: middle;">
 							{{ d.value }}
 						</span>

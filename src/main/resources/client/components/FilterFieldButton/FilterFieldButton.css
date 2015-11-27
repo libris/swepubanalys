@@ -1,0 +1,13 @@
+.Active {
+	background-color: #6F767B;
+	color: #FFFFFF;
+}
+
+.Active:focus {
+	color: #FFFFFF !important;
+}
+
+.Inactive {
+	background-color: #C4C7CA;
+	color: #000000;
+}
