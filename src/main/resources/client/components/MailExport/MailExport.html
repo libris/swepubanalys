@@ -10,14 +10,13 @@
 					Servern skapar din fil och en länk kommer att skickas till <b>{{ email }}</b>.
 				</div>
 				<div v-if="!sent">
-					<b>Skicka länk till fil till min e-post</b>
-					<hr>
+					<p>Skicka länk till fil till min e-post</p>
 					<div class="row">
 						<div class="col-xs-3">
-							<input type="radio" name="format" v-model="format" value="text/csv">.csv</input><br>
-							<input type="radio" name="format" v-model="format" value="text/tab-separated-values">.tsv</input><br>
-							<input type="radio" name="format" v-model="format" value="application/sparql-results+xml">.xml</input><br>
-							<input type="radio" name="format" v-model="format" value="application/sparql-results+json">.json</input><br>
+							<input type="radio" name="format" v-model="format" value="text/csv" checked> .csv</input><br>
+							<input type="radio" name="format" v-model="format" value="text/tab-separated-values"> .tsv</input><br>
+							<input type="radio" name="format" v-model="format" value="application/sparql-results+xml"> .xml</input><br>
+							<input type="radio" name="format" v-model="format" value="application/sparql-results+json"> .json</input><br>
 						</div>
 						<div class="col-xs-9">
 							<div class="form-group">

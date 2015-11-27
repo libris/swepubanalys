@@ -34,3 +34,8 @@
 #swepub-application .form-control {
 	border: 0px;
 }
+
+#swepub-application .dropdown-menu {
+	border-radius: 3px;
+	padding: 0px;
+}
