@@ -16,12 +16,12 @@ class IndexingTools {
      * Calls a sparql enpoind and downloads paged turtle results.
      * @param fileNameFrom file containing sparql query
      * @param orgCode organisation code to filter the Sparql query
-     * @return the concatenated results from all the requests        **/
-    public getTurtle(String sparql, def orgCode = null) {
+     * @return the concatenated results from all the requests         **/
+    public getTurtle(String sparql, def sparqlEndpoint, def orgCode = null) {
         //TODO: make more generic with more args. Rename orgCode
         //TODO: rename to something more apropiate
         try {
-            def defaultLimit = 10000
+            def defaultLimit = 100000
             def defaultOffset = 0
             def defaultLimitClause = { int offset, int limit -> "\nOFFSET ${offset}  LIMIT ${limit}" }
 
@@ -30,8 +30,8 @@ class IndexingTools {
             def result = "";
 
             while (true) {
-                currentResponse = makeSparqlRequest(sparqlString + defaultLimitClause(defaultOffset, defaultLimit))
-
+                currentResponse = makeSparqlRequest(sparqlString + defaultLimitClause(defaultOffset, defaultLimit), sparqlEndpoint)
+                println "Made request"
                 // if ((defaultOffset/defaultLimit) >2) //For debugging
                 if (currentResponse.startsWith("# Empty TURTLE"))
                     break;
@@ -79,14 +79,18 @@ class IndexingTools {
         }
 
         try {
-            return JsonLdProcessor.fromRDF(turtle,
+            def result = JsonLdProcessor.fromRDF(turtle,
                     [format: "text/turtle", useNativeTypes: true] as JsonLdOptions)
+            if (!result) {
+                println "Felande turtle:\n ${turtle}"
+            }
+            return result
 
         }
         catch (All) {
             println All.message
             println All.stackTrace
-            println "Turtle:\n" turtle;
+            println "Turtle:\n" + turtle;
             return null;
         }
 
@@ -102,7 +106,11 @@ class IndexingTools {
             return null;
         }
         try {
-            return JsonLdProcessor.frame(expando, context, [embed: true] as JsonLdOptions)
+            def result = JsonLdProcessor.frame(expando, context, [embed: true] as JsonLdOptions)
+            if(!result){
+                println "Felande expando:\n ${expando}"
+            }
+            return result
         }
         catch (All) {
             println expando;
@@ -173,8 +181,8 @@ class IndexingTools {
             i++;
             try {
                 new File("${fileName}_${i}.json").withWriter { out ->
-                    chunk.findAll { record -> record != null }.each { record ->
-                        out.println insertCommand(indexName, typeName, record.hasMods.identifierValue)
+                    chunk.findAll { it?.identifierValue !=null}.each { record ->
+                        out.println insertCommand(indexName, typeName, record.identifierValue)
                         out.println new JsonBuilder(record).toString();
                     }
                 }
@@ -196,15 +204,15 @@ class IndexingTools {
         chunks.each { chunk ->
             i++;
             try {
-                putToElastic(infoList.collect { record ->
-                    insertCommand(indexName, typeName, record.hasMods.identifierValue)
+                putToElastic(chunk.findAll{it?.identifierValue !=null }.collect { record ->
+                    insertCommand(indexName, typeName, record.identifierValue)
                     +"\n"
-                    +new JsonBuilder(record).toString();
-                }.join("\n"),elasticEndPoint)
+                    + new JsonBuilder(record).toString();
+                }.join("\n"), elasticEndPoint)
             }
             catch (All) {
-                println All.message
-                println All.stackTrace
+                println All.message+ "sendToElastic"
+                //println All.stackTrace.
 
             }
         }
@@ -225,11 +233,12 @@ class IndexingTools {
      * @param text turtle formatted data to be split
      * @return List of turtle objects with all name spaces attached
      */
-    public static List splitTurtles(def text) {
+    public static splitTurtles(def text) {
         //TODO: make more generic
         try {
             def prefixes = ["@prefix foaf:\t<http://xmlns.com/foaf/0.1/> .",
                             "@prefix rdf:\t<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .",
+                            "@prefix outt_m:\t<http://swepub.kb.se/SwePubAnalysis/OutputTypes/model#> .",
                             "@prefix rdfs:\t<http://www.w3.org/2000/01/rdf-schema#> ."];
             String record;
             def list = [];
@@ -243,7 +252,7 @@ class IndexingTools {
                     case { it -> it.startsWith("@prefix ") && !prefixes.contains(it) }:
                         prefixes.add(line)
                         break;
-                    case { it -> it.startsWith("ns1:") && (it.endsWith("rdf:type\tns2:Mods .") || it.endsWith("rdf:type\tns2:Mods ;")) }:
+                    case { it -> it.startsWith("ns1:") && (it.endsWith("rdf:type\tns2:Record .") || it.endsWith("rdf:type\tns2:Record ;")) }:
                         if (record != null)
                             list.add(record)
                         record = line + "\n";
@@ -276,7 +285,7 @@ class IndexingTools {
     }
 
     def getCLISettings(args) {
-        def cli = new CliBuilder(usage: 'showdate.groovy -[chflms] [SparqlEndpoint] [FileStore]')
+        def cli = new CliBuilder(usage: 'showdate.groovy -[chflms] [SparqlEndpoint] [FileStore] [elasticEndpoint]')
         // Create the list of options.
         cli.with {
             h longOpt: 'help', 'Show usage information'
@@ -295,7 +304,7 @@ class IndexingTools {
         }
 
         // Determine formatter.
-        def settings = [index: false, fileStore: '', clearIndex: false, sparqlEndpoint: '']
+        def settings = [index: false, fileStore: '', clearIndex: false, sparqlEndpoint: '', elasticEndpoint: '']
         if (options.i) {  // Using short option.
             settings.index = true
         }
@@ -307,6 +316,7 @@ class IndexingTools {
         if (extraArguments) {
             settings.fileStore = extraArguments[1]
             settings.sparqlEndpoint = extraArguments[0]
+            settings.elasticEndpoint = extraArguments[2]
         }
 
         return settings
