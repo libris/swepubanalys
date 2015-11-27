@@ -1,20 +1,22 @@
-<div class="{{ $data._resultStyles.Loading }}">
-	<div v-if="pendingUpdate === true" transition="expand" class="{{ $data._resultStyles.PendingUpdate }}">
-		<h2>Laddar...</h2>
+<div class="{{ $data._resultStyles.Result }}">
+	<div class="{{ $data._resultStyles.Loading }}">
+		<div v-if="pendingUpdate === true" transition="expand" class="{{ $data._resultStyles.PendingUpdate }}">
+			<h2>Laddar...</h2>
+		</div>
+	    <div v-if="!hasNonEmptyResult()" class="{{ $data._resultStyles.PendingUpdate }}">
+	        <h2>Tomt sökresultat</h2>
+		</div>
 	</div>
-    <div v-if="!hasNonEmptyResult()" class="{{ $data._resultStyles.PendingUpdate }}">
-        <h2>Tomt sökresultat</h2>
-    </div>
-</div>
-<div class="{{ $data._resultStyles.Container }}" v-if="hasNonEmptyResult()">
-	<div v-show="pendingUpdate !== true">
-		<slot name="SearchResultTitle"></slot>
-		<div v-show="!error">
-			<div class="row">
-				<div class="col-xs-8">
+	<div class="{{ $data._resultStyles.Container }}" v-if="hasNonEmptyResult()">
+		<div v-show="pendingUpdate !== true">
+			<div v-show="!error">
+				<div class="{{ $data._resultStyles.Item }}">
+					<slot name="SearchResultTitle"></slot>
 					<slot name="SearchResultDescription"></slot>
 					<p>
-						{{ totalHits !== false ? '~' + totalHits + ' poster': '' }}
+						{{ totalHits !== false ? 'Din sökning gav ' + totalHits + ' poster.' : '' }}
+					</p>
+					</p>
 						<span v-for="d in labels" class="label label-default" style="margin-right: 10px; display: inline-block; vertical-align: middle;">
 							{{ d.value }}
 						</span>
@@ -23,32 +25,29 @@
 						<p><b>{{ countSelectedFilterFields() }} fält</b> valda för export hittills</p>
 					</template>
 				</div>
-				<div class="col-xs-4" style="text-align: right">
+				<div class="{{ $data._styles.MailExportContainer }}" v-if="selectAllFilterFields === true">
 					<mail-export :query="query"></mail-export>
 				</div>
-			</div>
-			<hr>
-			<div class="{{ $data._resultStyles.Item }}" v-if="selectAllFilterFields !== true">
-				<h4>Välj fält för export</h4>
-				<slot name="FilterFieldsDescription"></slot>
-				<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields"></filter-fields>
-			</div>
-			<div class="{{ $data._resultStyles.Item }}">
-				<h4>Förhandsvisning av export</h4>
-				<br>
-				<div style="min-height: 480px;">
-					<div v-show="pendingRefresh !== true">
-						<list-preview :result="result" :filter-fields="filterFields"></list-preview>
-					</div>
-					<div v-show="pendingRefresh == true" class="{{ $data._styles.PendingRefresh }}">
-						<h2>Hämtar förhandsvisning...</h2>
+				<div v-if="selectAllFilterFields !== true">
+					<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields">
+						<div slot="Top"><mail-export :query="query"></mail-export></div>
+					</filter-fields>
+				</div>
+				<div>
+					<div style="min-height: 480px;">
+						<div v-show="pendingRefresh !== true">
+							<list-preview :result="result" :filter-fields="filterFields"></list-preview>
+						</div>
+						<div v-show="pendingRefresh == true" class="{{ $data._styles.PendingRefresh }}">
+							<h2>Hämtar förhandsvisning...</h2>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-		<div v-show="error">
-			<div class="{{ $data._resultStyles.Error }}">
-				<h1>Problem med sökfråga<h1>
+			<div v-show="error">
+				<div class="{{ $data._resultStyles.Error }}">
+					<h1>Problem med sökfråga<h1>
+				</div>
 			</div>
 		</div>
 	</div>

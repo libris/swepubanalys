@@ -50,7 +50,15 @@ var AutocompleteInput = {
 			var el = this.$el;
 			$(el).select2().on('change', function(e) {
 	 			this.$set('val', $(el).select2('data').map(function(d) { return { value: d.id, text: d.text } }));
-			}.bind(this));	
+			}.bind(this));
+		},
+		/**
+		 * Explicitly select an option
+		 * @param {String} key
+		 */
+		selectOption: function(key) {
+			var el = this.$el;
+			$(el).val(key).trigger('change');
 		}
 	}
 };

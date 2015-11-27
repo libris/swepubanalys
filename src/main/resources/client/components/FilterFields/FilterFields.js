@@ -4,6 +4,7 @@
 var Vue = require('vue');
 var _each = require('lodash/collection/each');
 var _cloneDeep = require('lodash/lang/cloneDeep');
+var _assign = require('lodash/object/assign');
 // Components
 var FilterFieldButton = require('components/FilterFieldButton/FilterFieldButton.js');
 // Mixins
@@ -12,7 +13,10 @@ var HelpMixin = require('mixins/HelpMixin/HelpMixin.js')
 // Utils
 var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 // CSS modules
-var styles = require('!!style!css?modules!./FilterFields.css');
+var styles = _assign(
+	require('!!style!css?modules!./FilterFields.css'),
+	require('!!style!css?modules!css/modules/Colors.css')
+);
 
 /**
  * Filter Fields component

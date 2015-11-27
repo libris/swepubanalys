@@ -1,11 +1,8 @@
-.Visualisations {
-	min-height: 475px;
-	margin-top: 5px;
+.Item {
+	min-height: 530px;
 	margin-bottom: 45px;
-	border-top: 1px solid #efefef;
-	border-bottom: 1px solid #efefef;
-	padding-top: 35px;
-	padding-bottom: 20px;
+	padding: 35px;
+	padding-top: 15px;
 }
 
 .YearIndicator {
@@ -15,19 +12,46 @@
 }
 
 .ChartContainer {
-	text-align: center;
-	padding-right: 40px;
+	padding-right: 60px;
 	margin: 0px;
+	height: 460px;
+}
+
+.GraphTitle {
+	min-height: 30px;
+	text-align: center;
+}
+
+.ExtraLegendContainer {
+	width: 100%;
+	bordder: 1px solid black;
+}
+
+.ExtraLegend {
+	background: #f9f9f9; 
+	border-radius: 5px; 
+	padding-left: 10px;
+	text-align: center;
+	margin: auto;
+}
+
+.ExtraLegend span {
+	font-size: small;
+	margin-right: 15px;
 }
 
 .Info {
 	width: 100%;
-	padding-top: 170px;
+	padding-top: 245px;
 	text-align: center; 
 }
 
 .SearchForm {
 	margin-bottom: 25px;
+}
+
+.ActivityButton {
+	margin-right: 15px;
 }
 
 .BtnHuge {
@@ -39,8 +63,4 @@
     -webkit-border-radius: 8px;
        -moz-border-radius: 8px;
             border-radius: 8px;
-}
-
-.GraphTitle {
-	min-height: 50px;
 }

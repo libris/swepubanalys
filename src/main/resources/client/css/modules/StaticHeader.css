@@ -8,8 +8,6 @@ table.StaticHeader {
 table.StaticHeader thead {
     flex: 0 0 auto;
     width: calc(100% - 21px);
-    background-color: #f3f3f3; 
-    border-radius: 3px;
 }
 
 table.StaticHeader tbody {

@@ -164,12 +164,12 @@ var FormatAggregationUtil = {
 		return chart;
 	},
 	/**
-	 * Turn aggregations into distribution over violation types for one specific org
+	 * Turn aggregations into distribution over violation types 
 	 * @param {Object} aggregations
 	 * @param {String} orgKey
 	 * @return {Object}
 	 */
-	toViolationTypeDistributionForOneOrg: function(aggregations, orgKey) {
+	toViolationTypeDistributions: function(aggregations, orgKey) {
 		var columns = [];
 		if(aggregations.violations_per_org_per_year && aggregations.violations_per_org_per_year.buckets) {
 			var violationTypes = aggregations.violations_per_org_per_year.buckets;
@@ -180,7 +180,7 @@ var FormatAggregationUtil = {
 				if(violationType.org && violationType.org.buckets) {
 					var orgs = violationType.org.buckets;
 					orgs.forEach(function(org) {
-						if(org.key === orgKey) {
+						if(orgKey.length === 0 || orgKey.indexOf(org.key) !== -1) {
 							columns[columns.length-1].push(org.doc_count);
 						}
 					});					

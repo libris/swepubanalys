@@ -1,10 +1,17 @@
-.Loading {
-	height: 25px;
-	padding-top: 5px;
+.Result {
+	position: relative;
 }
 
 .Container {
 	min-height: 1000px;
+}
+
+.Loading {
+	height: 25px;
+	padding-top: 5px;
+	position: absolute;
+	width: 100%;
+	top: 0;
 }
 
 .PendingUpdate {
@@ -12,7 +19,8 @@
 }
 
 .Item {
-	margin-bottom: 50px;
+	padding-top: 15px;
+	padding-bottom: 15px;
 }
 
 .Error {
