@@ -223,6 +223,16 @@ LIMIT 10000000
         assert config.virtuoso.location == 'http://virhp07.libris.kb.se/sparql'
     }
 
+    @Test
+    public void getMatchingDuplicateRules() {
+        def sparqlSpan = new File('./src/main/resources/sparqlQueries/swepubPublicationYearLimits.sparql')
+        def query = sparqlSpan.text;
+        Virtuoso endPoint = new Virtuoso();
+        def response = endPoint.post(query, "application/json")
+        assert response instanceof JSONObject;
+
+    }
+
 
     @Test
     public void postGetCSV() {

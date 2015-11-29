@@ -11,7 +11,8 @@ class Security {
 
     static Map index(final Request request, final Response response) {
         def cook = request.cookies()
-        return [pageTitle:"säkert", headers:request.headers().collect{it->[it,request.headers(it)]},cookies:request.cookies().collect{it->[it,request.cookie(it)]}]
+        //return [pageTitle:"säkert", headers:request.headers().collect{it->[it,request.headers(it)]},cookies:request.cookies().collect{it->[it,request.cookie(it)]}]
+        return [pageTitle:"säkert", headers:request.headers().collect{it->[it,request.headers(it)]}]
     }
 
 
