@@ -1,0 +1,1 @@
+var ComponentTest = require('utils/TestUtils/ComponentTest.js');

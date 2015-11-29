@@ -17,13 +17,13 @@ describe('utils/SparqlUtil/SparqlUtil.js', function() {
 		expect(typeof SparqlUtil.getFile).toEqual('function');
 	});
 
-	it('should generate a correct query using the simple-template', function() {
+	/*it('should generate a correct query using the simple-template', function() {
 		SparqlUtil.generateQuery({
 			formModel: simpleFormModel,
 		}, function(query) {
 			expect(query).toEqual(expectedSimpleQuery);
 		});
-	});
+	});*/
 
 });
 
