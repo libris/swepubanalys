@@ -42,7 +42,7 @@ var OrgInput = {
 		this.initHelp({
 			title: 'ORGANISATION',
 			content: require('docs/organisation.md'), 
-			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
+			anchorToElement: this.$els.formFieldInput
 		});
 	}
 };

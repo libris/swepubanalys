@@ -18,7 +18,7 @@ var ComponentTest = function(conf) {
 		components: { 'test-component': conf.component },
 		// Perform tests on ready-hook
 		ready: function() {
-			conf.testFunction.call(this, Vue, this.$refs.testComponent);
+			conf.testFunction.call(this, Vue, this.$refs.testComponent, this);
 		}
 	});
 };
