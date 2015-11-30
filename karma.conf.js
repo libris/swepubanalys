@@ -8,6 +8,7 @@ module.exports = function(config) {
 	plugins: [
 		require('karma-jasmine'),
 		require('karma-phantomjs-launcher'),
+		require('karma-chrome-launcher'),
 		require('karma-webpack')
 	],
 	files: [
@@ -24,7 +25,7 @@ module.exports = function(config) {
 	colors: true,
 	logLevel: config.LOG_INFO,
 	autoWatch: true,
-	browsers: ['PhantomJS'],
+	browsers: ['Chrome'],
     singleRun: false
   })
 }

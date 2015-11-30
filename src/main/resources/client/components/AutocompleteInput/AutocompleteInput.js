@@ -5,7 +5,6 @@ var $ = require('jquery');
 require('select2');
 // CSS
 require('select2/dist/css/select2.css');
-require('./AutocompleteInput.css');
 
 /**
  * Autocomplete Input-component

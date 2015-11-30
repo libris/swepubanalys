@@ -22,6 +22,7 @@ module.exports = {
 		loaders: [
 			{ test: /\.html$/, loader: "html" },
 			{ test: /\.css$/, loader: "style-loader!css-loader" },
+			{ test: /\.less$/, loader: "style!css!less" },
 			{ test: /\.md$/, loader: "html!markdown" },
 			{ test: /\.(png|jpg|svg)$/, loader: 'url-loader?limit=10000' }
 		],

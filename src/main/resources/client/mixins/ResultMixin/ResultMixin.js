@@ -10,7 +10,7 @@ var MailExport = require('components/MailExport/MailExport.js');
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
 var DataUtil = require('utils/DataUtil/DataUtil.js');
 // CSS modules
-var styles = _assign(require('!!style!css?modules!./ResultMixin.css'), require('!!style!css?modules!css/modules/Colors.css'));
+var styles = _assign(require('!!style!css?modules!./ResultMixin.css'), require('!!style!css?modules!css/modules/Colors.less'));
 
 /**
  * Result Mixin

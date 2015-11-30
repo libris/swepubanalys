@@ -21,7 +21,7 @@ var DataUtil = require('utils/DataUtil/DataUtil.js');
 var FormatAggregationUtil = require('utils/FormatAggregationUtil/FormatAggregationUtil.js');
 require('utils/ConsoleUtil/ConsoleUtil.js');
 // CSS-modules
-var styles = _assign(require('!!style!css?modules!./inspector.css'), require('!!style!css?modules!css/modules/Colors.css'));
+var styles = _assign(require('!!style!css?modules!./inspector.css'), require('!!style!css?modules!css/modules/Colors.less'));
 
 /**
  * Inspector-view
@@ -249,14 +249,14 @@ var colorCategories = {};
 
 var l = strongColorPattern.length;
 var offset = Math.floor(strongColorPattern.length/2);
-offset = 2;
+offset = 7;
 categories.forEach(function(category, i) {
 	if(category === 'Felfria poster') {
 		colorCategories[category] = '#FFDA60';
 	} else if(category === 'Felaktiga poster') {
 		colorCategories[category] = '#FFC300';
 	} else if(category === 'Alla lärosäten') {
-		colorCategories[category] = '#34eab4';
+		colorCategories[category] = '#52bd34';
 	} else {
 		colorCategories[category] = strongColorPattern[(i+offset)%l];
 	}
@@ -265,7 +265,7 @@ categories.forEach(function(category, i) {
 
 var violationGrade3Color = '#F07B38';
 var violationGrade2Color = '#FFDA60';
-var violationGrade1Color = '#34eab4';
+var violationGrade1Color = '#52bd34';
 
 var violationTypeColorCategories = {
 	'Multiple variants of name': violationGrade2Color,

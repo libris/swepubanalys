@@ -3,9 +3,12 @@
 // Vendor
 var _assign = require('lodash/object/assign');
 // CSS modules
-var styles = _assign(require('!!style!css?modules!./SiteWrapper.css'), require('!!style!css?modules!css/modules/Colors.css'));
+var styles = _assign(
+	require('!!style!css?modules!./SiteWrapper.css'), 
+	require('!!style!css?modules!less!css/modules/Colors.less')
+);
 // CSS
-require('css/theme.css');
+require('css/theme.less');
 
 /**
  * Site Wrapper Component
@@ -20,8 +23,7 @@ var SiteWrapperMixin = {
 	},
 	ready: function() {
 		// Set GitHub-image
-		this.$els.githubImage1.src = require('octicons/svg/mark-github.svg');
-		this.$els.githubImage2.src = require('octicons/svg/mark-github.svg');
+		this.$els.githubImage1.src = this.$els.githubImage2.src = require('octicons/svg/mark-github.svg');
 	}
 };
 

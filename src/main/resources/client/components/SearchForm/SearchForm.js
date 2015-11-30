@@ -47,35 +47,35 @@ var SearchForm = {
 		'show-field-button': ShowFieldButton,
 		'org': {
 			components: { 'org-input': OrgInput },
-			template: require('./org.html')
+			template: require('./inputs/org.html')
 		},
 		'time': {
 			components: { 'time-input': TimeInput },
-			template: require('./time.html')
+			template: require('./inputs/time.html')
 		},
 		'subject': {
 			components: { 'subject-input': SubjectInput },
-			template: require('./subject.html')
+			template: require('./inputs/subject.html')
 		},
 		'publType': {
 			components: { 'publ-type-input': PublTypeInput },
-			template: require('./publType.html')
+			template: require('./inputs/publType.html')
 		},
 		'authorLabel': {
 			components: { 'author-label-input': AuthorLabelInput },
-			template: require('./authorLabel.html')
+			template: require('./inputs/authorLabel.html')
 		},
 		'orcid': {
 			components: { 'orcid-input': OrcidInput },
-			template: require('./orcid.html')
+			template: require('./inputs/orcid.html')
 		},
 		'openaccess': {
 			components: { 'oa-input': OAInput },
-			template: require('./openaccess.html')
+			template: require('./inputs/openaccess.html')
 		},
 		'publStatus': {
 			components: { 'publ-status-input': PublStatusInput },
-			template: require('./publStatus.html'),
+			template: require('./inputs/publStatus.html'),
 		}
 	},
 	ready: function() {

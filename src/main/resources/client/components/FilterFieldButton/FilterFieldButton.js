@@ -3,7 +3,7 @@
 // Mixins
 var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
 // CSS modules
-var styles = require('!!style!css?modules!./FilterFieldButton.css');
+var styles = require('!!style!css?modules!less!./FilterFieldButton.less');
 
 /**
  * Filter Field Button Component

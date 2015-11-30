@@ -1,4 +1,4 @@
-<div id="swepub-application" class="{{ $data._styles.SiteWrapper }}">
+<div id="swepub-application" class="{{ $data._styles.SiteWrapper }} swepub-application-{{ activity }}">
 	<div class="row {{ $data._styles.MenuBar }}">
 		<div class="col-md-7">
 		</div>
@@ -10,16 +10,13 @@
 				<div class="col-xs-5 {{ $data._styles.MenuItem }} {{ $data._styles.DarkBlueBackground }}">
 					<a href="/granskare">DATABEARBETNING</a>
 				</div>
-				<div class="col-xs-3 {{ $data._styles.MenuItem }} {{ $data._styles.DarkGreyBackground }}">
+				<div class="col-xs-3 {{ $data._styles.MenuItem }} {{ $data._styles.DarkGreyBackground }}" style="color: black;">
 					HJÄLP
 				</div>
 			</div>
 		</div>
 	</div>
-	<div class="
-			{{ $data._styles.Header }} 
-			{{ activity === 'bibliometrician' ? $data._styles.LightBlueBackground : '' }}
-			{{ activity === 'inspector' ? $data._styles.DarkBlueBackground : '' }}">
+	<div class="{{ $data._styles.Header }} background-main">
 		<table>
 			<tr>
 				<td>
@@ -44,14 +41,10 @@
 		<slot></slot>
 	</div>
 	<footer class="footer">
-		<div class="{{ $data._styles.FooterUpper }} bg-gray-lighter">
-
-
+		<div class="{{ $data._styles.FooterUpper }} background-grey">
 			<div>
 				<div class="row">
-					<div class="col-md-1">
-					</div>
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<h1>INFORMATION</h1>
 						<ul class="list-unstyled">
 							<li><a href="http://kb.se/libris/swepub" target="{{ Math.random() }}">Om SwePub</a></li>
@@ -90,7 +83,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="{{ $data._styles.FooterLower }} bg-happy-muted-light-blue">
+		<div class="{{ $data._styles.FooterLower }} background-darker-grey">
 			<div class="row">
 				<div class="col-md-1">
 					<img src="/2.0/vendor/kungbib-styles/dist/assets/kb_logo_black.svg" alt="" style="max-width: 100px;" />

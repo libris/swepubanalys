@@ -54,11 +54,13 @@ var MailExport = {
 			this.$set('sent', true);
 		},
 		/**
-		 * Stop event propagation if user clicks the export container
+		 * Stop event propagation if user clicks the export container, unless !e 
 		 * @param {Object} e
 		 */
 		onClickContainer: function(e) {
-			e.stopPropagation();
+			if(e) {
+				e.stopPropagation();
+			}
 		}
 	}
 };

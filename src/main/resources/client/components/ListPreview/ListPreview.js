@@ -8,8 +8,7 @@ var _assign = require('lodash/object/assign');
 var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
 // CSS modules
 var styles = _assign(
-	require('!!style!css?modules!./ListPreview.css'), 
-	require('!!style!css?modules!css/modules/Colors.css'),
+	require('!!style!css?modules!./ListPreview.css'),
 	require('!!style!css?modules!css/modules/StaticHeader.css')
 );
 
