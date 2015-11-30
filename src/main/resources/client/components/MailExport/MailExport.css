@@ -17,3 +17,11 @@
 .MailExportContent {
 	padding: 15px;
 }
+
+.Close {
+	float: right; 
+	color: #FFFFFF; 
+	padding: 10px; 
+	padding-right: 15px; 
+	cursor: pointer;
+}
