@@ -13,7 +13,10 @@ var QueryResult = require('components/QueryResult/QueryResult.js');
 // Utils
 require('utils/ConsoleUtil/ConsoleUtil.js');
 // CSS-modules
-var styles = _assign(require('!!style!css?modules!./bibliometrician.css'), require('!!style!css?modules!css/modules/Colors.css'));
+var styles = _assign(
+	require('!!style!css?modules!./bibliometrician.css'), 
+	require('!!style!css?modules!less!css/modules/Colors.less')
+);
 // CSS
 require('css/transitions.css');
 

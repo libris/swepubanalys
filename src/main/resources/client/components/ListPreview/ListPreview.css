@@ -1,6 +1,5 @@
 .ListPreview {
-    max-height: 520px; 
-    background: #f3f3f3;
+    max-height: 520px;
     overflow-y: auto;
 }
 

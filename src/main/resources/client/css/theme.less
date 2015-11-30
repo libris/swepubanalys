@@ -1,0 +1,169 @@
+@dark-text: #595D61;
+
+@bibliometrician-main: #61B5BF;
+@bibliometrician-light: #DFF0F2;
+@bibliometrician-medium: #C0E1E5;
+
+@inspector-main: #6C84A5;
+@inspector-light: #F0F2F6;
+@inspector-medium: #D2DAE4;
+
+@light-grey: #F9F9F9;
+@grey: #C4C7CA;
+@dark-grey: #6F767B;
+@darker-grey: #595D61;
+
+/*** Backgrounds ***/
+
+#swepub-application .background-grey { 
+	background-color: @grey;
+}
+
+#swepub-application .background-darker-grey {
+	background-color: @darker-grey;
+}
+
+#swepub-application.swepub-application-bibliometrician .background-main {
+	background-color: @bibliometrician-main;
+	color: #FFFFFF !important;
+}
+
+#swepub-application.swepub-application-inspector .background-main {
+	background-color: @inspector-main;
+	color: #FFFFFF !important;
+}
+
+#swepub-application.swepub-application-bibliometrician .background-light {
+	background-color: @bibliometrician-light;
+	color: @dark-text !important;
+}
+
+#swepub-application.swepub-application-inspector .background-light {
+	background-color: @inspector-light;
+	color: @dark-text !important;
+}
+
+#swepub-application.swepub-application-bibliometrician .background-medium {
+	background-color: @bibliometrician-medium;
+	color: @dark-text !important;
+}
+
+#swepub-application.swepub-application-inspector .background-medium {
+	background-color: @inspector-medium;
+	color: @dark-text !important;
+}
+
+/*** .dropdown ***/
+
+#swepub-application .dropdown-menu {
+	padding: 0px;
+	border: 0px;
+}
+
+/*** .popover ***/
+
+#swepub-application .popover {
+	padding: 0px;
+	border: 0px;
+	border-radius: 3px;
+}
+
+#swepub-application.swepub-application-bibliometrician .popover-title {
+    background-color: @bibliometrician-main;
+    color: #FFFFFF;
+    border-radius: 0px;
+}
+
+#swepub-application.swepub-application-inspector .popover-title {
+    background-color: @inspector-main;
+    color: #FFFFFF;
+    border-radius: 0px;
+}
+
+/*** .btn ***/
+
+#swepub-application .btn {
+	border-radius: 3px;
+	margin: 2px;
+	border: 0px;
+}
+
+#swepub-application.swepub-application-bibliometrician .btn-info {
+	background-color: @bibliometrician-main;
+	box-shadow: 0 2px 0 0 @darker-grey;
+}
+
+#swepub-application.swepub-application-inspector .btn-info {
+	background-color: @inspector-main;
+	box-shadow: 0 2px 0 0 @darker-grey;
+}
+
+/*** .thead ***/
+
+#swepub-application.swepub-application-bibliometrician .thead {
+	background-color: @bibliometrician-medium;
+	color: @dark-text;
+}
+
+#swepub-application.swepub-application-inspector .thead {
+	background-color: @inspector-medium;
+	color: @inspector-main;
+}
+
+/*** .nav-tabs ***/
+
+#swepub-application .nav-tabs {
+	border: 0px;
+}
+
+#swepub-application .nav-tabs > li:hover {
+}
+
+#swepub-application .nav-tabs li.active {
+}
+
+#swepub-application .nav-tabs > li > a {
+	background-color: inherit;
+	color: inherit;
+	font-weight: bold;
+	padding: 35px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	border: 0px;
+	border-radius: 0px;
+}
+
+/*** .well ***/
+
+#swepub-application .well {
+	border-radius: 1px;
+	background-color: #ffffff;
+}
+
+/*** .form-control ***/
+
+#swepub-application .form-control {
+	border: 0px;
+}
+
+/*** .dropdown-menu ***/
+
+#swepub-application .dropdown-menu {
+	border-radius: 3px;
+	padding: 0px;
+}
+
+/*** .footer ***/
+
+#swepub-application .footer {
+	margin-top: 200px;
+}
+
+/* Hack to make select2-dropdowns look like styleguide. Fix in future */
+#swepub-application .select2-container--default .select2-selection--multiple {
+	border: 0px;
+}
+#swepub-application .select2-container--default.select2-container--focus .select2-selection--multiple {
+	box-shadow: 0 0 0 2px #5dc4ed;
+	border-color: #66afe9
+}

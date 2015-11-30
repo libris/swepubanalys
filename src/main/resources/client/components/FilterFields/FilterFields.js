@@ -13,10 +13,7 @@ var HelpMixin = require('mixins/HelpMixin/HelpMixin.js')
 // Utils
 var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 // CSS modules
-var styles = _assign(
-	require('!!style!css?modules!./FilterFields.css'),
-	require('!!style!css?modules!css/modules/Colors.css')
-);
+var styles = require('!!style!css?modules!./FilterFields.css');
 
 /**
  * Filter Fields component

@@ -1,8 +1,0 @@
-/* Hack to make select2-dropdowns look like styleguide. Fix in future */
-.select2-container--default .select2-selection--multiple {
-	border: 0px;
-}
-.select2-container--default.select2-container--focus .select2-selection--multiple {
-	box-shadow: 0 0 0 1px #5dc4ed;
-	border-color: #66afe9
-}
