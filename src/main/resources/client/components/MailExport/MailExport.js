@@ -27,7 +27,7 @@ var MailExport = {
 		 * Reset sent-status on new query
 		 */
 		'query': function() {
-			this.$set('sent', false)
+			this.$set('sent', false);
 		}
 	},
 	ready: function() {

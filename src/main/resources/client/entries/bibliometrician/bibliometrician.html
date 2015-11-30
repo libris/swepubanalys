@@ -28,7 +28,7 @@
 						</search-form>
 					</div>
 					<!-- Search results -->
-					<div v-show="formData.formModel.templateName" transition="expand">
+					<div v-if="formData.formModel.templateName" transition="expand">
 						<div class="result">
 							<search-result 
 									:form-model="formData.formModel" 
