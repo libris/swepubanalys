@@ -1,9 +1,13 @@
 'use strict';
 
+// Mixins
+var HelpMixin = require('mixins/HelpMixin/HelpMixin.js');
+
 /**
  * Query Form-component
  */
 var QueryForm = {
+	mixins: [HelpMixin],
 	props: ['query', 'onSearch'],
 	template: require('./QueryForm.html'),
 	methods: {
@@ -13,6 +17,13 @@ var QueryForm = {
 		performSearch: function() {
 			this.onSearch(this.query);
 		}
+	},
+	ready: function() {
+		this.initHelp({
+			title: 'AVANCERAD UTSÖKNING',
+			content: require('docs/advanced_query.md'), 
+			anchorToElement: this.$els.queryInput,
+		});
 	}
 };
 
