@@ -33,6 +33,16 @@ var AutocompleteInput = {
 			this.create();
 		},
 	},
+	events: {
+		/**
+		 * Explicitly select an option
+		 * @param {String} key
+		 */
+		'select-option': function(key) {
+			var el = this.$el;
+			$(el).val(key).trigger('change');
+		}
+	},
 	methods: {
 		/**
 		 * Clears the value
@@ -50,14 +60,6 @@ var AutocompleteInput = {
 			$(el).select2().on('change', function(e) {
 	 			this.$set('val', $(el).select2('data').map(function(d) { return { value: d.id, text: d.text } }));
 			}.bind(this));
-		},
-		/**
-		 * Explicitly select an option
-		 * @param {String} key
-		 */
-		selectOption: function(key) {
-			var el = this.$el;
-			$(el).val(key).trigger('change');
 		}
 	}
 };

@@ -30,21 +30,20 @@ var OrgInput = {
 			this.$set('field.labels', this.orgs);
 		}
 	},
+	events: {
+		/**
+		 * Call on autocomplete-input to select an option. Will sync with props.orgs
+		 */
+		'set-org-value': function(value) {
+			this.$broadcast('select-option', value);
+		}
+	},
 	ready: function() {
 		this.initHelp({
 			title: 'ORGANISATION',
 			content: require('docs/organisation.md'), 
 			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
 		});
-	},
-	methods: {
-		/**
-		 * Directly select an option in the autocomplete-input
-		 * @prop {String} value
-		 */
-		setValue: function(value) {
-			this.$refs.orgAutocompleteInput.selectOption(value);
-		}
 	}
 };
 

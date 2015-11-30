@@ -123,7 +123,7 @@ var Inspector = {
 		onResultReceived: function() {
 			if(this.pendingScroll === true) {
 				$('html, body').animate({
-					scrollTop: $(this.$el.getElementsByClassName('searchResult')[0]).offset().top,
+					scrollTop: $(this.$els.searchResult).offset().top,
 				}, 900);
 				this.$set('pendingScroll', false);
 			}
@@ -135,12 +135,14 @@ var Inspector = {
 			this.$set('visibleItems', status.visibleItems);
 		},
 		/**
-		 * Callback sent to graphs containing org-buckets
+		 * Callback sent to Chart for selecting a specific org within the Form
 		 * @prop {Object} e
 		 */
 		onClickOrg: function(e) {
-			if(e && e.id && this.$refs.searchForm && this.$refs.searchForm.setOrgValue) {
-				this.$refs.searchForm.setOrgValue(e.id);	
+			if(e.id && this.formModel.org !== e.id) {
+				this.$broadcast('set-org-value', e.id);
+			} else {
+				this.$broadcast('set-org-value', '');
 			}
 		},
 		/**
