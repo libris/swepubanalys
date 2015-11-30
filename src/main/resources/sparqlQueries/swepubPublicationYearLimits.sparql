@@ -1,0 +1,7 @@
+PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+SELECT
+MIN(?_publicationYear) , MAX(?_publicationYear)
+WHERE
+{
+?IdentifiableRecord swpa_m:publicationYear ?_publicationYear .
+}

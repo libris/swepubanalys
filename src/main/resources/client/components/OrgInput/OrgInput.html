@@ -1,5 +1,11 @@
-<!-- Organisation -->
-<div class="form-group">
-	<label for="org">Organisation</label>
-	<autocomplete-input val="{{@ orgs }}" options="{{ orgSuggestions }}"></autocomplete-input>
+<div>
+	<form-field-wrapper>
+		<div slot="FormFieldInput">
+			<autocomplete-input :val.sync="orgs" :options="field.suggestions" v-ref:org-autocomplete-input></autocomplete-input>
+		</div>
+		<div slot="HelpButton">
+			<help-initiator-button></help-initiator-button>
+		</div>
+		<div></div>
+	</form-field-wrapper>
 </div>

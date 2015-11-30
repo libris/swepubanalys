@@ -1,0 +1,53 @@
+<div class="{{ $data._styles.Container }}">
+	<table class="{{ $data._styles.Table }}">
+		<tr>
+			<td class="{{ $data._styles.ArrowContainer }}">
+				<h1 class="{{ $data._styles.Arrow }}">
+					<i class="fa fa-chevron-left" v-on:click="prev"></i>
+				</h1>
+			</td>
+			<td>
+				<div class="owl-carousel" v-el:carousel>
+					<!-- There must be a better way to do this. I can't figure out how atm. -->
+					<slot name="CarouselContent-1">
+					</slot>
+					<slot name="CarouselContent-2">
+					</slot>
+					<slot name="CarouselContent-3">
+					</slot>
+					<slot name="CarouselContent-4">
+					</slot>
+					<slot name="CarouselContent-5">
+					</slot>
+					<slot name="CarouselContent-6">
+					</slot>
+					<slot name="CarouselContent-7">
+					</slot>
+					<slot name="CarouselContent-8">
+					</slot>
+					<slot name="CarouselContent-9">
+					</slot>
+					<slot name="CarouselContent-10">
+					</slot>
+				</div>
+				<div style="text-align: center;">
+					<p>
+						<span v-for="n in instanceData.length" v-on:click="goto(n)" class="{{ $data._styles.Arrow }} {{ $data._styles.CircleContainer }}" style="font-size: x-small;">
+							<template v-if="n | carousel-visible-item instanceData.visibleItems">
+								<i class="fa fa-circle"></i>
+							</template>
+							<template v-if="n | carousel-invisible-item instanceData.visibleItems">
+								<i class="fa fa-circle-o"></i>
+							</template>
+						</span>
+					</p>
+				</div>
+			</td>
+			<td class="{{ $data._styles.ArrowContainer }}" style="text-align: right;">
+				<h1 class="{{ $data._styles.Arrow }}">
+					<i class="fa fa-chevron-right" v-on:click="next"></i>
+				</h1>
+			</td>
+		</tr>
+	</table>
+</div>

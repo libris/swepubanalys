@@ -1,83 +1,123 @@
 'use strict';
 
+// Vendor
+var Vue = require('vue');
+var _cloneDeep = require('lodash/lang/cloneDeep');
+var _sortBy = require('lodash/collection/sortBy');
+var _max = require('lodash/math/max');
 // Utils
-var SearchFormUtil = require('utils/SearchFormUtil.js');
+var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 // Components
 var OrgInput = require('components/OrgInput/OrgInput.js');
 var TimeInput = require('components/TimeInput/TimeInput.js');
 var SubjectInput = require('components/SubjectInput/SubjectInput.js');
 var PublTypeInput = require('components/PublTypeInput/PublTypeInput.js');
+var AuthorLabelInput = require('components/AuthorLabelInput/AuthorLabelInput.js');
+var OrcidInput = require('components/OrcidInput/OrcidInput.js');
 var OAInput = require('components/OAInput/OAInput.js');
+var PublStatusInput = require('components/PublStatusInput/PublStatusInput.js');
+var ShowFieldButton = require('components/ShowFieldButton/ShowFieldButton.js');
+// CSS-modules
+var styles = require('!!style!css?modules!./SearchForm.css');
 // CSS
 require('css/transitions.css');
 
 /**
  * Search Form-component
  * @prop {Function} onSearch
+ * @prop {Function} onChange
+ * @prop {String} defaultTemplate
+ * @prop {String} to
+ * @prop {String} from
  */
 var SearchForm = {
 	template: require('./SearchForm.html'),
-	props: ['onSearch'],
+	props: ['onSearch', 'onChange', 'defaultTemplate', 'to', 'from'],
 	data: function() {
 		return {
-			// GUI state
-			orgs: [],
-			orgSuggestions: [],
-			subjects: [],
-			subjectSuggestions: [],
-			publTypes: [],
-			publTypeSuggestions: [],
+			formTests: {},
 			// Data which will possibly be used onSearch
-			templateName: 'simple',
-			org: { value: '', error: ''	},
-			subject: { value: '', error: ''	},
-			publType: {	value: '', error: '' },
-			from: {	value: '', error: '' }, 
-			to: { value: '', error: '' },
-			openaccess: true
-		};
-	},
-	watch: {
-		/**
-		 * On change of data.orgs we convert array to a string and set data.org
-		 */
-		'orgs': function() {
-			this.org.$set('value', this.arrayToString(this.orgs));
-		},
-		/**
-		 * Ditto for data.subjects
-		 */
-		'subjects': function() {
-			this.subject.$set('value', this.arrayToString(this.subjects));
-		},
-		/**
-		 * Ditto for data.publTypes
-		 */
-		'publTypes': function() {
-			this.publType.$set('value', this.arrayToString(this.publTypes));
+			templateName: this.defaultTemplate || 'QfBibliometrics',
+			fields: getDefaultFields.call(this),
+			// CSS-modules
+			_styles: styles
 		}
 	},
 	components: {
-		'org-input': OrgInput,
-		'time-input': TimeInput,
-		'subject-input': SubjectInput,
-		'publtype-input': PublTypeInput,
-		'oa-input': OAInput,
+		'show-field-button': ShowFieldButton,
+		'org': {
+			components: { 'org-input': OrgInput },
+			template: require('./inputs/org.html')
+		},
+		'time': {
+			components: { 'time-input': TimeInput },
+			template: require('./inputs/time.html')
+		},
+		'subject': {
+			components: { 'subject-input': SubjectInput },
+			template: require('./inputs/subject.html')
+		},
+		'publType': {
+			components: { 'publ-type-input': PublTypeInput },
+			template: require('./inputs/publType.html')
+		},
+		'authorLabel': {
+			components: { 'author-label-input': AuthorLabelInput },
+			template: require('./inputs/authorLabel.html')
+		},
+		'orcid': {
+			components: { 'orcid-input': OrcidInput },
+			template: require('./inputs/orcid.html')
+		},
+		'openaccess': {
+			components: { 'oa-input': OAInput },
+			template: require('./inputs/openaccess.html')
+		},
+		'publStatus': {
+			components: { 'publ-status-input': PublStatusInput },
+			template: require('./inputs/publStatus.html'),
+		}
 	},
 	ready: function() {
+		// Get and set form tests
+		SearchFormUtil.getFormTests(function(formTests) {
+			this.$set('formTests', formTests);
+		}.bind(this));
+		// Get and set form suggestions
 		SearchFormUtil.getFormSuggestions(function(formSuggestions) {
 			if(formSuggestions.orgs) {
-				this.$set('orgSuggestions', formSuggestions.orgs);
+				this.$set('fields.org.suggestions', formSuggestions.orgs);
 			}
 			if(formSuggestions.subjects) {
-				this.$set('subjectSuggestions', formSuggestions.subjects);
+				this.$set('fields.subject.suggestions', formSuggestions.subjects);
 			}
 			if(formSuggestions.publTypes) {
-				this.$set('publTypeSuggestions', formSuggestions.publTypes);
+				this.$set('fields.publType.suggestions', formSuggestions.publTypes);
 			}
 		}.bind(this));
+		// Apply on-change listener and trigger on-change once
+		if(this.onChange) {
+			var formData = this.generateFormData();
+			this.onChange(formData);
+			this.$watch('fields', function() {
+				var formData = this.generateFormData();
+				this.onChange(formData);
+			}, { deep: true });
+		}
 	},
 	methods: {
+		/**
+		 * Callback sent to click event of showFieldButton
+		 * @param {Object} field
+		 */
+		getFieldIndex: function() {
+			var max = _max(this.fields, function(field) { 
+				return field.index;
+			});
+			max = max.index || 0;
+			max++;
+			return max;
+		},
 		/**
 		 * Sets template name
 		 * @param {String} templateName
@@ -90,11 +130,40 @@ var SearchForm = {
 		 */
 		performSearch: function() {
 			if(this.onSearch) {
-				this.onSearch(this.getFormModel());
+				var formData = this.generateFormData();
+				this.onSearch(formData);
+			} else {
+				console.error('*** SearchForm.performSearch: No onSearch prop provided');
 			}
-			else {
-				console.error('*** SearchForm.performSearch(): No onSearch prop provided');
-			}
+		},
+		/**
+		 * Call directly on the org-input component to set its value
+		 * @prop {String} value
+		 */
+		setOrgValue: function(value) {
+			this.$children.forEach(function(child) {
+				if(child.$refs.orgInput && child.$refs.orgInput.setValue) {
+					child.$refs.orgInput.setValue(value);
+				}
+			});
+		},
+		/**
+		 * Generates formData
+		 * @return {Object} formData
+		 */
+		generateFormData: function() {
+			var formData = {
+				fields: Object.keys(this.fields).map(function(key, i) {
+					var field = this.fields[key];
+					return {
+						fieldName: key,
+						value: field.value,
+						labels: _cloneDeep(field.labels),
+					}
+				}.bind(this)),
+				formModel: this.getFormModel(),
+			};
+			return formData;
 		},
 		/**
 		 * Generates formModel from $vm.data
@@ -105,54 +174,151 @@ var SearchForm = {
 				'simple': function() {
 					var model = {
 						templateName: 'simple',
-						org: this.org.value,
-						from: this.from.value,
-						to: this.to.value,
-						subject: this.subject.value,
-						publtype: this.publType.value,
-						openaccess: this.openaccess,
+						org: this.fields.org.value,
+						from: this.fields.time.from,
+						to: this.fields.time.to,
+						subject: this.fields.subject.value,
+						publtype: this.fields.publType.value,
+						openaccess: this.fields.openaccess.value,
+						status: this.fields.publStatus.value,
 					}
 					return model;
 				},
 				'duplicates': function() {
 					var model = {
 						templateName: 'duplicates',
-						org: this.org.value,
-						from: this.from.value,
-						to: this.to,
+						org: this.fields.org.value,
+						from: this.fields.time.from,
+						to: this.fields.time.to,
+					}
+					return model;
+				},
+				'QfBibliometrics': function() {
+					var model = {
+						templateName: 'QfBibliometrics',
+						org: this.fields.org.value,
+						from: this.fields.time.from,
+						to: this.fields.time.to,
+						subject: this.fields.subject.value,
+						publtype: this.fields.publType.value,
+						author: this.fields.authorLabel.value,
+						orcid: this.fields.orcid.value,
+						openaccess: this.fields.openaccess.value,
+						status: this.fields.publStatus.value,
 					}
 					return model;
 				}
-			}
+			};
 			var formModel = models[this.templateName].call(this);
-			console.log('*** SearchForm.generateFormModel(): formModel generated:');
+			console.log('*** SearchForm.generateFormModel: formModel generated:');
 			console.log(JSON.stringify(formModel));
 			return formModel;
 		},
 		/**
-		 * Determines if active template name is present in templateNames
+		 * Used to determine if a field should be used as a template
+		 * @param {Object} field
+		 * @param {String} templateName
 		 * @return {Boolean}
 		 */
-		activeTemplate: function(templateNames) {
-			for(var i = 0; i < templateNames.length; i++) {
-				if(this.templateName === templateNames[i]) {
-					return true;
+		isTemplateField: function(field, templateName) {
+			var valid = false;
+			var theTemplateFields = templateFields[templateName] || [];
+			for(var i = 0; i < theTemplateFields.length; i++) {
+				if(theTemplateFields[i] === field.fieldName) {
+					valid = true;
 				}
 			}
+			return valid;
+		}
+	}
+};
+
+/**
+ * Used to order data.fields by index
+ * @param {Object} fields
+ * @return {Array}
+ */
+Vue.filter('orderFields', function(fields) {
+	fields = _sortBy(fields, function(field) {
+		return field.index;
+	});
+	return fields;
+});
+
+var templateFields = {
+	'simple': ['org', 'time', 'subject', 'publType', 'openaccess', 'publStatus'],
+	'duplicates': ['org', 'time'],
+	'QfBibliometrics': ['org', 'time', 'subject', 'publType', 'authorLabel', 'orcid', 'openaccess', 'publStatus'],
+};
+
+/**
+ * Return default fields
+ */
+var getDefaultFields = function() {
+	return {
+		org: {
+			index: 1,
+			value: '',
+			labels: [],
+			suggestions: [],
+			fieldName: 'org',
+			name: 'Organisation'
 		},
-		/**
-		 * ['liu', 'kth'] = 'liu,kth'
-		 */
-		arrayToString: function(arr) {
-			var str = '';
-			(arr || []).map(function(member, i) {
-				str += member;
-				if(i !== arr.length - 1) {
-					str += ',';
-				}
-			}.bind(this));
-			return str;
+		time: {
+			index: 2,
+			from: this.from || '',
+			to: this.to || '',
+			labels: [],
+			fieldName: 'time',
+			name: 'Publiceringsår'
 		},
+		subject: {
+			index: 3,
+			value: '',
+			labels: [],
+			suggestions: [],
+			fieldName: 'subject',
+			name: 'Forskningsämne'
+		},
+		publType: {
+			index: 5,
+			show: false, 
+			value: '',
+			labels: [], 
+			suggestions: [],
+			fieldName: 'publType',
+			name: 'Publikationstyp'
+		},
+		authorLabel: { 
+			index: 5,
+			show: false,
+			value: '',
+			labels: [], 
+			fieldName: 'authorLabel',
+			name: 'Upphov'
+		},
+		orcid: { 
+			fieldName: 'orcid',
+			name: 'Orcid', 
+			value: '',
+			labels: [],
+			index: 5,					
+			show: false 
+		},
+		openaccess: {
+			fieldName: 'openaccess',
+			name: 'Open access',
+			value: false,
+			labels: [], 
+			index: 5,
+			show: false 
+		},
+		publStatus: {
+			fieldName: 'publStatus',
+			name: 'Publiceringsstatus',
+			value: 'published', 
+			labels: [],
+		}
 	}
 };
 

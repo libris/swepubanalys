@@ -1,0 +1,27 @@
+.MailExport {
+	min-width: 400px;
+	padding: 0px;
+	background: #DCF2D6;
+	border: 0px;
+	border-radius: 3px;
+}
+
+.MailExportTitle {
+	padding: 10px;
+	padding-bottom: 1px;
+	background: #52bd34;
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.MailExportContent {
+	padding: 15px;
+}
+
+.Close {
+	float: right; 
+	color: #FFFFFF; 
+	padding: 10px; 
+	padding-right: 15px; 
+	cursor: pointer;
+}

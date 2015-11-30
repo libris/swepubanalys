@@ -1,0 +1,26 @@
+table.StaticHeader {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+    width: 100%;
+}
+
+table.StaticHeader thead {
+    flex: 0 0 auto;
+    width: calc(100% - 21px);
+}
+
+table.StaticHeader tbody {
+    flex: 1 1 auto;
+    display: block;
+    overflow-y: scroll;
+}
+
+table.StaticHeader tbody tr {
+    width: 100%;
+}
+
+table.StaticHeader thead, table.StaticHeader tbody tr {
+    display: table;
+    table-layout: fixed;
+}

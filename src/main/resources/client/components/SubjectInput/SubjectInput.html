@@ -1,5 +1,10 @@
-<!-- Organisation -->
-<div class="form-group">
-	<label for="subject">Ämne</label>
-	<autocomplete-input val="{{@ subjects }}" optgroups="{{ subjectSuggestions }}"></autocomplete-input>
+<div>
+	<form-field-wrapper>
+		<div slot="FormFieldInput">
+			<autocomplete-input :val.sync="subjects" :optgroups="field.suggestions"></autocomplete-input>
+		</div>
+		<div slot="HelpButton">
+			<help-initiator-button></help-initiator-button>
+		</div>
+	</form-field-wrapper>
 </div>

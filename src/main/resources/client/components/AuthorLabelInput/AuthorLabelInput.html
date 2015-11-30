@@ -1,0 +1,18 @@
+<div>
+	<form-field-wrapper>
+		<span slot="FieldNameAddition" style="color: gray">
+			(Personnamn)
+		</span>
+		<!-- Input -->
+		<div slot="FormFieldInput">
+			<input v-model="field.value" type="text" class="form-control {{ $data._formFieldStyles.Input }}"></input>
+		</div>
+		<!-- Buttons -->
+		<div slot="HideButton">
+			<hide-field-button :field.sync="field" :on-click-hide-field="onClickHideField"></hide-field-button>
+		</div>
+		<div slot="HelpButton">
+			<help-initiator-button></help-initiator-button>
+		</div>
+	</form-field-wrapper>
+</div>

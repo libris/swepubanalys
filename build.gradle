@@ -1,5 +1,22 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+import static java.util.UUID.randomUUID
+
 configurations {
     moreLibs
+}
+
+loadConfiguration()
+
+def loadConfiguration() {
+    def environment = hasProperty('env') ? env : 'dev'
+    project.ext.environment = environment
+    def configFile = file('configValues.groovy')
+    def config = new ConfigSlurper(environment).parse(configFile.toURI().toURL())
+    println config.toString()
+    config.mode = ext.environment
+    config.buildStamp = (randomUUID() as String).toUpperCase()
+    config.buildTimeStamp = (new Date()).format('yyyy-MM-dd HH:mm:ss')
+    file('./src/main/resources/config.groovy').text = config.prettyPrint()
 }
 
 group 'SwePubAnalysisWeb'
@@ -7,6 +24,7 @@ version '1.1-SNAPSHOT'
 
 apply plugin: 'groovy'
 apply plugin: 'war'
+
 
 
 
@@ -19,25 +37,21 @@ repositories {
 war {
     baseName = 'ROOT'
     version = ''// + System.currentTimeMillis();
-    //from 'src/main/resources/public' // adds a file-set to the root of the archive
-    //into 'public'
-    //webInf { from 'src/' } // adds a file-set to the WEB-INF dir.
-    //classpath fileTree('') // adds a file-set to the WEB-INF/lib dir.
-    //classpath configurations.moreLibs // adds a configuration to the WEB-INF/lib dir.
-    webXml = file('../SwePubAnalysisWeb/WEB-INF/web.xml') // copies a file to WEB-INF/web.xml
+    webXml = file('../swepubanalys/WEB-INF/web.xml') // copies a file to WEB-INF/web.xml
 }
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.3.11', 'com.sparkjava:spark-core:2.3', 'com.sparkjava:spark-template-mustache:1.0.0', 'com.github.groovy-wslite:groovy-wslite:1.1.2'
+    compile 'com.github.rjeschke:txtmark:0.13','org.apache.httpcomponents:httpclient:4.5.1','log4j:log4j:1.2.17','org.codehaus.groovy:groovy-all:2.4.5', 'com.sun.mail:javax.mail:1.5.4', 'com.sparkjava:spark-core:2.3', 'com.sparkjava:spark-template-mustache:1.0.0', 'com.github.groovy-wslite:groovy-wslite:1.1.2', 'commons-validator:commons-validator:1.4.1'
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
 }
 
-task webPackCreateBundle(type: Exec)    {
-    commandLine 'sh','-c','webpack'
+
+task webPackCreateBundle(type: Exec) {
+    commandLine 'sh', '-c', 'webpack'
 }
 
-task bowerSync(type: Sync) {
+task bowerSyncComponentsForBeta(type: Sync) {
     from 'bower_components'
     into "src/main/resources/public/1.0/compiled"
     include 'jquery/dist/jquery.js'
@@ -51,18 +65,47 @@ task bowerSync(type: Sync) {
     include 'handsontable/dist/handsontable.full.css'
 }
 
-// Rename this function to something more proper
-task BowerSync2(type: Sync) {
+task bowerSyncComponentsForQf(type: Sync) {
     from 'bower_components'
     into "src/main/resources/public/2.0/vendor"
     include 'bootstrap/dist/js/bootstrap.min.js'
     include 'bootstrap/dist/css/bootstrap.min.css'
     include 'bootstrap/dist/css/bootstrap.css.map'
+    include 'bootstrap/dist/fonts/*.*'
     include 'kungbib-styles/dist/css/kb-style.css'
+    include 'kungbib-styles/dist/assets/*.*'
     include 'font-awesome/fonts/*.*'
     include 'font-awesome/css/font-awesome.min.css'
-    include 'font-awesome/fonts/*.*'
 }
+
+task CopyMissingFonts(type: Copy) {
+    from('bower_components/bootstrap/fonts')
+    into('src/main/resources/public/2.0/vendor/kungbib-styles/dist/fonts')
+}
+
+task webpack(type: Exec) {
+    def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'webpack.cmd' : 'webpack'
+
+    if (project.environment == 'prod')
+        commandLine mainCommand, '-p'
+    else
+        commandLine mainCommand
+}
+
+task npmInstall(type: Exec) {
+    def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'npm.cmd' : 'npm'
+    commandLine mainCommand, 'install'
+}
+
+task bowerInstall(type: Exec) {
+    def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'bower.cmd' : 'bower'
+    commandLine mainCommand, 'install'
+}
+
+war.dependsOn npmInstall, bowerInstall, bowerSyncComponentsForBeta, bowerSyncComponentsForQf, CopyMissingFonts, webpack
+
+
+
 
 
 

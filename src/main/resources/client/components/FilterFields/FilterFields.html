@@ -1,0 +1,20 @@
+<div class="{{ $data._styles.FilterFields }} background-light">
+	<slot name="Top"></slot>
+	<div class="{{ $data._styles.SelectButtons }}">
+		<button class="btn btn-sm btn-default" v-on:click="selectNoFilterFields">Rensa fält</button>
+		<button class="btn btn-sm btn-default" v-on:click="selectAllFilterFields">Alla fält</button>
+		<p style="font-size: small; display: inline-block;">
+			<span class="fractSymbol {{ $data._styles.FractSymbol }}"><fract-circle></fract-circle></span>
+			fraktionerad data 
+			<help-initiator-button></help-initiator-button>
+		</p>
+	</div>
+	<div class="{{ $data._styles.FilterFieldsButtonsContainer }}">
+		<template v-for="filterFieldGroup in filterFields | filterFieldGroups filterFieldGroups" class="FilterFieldButtons">
+			<div v-for="filterField in filterFieldGroup.filterFields"
+				class="{{ $parent.$parent.$data._styles.FilterFieldButtonContainer }} {{ ($index === $parent.filterFieldGroup.filterFields.length-1) ? $parent.$parent.$data._styles.LastFilterFieldButtonContainer : '' }}">
+				<filter-field-button :filter-field.sync="filterField"></filter-field-button>
+			</div>
+		</template>
+	</div>
+</div>

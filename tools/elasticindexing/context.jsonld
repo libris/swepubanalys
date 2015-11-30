@@ -1,0 +1,21 @@
+{
+  "@context": {
+    "@base": "http://swepub.kb.se/mods/data",
+    "@vocab": "http://swepub.kb.se/SwePubAnalysis/model#",
+    "swepubmods": "http://swepub.kb.se/mods/model#",
+    "Record": "swepubmods:Record",
+    "Mods": "swepubmods:Mods",
+    "hasMods": "swepubmods:hasMods",
+    "identifierValue": "swepubmods:identifierValue",
+    "recordContentSourceValue": "swepubmods:recordContentSourceValue",
+    "hasSubject": "swepubmods:hasSubject",
+    "hasName": "swepubmods:hasName",
+    "foaf": "http://xmlns.com/foaf/0.1/",
+    "rdf":	"http://www.w3.org/1999/02/22-rdf-syntax-ns#" ,
+    "outt_m":"http://swepub.kb.se/SwePubAnalysis/OutputTypes/model#",
+    "scientificOutput":"outt_m:code",
+    "sc":"http://swepub.kb.se/SwePubAnalysis/OutputTypes/model#code",
+    "name": "foaf:name",
+    "label":"rdfs:label"
+}
+}

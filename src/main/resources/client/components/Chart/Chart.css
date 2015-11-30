@@ -1,0 +1,27 @@
+.c3 .c3-axis line {
+	stroke: lightgrey;
+}
+
+.c3 .c3-axis path {
+	stroke: lightgrey;
+}
+
+.tick text { 
+	fill: gray; 
+}
+
+.c3-legend-item text { 
+	fill: grey;
+}
+
+.c3 .c3-shape {
+	stroke: none;
+}
+
+.c3-arc[style] {
+	cursor: default !important;
+}
+
+.c3-chart-arc text {
+    
+}

@@ -1,0 +1,29 @@
+<div>
+	<slot name="QueryFormTitle"></slot>
+	<div class="row">
+		<div class="col-xs-6">
+			<slot name="QueryFormDescription"></slot>
+		</div>
+		<div class="col-xs-2" style="text-align: right;">
+			<help-initiator-button></help-initiator-button>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-8">
+			<div class="form-group">
+				<textarea 
+					rows="15" 
+					style="width: 100%;" 
+					class="form-control" 
+					v-model="query" 
+					placeholder="Formulera SPARQL-fråga"
+					v-el:query-input></textarea>
+			</div>
+			<div class="form-group" v-if="onSearch">
+				<button v-on:click="performSearch" class="btn btn-info SearchButton">VISA</button>
+			</div>
+		</div>
+		<div class="col-xs-4">
+		</div>
+	</div>
+</div>

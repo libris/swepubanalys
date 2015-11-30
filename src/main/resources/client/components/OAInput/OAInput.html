@@ -1,8 +1,20 @@
-<div class="form-group">
-	<div class="checkbox">
-		<label>
-			<input type="checkbox" v-model="openaccess">
-			Endast Open Access
-		</label>
-	</div>
+<div>
+	<form-field-wrapper>
+		<!-- Input -->
+		<div slot="FormFieldInput">
+			<div class="checkbox" style="display: inline-block;">
+				<label>
+					<input type="checkbox" v-model="field.value">
+					Endast open access
+				</label>
+			</div>
+		</div>
+		<!-- Buttons -->
+		<div slot="HideButton">
+			<hide-field-button :field.sync="field" :on-click-hide-field="onClickHideField"></hide-field-button>
+		</div>
+		<div slot="HelpButton">
+			<help-initiator-button></help-initiator-button>
+		</div>
+	</form-field-wrapper>
 </div>

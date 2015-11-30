@@ -1,0 +1,66 @@
+.Item {
+	min-height: 530px;
+	margin-bottom: 45px;
+	padding: 35px;
+	padding-top: 15px;
+}
+
+.YearIndicator {
+	min-height: 30px;
+	text-align: right;
+	color: gray;
+}
+
+.ChartContainer {
+	padding-right: 60px;
+	margin: 0px;
+	height: 460px;
+}
+
+.GraphTitle {
+	min-height: 30px;
+	text-align: center;
+}
+
+.ExtraLegendContainer {
+	width: 100%;
+	bordder: 1px solid black;
+}
+
+.ExtraLegend {
+	background: #f9f9f9; 
+	border-radius: 5px; 
+	padding-left: 10px;
+	text-align: center;
+	margin: auto;
+}
+
+.ExtraLegend span {
+	font-size: small;
+	margin-right: 15px;
+}
+
+.Info {
+	width: 100%;
+	padding-top: 245px;
+	text-align: center; 
+}
+
+.SearchForm {
+	margin-bottom: 25px;
+}
+
+.ActivityButton {
+	margin-right: 15px;
+}
+
+.BtnHuge {
+	margin-top: 10px;
+    padding: 18px 28px;
+    font-size: 22px; 
+    line-height: normal;
+    margin-right: 10px;
+    -webkit-border-radius: 8px;
+       -moz-border-radius: 8px;
+            border-radius: 8px;
+}

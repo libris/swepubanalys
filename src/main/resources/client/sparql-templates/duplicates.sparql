@@ -5,16 +5,18 @@ SELECT
 ?_orgCode1 #Organisation för post 1
 ?_orgCode2 #Organisation för post 2
 ?_total_match_weight #Viktning
-?_compare #Poster
+?_uri1 #Länk till post 1
+?_uri2 #Länk till post 2
 WHERE
 {
 ?Record1 mods_m:hasMods ?Mods1 .
 ?Mods1 mods_m:recordContentSourceValue ?_orgCode1 .
 ?Record2 mods_m:hasMods ?Mods2 .
 ?Mods2 mods_m:recordContentSourceValue ?_orgCode2 .
+?Record1 swpa_m:uriRepository ?_uri1 .
+?Record2 swpa_m:uriRepository ?_uri2 .
 {
 SELECT DISTINCT
-bif:sprintf('http://hp07.libris.kb.se/Adjudication/Duplicates/Compare?record1=%s&record2=%s', bif:substring(?Record1,31,1000), bif:substring(?Record2,31,1000)) as ?_compare
 sum(?_weight) as ?_total_match_weight
 ?Record1 ?Record2
 WHERE
@@ -53,7 +55,7 @@ MINUS
 #FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> ) 
 ###  FILTERS END ####
 }
-LIMIT 10000
+LIMIT 500
 }
 ###  FILTERS START ####
 #FILTER_<?_orgCode2> ( ?_orgCode2 IN ( <?_orgCode2> ) ) 
@@ -64,5 +66,5 @@ HAVING ( sum( ?_weight )  >= 0.8 && sum( ?_weight ) <= 1.1 )
 #HAVING ( sum( ?_weight )  >= <?_total_match_weight_low> && sum( ?_weight ) <= <?_total_match_weight_high> ) 
 }
 }
-ORDER BY DESC( ?_total_match_weight) 
-LIMIT 100
+#ORDER BY DESC( ?_total_match_weight)
+

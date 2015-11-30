@@ -1,0 +1,9 @@
+<button 
+		v-on:click="onClick"
+		class="btn btn-xs {{ filterField.checked ? $data._styles.Active : $data._styles.Inactive }}" 
+		style="margin: 4px; margin-left: 0px;">
+	{{ stripAsterisk(filterField.fieldName) }}
+	<template v-if="fractionalField(filterField.fieldName)">
+		&nbsp;<fract-circle></fract-circle>
+	</template>
+</button>

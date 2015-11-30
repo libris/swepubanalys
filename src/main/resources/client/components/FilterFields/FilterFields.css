@@ -1,0 +1,31 @@
+.FractSymbol {
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.FilterFields {
+	margin-top: 10px;
+	padding: 15px;
+	padding-top: 10px;
+}
+
+.FilterFieldButtonContainer {
+	display: inline-block;
+}
+
+.LastFilterFieldButtonContainer {
+	border-right: 1px solid lightgray;
+	margin-right: 15px;
+	padding-right: 12px;
+}
+
+.FilterFieldsButtonsContainer {
+	margin-top: 15px;
+}
+
+.FilterFieldsButtonsContainer .FilterFieldButtonContainer:last-child {
+    border-right: 0px solid black;
+}
+
+.SelectButtons {
+}

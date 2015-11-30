@@ -1,0 +1,8 @@
+.BtnCircle {
+	width: 15px;
+	height: 15px;
+	line-height: 12px;
+	padding: 0;
+	border-radius: 50%;
+	font-size: x-small;
+}

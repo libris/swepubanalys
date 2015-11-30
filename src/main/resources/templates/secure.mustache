@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="sv-SE">
+<head>
+    <title>{{pageTitle}}</title>
+    <META HTTP-EQUIV="Pragma" CONTENT="public">
+    <meta http-equiv="cache-control" content="public, max-age=7200">
+    <meta http-equiv="expires" content="', gmdate(" D, d M Y H:i:s", time() + (3600*2)), ' GMT', '">
+</head>
+<body>
+<div id="app">
+<form method="post" action="">
+    <input name="referer"  value="" />
+    <button type="submit">Skicka vidare</button>
+</form>
+    <h1>Headers</h1>
+    <ul>
+    {{#headers}}
+        <li>{{.}}</li>
+    {{/headers}}
+    </ul>
+    <h1>Cookies</h1>
+    <ul>
+        {{#cookies}}
+            <li>{{.}}</li>
+        {{/cookies}}
+    </ul>
+</div>
+</body>
+
+</html>

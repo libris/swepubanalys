@@ -1,32 +1,34 @@
-<h2>1. Uttagsformulär</h2>
-<p>
-	<!--<a href="javascript:null;" v-on="click: setTemplateName('simple')">Simpel</a> | <a href="javascript:null;" v-on="click: setTemplateName('duplicates')">Dubletter</a>-->
-</p>
+<slot name="SearchFormTitle"></slot>
 <div class="row">
 	<div class="col-xs-8">
-		<p>
-			Pork chop andouille prosciutto strip steak venison tenderloin pork loin chicken ribeye turducken cupim meatball sausage t-bone. Spare ribs pork chop sirloin, pig flank corned beef chuck pork bacon kielbasa pork loin landjaeger drumstick rump ground round.
-		</p>
-		<!-- Simple search -->
-		<div v-show="activeTemplate(['simple', 'duplicates'])" v-transition="expand">
-			<org-input orgs="{{@ orgs }}" org-suggestions="{{ orgSuggestions }}"></org-input>
+		<slot name="SearchFormDescription"></slot>
+		<!-- Fields -->
+		<div v-for="field in fields | orderFields">
+			<template v-if="isTemplateField(field, templateName)">
+				<component :is="field.fieldName"></component>
+			</template>
 		</div>
-		<div v-show="activeTemplate(['simple', 'duplicates'])" v-transition="expand">
-			<time-input from="{{@ from.value }}" to="{{@ to.value }}"></time-input>
-		</div>
-		<div v-show="activeTemplate(['simple'])" v-transition="expand">
-			<subject-input subjects="{{@ subjects }}" subject-suggestions="{{ subjectSuggestions }}"></subject-input>
-		</div>
-		<div v-show="activeTemplate(['simple'])" v-transition="expand">
-			<publtype-input publ-types="{{@ publTypes }}" publ-type-suggestions="{{ publTypeSuggestions }}"></publtype-input>
-		</div>
-		<div v-show="activeTemplate(['simple'])" v-transition="expand">
-			<oa-input openaccess="{{@ openaccess }}"></oa-input>
+		<!-- Show buttons -->
+		<div class="{{ $data._styles.ShowFieldButtons }}">
+			<template v-if="isTemplateField(fields.publType, templateName)">
+				<show-field-button :field.sync="fields.publType" :get-field-index="getFieldIndex"></show-field-button>
+			</template>
+			<template v-if="isTemplateField(fields.authorLabel, templateName)">
+				<show-field-button :field.sync="fields.authorLabel" :get-field-index="getFieldIndex"></show-field-button>
+			</template>
+			<template v-if="isTemplateField(fields.orcid, templateName)">
+				<show-field-button :field.sync="fields.orcid" :get-field-index="getFieldIndex"></show-field-button>
+			</template>
+			<template v-if="isTemplateField(fields.openaccess, templateName)">
+				<show-field-button :field.sync="fields.openaccess" :get-field-index="getFieldIndex"></show-field-button>
+			</template>
 		</div>
 		<!-- Search button -->
-		<div class="form-group">
-			<button v-on="click: performSearch" class="btn btn-info">Visa</button>
+		<div class="form-group" v-if="onSearch">
+			<button v-on:click="performSearch" class="btn btn-info SearchButton">VISA</button>
 		</div>
+		<slot name="Bottom">
+		</slot>
 	</div>
 	<div class="col-xs-4">
 	</div>

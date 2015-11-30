@@ -1,0 +1,107 @@
+<div id="swepub-application" class="{{ $data._styles.SiteWrapper }} swepub-application-{{ activity }}">
+	<div class="row {{ $data._styles.MenuBar }}">
+		<div class="col-md-7">
+		</div>
+		<div class="col-md-5">
+			<div class="row">
+				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ $data._styles.LightBlueBackground }}">
+					<a href="/bibliometriker">BIBLIOMETRI</a>
+				</div>
+				<div class="col-xs-5 {{ $data._styles.MenuItem }} {{ $data._styles.DarkBlueBackground }}">
+					<a href="/granskare">DATABEARBETNING</a>
+				</div>
+				<div class="col-xs-3 {{ $data._styles.MenuItem }} {{ $data._styles.DarkGreyBackground }}" style="color: black;">
+					HJÄLP
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="{{ $data._styles.Header }} background-main">
+		<table>
+			<tr>
+				<td>
+					<div class="{{ $data._styles.ImageContainer }}">
+						<img src="/2.0/vendor/kungbib-styles/dist/assets/kb_logo_white.svg" alt="" style="height: 100px;"/>
+					</div>
+				</td>
+				<td>
+					<div class="{{ $data._styles.TitleContainer }}">
+						<h2>SwePub <span style="font-weight: normal;"> för analys och bibliometri</span></h2>
+						<p>
+							SwePub för analys och bibliometri samlar vetenskapliga publikationer 
+							från svenska lärosäten och myndigheter. Använd tjänsten för att ta ut
+							underlag till bibliometri och databearbetning.
+						</p>
+					</div>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div class="{{ $data._styles.Content }}">
+		<slot></slot>
+	</div>
+	<footer class="footer">
+		<div class="{{ $data._styles.FooterUpper }} background-grey">
+			<div>
+				<div class="row">
+					<div class="col-md-3">
+						<h1>INFORMATION</h1>
+						<ul class="list-unstyled">
+							<li><a href="http://kb.se/libris/swepub" target="{{ Math.random() }}">Om SwePub</a></li>
+							<li><a href="http://kb.se/libris/swepub/deltagande-organisationer" target="__new_tab__">Deltagande organisationer</a></li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h1>KONTAKT</h1>
+						<ul class="list-unstyled">
+							<li><a href="http://kundo.se/org/swepub/" target="{{ Math.random() }}">Kundo</a></li>
+							<li><a href="http://librisbloggen.kb.se/?s=swepub" target="{{ Math.random() }}">SwePub på LIBRIS-bloggen</a></li>
+							<li>
+								<a href="https://twitter.com/swepub" target="{{ Math.random() }}">
+									<i class="fa fa-twitter {{ $data._styles.TwitterLogo }}"></i> Följ SwePub på Twitter
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="col-md-3">
+						<h1>RESURSER</h1>
+						<ul class="list-unstyled">
+							<li><a href="http://kb.se/libris/swepub/dataleverans" target="{{ Math.random() }}">SwePub Admin</a></li>
+							<li><a href="http://kb.se/libris/swepub/format-och-praxis" target="__new_tab__">Verktygslådan för beskrivning av vetenskaplig output</a></li>
+							<li>
+								<a href="https://github.com/libris/swepub-sparql" target="{{ Math.random() }}">
+									<img class="{{ $data._styles.GithubLogo }}" v-el:github-image-1></img> SwePubs SPARQL-bibliotek
+								</a>
+							</li>
+							<li>
+								<a href="https://github.com/libris/swepubanalys" target="{{ Math.random() }}">
+									<img class="{{ $data._styles.GithubLogo }}" v-el:github-image-2></img> SwePub på GitHub
+								</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="{{ $data._styles.FooterLower }} background-darker-grey">
+			<div class="row">
+				<div class="col-md-1">
+					<img src="/2.0/vendor/kungbib-styles/dist/assets/kb_logo_black.svg" alt="" style="max-width: 100px;" />
+				</div>
+				<div class="col-md-11">
+					<div class="{{ $data._styles.FooterText }}">
+						<p>
+							<strong>
+								<a href="http://www.kb.se" alt="Länk till Kungl. bibliotekets webbplats">
+									KUNGL. BIBLIOTEKET
+								</a>
+							</strong>
+							<br>
+							<span>Support: <a href="mailto:libris@kb.se">libris@kb.se</a></span>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</footer>
+</div>

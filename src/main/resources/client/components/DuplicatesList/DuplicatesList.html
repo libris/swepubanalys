@@ -1,0 +1,100 @@
+<div class="{{ $data._resultStyles.Result }}">
+	<div class="{{ $data._resultStyles.Loading }}">
+		<div v-if="pendingUpdate === true" transition="expand" class="{{ $data._styles.PendingUpdate }}">
+			<h2>Laddar...</h2>
+		</div>
+	    <div v-if="!hasNonEmptyResult()" class="{{ $data._resultStyles.PendingUpdate }}">
+	        <h2>Tomt sökresultat</h2>
+	    </div>
+	</div>
+	<div class="{{ $data._resultStyles.Container }}" v-if="hasNonEmptyResult()">
+		<div v-show="pendingUpdate !== true" class="{{ $data._styles.DuplicatesList }}">
+			<div class="{{ $data._resultStyles.Item }}">
+				<slot name="DuplicatesListTitle"></slot>
+				<div class="row">
+					<div class="col-xs-8">
+						<slot name="DuplicatesListDescription"></slot>
+					</div>
+					<div class="col-xs-4">
+						<mail-export :query="query"></mail-export>
+					</div>
+				</div>
+			</div>
+			<div class="{{ $data._styles.TableContainer }}">
+				<table class="table {{ $data._styles.StaticHeader }}" style="table-layout: inherit; width: 100%">
+					<thead class="{{ $data._styles.Thead }} thead" style="table-layout: initial;">					
+						<th class="{{ $data._styles.Th }} {{ $data._styles.Col1 }}">
+							<p class="{{ $data._styles.FieldName }}">
+								Organisation
+							</p>
+						</th>
+						<th class="{{ $data._styles.Th }} {{ $data._styles.Col2 }}">
+							<p class="{{ $data._styles.FieldName }}">
+								Organisation
+							</p>
+						</th>
+						<th class="{{ $data._styles.Th }} {{ $data._styles.Col3 }}"></th>
+					</thead>
+					<tbody class="{{ $data._styles.Tbody }}">
+						<template track-by="$index" v-for="article in ((result && result.results && result.results.bindings) ? result.results.bindings : [])" transition="expand">
+							<tr class="{{ $parent.$data._styles.DarkRow }}">
+								<td class="{{ $parent.$data._styles.Col1 }}">
+									
+									<p><b>{{ article._orgCode1 ? article._orgCode1.value : '' }}</b></p>
+									<p>{{ article._id1 ? article._id1.value : '' }}</p>
+								</td>
+								<td class="{{ $parent.$data._styles.Col2 }}">
+									<p><b>{{ article._orgCode1 ? article._orgCode2.value : '' }}</b></p>
+									<p>{{ article._id1 ? article._id2.value : '' }}</p>
+								</td>
+								<td class="{{ $parent.$data._styles.Col3 }}">
+									<div class="{{ $parent.$data._styles.ExpandButtonContainer }}">
+										<button v-on:click="setHandleArticle(article)" class="btn btn-md btn-success">
+											<i class="fa fa-expand"></i>
+										</button>
+									</div>
+								</td>
+							</tr>
+							<tr v-if="article.show" transition="expand">
+								<template v-if="article.loading">
+									<td colpan="3">
+										<div class="{{ $parent.$data._styles.LoadingRow }}">
+											<h1>Loading...</h1>
+										</div>
+									</td>
+								</template>
+								<template v-if="!article.loading && article.show === true">
+									<td class="{{ $parent.$data._styles.Col1 }} {{ $parent.$data._styles.Borderless }}">
+										<div class="{{ $parent.$data._styles.WindowContainer }}">
+											<iframe v-if="article.ambiguityCase" class="{{ $parent.$data._styles.Window }}" v-bind:src="article.ambiguityCase.record1.uri">
+											</iframe>
+										</div>
+									</td>
+									<td class="{{ $parent.$data._styles.Col2 }} {{ $parent.$data._styles.Borderless }}">
+										<div class="{{ $parent.$data._styles.WindowContainer }}">
+											<iframe v-if="article.ambiguityCase" class="{{ $parent.$data._styles.Window }}" v-bind:src="article.ambiguityCase.record2.uri">
+											</iframe>
+										</div>
+									</td>
+									<td class="{{ $parent.$data._styles.Col3 }} {{ $parent.$data._styles.Borderless }}">
+										<h4 class="{{ $parent.$data._styles.DifferingValues }}">
+											Motstridighet
+										</h4>
+										<div v-for="ambiguity in article.ambiguityCase.ambiguities || []">
+											<p>
+												<b>{{ ambiguity.type }}</b>: {{ ambiguity.violatingData }}											
+												<br><br>
+												<i>{{ ambiguity.comment }}</i>
+											</p>
+											<hr>
+										</div>
+									</td>
+								</template>
+							</tr>
+						</template>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

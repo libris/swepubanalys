@@ -1,14 +1,19 @@
-<div class="row">
-	<div class="col-md-6">
-		<div class="form-group">
-			<label for="from">Från</label>
-			<input v-model="from" type="text" class="form-control" placeholder="År">
+<div>
+	<form-field-wrapper>
+		<!-- Input -->
+		<div slot="FormFieldInput">
+			<div class="row">
+				<div class="col-xs-6">
+					<input v-model="field.from" type="text" class="form-control {{ $data._formFieldStyles.Input }}" placeholder="Från och med">
+				</div>
+				<div class="col-xs-6">
+					<input v-model="field.to" type="text" class="form-control {{ $data._formFieldStyles.Input }}" placeholder="Till och med">
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="col-md-6">
-		<div class="form-group">
-			<label for="to">Till</label>
-			<input v-model="to" type="text" class="form-control" placeholder="År">
+		<!-- Errors -->
+		<div slot="FormFieldErrors">
+			<form-error-label :errors="errors"></form-error-label>
 		</div>
-	</div>
+	</form-field-wrapper>
 </div>

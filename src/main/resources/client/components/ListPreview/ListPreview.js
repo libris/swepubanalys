@@ -1,7 +1,16 @@
 'use strict';
 
 // Vendor
-var _cloneDeep = require('lodash/lang/cloneDeep');
+var Vue = require('vue');
+var _find = require('lodash/collection/find');
+var _assign = require('lodash/object/assign');
+// Mixins
+var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
+// CSS modules
+var styles = _assign(
+	require('!!style!css?modules!./ListPreview.css'),
+	require('!!style!css?modules!css/modules/StaticHeader.css')
+);
 
 /**
  * List Preview-component
@@ -9,73 +18,97 @@ var _cloneDeep = require('lodash/lang/cloneDeep');
  * @prop {Array} filterFields
  */
 var ListPreview = {
+	mixins: [FractionalMixin],
 	template: require('./ListPreview.html'),
 	props: ['result', 'filterFields'],
 	data: function() {
 		return {
-			fields: [],
-			articles: [],
-			checkedFilterFields: { },
+			filterFieldKeys: { },
+			_styles: styles,
 		}
 	},
 	ready: function() {
-		// On update of filterFields prop, update data.checkedFilterFields
+		// On update of filterFields prop, update data.filterFieldKeys
 		this.$watch('filterFields', function() {
 			if(this.filterFields) {
-				// Get currently checked filterFields
-				var checkedFilterFields = _cloneDeep(this.filterFields).filter(function(filterField) {
-					return filterField.checked === true;
-				});
-				// Make array to object in order to access through index
-				var filterFields = {};
-				checkedFilterFields.map(function(filterField) {
-					filterFields[filterField.field] = filterField.fieldName;
-				});
-				this.$set('checkedFilterFields', filterFields);
-				this.update();
+				var filterFields = this.filterFields;
+				// Turn arr into object for access through index
+				var n = {};
+				for(var i = 0; i < filterFields.length; i++) {
+					n[filterFields[i].field] = {
+						field: filterFields[i].field,
+						fieldName: filterFields[i].fieldName,
+						checked: filterFields[i].checked,
+					}
+				};
+				this.$set('filterFieldKeys', n);
 			}
 			else {
-				console.error('*** ListPreview.ready(): Invalid filterFields prop');
+				console.error('*** ListPreview.ready: filterFields prop required');
 			}
 		}.bind(this), { deep: true });
 	},
-	watch: {
-		/**
-		 * On update result prop, trigger update of list
-		 */
-		'result': function() {
-			this.update();
-		},
-	},
 	methods: {
 		/**
-		 * Makes use of result prop and data.checkedFilterFields to set data.articles which is
-		 * rendered in view.
+		 * Used to determine whether a field should constitute a link.
+		 * This method is not for validating Urls and VERY basic! It only checks if the
+		 * string starts with "http://"
 		 */
-		update: function() {
-			if(this.result && this.result.results && this.result.results.bindings && this.result.head && this.result.head.vars) {
-				var previewList = this.result.results.bindings.map(function(article, i) {
-					var fields = this.result.head.vars.filter(function(field) {
-						return this.checkedFilterFields['?' + field] ? true : false;
-					}.bind(this));
-					fields = fields.map(function(field) {
-						return {
-							field: field,
-							value: article[field] ? article[field].value : '',
-						}
-					});
-					return {
-						article: i,
-						fields: fields,
-					}
-				}.bind(this));
-				this.$set('articles', previewList);
-			}
-			else {
-				console.error('*** ListPreview.update(): Invalid result prop');
-			}
+		startsWithHttp: function(str) {
+			return str.search(/http\:\/\//i) === 0;
 		}
 	}
 };
+
+/**
+ * Filter table cells on checked filterFields
+ * @param {Object} cells
+ * @param {Array} filterFields
+ */
+Vue.filter('filterFields', function(cells, filterFields) {
+	if(filterFields) {
+		var filteredCells = [];
+		for(var i = 0; i < filterFields.length; i++) {
+			if(filterFields[i].checked === true) {
+				var fieldName = filterFields[i].field ? filterFields[i].field.substring(1) : undefined;
+				if(fieldName) {
+					var cell = cells[fieldName];
+					if(cell) {
+						if(fieldName === '_doiValue' && !this.startsWithHttp(cell.value)) {
+							cell.value = 'http://dx.doi.org/' + cell.value;
+						}
+						filteredCells.push(cell);
+					} else {
+						filteredCells.push({ value: '' });
+					}
+				}
+			}
+		};
+		return filteredCells;
+	}
+	else {
+		return [];
+	}
+});
+
+/**
+ * Filter filterFields and return only checked ones
+ * @param {Object} filterFields
+ */
+Vue.filter('onlyCheckedFilterFields', function(filterFieldKeys) {
+	if(filterFieldKeys) {
+		var checkedFilterFields = [];
+		Object.keys(filterFieldKeys).map(function(key) {
+			var filterFieldKey = filterFieldKeys[key];
+			if(filterFieldKey.checked === true) {
+				checkedFilterFields.push(filterFieldKey);
+			}
+		});
+		return checkedFilterFields;
+	}
+	else {
+		return [];
+	}
+});
 
 module.exports = ListPreview;
