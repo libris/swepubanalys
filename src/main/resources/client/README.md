@@ -6,8 +6,10 @@ Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
 |-- client/
     |
     |-- components/           	Vue-components
-    |-- css/                  	CSS-files
-    	|--- modules/           CSS-modules
+    |-- css/                  	CSS- and Less-files
+    	|--- modules/           CSS/Less-modules (Module/Component-wide style rules)
+    	|--- theme.less         Application-wide style rules
+    	|--- ...                Other non-module styles such as transitions
     |-- docs/                 	Help-files and e-mail texts as markdown
     |-- entries/              	Entry-points for Webpack-bundles
     |   |-- bibliometrician/  	"Bibliometriker"-view
@@ -113,6 +115,11 @@ var myStyles = require('!!style!css?modules!./MyComponent.css');
 var myOtherStyles = require('!!style!css?modules!css/MyOtherCSSModules.css');
 
 var styles = _.assign(myStyles, myOtherStyles);
+```
+Our Webpack setup is also able to bundle .less-files. To do this, just follow the same steps as above and provide the less-loader parameter:
+```
+var myStyles = require('!!style!css?modules!less!./MyComponent.less'); // CSS modules
+require('MyTheme.less'); // Will be pre-processed and bundled as global CSS
 ```
 ### \# Component mixins
 To come.
