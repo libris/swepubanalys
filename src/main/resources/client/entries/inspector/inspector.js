@@ -19,7 +19,7 @@ var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
 var DataUtil = require('utils/DataUtil/DataUtil.js');
 var FormatAggregationUtil = require('utils/FormatAggregationUtil/FormatAggregationUtil.js');
-require('utils/ConsoleUtil/ConsoleUtil.js');
+var getQueryVariable = require('utils/getQueryVariable.js');
 // CSS-modules
 var styles = _assign(require('!!style!css?modules!./inspector.css'), require('!!style!css?modules!css/modules/Colors.less'));
 
@@ -31,52 +31,7 @@ var Inspector = {
 	mixins: [FieldLabelMixin],
 	template: require('./inspector.html'),
 	data: function() {
-		return {
-			// UI
-			_styles: styles,
-			loadingData: true,
-			emptyAggregations: false,
-			error: false,
-			activity: 0,
-			pendingScroll: false,
-			// Data synced with SearchForm component
-			formModel: { },
-			fields: [],
-			// Data which will be sent to searchResult
-			formData: {
-				formModel: {},
-				fields: [],
-			},
-			// Function which returns a data-set
-			lineChart: {
-				getContent: null, // We use a function to give data to the chart to avoid "indexing" by Vue
-			},
-			barChart: {
-				getContent: null,
-			},
-			pieChart: {
-				getContent: null,
-			},
-			violationTypeDistributionChart: {
-				getContent: null
-			},
-			// Misc
-			orgs: orgs,
-			// Colors
-			colorCategories: colorCategories,
-			colorPattern: colorPattern,
-			violationTypeColorCategories: violationTypeColorCategories,
-			violationGrade3Color: violationGrade3Color,
-			violationGrade2Color: violationGrade2Color,
-			violationGrade1Color: violationGrade1Color,
-			// Carousel
-			_carouselConf: {
-				items: 2,
-				itemsDesktop : [1300,2],
-			    itemsDesktopSmall : [1050,1]
-			},
-			visibleItems: [],
-		};
+		return initialData;
 	},
 	watch: {
 		/**
@@ -106,6 +61,39 @@ var Inspector = {
 		'match-weight-help': MatchWeightHelp,
 		'duplicates-list': DuplicatesList,
 		'carousel': Carousel
+	},
+	ready: function() {
+		/**
+		 * Broadcast events based on url-parameters
+		 */
+		require('vue').nextTick(function() {
+			// &org=
+			var org = getQueryVariable('org');
+			if(org) { this.$broadcast('set-org-value', org); }
+			// &from= and &to=
+			var from = getQueryVariable('from');
+			var to = getQueryVariable('to');
+			var time = {};
+			if(from) {
+				time.from = from;
+			}
+			if(to) {
+				time.to = to;
+			}
+			this.$broadcast('set-time-values', time);
+			// &activity=
+			var activity = getQueryVariable('activity');
+			if(activity) {
+				if(activity === 'DUPLICATES') {
+					this.$emit('search-duplicates');	
+				}
+			}
+		}.bind(this));
+	},
+	events: {
+		'search-duplicates': function() {
+			this.startActivity('DUPLICATES');
+		}
 	},
 	methods: {
 		/**
@@ -288,6 +276,53 @@ var violationTypeColorCategories = {
     'ISBN country code Violation': violationGrade2Color,
     'ISI format violation': violationGrade3Color,
     'Obsolete publication status violation': violationGrade2Color,
+};
+
+var initialData = {
+	// UI
+	_styles: styles,
+	loadingData: true,
+	emptyAggregations: false,
+	error: false,
+	activity: 0,
+	pendingScroll: false,
+	// Data synced with SearchForm component
+	formModel: { },
+	fields: [],
+	// Data which will be sent to searchResult
+	formData: {
+		formModel: {},
+		fields: [],
+	},
+	// Function which returns a data-set
+	lineChart: {
+		getContent: null, // We use a function to give data to the chart to avoid "indexing" by Vue
+	},
+	barChart: {
+		getContent: null,
+	},
+	pieChart: {
+		getContent: null,
+	},
+	violationTypeDistributionChart: {
+		getContent: null
+	},
+	// Misc
+	orgs: orgs,
+	// Colors
+	colorCategories: colorCategories,
+	colorPattern: colorPattern,
+	violationTypeColorCategories: violationTypeColorCategories,
+	violationGrade3Color: violationGrade3Color,
+	violationGrade2Color: violationGrade2Color,
+	violationGrade1Color: violationGrade1Color,
+	// Carousel
+	_carouselConf: {
+		items: 2,
+		itemsDesktop : [1300,2],
+	    itemsDesktopSmall : [1050,1]
+	},
+	visibleItems: [],
 };
 
 // *** Render! *** //
