@@ -40,7 +40,7 @@ var AutocompleteInput = {
 		 */
 		'select-option': function(key) {
 			var el = this.$el;
-			$(el).val(key).trigger('change');
+			$(el).val(key.split(',')).trigger('change');
 		}
 	},
 	methods: {
