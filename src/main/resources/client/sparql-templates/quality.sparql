@@ -8,7 +8,7 @@ SELECT DISTINCT
 ?_violationType #Feltyp kod #-
 ?_violationTypeLabel #Feltyp namn
 ?_incorrect #Bristfällig data
-?_severity #Nivå
+?_severity #Allvarlighetsgrad
 ?_pubYear #Publiceringsår
 ?_isPublished #Publicerad
 ?_publicatType #Publikationstyp/output
