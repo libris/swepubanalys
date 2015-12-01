@@ -10,17 +10,20 @@
 		</div>
 		<!-- Show buttons -->
 		<div class="{{ $data._styles.ShowFieldButtons }}">
+			<template v-if="isTemplateField(fields.output, templateName)">
+				<show-field-button :field.sync="fields.output" :get-field-index.once="getFieldIndex"></show-field-button>
+			</template>
 			<template v-if="isTemplateField(fields.publType, templateName)">
-				<show-field-button :field.sync="fields.publType" :get-field-index="getFieldIndex"></show-field-button>
+				<show-field-button :field.sync="fields.publType" :get-field-index.once="getFieldIndex"></show-field-button>
 			</template>
 			<template v-if="isTemplateField(fields.authorLabel, templateName)">
-				<show-field-button :field.sync="fields.authorLabel" :get-field-index="getFieldIndex"></show-field-button>
+				<show-field-button :field.sync="fields.authorLabel" :get-field-index.once="getFieldIndex"></show-field-button>
 			</template>
 			<template v-if="isTemplateField(fields.orcid, templateName)">
-				<show-field-button :field.sync="fields.orcid" :get-field-index="getFieldIndex"></show-field-button>
+				<show-field-button :field.sync="fields.orcid" :get-field-index.once="getFieldIndex"></show-field-button>
 			</template>
 			<template v-if="isTemplateField(fields.openaccess, templateName)">
-				<show-field-button :field.sync="fields.openaccess" :get-field-index="getFieldIndex"></show-field-button>
+				<show-field-button :field.sync="fields.openaccess" :get-field-index.once="getFieldIndex"></show-field-button>
 			</template>
 		</div>
 		<!-- Search button -->

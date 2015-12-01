@@ -12,6 +12,7 @@ var OrgInput = require('components/OrgInput/OrgInput.js');
 var TimeInput = require('components/TimeInput/TimeInput.js');
 var SubjectInput = require('components/SubjectInput/SubjectInput.js');
 var PublTypeInput = require('components/PublTypeInput/PublTypeInput.js');
+var OutputInput = require('components/OutputInput/OutputInput.js');
 var AuthorLabelInput = require('components/AuthorLabelInput/AuthorLabelInput.js');
 var OrcidInput = require('components/OrcidInput/OrcidInput.js');
 var OAInput = require('components/OAInput/OAInput.js');
@@ -61,6 +62,10 @@ var SearchForm = {
 			components: { 'publ-type-input': PublTypeInput },
 			template: require('./inputs/publType.html')
 		},
+		'output': {
+			components: { 'output-input': OutputInput },
+			template: require('./inputs/output.html')
+		},
 		'authorLabel': {
 			components: { 'author-label-input': AuthorLabelInput },
 			template: require('./inputs/authorLabel.html')
@@ -93,6 +98,9 @@ var SearchForm = {
 			}
 			if(formSuggestions.publTypes) {
 				this.$set('fields.publType.suggestions', formSuggestions.publTypes);
+			}
+			if(formSuggestions.output) {
+				this.$set('fields.output.suggestions', formSuggestions.output);
 			}
 		}.bind(this));
 		// Apply on-change listener and trigger on-change once
@@ -200,7 +208,7 @@ var SearchForm = {
 						from: this.fields.time.from,
 						to: this.fields.time.to,
 						subject: this.fields.subject.value,
-						publtype: this.fields.publType.value,
+						output: this.fields.output.value,
 						author: this.fields.authorLabel.value,
 						orcid: this.fields.orcid.value,
 						openaccess: this.fields.openaccess.value,
@@ -246,9 +254,9 @@ Vue.filter('orderFields', function(fields) {
 });
 
 var templateFields = {
-	'simple': ['org', 'time', 'subject', 'publType', 'openaccess', 'publStatus'],
-	'duplicates': ['org', 'time'],
-	'QfBibliometrics': ['org', 'time', 'subject', 'publType', 'authorLabel', 'orcid', 'openaccess', 'publStatus'],
+	'simple': 			['org', 'time', 'subject', 'publType', 'openaccess', 'publStatus'],
+	'duplicates': 		['org', 'time'],
+	'QfBibliometrics': 	['org', 'time', 'subject', 'output', 'authorLabel', 'orcid', 'openaccess', 'publStatus'],
 };
 
 /**
@@ -288,6 +296,15 @@ var getDefaultFields = function() {
 			suggestions: [],
 			fieldName: 'publType',
 			name: 'Publikationstyp'
+		},
+		output: {
+			index: 5,
+			show: false,
+			value: '',
+			labels: [],
+			suggestions: [],
+			fieldName: 'output',
+			name: 'Outputtyp'
 		},
 		authorLabel: { 
 			index: 5,

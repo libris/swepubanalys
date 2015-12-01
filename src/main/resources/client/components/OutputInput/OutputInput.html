@@ -1,0 +1,13 @@
+<div>
+	<form-field-wrapper>
+		<div slot="FormFieldInput" v-el:form-field-input>
+			<autocomplete-input :val.sync="outputs" :options="field.suggestions" v-ref:input></autocomplete-input>
+		</div>
+		<div slot="HelpButton">
+			<help-initiator-button></help-initiator-button>
+		</div>
+		<div slot="HideButton">
+			<hide-field-button :field.sync="field" :on-click-hide-field="onClickHideField"></hide-field-button>
+		</div>
+	</form-field-wrapper>
+</div>

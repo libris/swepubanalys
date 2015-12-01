@@ -8,7 +8,12 @@
 			<div class="{{ $data._styles.Close }}" v-on:click="onClickContainer(false)">X</div>
 			<div class="{{ $data._styles.MailExport }}" v-on:click="onClickContainer">
 				<div v-if="sent">
-					Servern skapar din fil och en länk kommer att skickas till <b>{{ email }}</b>.
+					<div class="{{ $data._styles.MailExportTitle }}">
+						<p>Servern skapar din fil</p>
+					</div>
+					<div class="{{ $data._styles.MailExportContent }}">
+						Servern skapar din fil och en länk kommer att skickas till <b>{{ email }}</b>.
+					</div>
 				</div>
 				<div v-if="!sent">
 					<div class="{{ $data._styles.MailExportTitle }}">

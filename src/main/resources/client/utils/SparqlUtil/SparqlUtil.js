@@ -98,6 +98,7 @@ var SparqlUtil = {
     	var to 				= formModel.to || '';
     	var openaccess 		= formModel.openaccess;
     	var publtype 		= formModel.publtype;
+    	var output			= formModel.output;
     	var subject 		= formModel.subject || '';
     	var status 			= formModel.status || 'all';
     	var errortype 		= '';
@@ -147,6 +148,9 @@ var SparqlUtil = {
                 }
                 if(publtype) {
                     filters_string = filters_string.replace(/#(FILTER)_<\?_publicatType>(.*?)<\?_publicatType>(.*)$/mi, "$1$2" + qs(publtype) + "$3");
+                }
+                if(output) {
+                    filters_string = filters_string.replace(/#(FILTER)_<\?_outputCode>(.*?)<\?_outputCode>(.*)$/mi, "$1$2" + qs(output) + "$3");
                 }
                 if(openaccess) {
                     filters_string = filters_string.replace(/#(FILTER)_<\?_OA>(.*)$/mi, "$1$2");
