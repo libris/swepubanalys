@@ -1,11 +1,12 @@
 <div>
-	<slot name="QueryFormTitle"></slot>
+	<div style="display: inline-block"><slot name="QueryFormTitle"></slot></div>
+	<div style="display: inline-block; vertical-align: middle; margin-top: -12px;"><help-initiator-button></help-initiator-button></div>
 	<div class="row">
 		<div class="col-xs-6">
 			<slot name="QueryFormDescription"></slot>
 		</div>
 		<div class="col-xs-2" style="text-align: right;">
-			<help-initiator-button></help-initiator-button>
+			
 		</div>
 	</div>
 	<div class="row">
