@@ -113,7 +113,7 @@ var formSuggestions = {
         { value: 'sh', text: 'Södertörns högskola' },
         { value: 'umu', text: 'Umeåuniversitet' },
         { value: 'uu', text: 'Uppsala universitet' },
-        { value: 'oru', text: 'Örebro universitet' },
+        { value: 'oru', text: 'Örebro universitet' }
 	],
 	subjects: [
 		{ 
@@ -141,7 +141,7 @@ var formSuggestions = {
 	            { value: '208', text: '208 Miljöbioteknik' },
 	            { value: '209', text: '209 Industriell bioteknik' },
 	            { value: '210', text: '210 Nanoteknik' },
-	            { value: '211', text: '211 Annan teknik' },
+	            { value: '211', text: '211 Annan teknik' }
         	]
         },
         { 
@@ -151,7 +151,7 @@ var formSuggestions = {
 	            { value: '302', text: '302 Klinisk medicin' },
 	            { value: '303', text: '303 Hälsovetenskaper' },
 	            { value: '304', text: '304 Medicinsk bioteknologi' },
-	            { value: '305', text: '305 Annan medicin och hälsovetenskap' },
+	            { value: '305', text: '305 Annan medicin och hälsovetenskap' }
 	        ]
         },
         { label: '4 Lantbruksvetenskap',
@@ -160,7 +160,7 @@ var formSuggestions = {
 	            { value: '402', text: '402 Husdjursvetenskap' },
 	            { value: '403', text: '403 Veterinärmedicin' },
 	            { value: '404', text: '404 Bioteknologi med applikationer på växter och djur' },
-	            { value: '405', text: '405 Andra lantbruksrelaterade vetenskaper' },
+	            { value: '405', text: '405 Andra lantbruksrelaterade vetenskaper' }
 	        ]
         },
         { 
@@ -174,7 +174,7 @@ var formSuggestions = {
 	            { value: '506', text: '506 Statsvetenskap' },
 	            { value: '507', text: '507 Social och ekonomisk geografi' },
 	            { value: '508', text: '508 Medie- och kommunikationsvetenskap' },
-	            { value: '509', text: '509 Annan samhällsvetenskap' },
+	            { value: '509', text: '509 Annan samhällsvetenskap' }
 	        ]
         },
         { 
@@ -184,7 +184,7 @@ var formSuggestions = {
 	            { value: '602', text: '602 Språk och litteratur' },
 	            { value: '603', text: '603 Filosofi, etik och religion' },
 	            { value: '604', text: '604 Konst' },
-	            { value: '605', text: '605 Annan humaniora' },
+	            { value: '605', text: '605 Annan humaniora' }
 	        ]
 	    }
 	],
@@ -202,7 +202,48 @@ var formSuggestions = {
 		{ value: 'rec', text: 'Recension' },
 		{ value: 'sam', text: 'Samlingsverk (redaktörskap)' },
 		{ value: 'art', text: 'Tidskriftsartikel' },
-		{ value: 'ovr', text: 'Annan publikation' },
+		{ value: 'ovr', text: 'Annan publikation' }
+	],
+	output: [
+		{ text: 'Immaterialrättslig output - Alla', 	value: 'intellectual-property' },
+		{ text: 'Immaterialrättslig output - Patent', 	value: 'intellectual-property/patent' },
+		{ text: 'Immaterialrättslig output - Övriga', 	value: 'intellectual-property/other' },
+		
+		{ text: 'Konstnärlig output - Alla',				 					value: 'artistic-work' },
+		{ text: 'Konstnärlig output (Övergripande kategori)', 					value: 'artistic-work/creative-work' },
+		{ text: 'Konstnärlig output - Curerad/producerad utställning', 			value: 'artistic-work/curated-exhibition-or-event' },
+		{ text: 'Konstnärlig output - Liveframförande av konstnärligt arbete', 	value: 'artistic-work/live-performance-of-creative-work' },
+		{ text: 'Konstnärlig output - Konstnärligt arbete',						value: 'artistic-work/original-creative-work' },
+		{ text: 'Konstnärlig output - Övriga',									value: 'artistic-work/other' },
+		{ text: 'Konstnärlig output - Inspelat konstnärligt arbete',			value: 'artistic-work/recorded-or-rendered-creative-work' },
+		
+		{ text: 'Konferensoutput - Alla', 										value: 'conference' },
+		{ text: 'Konferensoutput - Konferensbidrag (Offentliggjord, men ej förlagsutgivna)', 	value: 'conference/contribution' },
+		{ text: 'Konferensoutput - Övriga',										value: 'conference/other' },
+		{ text: 'Konferensoutput - Paper i proceeding', 						value: 'conference/paper' },
+		{ text: 'Konferensoutput - Poster', 									value: 'conference/poster' },
+		{ text: 'Konferensoutput - Proceeding (redaktörskap)', 					value: 'conference/proceeding' },
+		
+		{ text: 'Publikation - Alla', 											value: 'publication' },
+		{ text: 'Publikation - Bok', 											value: 'publication/book' },
+		{ text: 'Publikation - Kapitel i samlingsverk', 						value: 'publication/book-chapter' },
+		{ text: 'Publikation - Recension', 										value: 'publication/book-review' },
+		{ text: 'Publikation - Doktorsavhandling', 								value: 'publication/doctoral-thesis' },
+		{ text: 'Publikation - Samlingsverk (redaktörskap)', 					value: 'publication/edited-book' },
+		{ text: 'Publikation - Inledande text i tidskrift / proceeding', 		value: 'publication/editorial-letter' },
+		{ text: 'Publikation - Bidrag till encyklopedi',						value: 'publication/encyclopedia-entry' },
+		{ text: 'Publikation - Artikel i vetenskaplig tidskrift', 				value: 'publication/journal-article' },
+		{ text: 'Publikation - Special-/temanummer av tidskrift (redaktörskap)',	value: 'publication/journal-issue' },
+		{ text: 'Publikation - Licentiatavhandling', 							value: 'publication/licentiate-thesis' },
+		{ text: 'Publikation - Artikel i övriga tidskrifter', 					value: 'publication/magazine-article' },
+		{ text: 'Publikation - Artikel i dags-/nyhetstidning', 					value: 'publication/newspaper-article' },
+		{ text: 'Publikation - Övriga',											value: 'publication/other' },
+		{ text: 'Publikation - Rapport',										value: 'publication/report' },
+		{ text: 'Publikation - Forskningsöversiktsartikel', 					value: 'publication/review-article' },
+		{ text: 'Publikation - Textkritisk översättningsutgåva', 				value: 'publication/translation' },
+		{ text: 'Publikation - Working paper', 									value: 'publication/working-paper' },
+		
+		{ text: 'Övrig output - Dataset', value: 'other/data-set' }
 	]
 };
 
