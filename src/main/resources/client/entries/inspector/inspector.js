@@ -66,7 +66,7 @@ var Inspector = {
 		/**
 		 * Broadcast events based on url-parameters
 		 */
-		require('vue').nextTick(function() {
+		Vue.nextTick(function() {
 			// &org=
 			var org = getQueryVariable('org');
 			if(org) { this.$broadcast('set-org-value', org); }
@@ -83,17 +83,26 @@ var Inspector = {
 			this.$broadcast('set-time-values', time);
 			// &activity=
 			var activity = getQueryVariable('activity');
-			if(activity) {
-				if(activity === 'DUPLICATES') {
-					this.$emit('search-duplicates');	
-				}
-			}
+            if(activity && (org || to || time)) {
+                // Wait for next tick as some form-elements are being set
+                require('vue').nextTick(function() {
+                    this.$emit('start-activity', activity);
+                }.bind(this));
+            } else if(activity) {
+                this.$emit('start-activity', activity);
+            }
 		}.bind(this));
 	},
 	events: {
-		'search-duplicates': function() {
-			this.startActivity('DUPLICATES');
-		}
+        /**
+         * Start an activity
+         */
+        'start-activity': function(activity) {
+            if(activity === 'DUPLICATES') {
+                this.startActivity(activity);
+            }
+		},
+       
 	},
 	methods: {
 		/**
