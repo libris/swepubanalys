@@ -255,7 +255,7 @@ categories.forEach(function(category, i) {
 	} else if(category === 'Felaktiga poster') {
 		colorCategories[category] = '#FFC300';
 	} else if(category === 'Alla lärosäten') {
-		colorCategories[category] = '#52bd34';
+		colorCategories[category] = '#8459A4';
 	} else {
 		colorCategories[category] = strongColorPattern[(i+offset)%l];
 	}
