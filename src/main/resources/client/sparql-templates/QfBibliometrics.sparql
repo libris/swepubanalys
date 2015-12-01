@@ -10,7 +10,7 @@ SELECT DISTINCT
 ?_status #Publiceringsstatus #-
 ?_publicatType #Publikationstyp (*)
 ?_contentType #Innehållstyp #-
-?_outputCode  #Vetenskaplig output
+?_outputCode  #outputtyp
 ?_OA #OA typ (*) #-
 ?_hsv1 #Ämne nivå 1 (*) #-
 ?_hsv3 #Ämne nivå 2 (*) 
@@ -237,7 +237,9 @@ UNION
 #FILTER_<?_orgCode> ( xsd:string(?_orgCode) IN ( <?_orgCode> ) ) 
 #FILTER_<?_pubYear_low> ( ?_pubYear >= <?_pubYear_low> ) 
 #FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> ) 
-#FILTER_<?_publicatType> (xsd:string(?_publicatType) IN ( <?_publicatType> ) ) 
+#FILTER_<?_publicatType> (xsd:string(?_publicatType) IN ( <?_publicatType> ) )
+#FILTER_<?_outputCode> (xsd:string(?_outputCode) IN ( <?_outputCode> ) )
+
 #FILTER_<?_contentType> (xsd:string(?_contentType) IN ( <?_contentType> ) ) 
 #FILTER_<?_isPublished> ( ?_isPublished = <?_isPublished> ) 
 #FILTER_<?_hsv3> ( xsd:int(?_hsv3) IN ( <?_hsv3> ) )
