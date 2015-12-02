@@ -10,22 +10,23 @@ var ResultMixin = require('mixins/ResultMixin/ResultMixin.js');
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
 // CSS-modules
 var styles = _assign(
-	require('!!style!css?modules!./DuplicatesList.css'),
+	require('!!style!css?modules!./AmbiguitiesList.css'),
 	require('!!style!css?modules!css/modules/StaticHeader.css')
 );
 // CSS
 require('css/transitions.css');
 
 /**
- * Duplicates List Component
+ * Ambiguities List Component
  * @prop {Object} formModel
  * @prop {Object} fields
  * @prop {Function} onResultReceived
+ * @prop {Function} onGenerateQuery
  */
-var DuplicatesList = {
+var AmbiguitiesList = {
 	mixins: [ResultMixin],
-	props: ['formModel', 'fields', 'onResultReceived'],
-	template: require('./DuplicatesList.html'),
+	props: ['formModel', 'fields', 'onResultReceived', 'onGenerateQuery'],
+	template: require('./AmbiguitiesList.html'),
 	data: function() {
 		return {
 			pendingUpdate: false,
@@ -85,9 +86,12 @@ var DuplicatesList = {
 			};
 			SparqlUtil.generateQuery(conf, function(query) {
 				this.$set('query', query);
+				if(this.onGenerateQuery) {
+					this.onGenerateQuery(query);
+				}
 			}.bind(this));
 		}
 	}
 };
 
-module.exports = DuplicatesList;
+module.exports = AmbiguitiesList;

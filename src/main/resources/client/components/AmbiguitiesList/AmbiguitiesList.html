@@ -1,5 +1,5 @@
 <div class="{{ $data._resultStyles.Result }}">
-	<div class="{{ $data._resultStyles.Loading }}">
+	<div class="{{ $data._resultStyles.Loading }} {{ $data._styles.Loading }}">
 		<div v-if="pendingUpdate === true" transition="expand" class="{{ $data._styles.PendingUpdate }}">
 			<h2>Laddar...</h2>
 		</div>
@@ -7,22 +7,11 @@
 	        <h2>Tomt sökresultat</h2>
 	    </div>
 	</div>
-	<div class="{{ $data._resultStyles.Container }}" v-if="hasNonEmptyResult()">
+	<div class="{{ $data._resultStyles.Container }} background-main" v-if="hasNonEmptyResult()">
 		<div v-show="pendingUpdate !== true" class="{{ $data._styles.DuplicatesList }}">
-			<div class="{{ $data._resultStyles.Item }}">
-				<slot name="DuplicatesListTitle"></slot>
-				<div class="row">
-					<div class="col-xs-8">
-						<slot name="DuplicatesListDescription"></slot>
-					</div>
-					<div class="col-xs-4">
-						<mail-export :query="query"></mail-export>
-					</div>
-				</div>
-			</div>
 			<div class="{{ $data._styles.TableContainer }}">
 				<table class="table {{ $data._styles.StaticHeader }}" style="table-layout: inherit; width: 100%">
-					<thead class="{{ $data._styles.Thead }} thead" style="table-layout: initial;">					
+					<thead class="{{ $data._styles.Thead }} background-main" style="table-layout: initial;">					
 						<th class="{{ $data._styles.Th }} {{ $data._styles.Col1 }}">
 							<p class="{{ $data._styles.FieldName }}">
 								Organisation
@@ -35,11 +24,10 @@
 						</th>
 						<th class="{{ $data._styles.Th }} {{ $data._styles.Col3 }}"></th>
 					</thead>
-					<tbody class="{{ $data._styles.Tbody }}">
+					<tbody class="{{ $data._styles.Tbody }} background-light">
 						<template track-by="$index" v-for="article in ((result && result.results && result.results.bindings) ? result.results.bindings : [])" transition="expand">
 							<tr class="{{ $parent.$data._styles.DarkRow }}">
 								<td class="{{ $parent.$data._styles.Col1 }}">
-									
 									<p><b>{{ article._orgCode1 ? article._orgCode1.value : '' }}</b></p>
 									<p>{{ article._id1 ? article._id1.value : '' }}</p>
 								</td>
@@ -49,7 +37,7 @@
 								</td>
 								<td class="{{ $parent.$data._styles.Col3 }}">
 									<div class="{{ $parent.$data._styles.ExpandButtonContainer }}">
-										<button v-on:click="setHandleArticle(article)" class="btn btn-md btn-success">
+										<button v-on:click="setHandleArticle(article)" class="btn btn-sm btn-info">
 											<i class="fa fa-expand"></i>
 										</button>
 									</div>

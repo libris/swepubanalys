@@ -2,11 +2,7 @@
 	text-align: center;
 }
 
-.DuplicatesList {
-}
-
 .TableContainer {
-	margin-top: 50px;
 	width: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -15,6 +11,10 @@
 .Borderless { 
 	border-top: none !important; 
  }
+
+.Loading {
+	color: #FFFFFF;
+}
 
 .LoadingRow {
 	text-align: center; 
@@ -25,7 +25,7 @@
 .ExpandButtonContainer {
 	text-align: right; 
 	padding-top: 15px; 
-	padding-right: 15px;
+	padding-right: 5px;
 }
 
 .Col1 {
@@ -43,6 +43,11 @@
 }
 
 .Th {
+	border: none !important;
+}
+
+.Th > p {
+	padding-left: 3px;
 }
 
 .Thead {
@@ -76,8 +81,4 @@
 
 .DifferingValues {
 	color: red;
-}
-
-.Query {
-	margin-top: 55px;
 }

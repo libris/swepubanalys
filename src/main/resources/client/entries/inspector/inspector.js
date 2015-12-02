@@ -10,7 +10,7 @@ var SiteWrapper = require('components/SiteWrapper/SiteWrapper.js');
 var Chart = require('components/Chart/Chart.js');
 var SearchForm = require('components/SearchForm/SearchForm.js');
 var SearchResult = require('components/SearchResult/SearchResult.js');
-var DuplicatesList = require('components/DuplicatesList/DuplicatesList.js');
+var AmbiguitiesTool = require('components/AmbiguitiesTool/AmbiguitiesTool.js');
 var MatchWeightHelp = require('components/Helps/MatchWeightHelp/MatchWeightHelp.js');
 var DuplicatesHelp = require('components/Helps/DuplicatesHelp/DuplicatesHelp.js');
 var Carousel = require('components/Carousel/Carousel.js');
@@ -59,7 +59,7 @@ var Inspector = {
 		'search-result': SearchResult,
 		'duplicates-help': DuplicatesHelp,
 		'match-weight-help': MatchWeightHelp,
-		'duplicates-list': DuplicatesList,
+		'ambiguities-tool': AmbiguitiesTool,
 		'carousel': Carousel
 	},
 	ready: function() {
@@ -98,7 +98,7 @@ var Inspector = {
          * Start an activity
          */
         'start-activity': function(activity) {
-            if(activity === 'DUPLICATES') {
+            if(activity === 'AMBIGUITIES') {
                 this.startActivity(activity);
             }
 		},
@@ -158,7 +158,7 @@ var Inspector = {
 				case 'LOCAL_DUPLICATES':
 					formData.formModel.templateName = 'duplicates';
 				break;
-				case 'DUPLICATES':
+				case 'AMBIGUITIES':
 					formData.formModel.templateName = 'AmbiguityListing';
 				break;
 			}

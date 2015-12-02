@@ -24,7 +24,7 @@
 					</div>
 				</div>
 			</div>
-			<div>
+			<div v-if="false">
 				<carousel :conf.once="$data._carouselConf" :on-navigate="onCarouselNavigate">
 					<div slot="CarouselContent-4">
 						<div>&nbsp;</div>
@@ -148,7 +148,7 @@
 				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
 					VISA DUBBLETTKANDIDATER
 				</button>
-				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('DUPLICATES')">
+				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('AMBIGUITIES')">
 					VISA SAMARBETSPUBLIKATIONER
 				</button>
 			</div>
@@ -183,18 +183,12 @@
 					</div>
 				</search-result>
 				<!-- Duplicates activity -->
-				<duplicates-list 
-						v-if="activity === 'DUPLICATES'" 
-						:form-model="formData.formModel" 
-						:fields="formData.fields" 
-						:on-result-received.once="onResultReceived">
-					<div slot="DuplicatesListTitle">
-						<h2>SAMARBETSPUBLIKATIONER</h2>
-					</div>
-					<div slot="DuplicatesListDescription">
-						<p>Valda publikationsposter innehåller motstridiga metadata. Dessa behöver följas upp för att posterna ska tas med i datauttag för analyser på nationell nivå</p>
-					</div>
-				</duplicates-list>
+				<ambiguities-tool 
+					v-if="activity === 'AMBIGUITIES'"
+					:form-model="formData.formModel" 
+					:fields="formData.fields" 
+					:on-result-received.once="onResultReceived">
+				</ambiguities-tool>
 			</div>
 		</div>
 	</site-wrapper>
