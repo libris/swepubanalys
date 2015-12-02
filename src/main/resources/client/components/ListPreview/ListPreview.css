@@ -1,10 +1,10 @@
 .ListPreview {
-    max-height: 520px;
+    max-height: 820px;
     overflow-y: auto;
 }
 
 .ListBody {
-    max-height: 400px;
+    max-height: 700px;
     background: #ffffff;
 }
 

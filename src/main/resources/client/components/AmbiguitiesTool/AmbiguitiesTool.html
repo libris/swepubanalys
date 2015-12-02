@@ -20,12 +20,14 @@
 	<!-- Content -->
  	<div class="{{ $data._styles.Content }}">
  		<!-- Tabs -->
-		<div v-if="loggedIn">
+		<div>
 			<ul class="nav nav-tabs" role="tablist">
 				<li role="presentation" class="background-main">
-					<a href="#raw-list" aria-controls="form" role="tab" data-toggle="tab">Maskinellt urval</a>
+					<a href="#raw-list" aria-controls="form" role="tab" data-toggle="tab">
+						<i class="fa fa-database"></i> Maskinellt urval
+					</a>
 				</li>
-				<li role="presentation" class="{{ $data._styles.DarkBackground }}">
+				<li role="presentation" class="{{ $data._styles.DarkBackground }}" v-if="loggedIn">
 					<a href="#flagged-other" aria-controls="profile" role="tab" data-toggle="tab">Flaggade från andra lärosäten</a>
 				</li>
 			</ul>
