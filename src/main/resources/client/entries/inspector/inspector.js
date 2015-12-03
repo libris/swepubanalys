@@ -266,26 +266,44 @@ var violationGrade3Color = '#F07B38';
 var violationGrade2Color = '#FFDA60';
 var violationGrade1Color = '#52bd34';
 
-var violationTypeColorCategories = {
-	'Multiple variants of name': violationGrade2Color,
-	'Missing UK\u00c4/SCB 3-digit subject code': violationGrade1Color,
-	'Missing local creator': violationGrade3Color,
-    'Missing creator count': violationGrade3Color,
-	'Missing identifier of local creator': violationGrade3Color,
-    'Missing Conference Title Violation': violationGrade3Color,
-    'ISBN at wrong place violation': violationGrade3Color,
-    'Missing ISSN Violation': violationGrade3Color,
-    'DOI format violation': violationGrade3Color,
-    'ISBN format Violation': violationGrade2Color,
-    'ISSN format violation': violationGrade3Color,
-    'Href / local ID violation': violationGrade3Color,
-    'Creator count mismatch': violationGrade3Color,
-    'ORCID format violation': violationGrade3Color,
-    'Duplicate Name Violation': violationGrade2Color,
-    'ISBN country code Violation': violationGrade2Color,
-    'ISI format violation': violationGrade3Color,
-    'Obsolete publication status violation': violationGrade2Color,
+var violationTypeGrades = {
+	'Multiple variants of name': 2,
+	'Missing UK\u00c4/SCB 3-digit subject code': 1,
+	'Missing local creator': 3,
+    'Missing creator count': 3,
+	'Missing identifier of local creator': 3,
+    'Missing Conference Title Violation': 3,
+    'ISBN at wrong place violation': 3,
+    'Missing ISSN Violation': 3,
+    'DOI format violation': 3,
+    'ISBN format Violation': 2,
+    'ISSN format violation': 3,
+    'Href / local ID violation': 3,
+    'Creator count mismatch': 3,
+    'ORCID format violation': 3,
+    'Duplicate Name Violation': 2,
+    'ISBN country code Violation': 2,
+    'ISI format violation': 3,
+    'Obsolete publication status violation': 2,
 };
+
+var violationTypeColorCategories = {};
+Object.keys(violationTypeGrades).map(function(type) {
+	var color;
+	switch(violationTypeGrades[type]) {
+		case 1:
+			color = violationGrade1Color;
+		break;
+		case 2:
+			color = violationGrade2Color;
+		break;
+		case 3:
+			color = violationGrade3Color;
+		break;
+	}
+	violationTypeColorCategories[type] = color;
+});
+violationTypeColorCategories['_categories'] = violationTypeGrades;
 
 var initialData = {
 	// UI

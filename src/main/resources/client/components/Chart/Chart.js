@@ -64,7 +64,7 @@ var Chart = {
 				},
 				size: {
 					height: this.height
-				},
+				}
 			};
 			// Tick format
 			if(this.tickFormat) {
@@ -107,8 +107,17 @@ var Chart = {
 					pattern: this.colorPattern
 				}
 			}
-			this._chart = c3.generate(config);
-			this.update();
+			overridePieSort(function() {
+				// Before
+			}, function() {
+				// After
+				this._chart = c3.generate(config);
+				this.update();
+			}.bind(this), function(a, b) { // Sort function
+				if(this.colorCategories._categories) {
+	    			return this.colorCategories._categories[b.id] - this.colorCategories._categories[a.id];
+	    		}
+	    	}.bind(this));
 		},
 		/**
 		 * Update chart
@@ -126,6 +135,25 @@ var Chart = {
 		}
 	},
 	_chart: null, // Reference to chart
+}
+
+/**
+ * Monkey patch the initPie function to be able to append a custom sort function
+ */
+var overridePieSort = function(before, after, sort) {
+	before && before();
+	var original = c3.chart.internal.fn.initPie;
+	c3.chart.internal.fn.initPie = function() {
+		c3.chart.internal.fn.d3 = require('d3');
+		c3.chart.internal.fn.config = {};
+		c3.chart.internal.fn.pie = d3.layout.pie().value(function (d) {
+	        return d.values.reduce(function (a, b) { return a + b.value; }, 0);
+	    }).sort(sort);
+	    c3.chart.internal.fn.d3 = undefined;
+		c3.chart.internal.fn.config = undefined;
+	}
+	after && after();
+	c3.chart.internal.fn.initPie = original;
 }
 
 module.exports = Chart;
