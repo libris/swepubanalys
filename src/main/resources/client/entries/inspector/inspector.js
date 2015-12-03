@@ -149,22 +149,24 @@ var Inspector = {
 			}
 		},
 		/**
-		 *
+		 * Callback sent to ViolationDropdown
+		 * @param {String} code
+		 * @param {Object} violation
 		 */
-		onClickViolationOption: function(violation) {
+		onClickViolationOption: function(code, violation) {
 			// Clear
-			this.$delete('formModel.violation');
+			this.$set('formModel.violation', undefined);
 			this.$set('fields', (this.fields || []).filter(function(field) {
 				return field && field.fieldName && field.fieldName !== 'violation';
 			}));
 			// Add to formModel
-			if(typeof violation === 'string') {
-				this.$set('formModel.violation', violation);
+			if(typeof code === 'string') {
+				this.$set('formModel.violation', code);
 				this.fields.push({
 					fieldName: 'violation',
-					value: violation,
+					value: code,
 					labels: [{
-						text: violation
+						text: violation.name
 					}]
 				});
 			}
@@ -296,7 +298,7 @@ var violationGrade2Color = '#FFDA60';
 var violationGrade1Color = '#52bd34';
 
 var violationTypeGrades;
-SearchFormUtil.getViolations(function(violations) {
+SearchFormUtil.getViolationGrades(function(violations) {
 	violationTypeGrades = violations;
 });
 

@@ -5,13 +5,16 @@
 			aria-haspopup="true" 
 			aria-expanded="true">
 		<slot name="Title">
-		<span class="caret"></span>
 	</button>
 	<ul class="dropdown-menu" aria-labelledby="violations">
 		<li><a href="javascript:null;" v-on:click="onClickOption(null)">Alla</a></li>
 		<li role="separator" class="divider"></li>
 		<template v-for="violation in violations">
-			<li><a href="javascript:null;" v-on:click="onClickOption($key)">{{ $key.charAt(0).toUpperCase() + $key.slice(1); }}</a></li>
+			<li>
+				<a href="javascript:null;" v-on:click="onClickOption($key, violation)">
+					{{ violation.name.charAt(0).toUpperCase() + violation.name.slice(1); }}
+				</a>
+			</li>
 		</template>		
 	</ul>
 </div>
