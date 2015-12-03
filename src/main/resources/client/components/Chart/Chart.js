@@ -29,9 +29,7 @@ var Chart = {
 	ready: function() {
 		var el = this.$el;
 		// Finish current call stack before creating chart
-        setTimeout(function() {
-            this.create();
-        }.bind(this));
+        this.create();
 		// Update chart if new getContent prop
 		this.$watch('getContent', function() {
 			this.update();
@@ -110,17 +108,23 @@ var Chart = {
 					pattern: this.colorPattern
 				}
 			}
-			overridePieSort(function() {
-				// Before
-			}, function() {
-				// After
+			if(this.type === 'donut' || this.type === 'pie') {
+				overridePieSort(function() {
+					// Before
+				}, function() {
+					// After
+					this._chart = c3.generate(config);
+					this.update();
+				}.bind(this), function(a, b) { // Sort function
+					if(this.colorCategories._categories) {
+		    			return this.colorCategories._categories[b.id] - this.colorCategories._categories[a.id];
+		    		}
+		    	}.bind(this));	
+			} else {
 				this._chart = c3.generate(config);
 				this.update();
-			}.bind(this), function(a, b) { // Sort function
-				if(this.colorCategories._categories) {
-	    			return this.colorCategories._categories[b.id] - this.colorCategories._categories[a.id];
-	    		}
-	    	}.bind(this));
+			}
+			
 		},
 		/**
 		 * Update chart
