@@ -31,6 +31,13 @@ var SearchFormUtil = {
 		callback(filterFieldGroups);
 	},
 	/**
+	 * Get violations
+	 * @param {Function} callback
+	 */
+	getViolations: function(callback) {
+		callback(violations);
+	},
+	/**
 	 * Validates a orcid-value
 	 * @param {String} value
 	 * @param {Function} callback
@@ -343,5 +350,26 @@ var FILTER_FIELD_GROUPS_EXTERNAL = {
 };
 
 var filterFieldGroups = FILTER_FIELD_GROUPS_EXTERNAL;
+
+var violations = {
+	'Multiple variants of name': 2,
+	'missing UK\u00c4/SCB 3-digit subject code': 1,
+	'missing local creator': 3,
+	'missing creator count': 3,
+	'missing identifier of local creator': 3,
+	'Missing Conference Title Violation': 3,
+	'ISBN at wrong place violation': 3,
+	'Missing ISSN Violation': 3,
+	'DOI format violation': 3,
+	'ISBN format Violation': 2,
+	'ISSN format violation': 3,
+	'href / local ID violation': 3,
+	'creator count mismatch': 3,
+	'ORCID format violation': 3,
+	'Duplicate Name Violation': 2,
+	'ISBN country code Violation': 2,
+	'ISI format violation': 3,
+	'Obsolete publication status violation': 2,
+};
 
 module.exports = SearchFormUtil;

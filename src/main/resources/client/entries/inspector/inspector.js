@@ -14,10 +14,12 @@ var AmbiguitiesTool = require('components/AmbiguitiesTool/AmbiguitiesTool.js');
 var MatchWeightHelp = require('components/Helps/MatchWeightHelp/MatchWeightHelp.js');
 var DuplicatesHelp = require('components/Helps/DuplicatesHelp/DuplicatesHelp.js');
 var Carousel = require('components/Carousel/Carousel.js');
+var ViolationsDropdown = require('components/ViolationsDropdown/ViolationsDropdown.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
 var DataUtil = require('utils/DataUtil/DataUtil.js');
+var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 var FormatAggregationUtil = require('utils/FormatAggregationUtil/FormatAggregationUtil.js');
 var getQueryVariable = require('utils/getQueryVariable.js');
 // CSS-modules
@@ -60,7 +62,8 @@ var Inspector = {
 		'duplicates-help': DuplicatesHelp,
 		'match-weight-help': MatchWeightHelp,
 		'ambiguities-tool': AmbiguitiesTool,
-		'carousel': Carousel
+		'carousel': Carousel,
+		'violations-dropdown': ViolationsDropdown
 	},
 	ready: function() {
 		/**
@@ -98,11 +101,14 @@ var Inspector = {
          * Start an activity
          */
         'start-activity': function(activity) {
-            if(activity === 'AMBIGUITIES') {
-                this.startActivity(activity);
-            }
-		},
-       
+        	switch(activity) {
+        		case 'VIOLATIONS':
+        			this.startActivity(activity);
+        		case 'AMBIGUITIES':
+        			this.startActivity(activity);
+        		break;
+        	}
+		}
 	},
 	methods: {
 		/**
@@ -143,6 +149,29 @@ var Inspector = {
 			}
 		},
 		/**
+		 *
+		 */
+		onClickViolationOption: function(violation) {
+			// Clear
+			this.$delete('formModel.violation');
+			this.$set('fields', (this.fields || []).filter(function(field) {
+				return field && field.fieldName && field.fieldName !== 'violation';
+			}));
+			// Add to formModel
+			if(typeof violation === 'string') {
+				this.$set('formModel.violation', violation);
+				this.fields.push({
+					fieldName: 'violation',
+					value: violation,
+					labels: [{
+						text: violation
+					}]
+				});
+			}
+			// Start error-activity
+			this.$emit('start-activity', 'VIOLATIONS');
+		},
+		/**
 		 * Starts an activity
 		 * @param {String} activity
 		 */
@@ -152,7 +181,7 @@ var Inspector = {
 				fields: _cloneDeep(this.fields)
 			}
 			switch(activity) {
-				case 'ERROR_LIST':
+				case 'VIOLATIONS':
 					formData.formModel.templateName = 'quality';
 				break;
 				case 'LOCAL_DUPLICATES':
@@ -215,7 +244,7 @@ Vue.filter('visible', function(d, index, visibleItems) {
 	}
 });
 
-// *** Define colors! *** //
+// *** Define colors and categories for charts! *** //
 
 var colorPattern = ['#FFC300','#FFCB20','#FFD240','#FFDA60','#FFE180','#FFE99F','#FFF0BF','#FFF8DF','#EE681B','#F07B38','#F28E54','#F4A171','#F6B38D','#F9C6AA','#FBD9C6','#FDECE3','#9E0634','#AA254D','#B64467','#C26380','#CF839A','#DBA2B3','#E7C1CC','#F3E0E6','#5B2285','#703E94','#8459A4','#9875B3','#AD91C2','#C1ACD1','#D6C8E1','#EAE3F0','#61B5BF','#75BEC7','#89C8CF','#9CD1D7','#B0DADF','#C4E3E7','#D7ECEF','#EBF6F7'];
 var strongColorPattern = [
@@ -266,26 +295,10 @@ var violationGrade3Color = '#F07B38';
 var violationGrade2Color = '#FFDA60';
 var violationGrade1Color = '#52bd34';
 
-var violationTypeGrades = {
-	'Multiple variants of name': 2,
-	'Missing UK\u00c4/SCB 3-digit subject code': 1,
-	'Missing local creator': 3,
-    'Missing creator count': 3,
-	'Missing identifier of local creator': 3,
-    'Missing Conference Title Violation': 3,
-    'ISBN at wrong place violation': 3,
-    'Missing ISSN Violation': 3,
-    'DOI format violation': 3,
-    'ISBN format Violation': 2,
-    'ISSN format violation': 3,
-    'Href / local ID violation': 3,
-    'Creator count mismatch': 3,
-    'ORCID format violation': 3,
-    'Duplicate Name Violation': 2,
-    'ISBN country code Violation': 2,
-    'ISI format violation': 3,
-    'Obsolete publication status violation': 2,
-};
+var violationTypeGrades;
+SearchFormUtil.getViolations(function(violations) {
+	violationTypeGrades = violations;
+});
 
 var violationTypeColorCategories = {};
 Object.keys(violationTypeGrades).map(function(type) {
@@ -304,6 +317,8 @@ Object.keys(violationTypeGrades).map(function(type) {
 	violationTypeColorCategories[type] = color;
 });
 violationTypeColorCategories['_categories'] = violationTypeGrades;
+
+// *** Initial data for this Vue component *** //
 
 var initialData = {
 	// UI
