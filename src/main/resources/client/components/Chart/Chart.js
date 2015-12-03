@@ -28,7 +28,10 @@ var Chart = {
 	template: '<div></div>',
 	ready: function() {
 		var el = this.$el;
-		this.create();
+		// Finish current call stack before creating chart
+        setTimeout(function() {
+            this.create();
+        }.bind(this));
 		// Update chart if new getContent prop
 		this.$watch('getContent', function() {
 			this.update();
