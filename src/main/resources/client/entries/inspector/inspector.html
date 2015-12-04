@@ -3,11 +3,10 @@
 		<div class="{{ $data._styles.Item }} background-light">
 			<!-- Visualisations -->
 			<h2 style="display: inline-block;">ÖVERSIKT DATAKVALITET</h2>
-			<span v-if="labels.length > 0">
-				- 
-			</span>
 			<span v-for="d in (labels || [])" style="display: inline-block">
-				{{ d.value }}<template v-if="d.index !== $parent.labels.length-1">,&nbsp;</template>
+				<template v-if="d.key === 'org'">
+                    &nbsp;- {{ d.value }}
+                </template>
 			</span>
 			<p>{{ formModel.from }} {{ formModel.from || formModel.to ? '-' : '' }} {{ formModel.to }}</p>
 			<!-- State notifications -->
