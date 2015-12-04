@@ -11,7 +11,7 @@
 		<li role="separator" class="divider"></li>
 		<template v-for="violation in violations">
 			<li>
-				<a href="javascript:null;" v-on:click="onClickOption($key, violation)">
+				<a href="javascript:void(0);" v-on:click="onClickOption($key, violation)">
 					{{ violation.name.charAt(0).toUpperCase() + violation.name.slice(1); }}
 				</a>
 			</li>
