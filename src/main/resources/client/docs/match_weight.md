@@ -6,7 +6,7 @@ Den maskinella identifieringen av dubbletter utgår ifrån en algoritm som bygge
 
 Maskinellt identifierade möjliga dubblettpar vars sammanslagna viktning ligger mellan 0,8 och 1,1 måste bedömas manuellt i systemet. Poster vars viktning är större än 1,1 bedöms maskinellt som dubbletter och ingår inte i uttaget. 
 
-###LÄS MER
+### LÄS MER
 
 [Algoritm för dubbletthantering](http://info.swepub.kb.se/leverans-av-data/dubbletthantering/regler-for-dubbletthantering/)
 
