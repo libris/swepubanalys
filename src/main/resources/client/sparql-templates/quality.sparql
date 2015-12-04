@@ -11,7 +11,8 @@ SELECT DISTINCT
 ?_severity #Allvarlighetsgrad
 ?_pubYear #Publiceringsår
 ?_isPublished #Publicerad
-?_publicatType #Publikationstyp/output
+?_publicatType #Publikationstyp
+?_outputCode  #Outputtyp
 ?_uri #Länk till arkiv
 WHERE
 {
@@ -21,6 +22,12 @@ WHERE
 #START_<?_isPublished>
 ?Record swpa_m:isPublished ?_isPublished .
 #END_<?_isPublished>
+#START_<?_outputCode>
+OPTIONAL {
+?Record swpa_m:hasOutputType ?OutputType .
+?OutputType outt_m:code ?_outputCode .
+}
+#END_<?_outputCode>
 #START_<?_uri>
 ?Mods mods_m:hasIdentifier ?Identifier .
 ?Identifier mods_m:type ?_uriType .
