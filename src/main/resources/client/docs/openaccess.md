@@ -16,4 +16,4 @@ En utsökning av open access i SwePub baseras på attributet **note="free"** i e
 Det går för närvarande inte att få ut information om **hybrid-versioner**, det vill säga när artiklar publiceras i en traditionellt prenumerationsbaserad tidskrift som mot en avgift (article processing charge) görs omedelbart öppet tillgänglig. 
 
 ### LÄS MER  
-[SwePub MODS metadata format specification v. 2.6](http://www.kb.se/dokument/SwePub/v.-2.6-SwePub_MODS_Final_version_2015_09_10.pdf), avsnitt 18.1 URL
+[SwePub MODS metadata format specification v. 2.6, avsnitt 18.1 URL](http://www.kb.se/dokument/SwePub/v.-2.6-SwePub_MODS_Final_version_2015_09_10.pdf)
