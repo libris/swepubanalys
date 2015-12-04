@@ -68,8 +68,8 @@ var FilterFields = {
 		// Initialize help
 		this.initHelp({
 			title: 'FRAKTIONERAD DATA',
-			content: require('./filterFields.Help.html'),
-			anchorToElement: this.$el.getElementsByClassName('fractSymbol')[0],
+			content: require('docs/fractionated_data.md'),
+			anchorToElement: this.$els.fractSymbol,
 			placement: 'top',
 			marginLeft: '3px',
 			marginTop: '-15px'

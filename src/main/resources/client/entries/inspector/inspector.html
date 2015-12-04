@@ -26,6 +26,75 @@
 			</div>
 			<div>
 				<carousel :conf.once="$data._carouselConf" :on-navigate="onCarouselNavigate">
+					<div slot="CarouselContent-1">
+						<div>&nbsp;</div>
+						<div class="{{ $data._styles.ChartContainer }}">
+							<template v-if="pieChart.getContent | visible 1 visibleItems">
+								<div class="{{ $data._styles.GraphTitle }}">
+									<p>TOTAL ANDEL POSTER MED FEL</p>
+								</div>
+								<div>
+									<chart 
+										type="donut"
+										legend-position="bottom"  
+										:color-categories.once="colorCategories"
+										height="390"
+										:get-content="pieChart.getContent">
+									</chart>
+								</div>
+							</template>
+						</div>
+					</div>
+					<div slot="CarouselContent-2">
+						<div>&nbsp;</div>
+						<div class="{{ $data._styles.ChartContainer }}">
+							<template v-if="barChart.getContent | visible 2 visibleItems">
+								<div class="{{ $data._styles.GraphTitle }}">
+									<p>ANDEL FELAKTIGA POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(topp 5)</span></p>
+								</div>
+								<div>
+									<chart 
+										type="bar" 
+										x-axis-type="category" 
+										:show-legend="false"
+										:color-categories.once="colorCategories"
+										height="373"
+										tick-format="0%"
+										:on-click.once="onClickOrg"
+										:get-content="barChart.getContent">
+									</chart>
+								</div>
+							</template>
+						</div>
+					</div>
+					<div slot="CarouselContent-3">
+						<div>&nbsp;</div>
+						<div class="{{ $data._styles.ChartContainer }}">
+							<div v-if="violationTypeDistributionChart.getContent | visible 3 visibleItems">
+								<div class="{{ $data._styles.GraphTitle }}">
+									<p>DISTRIBUTION AV FELTYPER</p>
+								</div>
+								<chart 
+									type="donut" 
+									legend-position="right" 
+									:color-categories.once="violationTypeColorCategories"
+									height="390" 
+									:get-content="violationTypeDistributionChart.getContent">
+								</chart>
+								<div class="{{ $data._styles.ExtraLegend }}">
+									<span>
+										Allvarlighetsgrad 1 <i class="fa fa-circle" v-bind:style="{ color: violationGrade1Color }"></i>
+									</span>
+									<span>
+										Allvarlighetsgrad 2 <i class="fa fa-circle" v-bind:style="{ color: violationGrade2Color }"></i>
+									</span>
+									<span>
+										Allvarlighetsgrad 3 <i class="fa fa-circle" v-bind:style="{ color: violationGrade3Color }"></i>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
 					<div slot="CarouselContent-4">
 						<div>&nbsp;</div>
 						<div class="{{ $data._styles.ChartContainer }}">
@@ -52,76 +121,7 @@
 							</template>
 						</div>
 					</div>
-					<div slot="CarouselContent-2">
-						<div>&nbsp;</div>
-						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="barChart.getContent | visible 2 visibleItems">
-								<div class="{{ $data._styles.GraphTitle }}">
-									<p>ANDEL FELAKTIGA POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(top 5)</span></p>
-								</div>
-								<div>
-									<chart 
-										type="bar" 
-										x-axis-type="category" 
-										:show-legend="false"
-										:color-categories.once="colorCategories"
-										height="373"
-										tick-format="0%"
-										:on-click.once="onClickOrg"
-										:get-content="barChart.getContent">
-									</chart>
-								</div>
-							</template>
-						</div>
-					</div>
-					<div slot="CarouselContent-3">
-						<div>&nbsp;</div>
-						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="violationTypeDistributionChart.getContent | visible 3 visibleItems">
-								<div class="{{ $data._styles.GraphTitle }}">
-									<p>DISTRIBUTION AV FELTYPER</p>
-								</div>
-								<chart 
-									type="donut" 
-									order="asc"
-									legend-position="right" 
-									:color-categories.once="violationTypeColorCategories"
-									height="390" 
-									:get-content="violationTypeDistributionChart.getContent">
-								</chart>
-								<div class="{{ $data._styles.ExtraLegend }}">
-									<span>
-										Allvarlighetsgrad 1 <i class="fa fa-circle" v-bind:style="{ color: violationGrade1Color }"></i>
-									</span>
-									<span>
-										Allvarlighetsgrad 2 <i class="fa fa-circle" v-bind:style="{ color: violationGrade2Color }"></i>
-									</span>
-									<span>
-										Allvarlighetsgrad 3 <i class="fa fa-circle" v-bind:style="{ color: violationGrade3Color }"></i>
-									</span>
-								</div>
-							</template>
-						</div>
-					</div>
-					<div slot="CarouselContent-1">
-						<div>&nbsp;</div>
-						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="pieChart.getContent | visible 1 visibleItems">
-								<div class="{{ $data._styles.GraphTitle }}">
-									<p>TOTAL ANDEL POSTER MED FEL</p>
-								</div>
-								<div>
-									<chart 
-										type="donut"
-										legend-position="bottom"  
-										:color-categories.once="colorCategories"
-										height="390"
-										:get-content="pieChart.getContent">
-									</chart>
-								</div>
-							</template>
-						</div>
-					</div>
+					
 				</carousel>
 			</div>
 			<!-- Search form -->
@@ -142,22 +142,24 @@
 					</div>
 				</search-form>
 				<!-- Activity buttons -->
-				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('ERROR_LIST')">
-					VISA OFULLSTÄNDIG METADATA
-				</button>
+				<violations-dropdown :on-click-option="onClickViolationOption">
+					<div slot="Title">
+						VISA OFULLSTÄNDIG METADATA <span class="fa fa-caret-down"></span>
+					</div>
+				</violations-dropdown>
 				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
 					VISA DUBBLETTKANDIDATER
 				</button>
-				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('DUPLICATES')">
+				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('AMBIGUITIES')">
 					VISA SAMARBETSPUBLIKATIONER
 				</button>
 			</div>
 		</div>
 		<div v-show="activity">
-			<div class="searchResult">
+			<div v-el:search-result>
 				<!-- Error list activity -->
 				<search-result 
-						v-if="activity === 'ERROR_LIST'" 
+						v-if="activity === 'VIOLATIONS'" 
 						:form-model="formData.formModel" 
 						:fields="formData.fields" 
 						:on-result-received.once="onResultReceived">
@@ -183,18 +185,12 @@
 					</div>
 				</search-result>
 				<!-- Duplicates activity -->
-				<duplicates-list 
-						v-if="activity === 'DUPLICATES'" 
-						:form-model="formData.formModel" 
-						:fields="formData.fields" 
-						:on-result-received.once="onResultReceived">
-					<div slot="DuplicatesListTitle">
-						<h2>SAMARBETSPUBLIKATIONER</h2>
-					</div>
-					<div slot="DuplicatesListDescription">
-						<p>Valda publikationsposter innehåller motstridiga metadata. Dessa behöver följas upp för att posterna ska tas med i datauttag för analyser på nationell nivå</p>
-					</div>
-				</duplicates-list>
+				<ambiguities-tool 
+					v-if="activity === 'AMBIGUITIES'"
+					:form-model="formData.formModel" 
+					:fields="formData.fields" 
+					:on-result-received.once="onResultReceived">
+				</ambiguities-tool>
 			</div>
 		</div>
 	</site-wrapper>

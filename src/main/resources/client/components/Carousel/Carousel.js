@@ -44,6 +44,7 @@ var Carousel = {
 			var instance = this.$els.carousel;
 			if(instance) {
 				var conf = _assign({}, this.conf || {});
+				conf.afterMove = this.triggerNavigate;
 				$(instance).owlCarousel(conf);
 				this.$set('instance', instance);
 				this.triggerNavigate();	
@@ -54,14 +55,12 @@ var Carousel = {
 		 */
 		next: function() {
 			this.instance && $(this.instance).trigger('owl.next');
-			this.triggerNavigate();
 		},
 		/**
 		 * Goto previous slide
 		 */
 		prev: function() {
 			this.instance && $(this.instance).trigger('owl.prev');
-			this.triggerNavigate();
 		},
 		/**
 		 * Go to a slide
@@ -69,7 +68,6 @@ var Carousel = {
 		 */
 		goto: function(i) {
 			this.instance && $(this.instance).trigger('owl.goTo', i);
-			this.triggerNavigate();	
 		},
 		/**
 		 * Trigger navigate. This is used to let carousel data bubble up to parent components

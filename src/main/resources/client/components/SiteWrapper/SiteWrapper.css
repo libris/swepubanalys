@@ -21,7 +21,7 @@
 }
 
 .MenuItem a {
-	color: #FFFFFF !important;
+	color: #FFFFFF;
 }
 
 .ActiveMenuItem {
@@ -64,7 +64,7 @@
 	width: 25px;
 }
 
-.TwitterLogo {
+.FALogo {
 	color: black;
 	font-size: x-large;
 }

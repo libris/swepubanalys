@@ -1,17 +1,17 @@
 <div id="swepub-application" class="{{ $data._styles.SiteWrapper }} swepub-application-{{ activity }}">
 	<div class="row {{ $data._styles.MenuBar }}">
-		<div class="col-md-7">
+		<div class="col-md-6">
 		</div>
-		<div class="col-md-5">
+		<div class="col-md-6">
 			<div class="row">
-				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ $data._styles.LightBlueBackground }}">
+				<div class="col-xs-3 {{ $data._styles.MenuItem }} {{ $data._styles.LightBlueBackground }}">
 					<a href="/bibliometriker">BIBLIOMETRI</a>
 				</div>
 				<div class="col-xs-5 {{ $data._styles.MenuItem }} {{ $data._styles.DarkBlueBackground }}">
 					<a href="/granskare">DATABEARBETNING</a>
 				</div>
-				<div class="col-xs-3 {{ $data._styles.MenuItem }} {{ $data._styles.DarkGreyBackground }}" style="color: black;">
-					HJÄLP
+				<div class="col-xs-4 {{ $data._styles.MenuItem }} {{ $data._styles.DarkGreyBackground }}">
+					<a href="https://kundo.se/org/swepub/" target="__kundo__" style="color: black;">FRÅGOR & FÖRSLAG</a>
 				</div>
 			</div>
 		</div>
@@ -54,11 +54,15 @@
 					<div class="col-md-3">
 						<h1>KONTAKT</h1>
 						<ul class="list-unstyled">
-							<li><a href="http://kundo.se/org/swepub/" target="{{ Math.random() }}">Kundo</a></li>
+							<li>
+                                <a href="http://kundo.se/org/swepub/" target="{{ Math.random() }}">
+                                    <i class="fa fa-comment {{ $data._styles.FALogo }}"></i> Frågor & förslag
+                                </a>
+                            </li>
 							<li><a href="http://librisbloggen.kb.se/?s=swepub" target="{{ Math.random() }}">SwePub på LIBRIS-bloggen</a></li>
 							<li>
 								<a href="https://twitter.com/swepub" target="{{ Math.random() }}">
-									<i class="fa fa-twitter {{ $data._styles.TwitterLogo }}"></i> Följ SwePub på Twitter
+									<i class="fa fa-twitter {{ $data._styles.FALogo }}"></i> Följ SwePub på Twitter
 								</a>
 							</li>
 						</ul>

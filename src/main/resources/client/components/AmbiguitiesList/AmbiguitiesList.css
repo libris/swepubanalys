@@ -2,19 +2,20 @@
 	text-align: center;
 }
 
-.DuplicatesList {
-}
-
 .TableContainer {
-	margin-top: 50px;
 	width: 100%;
 	overflow-y: auto;
 	overflow-x: hidden;
 }
 
-.Borderless { 
-	border-top: none !important; 
- }
+.TableContainer td {
+	border: 0px !important;
+}
+
+.TableContainer p {
+	padding-top: 15px;
+	padding-left: 17px;
+}
 
 .LoadingRow {
 	text-align: center; 
@@ -23,30 +24,30 @@
 }
 
 .ExpandButtonContainer {
-	text-align: right; 
+	text-align: right;
+	position: absolute;
+	top: 0;
+	right: 0;
 	padding-top: 15px; 
-	padding-right: 15px;
+	padding-right: 5px;
 }
 
 .Col1 {
 	vertical-align: top;
-	width: 40%;
+	width: 50%;
 }
 
 .Col2 {
 	vertical-align: top;
-	width: 40%;
-}
-
-.Col3 {
-	vertical-align: top;
-}
-
-.Th {
+	width: 50%;
 }
 
 .Thead {
 	table-layout: initial;
+}
+
+.Th {
+	border: 0px !important;
 }
 
 .Tbody {
@@ -54,12 +55,12 @@
 	max-width: 100%;
 }
 
-.FieldName {
-	padding-top: 17px;
+.DarkRow:nth-child(even) {
+	background-color: #fafafa;
 }
 
-.DarkRow {
-	background-color: #fafafa;
+.LightRow {
+	background-color: #ffffff;
 }
 
 .WindowContainer {
@@ -72,12 +73,4 @@
 	border: none;
 	height: 100%;
 	width: 100%;
-}
-
-.DifferingValues {
-	color: red;
-}
-
-.Query {
-	margin-top: 55px;
 }

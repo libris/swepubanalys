@@ -48,7 +48,7 @@ var AuthorLabelInput = {
 		this.initHelp({
 			title: 'UPPHOV',
 			content: require('docs/author_name.md'), 
-			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
+			anchorToElement: this.$els.formFieldInput,
 		});
 	}
 };

@@ -28,7 +28,7 @@
 						</search-form>
 					</div>
 					<!-- Search results -->
-					<div v-show="formData.formModel.templateName" transition="expand">
+					<div v-if="formData.formModel.templateName" transition="expand">
 						<div class="result">
 							<search-result 
 									:form-model="formData.formModel" 
@@ -47,7 +47,7 @@
 					<!-- Query form -->
 					<div class="{{ $data._styles.DarkBackground }} {{ $data._styles.TabContent }}">
 						<query-form :query="generatedQuery" :on-search="onQuerySearch">
-						<div slot="QueryFormTitle">
+							<div slot="QueryFormTitle">
 								<h2>1. FORMULERA SPARQL-FRÅGA</h2>
 							</div>
 							<div slot="QueryFormDescription" class="{{ $data._styles.QueryFormDescription }}">

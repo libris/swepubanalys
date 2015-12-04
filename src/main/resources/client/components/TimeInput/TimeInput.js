@@ -23,6 +23,16 @@ var TimeInput = {
 			}
 		}
 	},
+	events: {
+		'set-time-values': function(years) {
+			if(years.to) {
+				this.$set('field.to', years.to || '');	
+			}
+			if(years.from) {
+				this.$set('field.from', years.from || '');	
+			}
+		}
+	},
 	ready: function() {
 		/**
 		 * Since FieldValidationMixin.isValidAccordingToRegexp checks against props.field.value we have to define

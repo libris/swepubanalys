@@ -1,0 +1,106 @@
+<div class="{{ $data._resultStyles.Result }}">
+	<div class="{{ $data._resultStyles.Loading }}">
+		<div v-if="pendingUpdate === true" transition="expand" class="{{ $data._styles.PendingUpdate }}">
+			<h2>Laddar...</h2>
+		</div>
+	    <div v-if="!hasNonEmptyResult()" class="{{ $data._resultStyles.PendingUpdate }}">
+	        <h2>Tomt sökresultat</h2>
+	    </div>
+	</div>
+	<div class="{{ $data._resultStyles.Container }} background-main" v-if="!pendingUpdate && hasNonEmptyResult()">
+		<div v-show="pendingUpdate !== true" class="{{ $data._styles.DuplicatesList }}">
+			<div class="{{ $data._styles.TableContainer }}">
+				<table class="table {{ $data._styles.StaticHeader }}" style="table-layout: inherit; width: 100%">
+					<thead class="{{ $data._styles.Thead }} background-main" style="table-layout: initial;">
+						<!-- Top row -->
+						<th class="{{ $data._styles.Th }} {{ $data._styles.Col1 }}">
+							<p>ORGANISATION</p>
+						</th>
+						<th class="{{ $data._styles.Th }} {{ $data._styles.Col2 }}">
+							<p>ORGANISATION</p>
+						</th>
+					</thead>
+					<tbody class="{{ $data._styles.Tbody }} background-light">
+						<!-- Collapsed row -->
+						<template 
+								track-by="$index" 
+								v-for="article in ((result && result.results && result.results.bindings) ? result.results.bindings : [])" 
+								transition="expand">
+							<tr class="{{ $parent.$data._styles.DarkRow }} {{ $parent.$data._styles.Td }}">
+								<td class="{{ $parent.$data._styles.Col1 }}">
+									<p>{{ article._orgCode1 ? article._orgCode1.value.toUpperCase() : '' }}</p>
+									<p>{{ article._id1 ? article._id1.value : '' }}</p>
+								</td>
+								<td class="{{ $parent.$data._styles.Col2 }}">
+									<div style="position: relative">
+										<p>{{ article._orgCode1 ? article._orgCode2.value.toUpperCase() : '' }}</p>
+										<p>{{ article._id1 ? article._id2.value : '' }}</p>
+										<div class="{{ $parent.$data._styles.ExpandButtonContainer }}">
+											<button v-on:click="setHandleArticle(article)" class="btn btn-sm btn-info" style="border-radius: 0px;">
+												<i 
+													class="fa" 
+													v-bind:class="{ 'fa-expand': article.show !== true, 'fa-compress': article.show === true }">
+												</i>
+											</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+							<!-- Expanded row -->
+							<!-- Loading... -->
+							<tr v-if="article.show" transition="expand" class="{{ $data._styles.LightRow }}">
+								<template v-if="article.loading">
+									<td colpan="3">
+										<div class="{{ $parent.$data._styles.LoadingRow }}">
+											<h1>Loading...</h1>
+										</div>
+									</td>
+								</template>
+							</tr>
+							<!-- Ambiguities -->
+							<tr v-if="article.show" transition="expand" class="{{ $data._styles.LightRow }}">
+								<template v-if="!article.loading">
+									<td colpan="3">
+										<p><b>MOTSTRIDIGHETER</b></p>
+										<p>
+											<span 
+												class="label label-danger" 
+												v-for="ambiguity in article.ambiguityCase.ambiguities || []"
+												style="margin-right: 5px; font-size: x-small;"
+												title="{{ ambiguity.violatingData }}">
+												{{ ambiguity.type.toUpperCase() }}
+											</span>
+										</p>
+									</td>
+								</template>
+							</tr>
+							<!-- Iframes -->
+							<tr v-if="article.show" transition="expand" class="{{ $data._styles.LightRow }}">
+								<template v-if="!article.loading">
+									<td class="{{ $parent.$data._styles.Col1 }}">
+										<div class="{{ $parent.$data._styles.WindowContainer }}">
+											<iframe 
+												v-if="article.ambiguityCase" 
+												class="{{ $parent.$data._styles.Window }}" 
+												v-bind:src="article.ambiguityCase.record1.uri">
+											</iframe>
+										</div>
+									</td>
+									<td class="{{ $parent.$data._styles.Col2 }}">
+										<div class="{{ $parent.$data._styles.WindowContainer }}">
+											<iframe 
+												v-if="article.ambiguityCase" 
+												class="{{ $parent.$data._styles.Window }}" 
+												v-bind:src="article.ambiguityCase.record2.uri">
+											</iframe>
+										</div>
+									</td>
+								</template>
+							</tr>
+						</template>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

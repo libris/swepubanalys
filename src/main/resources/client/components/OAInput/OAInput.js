@@ -44,7 +44,7 @@ var OAInput = {
 		this.initHelp({
 			title: 'OPENACCESS',
 			content: require('docs/openaccess.md'), 
-			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
+			anchorToElement: this.$els.formFieldInput,
 		});
 	}
 };

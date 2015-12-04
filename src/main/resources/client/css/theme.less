@@ -25,12 +25,12 @@
 
 #swepub-application.swepub-application-bibliometrician .background-main {
 	background-color: @bibliometrician-main;
-	color: #FFFFFF !important;
+	color: #FFFFFF;
 }
 
 #swepub-application.swepub-application-inspector .background-main {
 	background-color: @inspector-main;
-	color: #FFFFFF !important;
+	color: #FFFFFF;
 }
 
 #swepub-application.swepub-application-bibliometrician .background-light {
@@ -51,13 +51,6 @@
 #swepub-application.swepub-application-inspector .background-medium {
 	background-color: @inspector-medium;
 	color: @dark-text !important;
-}
-
-/*** .dropdown ***/
-
-#swepub-application .dropdown-menu {
-	padding: 0px;
-	border: 0px;
 }
 
 /*** .popover ***/
@@ -149,7 +142,13 @@
 /*** .dropdown-menu ***/
 
 #swepub-application .dropdown-menu {
-	border-radius: 3px;
+	border-radius: 0px;
+	border: none;
+	padding: 0px;
+}
+
+#swepub-application .dropdown-menu > li {
+	margin: 0px;
 	padding: 0px;
 }
 

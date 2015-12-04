@@ -10,16 +10,18 @@ var SiteWrapper = require('components/SiteWrapper/SiteWrapper.js');
 var Chart = require('components/Chart/Chart.js');
 var SearchForm = require('components/SearchForm/SearchForm.js');
 var SearchResult = require('components/SearchResult/SearchResult.js');
-var DuplicatesList = require('components/DuplicatesList/DuplicatesList.js');
+var AmbiguitiesTool = require('components/AmbiguitiesTool/AmbiguitiesTool.js');
 var MatchWeightHelp = require('components/Helps/MatchWeightHelp/MatchWeightHelp.js');
 var DuplicatesHelp = require('components/Helps/DuplicatesHelp/DuplicatesHelp.js');
 var Carousel = require('components/Carousel/Carousel.js');
+var ViolationsDropdown = require('components/ViolationsDropdown/ViolationsDropdown.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
 var DataUtil = require('utils/DataUtil/DataUtil.js');
+var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 var FormatAggregationUtil = require('utils/FormatAggregationUtil/FormatAggregationUtil.js');
-require('utils/ConsoleUtil/ConsoleUtil.js');
+var getQueryVariable = require('utils/getQueryVariable.js');
 // CSS-modules
 var styles = _assign(require('!!style!css?modules!./inspector.css'), require('!!style!css?modules!css/modules/Colors.less'));
 
@@ -31,52 +33,7 @@ var Inspector = {
 	mixins: [FieldLabelMixin],
 	template: require('./inspector.html'),
 	data: function() {
-		return {
-			// UI
-			_styles: styles,
-			loadingData: true,
-			emptyAggregations: false,
-			error: false,
-			activity: 0,
-			pendingScroll: false,
-			// Data synced with SearchForm component
-			formModel: { },
-			fields: [],
-			// Data which will be sent to searchResult
-			formData: {
-				formModel: {},
-				fields: [],
-			},
-			// Function which returns a data-set
-			lineChart: {
-				getContent: null, // We use a function to give data to the chart to avoid "indexing" by Vue
-			},
-			barChart: {
-				getContent: null,
-			},
-			pieChart: {
-				getContent: null,
-			},
-			violationTypeDistributionChart: {
-				getContent: null
-			},
-			// Misc
-			orgs: orgs,
-			// Colors
-			colorCategories: colorCategories,
-			colorPattern: colorPattern,
-			violationTypeColorCategories: violationTypeColorCategories,
-			violationGrade3Color: violationGrade3Color,
-			violationGrade2Color: violationGrade2Color,
-			violationGrade1Color: violationGrade1Color,
-			// Carousel
-			_carouselConf: {
-				items: 2,
-				itemsDesktop : [1300,2],
-			    itemsDesktopSmall : [1050,1]
-			},
-			visibleItems: [],
-		};
+		return initialData;
 	},
 	watch: {
 		/**
@@ -104,8 +61,54 @@ var Inspector = {
 		'search-result': SearchResult,
 		'duplicates-help': DuplicatesHelp,
 		'match-weight-help': MatchWeightHelp,
-		'duplicates-list': DuplicatesList,
-		'carousel': Carousel
+		'ambiguities-tool': AmbiguitiesTool,
+		'carousel': Carousel,
+		'violations-dropdown': ViolationsDropdown
+	},
+	ready: function() {
+		/**
+		 * Broadcast events based on url-parameters
+		 */
+		Vue.nextTick(function() {
+			// &org=
+			var org = getQueryVariable('org');
+			if(org) { this.$broadcast('set-org-value', org); }
+			// &from= and &to=
+			var from = getQueryVariable('from');
+			var to = getQueryVariable('to');
+			var time = {};
+			if(from) {
+				time.from = from;
+			}
+			if(to) {
+				time.to = to;
+			}
+			this.$broadcast('set-time-values', time);
+			// &activity=
+			var activity = getQueryVariable('activity');
+            if(activity && (org || to || time)) {
+                // Wait for next tick as some form-elements are being set
+                require('vue').nextTick(function() {
+                    this.$emit('start-activity', activity);
+                }.bind(this));
+            } else if(activity) {
+                this.$emit('start-activity', activity);
+            }
+		}.bind(this));
+	},
+	events: {
+        /**
+         * Start an activity
+         */
+        'start-activity': function(activity) {
+        	switch(activity) {
+        		case 'VIOLATIONS':
+        			this.startActivity(activity);
+        		case 'AMBIGUITIES':
+        			this.startActivity(activity);
+        		break;
+        	}
+		}
 	},
 	methods: {
 		/**
@@ -123,7 +126,7 @@ var Inspector = {
 		onResultReceived: function() {
 			if(this.pendingScroll === true) {
 				$('html, body').animate({
-					scrollTop: $(this.$el.getElementsByClassName('searchResult')[0]).offset().top,
+					scrollTop: $(this.$els.searchResult).offset().top,
 				}, 900);
 				this.$set('pendingScroll', false);
 			}
@@ -135,13 +138,40 @@ var Inspector = {
 			this.$set('visibleItems', status.visibleItems);
 		},
 		/**
-		 * Callback sent to graphs containing org-buckets
+		 * Callback sent to Chart for selecting a specific org within the Form
 		 * @prop {Object} e
 		 */
 		onClickOrg: function(e) {
-			if(e && e.id && this.$refs.searchForm && this.$refs.searchForm.setOrgValue) {
-				this.$refs.searchForm.setOrgValue(e.id);	
+			if(e.id && this.formModel.org !== e.id) {
+				this.$broadcast('set-org-value', e.id);
+			} else {
+				this.$broadcast('set-org-value', '');
 			}
+		},
+		/**
+		 * Callback sent to ViolationDropdown
+		 * @param {String} code
+		 * @param {Object} violation
+		 */
+		onClickViolationOption: function(code, violation) {
+			// Clear
+			this.$set('formModel.violation', undefined);
+			this.$set('fields', (this.fields || []).filter(function(field) {
+				return field && field.fieldName && field.fieldName !== 'violation';
+			}));
+			// Add to formModel
+			if(typeof code === 'string') {
+				this.$set('formModel.violation', code);
+				this.fields.push({
+					fieldName: 'violation',
+					value: code,
+					labels: [{
+						text: violation.name
+					}]
+				});
+			}
+			// Start error-activity
+			this.$emit('start-activity', 'VIOLATIONS');
 		},
 		/**
 		 * Starts an activity
@@ -153,13 +183,13 @@ var Inspector = {
 				fields: _cloneDeep(this.fields)
 			}
 			switch(activity) {
-				case 'ERROR_LIST':
+				case 'VIOLATIONS':
 					formData.formModel.templateName = 'quality';
 				break;
 				case 'LOCAL_DUPLICATES':
 					formData.formModel.templateName = 'duplicates';
 				break;
-				case 'DUPLICATES':
+				case 'AMBIGUITIES':
 					formData.formModel.templateName = 'AmbiguityListing';
 				break;
 			}
@@ -216,7 +246,7 @@ Vue.filter('visible', function(d, index, visibleItems) {
 	}
 });
 
-// *** Define colors! *** //
+// *** Define colors and categories for charts! *** //
 
 var colorPattern = ['#FFC300','#FFCB20','#FFD240','#FFDA60','#FFE180','#FFE99F','#FFF0BF','#FFF8DF','#EE681B','#F07B38','#F28E54','#F4A171','#F6B38D','#F9C6AA','#FBD9C6','#FDECE3','#9E0634','#AA254D','#B64467','#C26380','#CF839A','#DBA2B3','#E7C1CC','#F3E0E6','#5B2285','#703E94','#8459A4','#9875B3','#AD91C2','#C1ACD1','#D6C8E1','#EAE3F0','#61B5BF','#75BEC7','#89C8CF','#9CD1D7','#B0DADF','#C4E3E7','#D7ECEF','#EBF6F7'];
 var strongColorPattern = [
@@ -256,7 +286,7 @@ categories.forEach(function(category, i) {
 	} else if(category === 'Felaktiga poster') {
 		colorCategories[category] = '#FFC300';
 	} else if(category === 'Alla lärosäten') {
-		colorCategories[category] = '#52bd34';
+		colorCategories[category] = '#8459A4';
 	} else {
 		colorCategories[category] = strongColorPattern[(i+offset)%l];
 	}
@@ -267,25 +297,76 @@ var violationGrade3Color = '#F07B38';
 var violationGrade2Color = '#FFDA60';
 var violationGrade1Color = '#52bd34';
 
-var violationTypeColorCategories = {
-	'Multiple variants of name': violationGrade2Color,
-	'Missing UK\u00c4/SCB 3-digit subject code': violationGrade1Color,
-	'Missing local creator': violationGrade3Color,
-    'Missing creator count': violationGrade3Color,
-	'Missing identifier of local creator': violationGrade3Color,
-    'Missing Conference Title Violation': violationGrade3Color,
-    'ISBN at wrong place violation': violationGrade3Color,
-    'Missing ISSN Violation': violationGrade3Color,
-    'DOI format violation': violationGrade3Color,
-    'ISBN format Violation': violationGrade2Color,
-    'ISSN format violation': violationGrade3Color,
-    'Href / local ID violation': violationGrade3Color,
-    'Creator count mismatch': violationGrade3Color,
-    'ORCID format violation': violationGrade3Color,
-    'Duplicate Name Violation': violationGrade2Color,
-    'ISBN country code Violation': violationGrade2Color,
-    'ISI format violation': violationGrade3Color,
-    'Obsolete publication status violation': violationGrade2Color,
+var violationTypeGrades;
+SearchFormUtil.getViolationGrades(function(violations) {
+	violationTypeGrades = violations;
+});
+
+var violationTypeColorCategories = {};
+Object.keys(violationTypeGrades).map(function(type) {
+	var color;
+	switch(violationTypeGrades[type]) {
+		case 1:
+			color = violationGrade1Color;
+		break;
+		case 2:
+			color = violationGrade2Color;
+		break;
+		case 3:
+			color = violationGrade3Color;
+		break;
+	}
+	violationTypeColorCategories[type] = color;
+});
+violationTypeColorCategories['_categories'] = violationTypeGrades;
+
+// *** Initial data for this Vue component *** //
+
+var initialData = {
+	// UI
+	_styles: styles,
+	loadingData: true,
+	emptyAggregations: false,
+	error: false,
+	activity: 0,
+	pendingScroll: false,
+	// Data synced with SearchForm component
+	formModel: { },
+	fields: [],
+	// Data which will be sent to searchResult
+	formData: {
+		formModel: {},
+		fields: [],
+	},
+	// Function which returns a data-set
+	lineChart: {
+		getContent: null, // We use a function to give data to the chart to avoid "indexing" by Vue
+	},
+	barChart: {
+		getContent: null,
+	},
+	pieChart: {
+		getContent: null,
+	},
+	violationTypeDistributionChart: {
+		getContent: null
+	},
+	// Misc
+	orgs: orgs,
+	// Colors
+	colorCategories: colorCategories,
+	colorPattern: colorPattern,
+	violationTypeColorCategories: violationTypeColorCategories,
+	violationGrade3Color: violationGrade3Color,
+	violationGrade2Color: violationGrade2Color,
+	violationGrade1Color: violationGrade1Color,
+	// Carousel
+	_carouselConf: {
+		items: 2,
+		itemsDesktop : [1300,2],
+	    itemsDesktopSmall : [1050,1]
+	},
+	visibleItems: [],
 };
 
 // *** Render! *** //
