@@ -1,12 +1,2 @@
-DEFINITION
-
-Fyllpå
-
-TÄNK PÅ 
-
-Fyllpå
-
-LÄS MER
-
-Fyllpå
+Hjälpavsnitt kommer inom kort.
 
