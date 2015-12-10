@@ -23,30 +23,8 @@ var ListPreview = {
 	props: ['result', 'filterFields'],
 	data: function() {
 		return {
-			filterFieldKeys: { },
 			_styles: styles,
 		}
-	},
-	ready: function() {
-		// On update of filterFields prop, update data.filterFieldKeys
-		this.$watch('filterFields', function() {
-			if(this.filterFields) {
-				var filterFields = this.filterFields;
-				// Turn arr into object for access through index
-				var n = {};
-				for(var i = 0; i < filterFields.length; i++) {
-					n[filterFields[i].field] = {
-						field: filterFields[i].field,
-						fieldName: filterFields[i].fieldName,
-						checked: filterFields[i].checked,
-					}
-				};
-				this.$set('filterFieldKeys', n);
-			}
-			else {
-				console.error('*** ListPreview.ready: filterFields prop required');
-			}
-		}.bind(this), { deep: true });
 	},
 	methods: {
 		/**
@@ -95,20 +73,10 @@ Vue.filter('filterFields', function(cells, filterFields) {
  * Filter filterFields and return only checked ones
  * @param {Object} filterFields
  */
-Vue.filter('onlyCheckedFilterFields', function(filterFieldKeys) {
-	if(filterFieldKeys) {
-		var checkedFilterFields = [];
-		Object.keys(filterFieldKeys).map(function(key) {
-			var filterFieldKey = filterFieldKeys[key];
-			if(filterFieldKey.checked === true) {
-				checkedFilterFields.push(filterFieldKey);
-			}
-		});
-		return checkedFilterFields;
-	}
-	else {
-		return [];
-	}
+Vue.filter('onlyCheckedFilterFields', function(filterFields) {
+    return filterFields.filter(function(field) {
+        return field.checked === true;
+    });
 });
 
 module.exports = ListPreview;

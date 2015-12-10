@@ -1,7 +1,7 @@
 <div class="{{ $data._styles.ListPreview }} background-medium">
 	<table class="table {{ $data._styles.StaticHeader }}" style="table-layout: fixed">
 		<thead class="thead">
-			<th v-for="field in filterFieldKeys | onlyCheckedFilterFields" title="{{ field.fieldName + ' ' + field.field }}">
+			<th v-for="field in filterFields | onlyCheckedFilterFields" title="{{ field.fieldName + ' ' + field.field }}">
 				<p class="{{ $parent.$data._styles.FieldName }} {{ $parent.$data._styles.Ellipsis }}" style="font-size: x-small;">
 					{{ stripAsterisk(field.fieldName) }}
 					<template v-if="fractionalField(field.fieldName)">
