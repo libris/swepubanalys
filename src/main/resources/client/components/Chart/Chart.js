@@ -61,12 +61,19 @@ var Chart = {
 				},
 				legend: {
 					show: this.showLegend === false ? false : true,
-					position: this.legendPosition
+					position: this.legendPosition,
 				},
 				size: {
 					height: this.height
 				}
 			};
+			if(this.onClick) {
+				config.legend.item = {
+					onclick: function(e) {
+						this.onClick({ id: e });
+					}.bind(this)
+				}
+			}
 			// Tick format
 			if(this.tickFormat) {
 				config.axis = config.axis || {};
