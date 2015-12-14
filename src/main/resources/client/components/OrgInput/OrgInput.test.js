@@ -19,30 +19,23 @@ ComponentTest({
 		describe('components/OrgInput/', function() {
 			
 			beforeEach(function() {
+				spyOn(Component, '$broadcast');
 			});
-			
+
 			it('should have proper $data members and methods', function() {
 				expect(typeof Component.orgs).toEqual('object');
 				expect(Component.orgs.length).toEqual(0);
 			});
 
-			it('should listen to set-org-value event and update accordingly', function(done) {
+			it('should listen to set-org-value event and broadcast appropriate event', function(done) {
 				expect(Component.field.value).toEqual('');
 				Component.$emit('set-org-value', 'tu');
 				Vue.nextTick(function() {
-					expect(Component.field.value).toEqual('tu');
+					expect(Component.$broadcast).toHaveBeenCalledWith('select-option', 'tu');
 					done();
 				})
 			}.bind(this));
-
-			it('should get a clear field if provided with invalid org-value from set-org-value', function(done) {
-				Component.$emit('set-org-value', 'asdasd');
-				Vue.nextTick(function() {
-					expect(Component.field.value).toEqual('');
-					done();
-				})
-			})
-
+			
 			it('should react to mutation of $data.orgs and update $props.field', function(done) {
 				// Mutate data
 				Component.orgs.length = 0;

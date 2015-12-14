@@ -13,12 +13,12 @@ module.exports = function(config) {
 	],
 	files: [
 		'src/main/resources/client/**/*.test.js',
-    ],
+	],
 	exclude: [
-    ],
+	],
 	preprocessors: {
 		'src/main/resources/client/**/*.test.js': ['webpack']
-    },
+	},
 	webpack: webpackConfig,
 	reporters: ['progress'],
 	port: 9876,
@@ -26,6 +26,6 @@ module.exports = function(config) {
 	logLevel: config.LOG_INFO,
 	autoWatch: true,
 	browsers: ['Chrome'],
-    singleRun: false
+	singleRun: false
   })
 }
