@@ -8,7 +8,7 @@ require('owl-carousel.js');
 require('owl-carousel.css');
 var _assign = require('lodash/object/assign');
 // CSS modules
-var styles = require('!!style!css?modules!./Carousel.css');
+var styles = require('./Carousel.css');
 
 /**
  * Carousel component

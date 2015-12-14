@@ -4,8 +4,8 @@
 var _assign = require('lodash/object/assign');
 // CSS modules
 var styles = _assign(
-	require('!!style!css?modules!./SiteWrapper.css'), 
-	require('!!style!css?modules!less!css/modules/Colors.less')
+	require('./SiteWrapper.css'), 
+	require('css/modules/Colors.less')
 );
 // CSS
 require('css/theme.less');

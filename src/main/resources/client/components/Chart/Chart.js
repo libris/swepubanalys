@@ -4,7 +4,7 @@
 var c3 = require('c3-js');
 // CSS
 require('c3-css');
-require('./Chart.css');
+require('!!style!css!./Chart.css');
 
 /**
  * Chart-component

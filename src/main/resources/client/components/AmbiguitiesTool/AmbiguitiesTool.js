@@ -6,8 +6,8 @@ var MailExport = require('components/MailExport/MailExport.js');
 var _assign = require('lodash/object/assign');
 // CSS modules
 var styles = _assign(
-	require('!!style!css?module!less!css/modules/Colors.less'),
-	require('!!style!css?module!./AmbiguitiesTool.css')
+    require('./AmbiguitiesTool.css'),
+	require('css/modules/Colors.less')	
 );
 
 /**

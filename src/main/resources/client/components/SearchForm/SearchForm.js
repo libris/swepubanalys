@@ -19,7 +19,7 @@ var OAInput = require('components/OAInput/OAInput.js');
 var PublStatusInput = require('components/PublStatusInput/PublStatusInput.js');
 var ShowFieldButton = require('components/ShowFieldButton/ShowFieldButton.js');
 // CSS-modules
-var styles = require('!!style!css?modules!./SearchForm.css');
+var styles = require('./SearchForm.css');
 // CSS
 require('css/transitions.css');
 

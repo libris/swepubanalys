@@ -10,8 +10,8 @@ var ResultMixin = require('mixins/ResultMixin/ResultMixin.js');
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
 // CSS-modules
 var styles = _assign(
-	require('!!style!css?modules!./AmbiguitiesList.css'),
-	require('!!style!css?modules!css/modules/StaticHeader.css')
+	require('./AmbiguitiesList.css'),
+	require('css/modules/StaticHeader.css')
 );
 // CSS
 require('css/transitions.css');

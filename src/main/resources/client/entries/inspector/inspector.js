@@ -23,7 +23,7 @@ var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 var FormatAggregationUtil = require('utils/FormatAggregationUtil/FormatAggregationUtil.js');
 var getQueryVariable = require('utils/getQueryVariable.js');
 // CSS-modules
-var styles = _assign(require('!!style!css?modules!./inspector.css'), require('!!style!css?modules!css/modules/Colors.less'));
+var styles = _assign(require('!!style!css?modules!./inspector.css'), require('css/modules/Colors.less'));
 
 /**
  * Inspector-view

@@ -1,7 +1,7 @@
 'use strict';
 
 // CSS-modules
-var styles = require('!!style!css?modules!./FormErrorLabel.css');
+var styles = require('./FormErrorLabel.css');
 
 /**
  * Form Error Label-component

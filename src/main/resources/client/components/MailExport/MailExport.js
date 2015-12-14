@@ -5,7 +5,7 @@ var FormFieldValidationMixin = require('mixins/FormFieldValidationMixin/FormFiel
 // Utils
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
 // CSS-modules
-var styles = require('!!style!css?modules!./MailExport.css');
+var styles = require('./MailExport.css');
 
 /**
  * Mail Export Component

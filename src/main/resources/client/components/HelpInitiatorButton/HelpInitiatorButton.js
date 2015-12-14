@@ -1,7 +1,7 @@
 'use strict'
 
 // CSS modules
-var styles = require('!!style!css?modules!css/modules/BtnCircle.css');
+var styles = require('css/modules/BtnCircle.css');
 
 /**
  * A button which can be used to trigger a help-dialog or popover
