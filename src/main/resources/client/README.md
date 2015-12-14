@@ -1,5 +1,5 @@
 # Swepub client
-Vue.js, CommonJS-modules, Webpack, Karma, Jasmine, Bootstrap
+Vue.js, Webpack, Bootstrap, Less, Karma, Jasmine, 
 
 ### \# File tree
 ```
@@ -124,5 +124,21 @@ require('MyTheme.less'); // Will be pre-processed and bundled as global CSS
 ### \# Component mixins
 To come.
 
-### \# Unit tests
-To come.
+### \# Unit testing
+We use the Karma test-runner and the testing-framework Jasmine for writing unit tests. To run tests, do the following command in the project root:
+```
+karma run
+```
+Karma is configured to run tests in Chrome and uses Webpack to build the needed bundles, where .test.js files constitute entry-points. To create a unit test, simply put a *.test.js file in a purposeful directory.
+
+From karma.conf.js:
+```
+files: [
+	'src/main/resources/client/**/*.test.js',
+],
+preprocessors: {
+	'src/main/resources/client/**/*.test.js': ['webpack']
+},
+```
+
+Our components are expressed as object literals, and we have to mount them to the DOM in order to test behaviour during the Vue life-cycle. To be continued.
