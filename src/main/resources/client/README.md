@@ -88,11 +88,11 @@ The component css-file contains CSS-modules to be used within the template. Scro
 ```
 
 ### \# CSS modules
-Components are styled using CSS modules using the Webpack css-loader (https://github.com/webpack/css-loader) to avoid conflicting class-names. We use them the following way:
+To avoid conflicting class-names, components are styled by CSS modules using the Webpack css-loader (https://github.com/webpack/css-loader). If a .css or .less file is placed anywhere within components/, mixins/ or css/modules, it is loaded with an additional query parameter (css-loader?modules). This essentially hashes the selectors of the required .css/.less file(s) and makes the require-call return a map containing the selectors and corresponding hahses. To add a CSS module class to an element within the component view-template, do the following:
 
-Require a .css-file using the "modules" query parameter.
+Define the map.
 ```
-var styles = require('!!style!css?modules!./MyComponent.css');
+var styles = require('./MyComponent.css');
 ```
 Add it to the component data-function. We use an underscore-convention to avoid the style object being proxied by Vue.
 ```
@@ -111,21 +111,25 @@ Use it within the corresponding component template. We have to access this varia
 ```
 This will result in a hashed class name which will be equal to the corresponding css-selector within the Webpack-bundle. To get CSS modules from multiple files, we use either different data-members or the lodash-method _.assign, such as this:
 ```
-var myStyles = require('!!style!css?modules!./MyComponent.css');
-var myOtherStyles = require('!!style!css?modules!css/MyOtherCSSModules.css');
+var myStyles = require('./MyComponent.css');
+var myOtherStyles = require('css/modules/MyOtherCSSModules.css');
 
 var styles = _.assign(myStyles, myOtherStyles);
 ```
-Our Webpack setup is also able to bundle .less-files. To do this, just follow the same steps as above and provide the less-loader parameter:
+If your .css/.less file is within the aforementioned directories but you want to bundle them as global CSS, use the style-loader!css-loader chain explicitly. 
 ```
-var myStyles = require('!!style!css?modules!less!./MyComponent.less'); // CSS modules
-require('MyTheme.less'); // Will be pre-processed and bundled as global CSS
+require('!!style!css!./MyComponent.less'); // Global css
+require('!!style!css!less!css/MyTheme.less'); // Global css
+```
+The same goes loading CSS-modules from files which are placed outside of these directories.
+```
+var myStyles = require('!!style!css?modules!css/styles.css'); // CSS-modules
 ```
 ### \# Component mixins
 To come.
 
 ### \# Unit testing
-We use the Karma test-runner and the testing-framework Jasmine for writing unit tests. To run tests, do the following command in the project root:
+We use the Karma test-runner and the testing-framework Jasmine for writing unit tests. To run our unit tests, do the following command in the project root:
 ```
 karma run
 ```
