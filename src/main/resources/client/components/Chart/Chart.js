@@ -42,6 +42,14 @@ var Chart = {
 		create: function() {
 			var content = this.getContent();
 			var el = this.$el; // Root element
+            var onClick = this.onClick;
+            if(this.onClick) {
+                this.onClick = function(e) {
+                    this._chart.unselect(this._chart.selected().map(function(d) { return d.id }));
+                    onClick(e);
+                    this._chart.select(e.id);
+                }.bind(this);
+            }
 			// Chart config
 			var config = {
 				bindto: el,
