@@ -116,10 +116,14 @@ var myOtherStyles = require('css/modules/MyOtherCSSModules.css');
 
 var styles = _.assign(myStyles, myOtherStyles);
 ```
-If your .css/.less file is within the aforementioned directories, but you want to bundle them as global CSS, use the style-loader!css-loader chain explicitly. 
+If your .css/.less file is within the aforementioned directories but you want to bundle them as global CSS, use the style-loader!css-loader chain explicitly. 
 ```
 require('!!style!css!./MyComponent.less'); // Global css
-require('!!style!css!less!MyTheme.less'); // Global css
+require('!!style!css!less!css/MyTheme.less'); // Global css
+```
+The same goes loading CSS-modules from files which are placed outside of these directories.
+```
+var myStyles = require('!!style!css?modules!css/styles.css'); // CSS-modules
 ```
 ### \# Component mixins
 To come.
