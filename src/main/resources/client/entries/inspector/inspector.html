@@ -78,6 +78,7 @@
 									legend-position="right" 
 									:color-categories.once="violationTypeColorCategories"
 									height="390" 
+									:on-click.once="onClickViolation"
 									:get-content="violationTypeDistributionChart.getContent">
 								</chart>
 								<div class="{{ $data._styles.ExtraLegend }}">
@@ -120,11 +121,10 @@
 							</template>
 						</div>
 					</div>
-					
 				</carousel>
 			</div>
 			<!-- Search form -->
-			<div class="{{ $data._styles.SearchForm }}">
+			<div class="{{ $data._styles.SearchForm }}" v-el:search-form>
 				<search-form 
 						:on-change.once="onChange" 
 						from="2012" 

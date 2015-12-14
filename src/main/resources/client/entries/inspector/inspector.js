@@ -132,14 +132,14 @@ var Inspector = {
 			}
 		},
 		/**
-		 *
+		 * 
 		 */
 		onCarouselNavigate: function(status) {
 			this.$set('visibleItems', status.visibleItems);
 		},
 		/**
 		 * Callback sent to Chart for selecting a specific org within the Form
-		 * @prop {Object} e
+		 * @prop {Object} e the org
 		 */
 		onClickOrg: function(e) {
 			if(e.id && this.formModel.org !== e.id) {
@@ -147,6 +147,22 @@ var Inspector = {
 			} else {
 				this.$broadcast('set-org-value', '');
 			}
+		},
+		/**
+		 * Callback sent to Chart for selecting a specific violation
+		 * @prop {Object} e the violation
+		 */
+		onClickViolation: function(e) {
+			$('html, body').animate({
+				scrollTop: $(this.$els.searchForm).offset().top-25,
+			}, 900);
+			SearchFormUtil.getViolations(function(violations) {
+				Object.keys(violations).map(function(v) {
+					if(violations[v].name === e.id) {
+						this.onClickViolationOption(v, violations[v]);
+					}
+				}.bind(this))
+			}.bind(this));
 		},
 		/**
 		 * Callback sent to ViolationDropdown
