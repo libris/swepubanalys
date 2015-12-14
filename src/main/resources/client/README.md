@@ -92,9 +92,12 @@ To avoid conflicting class-names, components are styled by CSS modules using the
 
 Define the map.
 ```
+/**
+ * components/MyComponent/MyComponent.js
+ */ 
 var styles = require('./MyComponent.css');
 ```
-Add it to the component data-function. We use an underscore-convention to avoid the style object being proxied by Vue.
+Add it to the component data-function. Prefix with an underscore to avoid the style object being proxied by Vue.
 ```
 var MyComponent = {
     ...
