@@ -2,6 +2,7 @@
 
 // Vendor
 var Vue = require('vue');
+var $ = require('jquery');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 var _assign = require('lodash/object/assign');
 // Mixins
@@ -16,6 +17,8 @@ var styles = _assign(
 // CSS
 require('css/transitions.css');
 
+var show = 20;
+
 /**
  * Ambiguities List Component
  * @prop {Object} formModel
@@ -29,6 +32,7 @@ var AmbiguitiesList = {
 	template: require('./AmbiguitiesList.html'),
 	data: function() {
 		return {
+            show: show,
 			pendingUpdate: false,
 			handleArticle: '',
 			_styles: styles
@@ -39,16 +43,35 @@ var AmbiguitiesList = {
 			this.updateQuery();
 		},
 		'query': function() {
+            this.$set('show', show);
             this.$set('pendingUpdate', true);
 			this.getResult(this.query, function() {
                 this.$set('pendingUpdate', false);
             }.bind(this));
 		}
 	},
+    computed: {
+        /**
+         * Show only <this.show> amount of rows
+         */
+        ambiguities: function() {
+            var ambiguities = ((this.result && this.result.results && this.result.results.bindings) ? this.result.results.bindings : []);
+            return ambiguities.slice(0, this.show);
+        }
+    },
 	ready: function() {
 		this.updateQuery();
 	},
 	methods: {
+        /**
+         * If we reach the bottom of the <tbody>, load more rows
+         */
+        onScroll: function(e) {
+            var el = this.$els.tBody;
+            if($(el).scrollTop() + $(el).innerHeight() >= $(el)[0].scrollHeight) {
+                this.$set('show', this.show+show);
+            }
+        },
 		/**
 		 * Set currently handled article
 		 * @param {Object} article
@@ -81,7 +104,7 @@ var AmbiguitiesList = {
 			var formModel = this.formModel;
 			formModel.filterFields = SparqlUtil.getFilterFields(this.formModel.templateName);
 			var conf = {
-				limit: true,
+				limit: false,
 				formModel: formModel
 			};
 			SparqlUtil.generateQuery(conf, function(query) {

@@ -3,6 +3,7 @@
 // Vendor
 var Vue = require('vue');
 var _assign = require('lodash/object/assign');
+var $ = require('jquery');
 // Mixins
 var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
 // CSS modules
@@ -10,6 +11,8 @@ var styles = _assign(
 	require('./ListPreview.css'),
 	require('css/modules/StaticHeader.css')
 );
+
+var show = 50;
 
 /**
  * List Preview-component
@@ -22,10 +25,29 @@ var ListPreview = {
 	props: ['result', 'filterFields'],
 	data: function() {
 		return {
+            show: show,
 			_styles: styles,
 		}
 	},
+    computed: {
+        /**
+         * Show only <this.show> amount of rows
+         */
+        articles: function() {
+            var articles = ((this.result && this.result.results && this.result.results.bindings) ? this.result.results.bindings : []);
+            return articles.slice(0, this.show);
+        }
+    },
 	methods: {
+        /**
+         * If we reach the bottom of the <tbody>, load more rows
+         */
+        onScroll: function() {
+            var el = this.$els.tBody;
+            if($(el).scrollTop() + $(el).innerHeight() >= $(el)[0].scrollHeight) {
+                this.$set('show', this.show+show);
+            }
+        },
 		/**
 		 * Used to determine whether a field should constitute a link.
 		 * This method is not for validating Urls and VERY basic! It only checks if the
