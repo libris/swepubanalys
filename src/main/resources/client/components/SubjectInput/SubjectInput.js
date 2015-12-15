@@ -34,7 +34,7 @@ var SubjectInput = {
 		this.initHelp({
 			title: 'FORSKNINGSÄMNE',
 			content: require('docs/subject.md'), 
-			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
+			anchorToElement: this.$els.formFieldInput,
 		});
 	}
 };

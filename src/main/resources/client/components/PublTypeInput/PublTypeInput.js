@@ -5,7 +5,6 @@ var AutocompleteInput = require('components/AutocompleteInput/AutocompleteInput.
 var HideFieldButton = require('components/HideFieldButton/HideFieldButton.js');
 // Mxins
 var FormFieldLayoutMixin = require('mixins/FormFieldLayoutMixin/FormFieldLayoutMixin.js');
-var HelpMixin = require('mixins/HelpMixin/HelpMixin.js');
 // Utils
 var arrayToSparqlString = require('utils/arrayToSparqlString.js');
 
@@ -14,7 +13,7 @@ var arrayToSparqlString = require('utils/arrayToSparqlString.js');
  * @prop {Object} field
  */
 var PublTypeInput = {
-	mixins: [HelpMixin, FormFieldLayoutMixin],
+	mixins: [FormFieldLayoutMixin],
 	props: ['field'],
 	template: require('./PubltypeInput.html'),
 	components: {
@@ -31,13 +30,6 @@ var PublTypeInput = {
 			this.$set('field.value', arrayToSparqlString(this.publTypes.map(function(d) { return d.value; })));
 			this.$set('field.labels', this.publTypes);
 		}
-	},
-	ready: function() {
-		/*this.initHelp({
-			title: 'PUBLIKATIONSTYPER',
-			content: require('docs/publication_type.md'), 
-			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
-		});*/
 	},
 	methods: {
 		/**
