@@ -9,7 +9,7 @@
 	</div>
 	<div class="{{ $data._resultStyles.Container }} background-main" v-if="!pendingUpdate && hasNonEmptyResult()">
 		<div v-show="pendingUpdate !== true" class="{{ $data._styles.DuplicatesList }}">
-			<div class="{{ $data._styles.TableContainer }}">
+			<div class="{{ $data._styles.TableContainer }}" v-on:scroll="onScrollTable" v-el:table-container>
 				<table class="table {{ $data._styles.StaticHeader }}" style="table-layout: inherit; width: 100%">
 					<thead class="{{ $data._styles.Thead }} background-main" style="table-layout: initial;">
 						<!-- Top row -->
@@ -20,7 +20,7 @@
 							<p>ORGANISATION</p>
 						</th>
 					</thead>
-					<tbody class="{{ $data._styles.Tbody }} background-light" v-on:scroll="onScroll" v-el:t-body>
+					<tbody class="{{ $data._styles.Tbody }} background-light" v-on:scroll="onScrollTbody" v-el:t-body>
 						<!-- Collapsed row -->
 						<template 
 								track-by="$index" 

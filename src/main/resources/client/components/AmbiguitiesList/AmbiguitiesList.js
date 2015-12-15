@@ -32,7 +32,7 @@ var AmbiguitiesList = {
 	template: require('./AmbiguitiesList.html'),
 	data: function() {
 		return {
-            show: show,
+			show: show,
 			pendingUpdate: false,
 			handleArticle: '',
 			_styles: styles
@@ -43,35 +43,47 @@ var AmbiguitiesList = {
 			this.updateQuery();
 		},
 		'query': function() {
-            this.$set('show', show);
-            this.$set('pendingUpdate', true);
+			this.$set('show', show);
+			this.$set('pendingUpdate', true);
 			this.getResult(this.query, function() {
-                this.$set('pendingUpdate', false);
-            }.bind(this));
+				this.$set('pendingUpdate', false);
+			}.bind(this));
 		}
 	},
-    computed: {
-        /**
-         * Show only <this.show> amount of rows
-         */
-        ambiguities: function() {
-            var ambiguities = ((this.result && this.result.results && this.result.results.bindings) ? this.result.results.bindings : []);
-            return ambiguities.slice(0, this.show);
-        }
-    },
+	computed: {
+		/**
+		 * Show only <this.show> amount of rows
+		 */
+		ambiguities: function() {
+			var ambiguities = ((this.result && this.result.results && this.result.results.bindings) ? this.result.results.bindings : []);
+			return ambiguities.slice(0, this.show);
+		}
+	},
 	ready: function() {
 		this.updateQuery();
 	},
 	methods: {
-        /**
-         * If we reach the bottom of the <tbody>, load more rows
-         */
-        onScroll: function(e) {
-            var el = this.$els.tBody;
-            if($(el).scrollTop() + $(el).innerHeight() >= $(el)[0].scrollHeight) {
-                this.$set('show', this.show+show);
-            }
-        },
+		/**
+		 * For old browsers
+		 */
+		onScrollTable: function(e) {
+			this.onScroll(this.$els.tableContainer);
+		},
+		/**
+		 * If we reach the bottom of the <tbody>, load more rows
+		 */
+		onScrollTbody: function(e) {
+			this.onScroll(this.$els.tBody);
+			
+		},
+		/**
+		 * Load more rows
+		 */
+		onScroll: function(el) {
+			if($(el).scrollTop() + $(el).innerHeight() >= $(el)[0].scrollHeight) {
+				this.$set('show', this.show+show);
+			}
+		},
 		/**
 		 * Set currently handled article
 		 * @param {Object} article

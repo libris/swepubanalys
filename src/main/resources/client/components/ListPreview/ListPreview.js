@@ -39,15 +39,27 @@ var ListPreview = {
         }
     },
 	methods: {
-        /**
-         * If we reach the bottom of the <tbody>, load more rows
-         */
-        onScroll: function() {
-            var el = this.$els.tBody;
-            if($(el).scrollTop() + $(el).innerHeight() >= $(el)[0].scrollHeight) {
-                this.$set('show', this.show+show);
-            }
-        },
+		/**
+		 * For old browsers
+		 */
+		onScrollContainer: function(e) {
+			this.onScroll(this.$els.container);
+		},
+		/**
+		 * If we reach the bottom of the <tbody>, load more rows
+		 */
+		onScrollTbody: function(e) {
+			this.onScroll(this.$els.tBody);
+			
+		},
+		/**
+		 * Load more rows
+		 */
+		onScroll: function(el) {
+			if($(el).scrollTop() + $(el).innerHeight() >= $(el)[0].scrollHeight) {
+				this.$set('show', this.show+show);
+			}
+		},
 		/**
 		 * Used to determine whether a field should constitute a link.
 		 * This method is not for validating Urls and VERY basic! It only checks if the
