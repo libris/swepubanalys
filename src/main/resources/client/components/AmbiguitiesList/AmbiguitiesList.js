@@ -66,13 +66,13 @@ var AmbiguitiesList = {
 		/**
 		 * For old browsers
 		 */
-		onScrollTable: function(e) {
+		onScrollTable: function() {
 			this.onScroll(this.$els.tableContainer);
 		},
 		/**
 		 * If we reach the bottom of the <tbody>, load more rows
 		 */
-		onScrollTbody: function(e) {
+		onScrollTbody: function() {
 			this.onScroll(this.$els.tBody);
 			
 		},

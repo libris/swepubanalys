@@ -42,13 +42,13 @@ var ListPreview = {
 		/**
 		 * For old browsers
 		 */
-		onScrollContainer: function(e) {
+		onScrollContainer: function() {
 			this.onScroll(this.$els.container);
 		},
 		/**
 		 * If we reach the bottom of the <tbody>, load more rows
 		 */
-		onScrollTbody: function(e) {
+		onScrollTbody: function() {
 			this.onScroll(this.$els.tBody);
 			
 		},
