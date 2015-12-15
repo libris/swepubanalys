@@ -136,7 +136,7 @@ We use the Karma/Jasimne test-runner/testing-framework combination for writing u
 ```
 karma run
 ```
-Karma is configured to run tests in Chrome and uses Webpack to build the needed bundles, where .test.js files constitute entry-points. To create a unit test, simply put a *.test.js file in a purposeful directory.
+Karma is configured to run tests in Chrome and uses Webpack to build the needed bundles, where .test.js files constitute entry-points. To create a unit test, simply put a *.test.js file in any purposeful directory under client/.
 
 From karma.conf.js:
 ```
@@ -148,9 +148,44 @@ preprocessors: {
 },
 ```
 #### Testing components
-Our components are expressed as object literals, so in order to test life-cycle behaviour we have to mount them to the DOM. Therefore, we use a module that creates a mock-parent. This module, ComponentTest.js, takes a component as input, along with desired props and a test-function, and adds itself to document.body and executes the given test-function upon the ready()-hook. To write a unit test for a component using this module, do the following:
+Our components are expressed as object literals, so in order to test life-cycle behaviour we have to mount them to the DOM. Therefore, we use the *ComponentTest.js-module* to mock a parent. This module takes a component as input, along with desired props and a test-function, and adds itself to document.body and executes the given test-function upon the ready()-hook. An example of a component unit test follows:
 ```
 // components/MyComponent/MyComponent.test.js
 var ComponentTest = require('utils/TestUtils/ComponentTest.js');
+
+ComponentTest({
+
+	// The component to test
+	component: require('./MyComponent.js'),
+	
+	// Define data which can be sent as props
+	inputProps: {
+		theValue: 'test123'
+	},
+
+	// Define props string
+	props: ':the-value.sync="theValue"',
+	
+	// Test function to be executed on ready()
+	testFunction: function(Vue, Component, Parent) {
+	
 ```
-To be continued...
+When testing events, we have to wait for the next Vue update cycle. We can use the done-callback to test async behaviour.
+```
+		// Lets see if my component is able to properly emit and react to an event
+		
+		it('should listen to the set-value event and $set(theValue) accordingly', function(done) {
+		
+			expect(Component.theValue).toEqual('test123');
+			
+			Component.$emit('set-value', '567');
+			
+			Vue.nextTick(function() {
+				expect(Component.theValue).toEqual('567');
+				done();
+			});
+			
+		});
+	}
+});
+```
