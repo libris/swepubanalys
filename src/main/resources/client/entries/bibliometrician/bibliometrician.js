@@ -86,6 +86,6 @@ var Bibliometrician = {
 
 Vue.component('view', Bibliometrician);
 
-var View = new Vue({
+new Vue({
 	el: '#app'
 });

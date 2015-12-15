@@ -2,7 +2,6 @@
 
 // Vendor
 var Vue = require('vue');
-var _find = require('lodash/collection/find');
 var _assign = require('lodash/object/assign');
 // Mixins
 var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');

@@ -378,6 +378,6 @@ var initialData = {
 
 Vue.component('view', Inspector);
 
-var View = new Vue({
+new Vue({
 	el: '#app'
 });

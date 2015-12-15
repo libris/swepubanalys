@@ -1,7 +1,6 @@
 'use strict';
 
 // Vendor
-var Vue = require('vue');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 var _findIndex = require('lodash/array/findIndex');
 // Mixins
