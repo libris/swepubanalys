@@ -4,6 +4,8 @@
 var AmbiguitiesList = require('components/AmbiguitiesList/AmbiguitiesList.js');
 var MailExport = require('components/MailExport/MailExport.js');
 var _assign = require('lodash/object/assign');
+// Mixins
+var AuthenticationMixin = require('mixins/AuthenticationMixin/AuthenticationMixin.js');
 // CSS modules
 var styles = _assign(
     require('./AmbiguitiesTool.css'),
@@ -14,24 +16,14 @@ var styles = _assign(
  * Ambiguities Tool Component
  */
 var AmbiguitiesTool = {
+	mixins: [AuthenticationMixin],
 	props: ['formModel', 'fields', 'onResultReceived'],
 	template: require('./AmbiguitiesTool.html'),
 	data: function() {
 		return {
 			query: '',
-			loggedIn: false,
 			_styles: styles
 		}
-	},
-	events: {
-		'logged-in': function() {
-			this.$set('loggedIn', true);
-			return true;
-		},
-		'logged-out': function() {
-			this.$set('loggedOut', false);
-			return true;
-		},
 	},
 	components: {
 		'ambiguities-list': AmbiguitiesList,
