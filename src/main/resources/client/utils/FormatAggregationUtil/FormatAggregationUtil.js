@@ -175,7 +175,6 @@ var FormatAggregationUtil = {
 			var violationTypes = aggregations.violations_per_org_per_year.buckets;
 			violationTypes.forEach(function(violationType) {
 				var key = violationType.key;
-				key = key.charAt(0).toUpperCase() + key.slice(1);
 				columns.push([key]);
 				if(violationType.org && violationType.org.buckets) {
 					var orgs = violationType.org.buckets;

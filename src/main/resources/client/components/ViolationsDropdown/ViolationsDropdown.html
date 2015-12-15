@@ -12,7 +12,7 @@
 		<template v-for="violation in violations">
 			<li>
 				<a href="javascript:void(0);" v-on:click="onClickOption($key, violation)">
-					{{ violation.name.charAt(0).toUpperCase() + violation.name.slice(1); }}
+					{{ violation.text }}
 				</a>
 			</li>
 		</template>		

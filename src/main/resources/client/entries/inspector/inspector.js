@@ -158,7 +158,7 @@ var Inspector = {
 			}, 900);
 			SearchFormUtil.getViolations(function(violations) {
 				Object.keys(violations).map(function(v) {
-					if(violations[v].name === e.id) {
+					if(violations[v].text === e.id) {
 						this.onClickViolationOption(v, violations[v]);
 					}
 				}.bind(this))
@@ -182,7 +182,7 @@ var Inspector = {
 					fieldName: 'violation',
 					value: code,
 					labels: [{
-						text: violation.name
+						text: violation.text
 					}]
 				});
 			}
@@ -223,7 +223,17 @@ var Inspector = {
 			// *** BAR CHART *** //
 			this.setChartContent('barChart', FormatAggregationUtil.toOrgViolationRatio(aggregations, this.formModel.org.length === 0 ? 5 : 10000));
 			// *** VIOLATION TYPE DISTRIBUTION CHART *** //
-			this.setChartContent('violationTypeDistributionChart', FormatAggregationUtil.toViolationTypeDistributions(aggregations, this.formModel.org));
+			var aggs = FormatAggregationUtil.toViolationTypeDistributions(aggregations, this.formModel.org);
+			aggs.columns.forEach(function(column) {
+				SearchFormUtil.getViolations(function(violations) {
+					Object.keys(violations).forEach(function(v) {
+						if(violations[v].name === column[0]) {
+							column[0] = violations[v].text;
+						}
+					});
+				});
+			});
+			this.setChartContent('violationTypeDistributionChart', aggs);
 			// *** PIE CHART *** //
 			this.setChartContent('pieChart', FormatAggregationUtil.toViolationDistribution(aggregations));
 		},
@@ -265,28 +275,7 @@ Vue.filter('visible', function(d, index, visibleItems) {
 // *** Define colors and categories for charts! *** //
 
 var colorPattern = ['#FFC300','#FFCB20','#FFD240','#FFDA60','#FFE180','#FFE99F','#FFF0BF','#FFF8DF','#EE681B','#F07B38','#F28E54','#F4A171','#F6B38D','#F9C6AA','#FBD9C6','#FDECE3','#9E0634','#AA254D','#B64467','#C26380','#CF839A','#DBA2B3','#E7C1CC','#F3E0E6','#5B2285','#703E94','#8459A4','#9875B3','#AD91C2','#C1ACD1','#D6C8E1','#EAE3F0','#61B5BF','#75BEC7','#89C8CF','#9CD1D7','#B0DADF','#C4E3E7','#D7ECEF','#EBF6F7'];
-var strongColorPattern = [
-	'#FFC300',
-	'#FFCB20',
-	'#FFD240',
-	'#FFDA60',
-	'#EE681B',
-	'#F07B38',
-	'#F28E54',
-	'#F4A171',
-	'#9E0634',
-	'#AA254D',
-	'#B64467',
-	'#C26380',
-	'#5B2285',
-	'#703E94',
-	'#8459A4',
-	'#9875B3',
-	'#61B5BF',
-	'#75BEC7',
-	'#89C8CF',
-	'#9CD1D7'
-];
+var strongColorPattern = ['#FFC300', '#FFCB20', '#FFD240', '#FFDA60', '#EE681B', '#F07B38', '#F28E54', '#F4A171', '#9E0634', '#AA254D', '#B64467', '#C26380', '#5B2285', '#703E94', '#8459A4', '#9875B3', '#61B5BF', '#75BEC7', '#89C8CF', '#9CD1D7'];
 
 var orgs = ['bth','cth','du','esh','fhs','gih','gu','hb','hh','hhs','hig','his','hj','hkr','hv','kau','ki','kmh','konstfack','kth','liu','lnu','ltu','lu','mah','mdh','miun','nai','nationalmuseum','naturvardsverket','nrm','oru','rkh','sh','shh','slu','su','umu','uu','vti'];
 var categories = orgs.concat(['Övriga','Alla lärosäten','Felaktiga poster','Felfria poster']);

@@ -37,7 +37,7 @@ var SearchFormUtil = {
 	getViolationGrades: function(callback) {
 		var o = {};
 		Object.keys(violations).map(function(violation) {
-			o[violations[violation].name] = violations[violation].grade;
+			o[violations[violation].text] = violations[violation].grade;
 		});
 		callback(o);
 	},
@@ -362,24 +362,24 @@ var FILTER_FIELD_GROUPS_EXTERNAL = {
 var filterFieldGroups = FILTER_FIELD_GROUPS_EXTERNAL;
 
 var violations = {
-	'swpa_m:LocalPersonIDMultipleNameVariants': { name: 'Multiple variants of name', grade: 2 },
-	'swpa_m:MissingHSV3Violation': 				{ name: 'Missing UK\u00c4/SCB 3-digit subject code', grade: 1 },
-	'swpa_m:MissingLocalCreatorViolation': 		{ name: 'Missing local creator', grade: 3 },
-	'swpa_m:MissingLocalCreatorIdentifierViolation': 	{ name: 'Missing identifier of local creator', grade: 3 },
-	'swpa_m:MissingCreatorCountViolation': 		{ name: 'Missing creator count', grade: 3 },
-	'swpa_m:MissingConferenceTitleViolation': 	{ name: 'Missing Conference Title Violation', grade: 3 },
-	'swpa_m:ISBNAtWrongPlaceViolation': 		{ name: 'ISBN at wrong place violation', grade: 3 },
-	'swpa_m:MissingISSNViolation':				{ name: 'Missing ISSN Violation', grade: 3 },
-	'swpa_m:DOIViolation': 						{ name: 'DOI format violation', grade: 3 },
-	'swpa_m:ISBNFormatViolation': 				{ name: 'ISBN format Violation', grade: 2 },
-	'swpa_m:ISSNViolation': 					{ name: 'ISSN format violation', grade: 3 },
-	'swpa_m:HREFViolation': 					{ name: 'Href / local ID violation', grade: 3 },
-	'swpa_m:CreatorCountMismatchViolation': 	{ name: 'Creator count mismatch', grade: 3 },
-	'swpa_m:ORCIDViolation': 					{ name: 'ORCID format violation', grade: 3 },
-	'swpa_m:DuplicateNameViolation': 			{ name: 'Duplicate Name Violation', grade: 2 },
-	'swpa_m:ISBNCountryCodeViolation': 			{ name: 'ISBN country code Violation', grade: 2 },
-	'swpa_m:ISIFormatViolation': 				{ name: 'ISI format violation', grade: 3 },
-	'swpa_m:ObsoletePublicationStatusViolation': { name: 'Obsolete publication status violation', grade: 2 }
+	'swpa_m:LocalPersonIDMultipleNameVariants': { text: 'Upphov - olika namnvarianter', name: 'Multiple variants of name', grade: 2 },
+	'swpa_m:MissingHSV3Violation': 				{ text: 'Ämne saknas', name: 'missing UK\u00c4/SCB 3-digit subject code', grade: 1 },
+	'swpa_m:MissingLocalCreatorViolation': 		{ text: 'Upphov saknas', name: 'missing local creator', grade: 3 },
+	'swpa_m:MissingLocalCreatorIdentifierViolation': 	{ text: 'PersonalID saknas', name: 'missing identifier of local creator', grade: 3 },
+	'swpa_m:MissingCreatorCountViolation': 		{ text: 'Upphov - antal saknas', name: 'missing creator count', grade: 3 },
+	'swpa_m:MissingConferenceTitleViolation': 	{ text: 'Konferenstitel saknas', name: 'Missing Conference Title Violation', grade: 3 },
+	'swpa_m:ISBNAtWrongPlaceViolation': 		{ text: 'ISBN på fel nivå', name: 'ISBN at wrong place violation', grade: 3 },
+	'swpa_m:MissingISSNViolation':				{ text: 'ISSN saknas', name: 'Missing ISSN Violation', grade: 3 },
+	'swpa_m:DOIViolation': 						{ text: 'DOI fel', name: 'DOI format violation', grade: 3 },
+	'swpa_m:ISBNFormatViolation': 				{ text: 'ISBN fel', name: 'ISBN format Violation', grade: 2 },
+	'swpa_m:ISSNViolation': 					{ text: 'ISSN fel', name: 'ISSN format violation', grade: 3 },
+	'swpa_m:HREFViolation': 					{ text: 'PersonalID fel', name: 'href / local ID violation', grade: 3 },
+	'swpa_m:CreatorCountMismatchViolation': 	{ text: 'Upphov - olika antal', name: 'creator count mismatch', grade: 3 },
+	'swpa_m:ORCIDViolation': 					{ text: 'ORCID fel', name: 'ORCID format violation', grade: 3 },
+	'swpa_m:DuplicateNameViolation': 			{ text: 'Upphov - dubblering', name: 'Duplicate Name Violation', grade: 2 },
+	'swpa_m:ISBNCountryCodeViolation': 			{ text: 'ISBN - fel landkod', name: 'ISBN country code Violation', grade: 2 },
+	'swpa_m:ISIFormatViolation': 				{ text: 'ISI-ID fel', name: 'ISI format violation', grade: 3 },
+	'swpa_m:ObsoletePublicationStatusViolation': { text: 'Publiceringsstatus fel', name: 'Obsolete publication status violation', grade: 2 }
 };
 
 module.exports = SearchFormUtil;
