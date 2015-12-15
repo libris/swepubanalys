@@ -132,7 +132,7 @@ var myStyles = require('!!style!css?modules!css/styles.css'); // CSS-modules
 To come.
 
 ### \# Unit testing
-We use the Karma test-runner and the testing-framework Jasmine for writing unit tests. To run our unit tests, do the following command in the project root:
+We use the Karma/Jasimne test-runner/testing-framework combination for writing unit tests. To run our unit tests, do the following command in the project root:
 ```
 karma run
 ```
@@ -147,5 +147,10 @@ preprocessors: {
 	'src/main/resources/client/**/*.test.js': ['webpack']
 },
 ```
-
-Our components are expressed as object literals, and we have to mount them to the DOM in order to test behaviour during the Vue life-cycle. To be continued.
+#### Testing components
+Our components are expressed as object literals, so in order to test life-cycle behaviour we have to mount them to the DOM. Therefore, we use a module that creates a mock-parent. This module, ComponentTest.js, takes a component as input, along with desired props and a test-function, and adds itself to document.body and executes the given test-function upon the ready()-hook. To write a unit test for a component using this module, do the following:
+```
+// components/MyComponent/MyComponent.test.js
+var ComponentTest = require('utils/TestUtils/ComponentTest.js');
+```
+To be continued...
