@@ -18,6 +18,7 @@ var styles = _assign(
 	require('!!style!css?modules!less!css/modules/Colors.less')
 );
 // CSS
+require('css/theme-bibliometrician.less');
 require('css/transitions.css');
 
 /**

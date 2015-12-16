@@ -1,4 +1,9 @@
-@dark-text: #595D61;
+/**********************
+       CONSTANTS
+***********************/
+
+.define-theme-if-not-defined() { @theme: 'inspector'; }
+.define-theme-if-not-defined();
 
 @bibliometrician-main: #61B5BF;
 @bibliometrician-light: #DFF0F2;
@@ -8,161 +13,133 @@
 @inspector-light: #F0F2F6;
 @inspector-medium: #D2DAE4;
 
+@dark-text: #595D61;
 @light-grey: #F9F9F9;
 @grey: #C4C7CA;
 @dark-grey: #6F767B;
 @darker-grey: #595D61;
 
-/*** Backgrounds ***/
+@main: "@{theme}-main";
+@light: "@{theme}-light";
+@medium: "@{theme}-medium";
 
-#swepub-application .background-grey { 
-	background-color: @grey;
-}
+#swepub-app {
 
-#swepub-application .background-darker-grey {
-	background-color: @darker-grey;
-}
+	/**********************
+	        THEME
+	***********************/
 
-#swepub-application.swepub-application-bibliometrician .background-main {
-	background-color: @bibliometrician-main;
-	color: #FFFFFF;
-}
+	.background-grey { 
+		background-color: @grey;
+	}
 
-#swepub-application.swepub-application-inspector .background-main {
-	background-color: @inspector-main;
-	color: #FFFFFF;
-}
+	.background-darker-grey {
+		background-color: @darker-grey;
+	}
 
-#swepub-application.swepub-application-bibliometrician .background-light {
-	background-color: @bibliometrician-light;
-	color: @dark-text !important;
-}
+	.background-main {
+		background-color: @@main;
+		color: #FFFFFF;
+	}
 
-#swepub-application.swepub-application-inspector .background-light {
-	background-color: @inspector-light;
-	color: @dark-text !important;
-}
+	.background-light {
+		background-color: @@light;
+		color: @dark-text !important;
+	}
 
-#swepub-application.swepub-application-bibliometrician .background-medium {
-	background-color: @bibliometrician-medium;
-	color: @dark-text !important;
-}
+	.background-medium {
+		background-color: @@medium;
+		color: @dark-text !important;
+	}
 
-#swepub-application.swepub-application-inspector .background-medium {
-	background-color: @inspector-medium;
-	color: @dark-text !important;
-}
+	/**********************
+	  OVERRDIDE BOOTSTRAP
+	***********************/
 
-/*** .popover ***/
+	.popover {
+		padding: 0px;
+		border: 0px;
+		border-radius: 3px;
+	}
 
-#swepub-application .popover {
-	padding: 0px;
-	border: 0px;
-	border-radius: 3px;
-}
+	.popover-title {
+	    background-color: @@main;
+	    color: #FFFFFF;
+	    border-radius: 0px;
+	}
 
-#swepub-application.swepub-application-bibliometrician .popover-title {
-    background-color: @bibliometrician-main;
-    color: #FFFFFF;
-    border-radius: 0px;
-}
+	.btn {
+		border-radius: 3px;
+		margin: 2px;
+		border: 0px;
+	}
 
-#swepub-application.swepub-application-inspector .popover-title {
-    background-color: @inspector-main;
-    color: #FFFFFF;
-    border-radius: 0px;
-}
+	.btn-info {
+		background-color: @@main;
+		box-shadow: 0 1px 0 0 @darker-grey;
+	}
 
-/*** .btn ***/
+	.thead {
+		background-color: @@medium;
+		color: @dark-text;
+	}
 
-#swepub-application .btn {
-	border-radius: 3px;
-	margin: 2px;
-	border: 0px;
-}
+	.nav-tabs {
+		border: 0px;
+	}
 
-#swepub-application.swepub-application-bibliometrician .btn-info {
-	background-color: @bibliometrician-main;
-	box-shadow: 0 1px 0 0 @darker-grey;
-}
+	.nav-tabs > li:hover {
+	}
 
-#swepub-application.swepub-application-inspector .btn-info {
-	background-color: @inspector-main;
-	box-shadow: 0 1px 0 0 @darker-grey;
-}
+	.nav-tabs li.active {
+	}
 
-/*** .thead ***/
+	.nav-tabs > li > a {
+		background-color: inherit;
+		color: inherit;
+		font-weight: bold;
+		padding: 35px;
+		padding-top: 20px;
+		padding-bottom: 20px;
+		border: 0px;
+		border-radius: 0px;
+	}
 
-#swepub-application.swepub-application-bibliometrician .thead {
-	background-color: @bibliometrician-medium;
-	color: @dark-text;
-}
+	.well {
+		border-radius: 1px;
+		background-color: #ffffff;
+	}
 
-#swepub-application.swepub-application-inspector .thead {
-	background-color: @inspector-medium;
-	color: @inspector-main;
-}
+	.form-control {
+		border: 0px;
+	}
 
-/*** .nav-tabs ***/
+	.dropdown-menu {
+		border-radius: 0px;
+		border: none;
+		padding: 0px;
+	}
 
-#swepub-application .nav-tabs {
-	border: 0px;
-}
+	.dropdown-menu > li {
+		margin: 0px;
+		padding: 0px;
+	}
 
-#swepub-application .nav-tabs > li:hover {
-}
+	.footer {
+		margin-top: 200px;
+	}
 
-#swepub-application .nav-tabs li.active {
-}
+	/**********************
+	   OVERRDIDE SELECT2
+	***********************/
 
-#swepub-application .nav-tabs > li > a {
-	background-color: inherit;
-	color: inherit;
-	font-weight: bold;
-	padding: 35px;
-	padding-top: 20px;
-	padding-bottom: 20px;
-	border: 0px;
-	border-radius: 0px;
-}
-
-/*** .well ***/
-
-#swepub-application .well {
-	border-radius: 1px;
-	background-color: #ffffff;
-}
-
-/*** .form-control ***/
-
-#swepub-application .form-control {
-	border: 0px;
-}
-
-/*** .dropdown-menu ***/
-
-#swepub-application .dropdown-menu {
-	border-radius: 0px;
-	border: none;
-	padding: 0px;
-}
-
-#swepub-application .dropdown-menu > li {
-	margin: 0px;
-	padding: 0px;
-}
-
-/*** .footer ***/
-
-#swepub-application .footer {
-	margin-top: 200px;
-}
-
-/* Hack to make select2-dropdowns look like styleguide. Fix in future */
-#swepub-application .select2-container--default .select2-selection--multiple {
-	border: 0px;
-}
-#swepub-application .select2-container--default.select2-container--focus .select2-selection--multiple {
-	box-shadow: 0 0 0 2px #5dc4ed;
-	border-color: #66afe9
+	/* Hack to make select2-dropdowns look like styleguide. Fix in future */
+	.select2-container--default .select2-selection--multiple {
+		border: 0px;
+	}
+	.select2-container--default.select2-container--focus .select2-selection--multiple {
+		box-shadow: 0 0 0 2px #5dc4ed;
+		border-color: #66afe9
+	}
+	
 }

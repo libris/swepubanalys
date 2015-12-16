@@ -24,6 +24,8 @@ var FormatAggregationUtil = require('utils/FormatAggregationUtil/FormatAggregati
 var getQueryVariable = require('utils/getQueryVariable.js');
 // CSS-modules
 var styles = _assign(require('!!style!css?modules!./inspector.css'), require('css/modules/Colors.less'));
+// CSS
+require('css/theme-inspector.less');
 
 /**
  * Inspector-view

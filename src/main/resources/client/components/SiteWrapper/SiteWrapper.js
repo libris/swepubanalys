@@ -9,8 +9,6 @@ var styles = _assign(
 	require('./SiteWrapper.css'), 
 	require('css/modules/Colors.less')
 );
-// CSS
-require('css/theme.less');
 
 /**
  * Site Wrapper Component
