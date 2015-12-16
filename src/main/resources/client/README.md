@@ -2,9 +2,10 @@
 Vue.js, Webpack, Bootstrap, Less, Karma, Jasmine, 
 
 ## Table of Contents
-1. [Entries](#entries)
+1. [File tree](#file-tree)
+2. [Entries](#entries)
 
-### \# File tree
+### \# <a name="file-tree"></a>File tree
 ```
 |-- client/
     |
