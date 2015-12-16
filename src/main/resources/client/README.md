@@ -1,4 +1,4 @@
-# Swepub client
+# SwePub Client
 Vue.js, Webpack, Bootstrap, Less, Karma, Jasmine, 
 
 ## Table of Contents
