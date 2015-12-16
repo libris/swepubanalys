@@ -28,7 +28,7 @@
 					<div slot="CarouselContent-1">
 						<div>&nbsp;</div>
 						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="pieChart.getContent | visible 1 visibleItems">
+							<template v-if="violationDistributionChart.getContent | visible 1 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>TOTAL ANDEL POSTER MED FEL</p>
 								</div>
@@ -38,7 +38,7 @@
 										legend-position="bottom"  
 										:color-categories.once="colorCategories"
 										height="390"
-										:get-content="pieChart.getContent">
+										:get-content="violationDistributionChart.getContent">
 									</chart>
 								</div>
 							</template>
@@ -47,7 +47,7 @@
 					<div slot="CarouselContent-2">
 						<div>&nbsp;</div>
 						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="barChart.getContent | visible 2 visibleItems">
+							<template v-if="orgViolations.getContent | visible 2 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>ANDEL FELAKTIGA POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(topp 5)</span></p>
 								</div>
@@ -60,7 +60,7 @@
 										height="373"
 										tick-format="0%"
 										:on-click.once="onClickOrg"
-										:get-content="barChart.getContent">
+										:get-content="orgViolations.getContent">
 									</chart>
 								</div>
 							</template>
@@ -98,7 +98,7 @@
 					<div slot="CarouselContent-4">
 						<div>&nbsp;</div>
 						<div class="{{ $data._styles.ChartContainer }}">
-							<template v-if="lineChart.getContent | visible 4 visibleItems">
+							<template v-if="grade3ViolationChart.getContent | visible 4 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>
 										ANDEL POSTER MED ALLVARLIGA FEL
@@ -115,7 +115,7 @@
 										:min="0.0"
 										:max="1.0"
 										:on-click.once="onClickOrg"
-										:get-content="lineChart.getContent">
+										:get-content="grade3ViolationChart.getContent">
 									</chart>
 								</div>
 							</template>

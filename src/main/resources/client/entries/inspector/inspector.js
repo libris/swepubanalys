@@ -221,9 +221,9 @@ var Inspector = {
 		 */
 		setAggregations: function(aggregations) {
 			// *** LINE CHART *** //
-			this.setChartContent('lineChart', FormatAggregationUtil.toGrade3ViolationRatioYearTimeSeries(aggregations, this.formModel.org.length === 0));	
+			this.setChartContent('grade3ViolationChart', FormatAggregationUtil.toGrade3ViolationRatioYearTimeSeries(aggregations, this.formModel.org.length === 0));	
 			// *** BAR CHART *** //
-			this.setChartContent('barChart', FormatAggregationUtil.toOrgViolationRatio(aggregations, this.formModel.org.length === 0 ? 5 : 10000));
+			this.setChartContent('orgViolations', FormatAggregationUtil.toOrgViolationRatio(aggregations, this.formModel.org.length === 0 ? 5 : 10000));
 			// *** VIOLATION TYPE DISTRIBUTION CHART *** //
 			var aggs = FormatAggregationUtil.toViolationTypeDistributions(aggregations, this.formModel.org);
 			aggs.columns.forEach(function(column) {
@@ -237,7 +237,7 @@ var Inspector = {
 			});
 			this.setChartContent('violationTypeDistributionChart', aggs);
 			// *** PIE CHART *** //
-			this.setChartContent('pieChart', FormatAggregationUtil.toViolationDistribution(aggregations));
+			this.setChartContent('violationDistributionChart', FormatAggregationUtil.toViolationDistribution(aggregations));
 		},
 		/**
 		 * Sets .getContent function for a chart-object
@@ -346,13 +346,13 @@ var initialData = {
 		fields: [],
 	},
 	// Function which returns a data-set
-	lineChart: {
+	grade3ViolationChart: {
 		getContent: null, // We use a function to give data to the chart to avoid "indexing" by Vue
 	},
-	barChart: {
+	orgViolations: {
 		getContent: null,
 	},
-	pieChart: {
+	violationDistributionChart: {
 		getContent: null,
 	},
 	violationTypeDistributionChart: {
