@@ -1,6 +1,9 @@
 # Swepub client
 Vue.js, Webpack, Bootstrap, Less, Karma, Jasmine, 
 
+## Table of Contents
+1. [Entries](#entries)
+
 ### \# File tree
 ```
 |-- client/
@@ -18,7 +21,7 @@ Vue.js, Webpack, Bootstrap, Less, Karma, Jasmine,
     |-- utils/                	Utility files for data modules, making ajax requests, formatting data, etc ...
 ```
 
-### \# Entries
+### \# <a name="entries"></a>Entries
 Within our application, entries correspond to one bundle - and ultimately to one view. They are the entry-points where Webpack start in order to create a bundle, which is why they are not expressed as a module themselves. They are, however, Vue components that are mounted to a DOM node explicitly - constituting the root node for the application. These components use other components, passing down props - effectively creating a hierarchical GUI structure. Trivial example:
 
 **entries/MyView/MyView.js**
