@@ -47,7 +47,7 @@ var OutputInput = {
 		onClickHideField: function(field) {
 			this.$set('field.show', false);
 			this.hidePopover(this.$el);
-			this.$refs.input.clear();
+			this.$broadcast('select-option', '');
 		}
 	}
 };
