@@ -1,7 +1,6 @@
 'use strict';
 
 // Vendor
-var Vue = require('vue');
 var $ = require('jquery');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 var _assign = require('lodash/object/assign');

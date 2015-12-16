@@ -51,7 +51,7 @@ var HelpMixin = {
 				placement: conf.placement || 'right',
 				template: '<div class="popover" style="width: 100%; margin-left: ' + marginLeft + '; margin-top: ' + marginTop + '; margin-bottom: ' + marginBottom + ';"><div style="float: right; color: #FFFFFF; padding: 5px; padding-right: 10px; cursor: pointer;">X</div><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
 				title: conf.title,
-				content: '<div style="max-height: 550px; overflow-y: auto; overflow-x: hidden; word-wrap: break-word;">' + conf.content || ''  + '</div>',
+				content: '<div style="max-height: 550px; overflow-y: auto; overflow-x: hidden; -moz-hyphens: manual; -ms-hyphens: manual; hyphens: manual; padding-right: 15px;">' + conf.content || ''  + '</div>',
 				html: true,
 				//container: 'body',
 			});
