@@ -1,7 +1,15 @@
-# Swepub client
+# SwePub Client
 Vue.js, Webpack, Bootstrap, Less, Karma, Jasmine, 
 
-### \# File tree
+## Table of Contents
+1. [File tree](#file-tree)
+2. [Entries](#entries)
+3. [Component modules](#component-modules)
+4. [Component mixins](#component-mixins)
+5. [CSS modules](#css-modules)
+6. [Unit testing](#unit-testing)
+
+### \# <a name="file-tree"></a>File tree
 ```
 |-- client/
     |
@@ -18,7 +26,7 @@ Vue.js, Webpack, Bootstrap, Less, Karma, Jasmine,
     |-- utils/                	Utility files for data modules, making ajax requests, formatting data, etc ...
 ```
 
-### \# Entries
+### \# <a name="entries"></a>Entries
 Within our application, entries correspond to one bundle - and ultimately to one view. They are the entry-points where Webpack start in order to create a bundle, which is why they are not expressed as a module themselves. They are, however, Vue components that are mounted to a DOM node explicitly - constituting the root node for the application. These components use other components, passing down props - effectively creating a hierarchical GUI structure. Trivial example:
 
 **entries/MyView/MyView.js**
@@ -48,7 +56,7 @@ new Vue({
 </div>
 ```
 
-### \# Vue components
+### \# <a name="component-modules"></a>Component modules
 Components consist typically of three files: .js-, .html- and (maybe) a .css-file. Trivial example:
 
 **components/MyComponent/MyComponent.js** (Component module)
@@ -86,8 +94,37 @@ The component css-file contains CSS-modules to be used within the template. Scro
     margin: 5px;
 }
 ```
+### \# <a name="component-mixins"></a>Component mixins
+Reusable functionality is placed in mixins (http://vuejs.org/guide/mixins.html). Example:
 
-### \# CSS modules
+We have a mixin called FormFieldValidationMixin which is used to validate form field values against given functions. The mixin itself contains logic for listening to value mutation, debouncing, testing the value against (possibly-) asynchronous test functions, "standard" validations functions, etc. It also contains adds an "errors" array to the component data(), which can be used in templates to display possible errors. 
+
+components/OrcidInput/OrcidInput.js uses this mixin the following way:
+```
+var FormFieldValidationMixin = require('mixins/FormFieldValidationMixin/FormFieldValidationMixin.js');
+```
+```
+var OrcidInput = {
+	mixins: [HelpMixin, FormFieldValidationMixin, FormFieldLayoutMixin],
+	...
+	ready: function() {
+		/**
+	 	* This test-function asks server to validate the user provided orcid (field.value)
+	 	* @param {Function} callback
+	 	*/
+		var isValidAccordingToServer = function(callback) {
+			...
+			callback(isValid || 'Ogiltig Orcid angivet');
+		}
+	
+		// Set a validation listener to field.value and let it pass through the provided functions. 
+		// this.isValidAccordingToRegexp is provided by the FormFieldValidationMixin by default,
+		// and we have defined isValidaAccordingToServer above
+		this.setValidationListeners('field.value', [this.isValidAccordingToRegexp, isValidAccordingToServer]);
+	}
+}
+```
+### \# <a name="css-modules"></a>CSS modules
 To avoid conflicting class-names, components are styled by CSS modules using the Webpack css-loader (https://github.com/webpack/css-loader). If a .css or .less file is placed anywhere within components/, mixins/ or css/modules, it is loaded with an additional query parameter (css-loader?modules). This essentially hashes the selectors of the required .css/.less file(s) and makes the require-call return a map containing the selectors and corresponding hahses. To add a CSS module class to an element within the component view-template, do the following:
 
 Define the map.
@@ -128,10 +165,7 @@ The same goes loading CSS-modules from files which are placed outside of these d
 ```
 var myStyles = require('!!style!css?modules!css/styles.css'); // CSS-modules
 ```
-### \# Component mixins
-To come.
-
-### \# Unit testing
+### \# <a name="unit-testing"></a>Unit testing
 We use the Karma/Jasimne test-runner/testing-framework combination for writing unit tests. To run our unit tests, do the following command in the project root:
 ```
 karma run
