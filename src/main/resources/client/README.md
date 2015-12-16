@@ -86,7 +86,36 @@ The component css-file contains CSS-modules to be used within the template. Scro
     margin: 5px;
 }
 ```
+### \# Component mixins
+Reusable functionality is placed in mixins (http://vuejs.org/guide/mixins.html). Example:
 
+We have a mixin called FormFieldValidationMixin which is used to validate form field values against given functions. The mixin itself contains logic for listening to value mutation, debouncing, testing the value against (possibly-) asynchronous test functions, "standard" validations functions, etc. It also contains adds an "errors" array to the component data(), which can be used in templates to display possible errors. 
+
+components/OrcidInput/OrcidInput.js uses this mixin the following way:
+```
+var FormFieldValidationMixin = require('mixins/FormFieldValidationMixin/FormFieldValidationMixin.js');
+```
+```
+var OrcidInput = {
+	mixins: [HelpMixin, FormFieldValidationMixin, FormFieldLayoutMixin],
+	...
+	ready: function() {
+		/**
+	 	* This test-function asks server to validate the user provided orcid (field.value)
+	 	* @param {Function} callback
+	 	*/
+		var isValidAccordingToServer = function(callback) {
+			...
+			callback(isValid || 'Ogiltig Orcid angivet');
+		}
+	
+		// Set a validation listener to field.value and let it pass through the provided functions. 
+		// this.isValidAccordingToRegexp is provided by the FormFieldValidationMixin by default,
+		// and we have defined isValidaAccordingToServer above
+		this.setValidationListeners('field.value', [this.isValidAccordingToRegexp, isValidAccordingToServer]);
+	}
+}
+```
 ### \# CSS modules
 To avoid conflicting class-names, components are styled by CSS modules using the Webpack css-loader (https://github.com/webpack/css-loader). If a .css or .less file is placed anywhere within components/, mixins/ or css/modules, it is loaded with an additional query parameter (css-loader?modules). This essentially hashes the selectors of the required .css/.less file(s) and makes the require-call return a map containing the selectors and corresponding hahses. To add a CSS module class to an element within the component view-template, do the following:
 
@@ -128,9 +157,6 @@ The same goes loading CSS-modules from files which are placed outside of these d
 ```
 var myStyles = require('!!style!css?modules!css/styles.css'); // CSS-modules
 ```
-### \# Component mixins
-To come.
-
 ### \# Unit testing
 We use the Karma/Jasimne test-runner/testing-framework combination for writing unit tests. To run our unit tests, do the following command in the project root:
 ```
