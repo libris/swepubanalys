@@ -222,9 +222,12 @@ var formSuggestions = {
 		{ value: 'ovr', text: 'Annan publikation' }
 	],
 	output: [
+		{ value: 'artistic-work,artistic-work/original-creative-work,artistic-work/curated-exhibition-or-event', text: 'Konstnärlig output - Alla' },
 		{ value: 'artistic-work', text: 'Konstnärlig output' },
 		{ value: 'artistic-work/original-creative-work', text: 'Konstnärlig output - Konstnärligt arbete' },
 		{ value: 'artistic-work/curated-exhibition-or-event', text: 'Konstnärlig output - Curerad/producerad utställning/event' },
+		
+		{ value: 'publication,publication/book,publication/edited-book,publication/book-chapter,publication/report-chapter,publication/report,publication/journal-article,publication/review-article,publication/editorial-letter,publication/book-review,publication/magazine-article,publication/newspaper-article,publication/encyclopedia-entry,publication/doctoral-thesis,publication/licentiate-thesis,publication/translation,publication/working-paper,publication/journal-issue,publication/other', text: 'Publikationer – Alla' },
 		{ value: 'publication', text: 'Publikationer' },
 		{ value: 'publication/book', text: 'Publikationer – Bok' },
 		{ value: 'publication/edited-book', text: 'Publikationer – Samlingsverk (redaktörskap)' },
@@ -244,14 +247,20 @@ var formSuggestions = {
 		{ value: 'publication/working-paper', text: 'Publikationer – Working paper' },
 		{ value: 'publication/journal-issue', text: 'Publikationer – Special-/temanummer av tidskrift (redaktörskap)' },
 		{ value: 'publication/other', text: 'Publikationer – Övrig publikation' },
+		
+		{ value: 'conference,conference/paper,conference/poster,conference/proceeding,conference/other', text: 'Konferensoutput - Alla' },
 		{ value: 'conference', text: 'Konferensoutput' },
 		{ value: 'conference/paper', text: 'Konferensoutput – Paper i proceeding' },
 		{ value: 'conference/poster', text: 'Konferensoutput – Poster' },
 		{ value: 'conference/proceeding', text: 'Konferensoutput – Proceeding (redaktörskap)' },
 		{ value: 'conference/other', text: 'Konferensoutput – Övriga konferensbidrag' },
+		
+		{ value: 'intellectual-property,intellectual-property/patent,intellectual-property/other', text: 'Immaterialrättslig output - Alla' },
 		{ value: 'intellectual-property', text: 'Immaterialrättslig output' },
 		{ value: 'intellectual-property/patent', text: 'Immaterialrättslig output - Patent' },
 		{ value: 'intellectual-property/other', text: 'Immaterialrättslig output – Övrig immaterialrättslig output' },
+		
+		{ value: 'other,other/dataset', text: 'Övrig output - Alla' },
 		{ value: 'other', text: 'Övrig output' },
 		{ value: 'other/dataset', text: 'Övrig output – Dataset' }
 	]
