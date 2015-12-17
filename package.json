@@ -8,6 +8,7 @@
     "lodash": "^3.10.1",
     "mustache": "^2.2.1",
     "q": "^1.4.1",
+    "thenBy.js": "git+https://git@github.com/Teun/thenby.js.git",
     "webpack": "^1.12.2"
   },
   "devDependencies": {

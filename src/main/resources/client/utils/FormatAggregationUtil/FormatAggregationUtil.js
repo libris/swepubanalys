@@ -4,6 +4,10 @@
 var d3 = require('d3');
 var _sortBy = require('lodash/collection/sortBy');
 var _sortByOrder = require('lodash/collection/sortByOrder');
+var _sum = require('lodash/math/sum');
+var firstBy = require('thenBy.js');
+// Util
+var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 
 /**
  * This util is used to format aggregations to C3-style input data
@@ -186,7 +190,24 @@ var FormatAggregationUtil = {
 				}
 			});
 		}
-		var chart = {
+        // Sort the columns
+        SearchFormUtil.getViolations(function(violations) { // Get grades
+            var remap = {};
+            Object.keys(violations).forEach(function(v) {
+                remap[violations[v].name] = violations[v];
+            });
+            columns = columns.sort(
+                firstBy(function(a, b) {
+                    // Sort by grade
+                    return remap[b[0]].grade - remap[a[0]].grade;
+                })
+                .thenBy(function(a, b) {
+                    // Sort by sum
+                    return _sum(b.slice(1,b.length-1)) - _sum(a.slice(1,a.length-1));
+                })
+            );
+        });
+        var chart = {
 			columns: columns,
 			donut: {
 				label: {

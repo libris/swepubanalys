@@ -130,11 +130,7 @@ var Chart = {
 					// After
 					this._chart = c3.generate(config);
 					this.update();
-				}.bind(this), function(a, b) { // Sort function
-					if(this.colorCategories._categories) {
-		    			return this.colorCategories._categories[b.id] - this.colorCategories._categories[a.id];
-		    		}
-		    	}.bind(this));	
+				}.bind(this), null);
 			} else {
 				this._chart = c3.generate(config);
 				this.update();
