@@ -134,77 +134,59 @@ var formSuggestions = {
         { value: 'oru', text: 'Örebro universitet' }
 	],
 	subjects: [
-		{ 
-			label: '1 Naturvetenskap',
-			options: [
-				{ value: '101', text: '101 Matematik' },
-	            { value: '102', text: '102 Data- och informationsvetenskap' },
-	            { value: '103', text: '103 Fysik' },
-	            { value: '104', text: '104 Kemi' },
-	            { value: '105', text: '105 Geovetenskap och miljövetenskap' },
-	            { value: '106', text: '106 Biologiska vetenskaper' },
-	            { value: '107', text: '107 Annan naturvetenskap' }
-            ]
-        },
-        { 
-        	label: '2 Teknik',
-			options: [
-	            { value: '201', text: '201 Samhällsbyggnadsteknik' },
-	            { value: '202', text: '202 Elektroteknik och elektronik' },
-	            { value: '203', text: '203 Maskinteknik' },
-	            { value: '204', text: '204 Kemiteknik' },
-	            { value: '205', text: '205 Materialteknik' },
-	            { value: '206', text: '206 Medicinteknik' },
-	            { value: '207', text: '207 Naturresursteknik' },
-	            { value: '208', text: '208 Miljöbioteknik' },
-	            { value: '209', text: '209 Industriell bioteknik' },
-	            { value: '210', text: '210 Nanoteknik' },
-	            { value: '211', text: '211 Annan teknik' }
-        	]
-        },
-        { 
-        	label: '3 Medicin och hälsovetenskap',
-			options: [
-	            { value: '301', text: '301 Medicinska grundvetenskaper' },
-	            { value: '302', text: '302 Klinisk medicin' },
-	            { value: '303', text: '303 Hälsovetenskaper' },
-	            { value: '304', text: '304 Medicinsk bioteknologi' },
-	            { value: '305', text: '305 Annan medicin och hälsovetenskap' }
-	        ]
-        },
-        { label: '4 Lantbruksvetenskap',
-			options: [
-	            { value: '401', text: '401 Lantbruksvetenskap, skogsbruk och fiske' },
-	            { value: '402', text: '402 Husdjursvetenskap' },
-	            { value: '403', text: '403 Veterinärmedicin' },
-	            { value: '404', text: '404 Bioteknologi med applikationer på växter och djur' },
-	            { value: '405', text: '405 Andra lantbruksrelaterade vetenskaper' }
-	        ]
-        },
-        { 
-        	label: '5 Samhällsvetenskap',
-			options: [
-	            { value: '501', text: '501 Psykologi' },
-	            { value: '502', text: '502 Ekonomi och näringsliv' },
-	            { value: '503', text: '503 Utbildningsvetenskap' },
-	            { value: '504', text: '504 Sociologi' },
-	            { value: '505', text: '505 Juridik' },
-	            { value: '506', text: '506 Statsvetenskap' },
-	            { value: '507', text: '507 Social och ekonomisk geografi' },
-	            { value: '508', text: '508 Medie- och kommunikationsvetenskap' },
-	            { value: '509', text: '509 Annan samhällsvetenskap' }
-	        ]
-        },
-        { 
-        	label: '6 Humaniora',
-			options: [
-	            { value: '601', text: '601 Historia och arkeologi' },
-	            { value: '602', text: '602 Språk och litteratur' },
-	            { value: '603', text: '603 Filosofi, etik och religion' },
-	            { value: '604', text: '604 Konst' },
-	            { value: '605', text: '605 Annan humaniora' }
-	        ]
-	    }
+        { value: '101,102,103,104,105,106,107', text: '101-107 - Naturvetenskap' },
+        { value: '101', text: '101 Matematik' },
+        { value: '102', text: '102 Data- och informationsvetenskap' },
+        { value: '103', text: '103 Fysik' },
+        { value: '104', text: '104 Kemi' },
+        { value: '105', text: '105 Geovetenskap och miljövetenskap' },
+        { value: '106', text: '106 Biologiska vetenskaper' },
+        { value: '107', text: '107 Annan naturvetenskap' },
+
+        { value: '201,202,203,204,205,206,207,208,209,210,211', text: '201-211 - Teknik' },
+        { value: '201', text: '201 Samhällsbyggnadsteknik' },
+        { value: '202', text: '202 Elektroteknik och elektronik' },
+        { value: '203', text: '203 Maskinteknik' },
+        { value: '204', text: '204 Kemiteknik' },
+        { value: '205', text: '205 Materialteknik' },
+        { value: '206', text: '206 Medicinteknik' },
+        { value: '207', text: '207 Naturresursteknik' },
+        { value: '208', text: '208 Miljöbioteknik' },
+        { value: '209', text: '209 Industriell bioteknik' },
+        { value: '210', text: '210 Nanoteknik' },
+        { value: '211', text: '211 Annan teknik' },
+
+        { value: '301,302,303,304,305', text: '301-305 - Medicin och hälsovetenskap' },
+        { value: '301', text: '301 Medicinska grundvetenskaper' },
+        { value: '302', text: '302 Klinisk medicin' },
+        { value: '303', text: '303 Hälsovetenskaper' },
+        { value: '304', text: '304 Medicinsk bioteknologi' },
+        { value: '305', text: '305 Annan medicin och hälsovetenskap' },
+
+        { value: '401,402,403,404,405', text: '401-405 - Lantbruksvetenskap' },
+        { value: '401', text: '401 Lantbruksvetenskap, skogsbruk och fiske' },
+        { value: '402', text: '402 Husdjursvetenskap' },
+        { value: '403', text: '403 Veterinärmedicin' },
+        { value: '404', text: '404 Bioteknologi med applikationer på växter och djur' },
+        { value: '405', text: '405 Andra lantbruksrelaterade vetenskaper' },
+
+        { value: '501,502,503,504,505,506,507,508,509', text: '501-509 - Samhällsvetenskap' },
+        { value: '501', text: '501 Psykologi' },
+        { value: '502', text: '502 Ekonomi och näringsliv' },
+        { value: '503', text: '503 Utbildningsvetenskap' },
+        { value: '504', text: '504 Sociologi' },
+        { value: '505', text: '505 Juridik' },
+        { value: '506', text: '506 Statsvetenskap' },
+        { value: '507', text: '507 Social och ekonomisk geografi' },
+        { value: '508', text: '508 Medie- och kommunikationsvetenskap' },
+        { value: '509', text: '509 Annan samhällsvetenskap' },
+
+        { value: '601,602,603,604,605', text: '601-605 - Humaniora' },
+        { value: '601', text: '601 Historia och arkeologi' },
+        { value: '602', text: '602 Språk och litteratur' },
+        { value: '603', text: '603 Filosofi, etik och religion' },
+        { value: '604', text: '604 Konst' },
+        { value: '605', text: '605 Annan humaniora' }
 	],
 	publTypes: [
 		{ value: 'bok', text: 'Bok' },
