@@ -8,7 +8,7 @@ CONSTRUCT{
 
 	?Mods a mods_m:Mods;
 	#swpa_m:DataQualityViolation ?DataQualityViolation ;
-            swpa_m:DataQualityViolation ?_violationType;
+           # swpa_m:DataQualityViolation ?_violationType;
                 rdfs:label ?_violationTypeLabel ;
                 #swpa_m:severity ?_severity ;
         mods_m:identifierValue ?_recordID ;

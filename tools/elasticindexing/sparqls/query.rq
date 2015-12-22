@@ -43,6 +43,7 @@ CONSTRUCT {
     ?Mods swpa_m:contentTypeCode ?_contentType .
 
     FILTER ( xsd:string(?_orgCode) IN ( "${orgCodeArg}") )
+    #FILTER ( xsd:string(?_recordID) IN ("oai:DiVA.org:sh-10626","oai:DiVA.org:sh-19653") )
     OPTIONAL { ?Mods swpa_m:oaType ?_OA }
 
   #OPTIONAL

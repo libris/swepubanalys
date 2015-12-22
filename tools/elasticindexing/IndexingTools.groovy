@@ -1,6 +1,57 @@
 @Grab('com.github.jsonld-java:jsonld-java:0.7.0')
 @Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
 import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+import com.github.jsonldjava.core.JsonLdOptions
 import com.github.jsonldjava.core.JsonLdProcessor
 import groovy.json.JsonBuilder
 import wslite.rest.ContentType
@@ -16,39 +67,83 @@ class IndexingTools {
      * Calls a sparql enpoind and downloads paged turtle results.
      * @param fileNameFrom file containing sparql query
      * @param orgCode organisation code to filter the Sparql query
-     * @return the concatenated results from all the requests         **/
-    public getTurtle(String sparql, def sparqlEndpoint, def orgCode = null) {
+     * @return the concatenated results from all the requests                          **/
+    public getTurtle(Map args) {
         //TODO: make more generic with more args. Rename orgCode
         //TODO: rename to something more apropiate
+        assert args.elasticEndpoint
+        assert args.fileStore
+
         try {
-            def defaultLimit = 100000
+            def defaultLimit = 50000
             def defaultOffset = 0
+
+            def severityByViolationName = { String violationName -> [label: violationName, severity: args.qualityViolations.values.find { tit -> tit.name == violationName }?.severity ?: 0] }
+            def toSeconds = { long start, long stop -> Math.round(((stop - start) / 1000000000.0)) }
             def defaultLimitClause = { int offset, int limit -> "\nOFFSET ${offset}  LIMIT ${limit}" }
 
-            String sparqlString = orgCode == null ? sparql : sparql.replace('${orgCodeArg}', orgCode)
-            def currentResponse
-            def result = "";
+            String sparqlString = args.organisationCode == null ? args.sparqlQuery : args.sparqlQuery.replace('${orgCodeArg}', args.organisationCode)
 
+            def currentResponse
             while (true) {
-                currentResponse = makeSparqlRequest(sparqlString + defaultLimitClause(defaultOffset, defaultLimit), sparqlEndpoint)
-                println "Made request"
-                // if ((defaultOffset/defaultLimit) >2) //For debugging
-                if (currentResponse.startsWith("# Empty TURTLE"))
-                    break;
-                else
-                    result += currentResponse
+                long startTick = System.nanoTime();
+                currentResponse = makeSparqlRequest(sparqlString + defaultLimitClause(defaultOffset, defaultLimit), args.sparqlEndpoint)
+                if (currentResponse.startsWith("# Empty TURTLE")) {
+                    break
+                } else {
+                    long fetchTick = System.nanoTime();
+                    def turtles = splitTurtles(currentResponse)//samma
+                    long splitTick = System.nanoTime();
+                    def compactos = turtles.collect { turtle -> compact(expand(turtle, args.organisationCode), args.context, args.organisationCode) }
+
+                    def d = compactos.findAll { it != null }
+                            .collect { compacto ->
+                        return compacto != null ? compacto."@graph".find { args.graphFilter }:null
+                    }
+
+                    long compactTick = System.nanoTime();
+                   /* println "${turtles.first()} \n====================="
+                    println "${new JsonBuilder(compactos.first()).toPrettyString()} \n====================="
+                    println "${new JsonBuilder(d.first()).toPrettyString()} \n====================="*/
+
+                    def e = d.collect { record ->
+                        if( record?.qualityName != null){
+                        def newStuff = (record.qualityName instanceof String) ?
+                                [severityByViolationName(record.qualityName as String)]
+                                : record.qualityName.collect { qualityName -> severityByViolationName(qualityName) }
+                        record['qualityViolations'] = newStuff;
+                        }
+                        return record
+
+                    }
+                    handleJsons(e, args.batchName, "swepub", args.elasticType, args.index, args.fileStore, args.elasticEndpoint)
+                    long postTick = System.nanoTime();
+
+                    println "${args.batchName} (${defaultOffset}) \t Turtles: ${turtles.count { t -> t }} Compactos: ${compactos.count { c -> c }} Jsons: ${d.count { j -> j }} \t Jsons2: ${e.count { j -> j }} \tRequest: ${toSeconds(startTick, fetchTick)}\t Split: ${toSeconds(fetchTick, splitTick)}\t Compact: ${toSeconds(splitTick, compactTick)} \t Post: ${toSeconds(compactTick, postTick)}"
+
+                }
                 defaultOffset += defaultLimit
             }
-            return result;
-
         }
         catch (All) {
             println All.message
-            throw All
+            println "====================\n ${All.stackTrace}"
         }
 
 
     }
+
+    private void handleJsons(List<Object> e,
+                             def batchName,
+                             def indexName, def typeName, def index, def fileStore, def elasticEndpoint) {
+        if (index) {
+            sendToElastic(e, indexName, typeName, elasticEndpoint)
+        } else {
+            createElasticExport("${fileStore}/${batchName}.json", e, indexName, typeName)
+        }
+
+    }
+
     /**
      * Makes request to a sparql endpoint
      *
@@ -107,7 +202,7 @@ class IndexingTools {
         }
         try {
             def result = JsonLdProcessor.frame(expando, context, [embed: true] as JsonLdOptions)
-            if(!result){
+            if (!result) {
                 println "Felande expando:\n ${expando}"
             }
             return result
@@ -181,7 +276,7 @@ class IndexingTools {
             i++;
             try {
                 new File("${fileName}_${i}.json").withWriter { out ->
-                    chunk.findAll { it?.identifierValue !=null}.each { record ->
+                    chunk.findAll { it?.identifierValue != null }.each { record ->
                         out.println insertCommand(indexName, typeName, record.identifierValue)
                         out.println new JsonBuilder(record).toString();
                     }
@@ -190,12 +285,12 @@ class IndexingTools {
             catch (All) {
                 println All.message
                 println All.stackTrace
-
             }
         }
     }
 
     public static sendToElastic(def infoList, String indexName, String typeName, String elasticEndPoint) {
+        assert infoList.any()
         def insertCommand = { index, type, id ->
             """{ "create":  { "_index": "${index}", "_type": "${type}", "_id" : "${id}"}}}"""
         };
@@ -204,24 +299,27 @@ class IndexingTools {
         chunks.each { chunk ->
             i++;
             try {
-                putToElastic(chunk.findAll{it?.identifierValue !=null }.collect { record ->
-                    insertCommand(indexName, typeName, record.identifierValue)
-                    +"\n"
-                    + new JsonBuilder(record).toString();
-                }.join("\n"), elasticEndPoint)
+                String data = chunk.findAll { it?.identifierValue != null }
+                        .collect {
+                    record ->
+                        "${insertCommand(indexName, typeName, record.identifierValue)} \n ${new JsonBuilder(record).toString()}"
+                }.join("\n") as String
+                assert data instanceof String
+                assert elasticEndPoint instanceof String
+                putToElastic(elasticEndPoint, data)
             }
             catch (All) {
-                println All.message+ "sendToElastic"
-                //println All.stackTrace.
+                println All.message + "sendToElastic"
+                println All.stackTrace
 
             }
         }
     }
 
-    public void putToElastic(String data, def elasticEndPoint) {
+    public static void putToElastic(String elasticEndPoint, def data) {
         RESTClient client = new RESTClient(elasticEndPoint)
         def response = client.put(
-                path: '/',
+                path: '',
                 accept: ContentType.TEXT,
 
         ) { text data }
@@ -261,7 +359,7 @@ class IndexingTools {
                         record = record ? record.replaceAll(/ *$/, '') : record
                         record = record && record.endsWith(";") ?
                                 record.substring(0, record.length() - 1) + "." + line + "\n"
-                                : record + line + "\n";
+                                : record + (line ?: "") + "\n";
                         break;
                     default:
                         record += line + "\n";
@@ -269,7 +367,11 @@ class IndexingTools {
                 }
             }
             list.add(record);
-            return list.collect { it -> prefixes.join("\n") + "\n" + it };
+            def collist = list.collect { it ->
+                return prefixes.join("\n") + "\n" + it.replaceAll("nullns", "ns")
+            };
+            return collist
+
         }
         catch (All) {
             println All.message

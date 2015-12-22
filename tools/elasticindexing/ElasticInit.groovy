@@ -22,6 +22,10 @@ static String initData ="""{
                 "publicationStatus": {
                     "type": "string",
                     "index": "not_analyzed"
+                },
+                "outputCode": {
+                    "type": "string",
+                    "index": "not_analyzed"
                 }
             }
         }

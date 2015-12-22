@@ -64,9 +64,14 @@ public class Elasticsearch {
     static def filterByModel(def model) {
         def queryBase = new JsonSlurper().parseText(filteredQueryBase)
         def filters = []
-        addToFilter(model.org, 'hasMods.recordContentSourceValue', filters)
+        addToFilter(model.org, 'recordContentSourceValue', filters)
+        addToFilter(model.orcid, 'orcid', filters)
+        addToFilter(model.author, 'name', filters)
+        addToFilter(model.output.replace('-','/'),'output',filters)
         addToFilter(model.subject, 'hsv3', filters)
-        addToFilter(model.openaccess, 'hasMods.oaType', filters)
+        if (model.openaccess) {
+            addToFilter("green,gold", 'oaType', filters)
+        }
         switch (model.status) {
             case "all":
                 break
@@ -78,9 +83,9 @@ public class Elasticsearch {
                 break
 
         }
-        addToFilter(model.publtype, 'hasMods.publicationTypeCode', filters)
+        addToFilter(model.publtype, 'publicationTypeCode', filters)
 
-        filters.add(getRangeFilter("hasMods.publicationYear", model.from, model.to))
+        filters.add(getRangeFilter("publicationYear", model.from, model.to))
         queryBase.filtered.filter = [bool: [must: filters.findAll { it != null }]];
 
         return queryBase
@@ -172,7 +177,7 @@ public class Elasticsearch {
     },
     "missing_violations_per_org": {
         "terms": {
-            "field": "hasMods.recordContentSourceValue",
+            "field": "recordContentSourceValue",
             "size": 0
         },
         "aggs": {
@@ -185,13 +190,13 @@ public class Elasticsearch {
     },
      "violation_severity_per_org_per_year": {
         "terms": {
-            "field": "hasMods.recordContentSourceValue",
+            "field": "recordContentSourceValue",
             "size": 0
         },
         "aggs": {
             "year": {
                 "terms": {
-                    "field": "hasMods.publicationYear","size":"0"
+                    "field": "publicationYear","size":"0"
                 },
                   "aggs": {
                      "severity": {
@@ -209,13 +214,13 @@ public class Elasticsearch {
     },
     "year": {
         "terms": {
-            "field": "hasMods.publicationYear",
+            "field": "publicationYear",
             "size": 0
         }
     },
     "org": {
         "terms": {
-            "field": "hasMods.recordContentSourceValue",
+            "field": "recordContentSourceValue",
             "size": 0
         }
     },
@@ -227,13 +232,13 @@ public class Elasticsearch {
         "aggs": {
             "org": {
                 "terms": {
-                    "field": "hasMods.recordContentSourceValue",
+                    "field": "recordContentSourceValue",
                     "size": 0
                 },
                 "aggs": {
                     "year": {
                         "terms": {
-                            "field": "hasMods.publicationYear",
+                            "field": "publicationYear",
                             "size": 0
                         }
                     }
@@ -243,13 +248,13 @@ public class Elasticsearch {
     },
     "org_per_year": {
         "terms": {
-            "field": "hasMods.recordContentSourceValue",
+            "field": "recordContentSourceValue",
             "size": 0
         },
         "aggs": {
             "year": {
                 "terms": {
-                    "field": "hasMods.publicationYear",
+                    "field": "publicationYear",
                     "size": 0
                 }
             }
