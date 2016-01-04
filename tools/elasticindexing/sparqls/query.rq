@@ -79,7 +79,7 @@ CONSTRUCT {
             ?Mods a mods_m:Mods .
             ?Name a mods_m:Name .
             ?Record swpa_m:hasLocalCreator ?Name .
-            ?Name foaf:name ?_name .
+            #?Name foaf:name ?_name .
             ?Name swpa_m:orcid ?_orcid .
     }
    OPTIONAL
