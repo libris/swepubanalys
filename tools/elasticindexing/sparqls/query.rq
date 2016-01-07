@@ -14,15 +14,16 @@ CONSTRUCT {
            swpa_m:publicationTypeCode ?_publicatType;
            swpa_m:contentTypeCode ?_contentType;
            swpa_m:oaType ?_OA;
-           mods_m:hasSubject ?Subject ;
            foaf:name ?_name ;
            swpa_m:orcid ?_orcid ;
-           outt_m:code ?_outputCode.
+           outt_m:code ?_outputCode;
+           swpa_m:hsv1 ?_hsv1;
+           swpa_m:hsv3 ?_hsv3;
+           swpa_m:hsv5 ?_hsv5 .
+           #mods_m:Name ?Name .
 
-    ?Subject
-        swpa_m:hsv1 ?_hsv1;
-        swpa_m:hsv3 ?_hsv3;
-        swpa_m:hsv5 ?_hsv5 .
+    #?Subject
+        
    #?Name
    #  foaf:name ?_name .
    #?Orcidname
@@ -62,9 +63,20 @@ CONSTRUCT {
         ?Record a mods_m:Record .
         ?Mods a mods_m:Mods .
         ?Name a mods_m:Name .
-        ?Record swpa_m:hasLocalCreator ?Name .
+        ?Record mods_m:hasName ?Name .
         ?Name foaf:name ?_name .
    }
+
+ OPTIONAL
+    {
+            ?Record mods_m:hasMods ?Mods .
+            ?Record a mods_m:Record .
+            ?Mods a mods_m:Mods .
+            ?Name a mods_m:Name .
+            ?Record mods_m:hasName ?Name .
+            ?Name foaf:name ?_name .
+            ?Name swpa_m:orcid ?_orcid .
+    }
 
     OPTIONAL
     {
@@ -72,16 +84,7 @@ CONSTRUCT {
         ?OutputType outt_m:code ?_outputCode .
     }
 
-    OPTIONAL
-    {
-            ?Record mods_m:hasMods ?Mods .
-            ?Record a mods_m:Record .
-            ?Mods a mods_m:Mods .
-            ?Name a mods_m:Name .
-            ?Record swpa_m:hasLocalCreator ?Name .
-            #?Name foaf:name ?_name .
-            ?Name swpa_m:orcid ?_orcid .
-    }
+   
    OPTIONAL
     {
         ?Mods mods_m:hasSubject ?Subject .
@@ -101,4 +104,3 @@ CONSTRUCT {
     }
 
 }
-

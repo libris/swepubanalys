@@ -12,7 +12,7 @@ import wslite.rest.RESTClient
 public class Elasticsearch {
 
     static ElasticRESTClient() {
-        URL url = Elasticsearch.getClassLoader().getResource("config.groovy");
+        URL url = Elasticsearch.classLoader.getResource("config.groovy");
         def config = new ConfigSlurper().parse(url)
         return new RESTClient(config.elasticSearch.location)
 
@@ -67,7 +67,9 @@ public class Elasticsearch {
         addToFilter(model.org, 'recordContentSourceValue', filters)
         addToFilter(model.orcid, 'orcid', filters)
         addToFilter(model.author, 'name', filters)
-        addToFilter(model.output.replace('-','/'),'output',filters)
+        if(model.output) {
+            addToFilter(model.output.replace('-', '/'), 'output', filters)
+        }
         addToFilter(model.subject, 'hsv3', filters)
         if (model.openaccess) {
             addToFilter("green,gold", 'oaType', filters)

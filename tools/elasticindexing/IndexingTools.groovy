@@ -1,57 +1,6 @@
 @Grab('com.github.jsonld-java:jsonld-java:0.7.0')
 @Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
 import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-import com.github.jsonldjava.core.JsonLdOptions
 import com.github.jsonldjava.core.JsonLdProcessor
 import groovy.json.JsonBuilder
 import wslite.rest.ContentType
@@ -64,21 +13,25 @@ import wslite.rest.RESTClient
 class IndexingTools {
 
     /**
-     * Calls a sparql enpoind and downloads paged turtle results.
+     * Calls a sparql endpoind and downloads paged turtle results.
      * @param fileNameFrom file containing sparql query
      * @param orgCode organisation code to filter the Sparql query
-     * @return the concatenated results from all the requests                          **/
-    public getTurtle(Map args) {
+     * @return the concatenated results from all the requests                               **/
+    static getTurtle(Map args) {
         //TODO: make more generic with more args. Rename orgCode
         //TODO: rename to something more apropiate
         assert args.elasticEndpoint
         assert args.fileStore
 
         try {
-            def defaultLimit = 50000
+            def defaultLimit = 100000
+            def prefixes = ["@prefix foaf:\t<http://xmlns.com/foaf/0.1/> .",
+                            "@prefix rdf:\t<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .",
+                            "@prefix outt_m:\t<http://swepub.kb.se/SwePubAnalysis/OutputTypes/model#> .",
+                            "@prefix rdfs:\t<http://www.w3.org/2000/01/rdf-schema#> ."];
             def defaultOffset = 0
-
-            def severityByViolationName = { String violationName -> [label: violationName, severity: args.qualityViolations.values.find { tit -> tit.name == violationName }?.severity ?: 0] }
+            def totalJsons = 0
+            def severityByViolationName = { String violationName -> [label: violationName, severity: (args.qualityViolations.values.find { tit -> tit.name == violationName }?.severity ?: "0").toInteger()] }
             def toSeconds = { long start, long stop -> Math.round(((stop - start) / 1000000000.0)) }
             def defaultLimitClause = { int offset, int limit -> "\nOFFSET ${offset}  LIMIT ${limit}" }
 
@@ -92,50 +45,48 @@ class IndexingTools {
                     break
                 } else {
                     long fetchTick = System.nanoTime();
-                    def turtles = splitTurtles(currentResponse)//samma
+                    def turtles = splitTurtles(currentResponse, prefixes)//samma
+                    def ttlCount = turtles.count { t -> t }
+                    if (ttlCount == 1) {
+                        println turtles[0]
+                    }
                     long splitTick = System.nanoTime();
                     def compactos = turtles.collect { turtle -> compact(expand(turtle, args.organisationCode), args.context, args.organisationCode) }
 
                     def d = compactos.findAll { it != null }
                             .collect { compacto ->
-                        return compacto != null ? compacto."@graph".find { args.graphFilter }:null
+                        return compacto != null ? compacto."@graph".find { args.graphFilter } : null
                     }
 
                     long compactTick = System.nanoTime();
-                   /* println "${turtles.first()} \n====================="
-                    println "${new JsonBuilder(compactos.first()).toPrettyString()} \n====================="
-                    println "${new JsonBuilder(d.first()).toPrettyString()} \n====================="*/
-
                     def e = d.collect { record ->
-                        if( record?.qualityName != null){
-                        def newStuff = (record.qualityName instanceof String) ?
-                                [severityByViolationName(record.qualityName as String)]
-                                : record.qualityName.collect { qualityName -> severityByViolationName(qualityName) }
-                        record['qualityViolations'] = newStuff;
+                        if (record?.qualityName != null) {
+                            def newStuff = (record.qualityName instanceof String) ?
+                                    [severityByViolationName(record.qualityName as String)]
+                                    : record.qualityName.collect { qualityName -> severityByViolationName(qualityName) }
+                            record['qualityViolations'] = newStuff;
                         }
                         return record
-
                     }
                     handleJsons(e, args.batchName, "swepub", args.elasticType, args.index, args.fileStore, args.elasticEndpoint)
                     long postTick = System.nanoTime();
-
-                    println "${args.batchName} (${defaultOffset}) \t Turtles: ${turtles.count { t -> t }} Compactos: ${compactos.count { c -> c }} Jsons: ${d.count { j -> j }} \t Jsons2: ${e.count { j -> j }} \tRequest: ${toSeconds(startTick, fetchTick)}\t Split: ${toSeconds(fetchTick, splitTick)}\t Compact: ${toSeconds(splitTick, compactTick)} \t Post: ${toSeconds(compactTick, postTick)}"
-
+                    println "${new Date()} ${args.batchName} (${defaultOffset}) \t Turtles: ${ttlCount} Compactos: ${compactos.count { c -> c }} Jsons: ${d.count { j -> j }} \t Jsons2: ${e.count { j -> j }} \tRequest: ${toSeconds(startTick, fetchTick)}\t Split: ${toSeconds(fetchTick, splitTick)}\t Compact: ${toSeconds(splitTick, compactTick)} \t Post: ${toSeconds(compactTick, postTick)}"
+                    totalJsons += d.count { j -> j }
                 }
                 defaultOffset += defaultLimit
             }
+            println "${args.batchName} klar. Totalt antal poster: ${totalJsons}"
         }
         catch (All) {
-            println All.message
-            println "====================\n ${All.stackTrace}"
+            println "${All.message}\n====================\n ${All.stackTrace}"
         }
 
 
     }
 
-    private void handleJsons(List<Object> e,
-                             def batchName,
-                             def indexName, def typeName, def index, def fileStore, def elasticEndpoint) {
+    private static void handleJsons(List<Object> e,
+                                    def batchName,
+                                    def indexName, def typeName, def index, def fileStore, def elasticEndpoint) {
         if (index) {
             sendToElastic(e, indexName, typeName, elasticEndpoint)
         } else {
@@ -150,7 +101,7 @@ class IndexingTools {
      * @param sparql raw sparql query
      * @return the result in turtle format
      * **/
-    public makeSparqlRequest(def sparql, def sparqlEndPoint) {
+    static makeSparqlRequest(def sparql, def sparqlEndPoint) {
         //TODO replace hardcoded server string with configuration
 
         RESTClient client = new RESTClient(sparqlEndPoint)
@@ -167,12 +118,8 @@ class IndexingTools {
      * @param turtle graph in turtle format to expand
      * @return the expanded turtle graph in JSONLD format
      */
-    public static expand(String turtle, String orgCode) {
-
-        if (turtle == null) {
-            return null;
-        }
-
+    static expand(String turtle, String orgCode) {
+        assert turtle != null
         try {
             def result = JsonLdProcessor.fromRDF(turtle,
                     [format: "text/turtle", useNativeTypes: true] as JsonLdOptions)
@@ -196,7 +143,7 @@ class IndexingTools {
  * @param context file in JSONLD format.
  * @return comapacted graph
  * **/
-    public static compact(def expando, def context, String orgCode) {
+    static compact(def expando, def context, String orgCode) {
         if (expando == null) {
             return null;
         }
@@ -218,32 +165,20 @@ class IndexingTools {
      *
      * @return all distinct org codes in the data
      */
-    public static allOrgs(String sparqlEndpoint) {
+    static allOrgs(String sparqlEndpoint) {
         //TODO: replace hardcoded strings with configuration    or arguments
         String sparql = new File("sparqls/allOrgs.sparql").text
         def resp = postSparql(sparql, "application/json", sparqlEndpoint)
         return resp.results.bindings["callret-0"].value.collect { it }
     }
-/**
- *
- * @return highest and lowest years in the dataset
- */
-    public static publicationYearSpan() {
-        //TODO: replace hardcoded strings with configuration or arguments
-        String sparql = new File("sparqls/swepubPublicationYearLimits.sparql").text
-        def resp = postSparql(sparql, "application/json", "http://virhp07.libris.kb.se/sparql")
-        final Map map = new HashMap();
-        map.put("min", ((String) resp.results.bindings["callret-0"].value[0]).toInteger());
-        map.put("max", ((String) resp.results.bindings["callret-1"].value[0]).toInteger())
-        return map.min..map.max
-    }
+
 /**
  *
  * @param sparql the sparql query
  * @param contentType contenttype string
  * @return a sparql result
  */
-    public static postSparql(String sparql, String contentType, String path) {
+    static postSparql(String sparql, String contentType, String path) {
         //TODO: enable more content types
         try {
             RESTClient client = new RESTClient(path)
@@ -266,7 +201,7 @@ class IndexingTools {
      * @param fileName name of file
      * @param infoList list of json documents
      */
-    public static void createElasticExport(def fileName, def infoList, String indexName, String typeName) {
+    static void createElasticExport(def fileName, def infoList, String indexName, String typeName) {
         def insertCommand = { index, type, id ->
             """{ "create":  { "_index": "${index}", "_type": "${type}", "_id" : "${id}"}}}"""
         };
@@ -289,12 +224,12 @@ class IndexingTools {
         }
     }
 
-    public static sendToElastic(def infoList, String indexName, String typeName, String elasticEndPoint) {
+    static sendToElastic(def infoList, String indexName, String typeName, String elasticEndPoint) {
         assert infoList.any()
         def insertCommand = { index, type, id ->
             """{ "create":  { "_index": "${index}", "_type": "${type}", "_id" : "${id}"}}}"""
         };
-        def chunks = infoList.collate(2000)
+        def chunks = infoList.collate(500)
         int i = 0;
         chunks.each { chunk ->
             i++;
@@ -309,20 +244,32 @@ class IndexingTools {
                 putToElastic(elasticEndPoint, data)
             }
             catch (All) {
-                println All.message + "sendToElastic"
-                println All.stackTrace
+                println All.message + " sendToElastic: " + indexName + " " + typeName + " " + elasticEndPoint
+                //println All.stackTrace
 
             }
         }
     }
 
-    public static void putToElastic(String elasticEndPoint, def data) {
+    static void putToElastic(String elasticEndPoint, def path, def data) {
         RESTClient client = new RESTClient(elasticEndPoint)
         def response = client.put(
-                path: '',
+                path: path,
                 accept: ContentType.TEXT,
 
         ) { text data }
+        println response.statusMessage
+        assert 200 == response.statusCode
+    }
+
+    static void removeFromElastic(String elasticEndPoint) {
+        RESTClient client = new RESTClient(elasticEndPoint)
+        def response = client.delete(
+                path: '',
+                accept: ContentType.TEXT,
+
+        )
+        println response.statusMessage
         assert 200 == response.statusCode
     }
 
@@ -331,16 +278,14 @@ class IndexingTools {
      * @param text turtle formatted data to be split
      * @return List of turtle objects with all name spaces attached
      */
-    public static splitTurtles(def text) {
+    static splitTurtles(String text, ArrayList<String> prefixes) {
         //TODO: make more generic
         try {
-            def prefixes = ["@prefix foaf:\t<http://xmlns.com/foaf/0.1/> .",
-                            "@prefix rdf:\t<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .",
-                            "@prefix outt_m:\t<http://swepub.kb.se/SwePubAnalysis/OutputTypes/model#> .",
-                            "@prefix rdfs:\t<http://www.w3.org/2000/01/rdf-schema#> ."];
             String record;
             def list = [];
+            int i = 0;
             text.eachLine { line ->
+                i++;
                 switch (line) {
                     case { it -> (it.startsWith("\t")) }:
                         record += line + "\n";
@@ -353,7 +298,7 @@ class IndexingTools {
                     case { it -> it.startsWith("ns1:") && (it.endsWith("rdf:type\tns2:Record .") || it.endsWith("rdf:type\tns2:Record ;")) }:
                         if (record != null)
                             list.add(record)
-                        record = line + "\n";
+                        record = line + "\n"
                         break;
                     case { it -> it.startsWith("ns") || it.startsWith("rdfs") }:
                         record = record ? record.replaceAll(/ *$/, '') : record
@@ -367,10 +312,10 @@ class IndexingTools {
                 }
             }
             list.add(record);
-            def collist = list.collect { it ->
-                return prefixes.join("\n") + "\n" + it.replaceAll("nullns", "ns")
+            return list.collect { it ->
+                prefixes.join("\n") + "\n ${it.replaceAll("nullns", "ns")}"
             };
-            return collist
+
 
         }
         catch (All) {
@@ -423,4 +368,32 @@ class IndexingTools {
 
         return settings
     }
+    String initData = """{
+    "mappings": {
+        "dataQuality": {
+            "properties": {
+                "qualityViolations.label": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                 "qualityViolations.severity": {
+                    "type": "integer"
+                }
+
+            }
+        },
+        "bibliometrician": {
+            "properties": {
+                "publicationStatus": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "outputCode": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                }
+            }
+        }
+    }
+}"""
 }

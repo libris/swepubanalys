@@ -3,31 +3,3 @@
  */
 
 
-static String initData ="""{
-    "mappings": {
-        "dataQuality": {
-            "properties": {
-                "qualityViolations.label": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                 "qualityViolations.severity": {
-                    "type": "integer"
-                }
-
-            }
-        },
-        "bibliometrician": {
-            "properties": {
-                "publicationStatus": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "outputCode": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                }
-            }
-        }
-    }
-}"""
