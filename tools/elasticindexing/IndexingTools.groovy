@@ -1,10 +1,19 @@
 @Grab('com.github.jsonld-java:jsonld-java:0.7.0')
 @Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+@Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.6')
+import com.github.jsonldjava.core.JsonLdOptions
+@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
+@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
+@Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.6')
 import com.github.jsonldjava.core.JsonLdOptions
 import com.github.jsonldjava.core.JsonLdProcessor
 import groovy.json.JsonBuilder
+import groovyx.net.http.AsyncHTTPBuilder
 import wslite.rest.ContentType
 import wslite.rest.RESTClient
+
+import static groovyx.net.http.ContentType.*
+import static groovyx.net.http.Method.*
 
 /**
  * Created by Theodor on 2015-10-16.
@@ -16,7 +25,7 @@ class IndexingTools {
      * Calls a sparql endpoind and downloads paged turtle results.
      * @param fileNameFrom file containing sparql query
      * @param orgCode organisation code to filter the Sparql query
-     * @return the concatenated results from all the requests                               **/
+     * @return the concatenated results from all the requests                                **/
     static getTurtle(Map args) {
         //TODO: make more generic with more args. Rename orgCode
         //TODO: rename to something more apropiate
@@ -24,7 +33,7 @@ class IndexingTools {
         assert args.fileStore
 
         try {
-            def defaultLimit = 100000
+            def defaultLimit = 130000
             def prefixes = ["@prefix foaf:\t<http://xmlns.com/foaf/0.1/> .",
                             "@prefix rdf:\t<http://www.w3.org/1999/02/22-rdf-syntax-ns#> .",
                             "@prefix outt_m:\t<http://swepub.kb.se/SwePubAnalysis/OutputTypes/model#> .",
@@ -40,7 +49,7 @@ class IndexingTools {
             def currentResponse
             while (true) {
                 long startTick = System.nanoTime();
-                currentResponse = makeSparqlRequest(sparqlString + defaultLimitClause(defaultOffset, defaultLimit), args.sparqlEndpoint)
+                currentResponse = makeSparqlRequest(sparqlString + defaultLimitClause(defaultOffset, defaultLimit), args.sparqlEndpoint, "${args.batchName}_${defaultOffset}")
                 if (currentResponse.startsWith("# Empty TURTLE")) {
                     break
                 } else {
@@ -101,16 +110,65 @@ class IndexingTools {
      * @param sparql raw sparql query
      * @return the result in turtle format
      * **/
-    static makeSparqlRequest(def sparql, def sparqlEndPoint) {
-        //TODO replace hardcoded server string with configuration
+    static makeSparqlRequest(def sparql, def sparqlEndPoint, def batchName) {
 
-        RESTClient client = new RESTClient(sparqlEndPoint)
+        //TODO replace hardcoded server string with configuration
+        //def result = ''
+        /*RESTClient client = new RESTClient(sparqlEndPoint)
         def response = client.post(
                 accept: ContentType.TEXT,
                 path: '/',
                 query: [query: sparql, format: "text/turtle"])
         assert 200 == response.statusCode
-        return response.text
+        return response.text*/
+
+        // initialze a new builder and give a default URL
+        def http = new AsyncHTTPBuilder(
+                uri: sparqlEndPoint,
+                poolSize: 20,
+                contentType: TEXT)
+
+        def result = http.post(
+                path: '/sparql',
+                body: [query: sparql, format: "text/turtle"],
+                requestContentType: URLENC ) { resp, text ->
+            println "${batchName} got async response!"
+            return text.getText()
+        }
+
+        assert result instanceof java.util.concurrent.Future
+
+        int sleepcycles = 0
+
+        while (!result.done) {
+            if(sleepcycles % 120 == 0) {
+                println "${batchName} is waiting"
+            }
+            Thread.sleep(250)
+            sleepcycles ++
+
+        }
+
+/* The Future instance contains whatever is returned from the response
+   closure above; in this case the parsed HTML data: */
+        def text = result.get()
+        //println "${batchName} hämtad."
+        assert text
+        return text
+
+       /* http.request(POST, TEXT) { req ->
+            uri.path = ''
+            send URLENC, [query: sparql, format: "text/turtle"]
+            response.success = { resp, reader ->
+                assert resp.status == 200
+                println "My response handler got response: ${resp.statusLine}"
+                println "Response length: ${resp.headers.'Content-Length'}"
+                result = reader.getText() // print response reader
+            }
+        }
+
+
+        return result*/
     }
 
     /**
@@ -205,23 +263,27 @@ class IndexingTools {
         def insertCommand = { index, type, id ->
             """{ "create":  { "_index": "${index}", "_type": "${type}", "_id" : "${id}"}}}"""
         };
-        def chunks = infoList.collate(2000)
-        int i = 0;
-        chunks.each { chunk ->
+        //def chunks = infoList.collate(500)
+        int i = 0
+        int totalLines = 0
+        //chunks.each { chunk ->
             i++;
             try {
-                new File("${fileName}_${i}.json").withWriter { out ->
-                    chunk.findAll { it?.identifierValue != null }.each { record ->
+                def fileName2 = "${fileName}_${i}.json"
+                new File(fileName2).withWriterAppend { out ->
+                    infoList.findAll { it?.identifierValue != null }.each { record ->
                         out.println insertCommand(indexName, typeName, record.identifierValue)
                         out.println new JsonBuilder(record).toString();
                     }
                 }
+                totalLines +=(new File(fileName2).readLines().count{c->c}/2)
             }
             catch (All) {
                 println All.message
                 println All.stackTrace
             }
-        }
+        //}
+        println "fileName: ${totalLines} rader i filerna. ${infoList.count{c->c}} poster."
     }
 
     static sendToElastic(def infoList, String indexName, String typeName, String elasticEndPoint) {
@@ -258,7 +320,6 @@ class IndexingTools {
                 accept: ContentType.TEXT,
 
         ) { text data }
-        println response.statusMessage
         assert 200 == response.statusCode
     }
 
@@ -269,7 +330,6 @@ class IndexingTools {
                 accept: ContentType.TEXT,
 
         )
-        println response.statusMessage
         assert 200 == response.statusCode
     }
 
@@ -375,9 +435,6 @@ class IndexingTools {
                 "qualityViolations.label": {
                     "type": "string",
                     "index": "not_analyzed"
-                },
-                 "qualityViolations.severity": {
-                    "type": "integer"
                 }
 
             }

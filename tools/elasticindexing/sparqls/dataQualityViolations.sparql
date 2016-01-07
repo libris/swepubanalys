@@ -4,22 +4,10 @@ PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 CONSTRUCT{
     ?Record a mods_m:Record;
-        mods_m:hasMods ?Mods .
-
-	?Mods a mods_m:Mods;
-	#swpa_m:DataQualityViolation ?DataQualityViolation ;
-           # swpa_m:DataQualityViolation ?_violationType;
-                rdfs:label ?_violationTypeLabel ;
-                #swpa_m:severity ?_severity ;
-        mods_m:identifierValue ?_recordID ;
-        swpa_m:publicationYear ?_pubYear;
-        mods_m:recordContentSourceValue ?_orgCode .
-
-
-    #?DataQualityViolation a swpa_m:DataQualityViolation;
-    # 	rdfs:label ?_violationTypeLabel ;
-    # 	swpa_m:severity ?_severity .
-
+       rdfs:label ?_violationTypeLabel ;
+       mods_m:identifierValue ?_recordID ;
+       swpa_m:publicationYear ?_pubYear;
+       mods_m:recordContentSourceValue ?_orgCode .
 }
 WHERE
 {
@@ -29,16 +17,14 @@ WHERE
 
 	?Mods mods_m:recordContentSourceValue ?_orgCode .
 	?Mods mods_m:identifierValue ?_recordID .
-    ?Mods swpa_m:publicationYear ?_pubYear .
+        ?Mods swpa_m:publicationYear ?_pubYear .
 
 	OPTIONAL{
-        ?DataQualityViolation a swpa_m:DataQualityViolation .
-        ?DataQualityViolation swpa_m:relatedRecord ?Record .
-        ?DataQualityViolation a ?_violationType.
-
-        ?_violationType rdfs:label ?_violationTypeLabel .
-        #?_violationType swpa_m:severity ?_severity .
-    FILTER ( ?_violationType != swpa_m:DataQualityViolation )
+                ?DataQualityViolation a swpa_m:DataQualityViolation .
+                ?DataQualityViolation swpa_m:relatedRecord ?Record .
+                ?DataQualityViolation a ?_violationType.
+                ?_violationType rdfs:label ?_violationTypeLabel .
+        FILTER ( ?_violationType != swpa_m:DataQualityViolation )
     }
 
 
@@ -49,4 +35,3 @@ WHERE
 
 
 }
-

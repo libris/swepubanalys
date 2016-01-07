@@ -68,7 +68,7 @@ public class Elasticsearch {
         addToFilter(model.orcid, 'orcid', filters)
         addToFilter(model.author, 'name', filters)
         if(model.output) {
-            addToFilter(model.output.replace('-', '/'), 'output', filters)
+            addToFilter(model.output, 'outputCode', filters)
         }
         addToFilter(model.subject, 'hsv3', filters)
         if (model.openaccess) {
@@ -85,8 +85,6 @@ public class Elasticsearch {
                 break
 
         }
-        addToFilter(model.publtype, 'publicationTypeCode', filters)
-
         filters.add(getRangeFilter("publicationYear", model.from, model.to))
         queryBase.filtered.filter = [bool: [must: filters.findAll { it != null }]];
 
@@ -131,19 +129,19 @@ public class Elasticsearch {
 
     static String bibliometricianAggregate = """{
     "openaccess": {
-      "terms": { "field": "hasMods.oaType", "size" : 0 }
+      "terms": { "field": "oaType", "size" : 0 }
     },
-    "contentTypes":{
-    "terms":{"field":"hasMods.contentTypeCode", "size" : 0}
+    "output":{
+    "terms":{"field":"outputCode", "size" : 0}
     },
     "publtype":{
-    "terms":{"field":"hasMods.publicationTypeCode", "size" : 0}
+    "terms":{"field":"publicationTypeCode", "size" : 0}
     },
     "year":{
-      "terms":{"field":"hasMods.publicationYear", "size" : 0}
+      "terms":{"field":"publicationYear", "size" : 0}
     },
     "org":{
-    "terms":{"field":"hasMods.recordContentSourceValue", "size" : 0}
+    "terms":{"field":"recordContentSourceValue", "size" : 0}
     },
     "publicationStatuses":{
     "terms":{"field":"publicationStatus", "size" : 0}
@@ -155,7 +153,7 @@ public class Elasticsearch {
     "terms":{"field":"hsv3", "size" : 0}
     },
     "missing_oa" : {
-            "missing" : { "field" : "hasMods.oaType" }
+            "missing" : { "field" : "oaType" }
      },
     "missing_hsv3" : {
             "missing" : { "field" : "hsv3"}
