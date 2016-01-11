@@ -2,10 +2,13 @@
 
 // Vendor
 var $ = require('jquery');
-window.jQuery = $;
-require('bootstrap/dist/js/bootstrap.min.js');
+var Mustache = require('mustache');
 // Components
 var HelpInitiatorButton = require('components/HelpInitiatorButton/HelpInitiatorButton.js');
+// We need bootstrap js for the popover, and therefore window.jQuery...
+window.jQuery = $;
+require('bootstrap/dist/js/bootstrap.min.js');
+
 
 /**
  * Mixin used to append a Help-popover to an element. Just call initHelp({ ... }) from ready-hook.
@@ -46,16 +49,16 @@ var HelpMixin = {
 			var marginTop = conf.marginTop || '0px';
 			var marginBottom = conf.marginBottom || '0px';
 			// Create popover
+            conf.content = conf.content || '';
 			$(conf.anchorToElement).popover({
 				trigger: 'manual',
 				placement: conf.placement || 'right',
-				template: '<div class="popover" style="width: 100%; margin-left: ' + marginLeft + '; margin-top: ' + marginTop + '; margin-bottom: ' + marginBottom + ';"><div style="float: right; color: #FFFFFF; padding: 5px; padding-right: 10px; cursor: pointer;">X</div><div class="arrow"></div><div class="popover-inner"><h3 class="popover-title"></h3><div class="popover-content"><p></p></div></div></div>',
-				title: conf.title,
-				content: '<div style="max-height: 550px; overflow-y: auto; overflow-x: hidden; word-wrap: break-word;">' + conf.content || ''  + '</div>',
+                title: conf.title,
+ 				template: Mustache.render(require('./Template.html'), { marginLeft: marginLeft, marginTop: marginTop, marginBottom: marginBottom }),
+                content: Mustache.render(require('./Content.html'), conf),
 				html: true,
-				//container: 'body',
 			});
-			/**
+            /**
 			 * Handle show/hide manually
 			 */
 			$(document).on('click', function(e) {

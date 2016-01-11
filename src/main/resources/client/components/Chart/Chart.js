@@ -4,7 +4,7 @@
 var c3 = require('c3-js');
 // CSS
 require('c3-css');
-require('./Chart.css');
+require('!!style!css!./Chart.css');
 
 /**
  * Chart-component
@@ -42,6 +42,14 @@ var Chart = {
 		create: function() {
 			var content = this.getContent();
 			var el = this.$el; // Root element
+            var onClick = this.onClick;
+            if(this.onClick) {
+                this.onClick = function(e) {
+                    this._chart.unselect(this._chart.selected().map(function(d) { return d.id }));
+                    onClick(e);
+                    this._chart.select(e.id);
+                }.bind(this);
+            }
 			// Chart config
 			var config = {
 				bindto: el,
@@ -61,12 +69,19 @@ var Chart = {
 				},
 				legend: {
 					show: this.showLegend === false ? false : true,
-					position: this.legendPosition
+					position: this.legendPosition,
 				},
 				size: {
 					height: this.height
 				}
 			};
+			if(this.onClick) {
+				config.legend.item = {
+					onclick: function(e) {
+						this.onClick({ id: e });
+					}.bind(this)
+				}
+			}
 			// Tick format
 			if(this.tickFormat) {
 				config.axis = config.axis || {};
@@ -115,11 +130,7 @@ var Chart = {
 					// After
 					this._chart = c3.generate(config);
 					this.update();
-				}.bind(this), function(a, b) { // Sort function
-					if(this.colorCategories._categories) {
-		    			return this.colorCategories._categories[b.id] - this.colorCategories._categories[a.id];
-		    		}
-		    	}.bind(this));	
+				}.bind(this), null);
 			} else {
 				this._chart = c3.generate(config);
 				this.update();

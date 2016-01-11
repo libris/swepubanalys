@@ -6,7 +6,9 @@
   "dependencies": {
     "bower": "^1.5.2",
     "lodash": "^3.10.1",
+    "mustache": "^2.2.1",
     "q": "^1.4.1",
+    "thenby": "0.0.1",
     "webpack": "^1.12.2"
   },
   "devDependencies": {

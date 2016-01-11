@@ -1,7 +1,7 @@
 'use strict';
 
 // Vendor
-var Vue = require('vue');
+var $ = require('jquery');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 var _assign = require('lodash/object/assign');
 // Mixins
@@ -10,11 +10,13 @@ var ResultMixin = require('mixins/ResultMixin/ResultMixin.js');
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
 // CSS-modules
 var styles = _assign(
-	require('!!style!css?modules!./AmbiguitiesList.css'),
-	require('!!style!css?modules!css/modules/StaticHeader.css')
+	require('./AmbiguitiesList.css'),
+	require('css/modules/StaticHeader.css')
 );
 // CSS
 require('css/transitions.css');
+
+var show = 20;
 
 /**
  * Ambiguities List Component
@@ -29,6 +31,7 @@ var AmbiguitiesList = {
 	template: require('./AmbiguitiesList.html'),
 	data: function() {
 		return {
+			show: show,
 			pendingUpdate: false,
 			handleArticle: '',
 			_styles: styles
@@ -39,16 +42,47 @@ var AmbiguitiesList = {
 			this.updateQuery();
 		},
 		'query': function() {
-            this.$set('pendingUpdate', true);
+			this.$set('show', show);
+			this.$set('pendingUpdate', true);
 			this.getResult(this.query, function() {
-                this.$set('pendingUpdate', false);
-            }.bind(this));
+				this.$set('pendingUpdate', false);
+			}.bind(this));
+		}
+	},
+	computed: {
+		/**
+		 * Show only <this.show> amount of rows
+		 */
+		ambiguities: function() {
+			var ambiguities = ((this.result && this.result.results && this.result.results.bindings) ? this.result.results.bindings : []);
+			return ambiguities.slice(0, this.show);
 		}
 	},
 	ready: function() {
 		this.updateQuery();
 	},
 	methods: {
+		/**
+		 * For old browsers
+		 */
+		onScrollTable: function() {
+			this.onScroll(this.$els.tableContainer);
+		},
+		/**
+		 * If we reach the bottom of the <tbody>, load more rows
+		 */
+		onScrollTbody: function() {
+			this.onScroll(this.$els.tBody);
+			
+		},
+		/**
+		 * Load more rows
+		 */
+		onScroll: function(el) {
+			if($(el).scrollTop() + $(el).innerHeight() >= $(el)[0].scrollHeight) {
+				this.$set('show', this.show+show);
+			}
+		},
 		/**
 		 * Set currently handled article
 		 * @param {Object} article
@@ -81,7 +115,7 @@ var AmbiguitiesList = {
 			var formModel = this.formModel;
 			formModel.filterFields = SparqlUtil.getFilterFields(this.formModel.templateName);
 			var conf = {
-				limit: true,
+				limit: false,
 				formModel: formModel
 			};
 			SparqlUtil.generateQuery(conf, function(query) {

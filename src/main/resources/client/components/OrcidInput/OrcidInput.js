@@ -31,7 +31,7 @@ var OrcidInput = {
 		this.initHelp({
 			title: 'ORCID',
 			content: require('docs/orcid.md'), 
-			anchorToElement: this.$el.getElementsByClassName('FormFieldInput')[0],
+			anchorToElement: this.$els.formFieldInput,
 		});
 		/**
 		 * This test-function asks server to validate the user provided orcid (field.value)

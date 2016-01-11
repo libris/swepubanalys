@@ -27,7 +27,7 @@
 						<i class="fa fa-database"></i> Maskinellt urval
 					</a>
 				</li>
-				<li role="presentation" class="{{ $data._styles.DarkBackground }}" v-if="loggedIn">
+				<li role="presentation" class="{{ $data._styles.DarkBackground }}" v-if="isLoggedIn">
 					<a href="#flagged-other" aria-controls="profile" role="tab" data-toggle="tab">Flaggade från andra lärosäten</a>
 				</li>
 			</ul>
@@ -42,7 +42,7 @@
 						:on-generate-query="onGenerateQuery">
 				</ambiguities-list>
 			</div>
-			<div role="tabpanel" class="tab-pane active" id="flagged-other" v-if="loggedIn"></div>
+			<div role="tabpanel" class="tab-pane active" id="flagged-other" v-if="isLoggedIn"></div>
 		</div>
 	</div>
 </div>

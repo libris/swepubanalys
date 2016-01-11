@@ -1,7 +1,7 @@
 'use strict';
 
 // CSS-modules
-var styles = require('!!style!css?modules!./ShowFieldButton.css');
+var styles = require('./ShowFieldButton.css');
 
 /**
  * Show Field-button can be used to set field.show = true

@@ -19,7 +19,7 @@ var OAInput = require('components/OAInput/OAInput.js');
 var PublStatusInput = require('components/PublStatusInput/PublStatusInput.js');
 var ShowFieldButton = require('components/ShowFieldButton/ShowFieldButton.js');
 // CSS-modules
-var styles = require('!!style!css?modules!./SearchForm.css');
+var styles = require('./SearchForm.css');
 // CSS
 require('css/transitions.css');
 
@@ -143,17 +143,6 @@ var SearchForm = {
 			} else {
 				console.error('*** SearchForm.performSearch: No onSearch prop provided');
 			}
-		},
-		/**
-		 * Call directly on the org-input component to set its value
-		 * @prop {String} value
-		 */
-		setOrgValue: function(value) {
-			this.$children.forEach(function(child) {
-				if(child.$refs.orgInput && child.$refs.orgInput.setValue) {
-					child.$refs.orgInput.setValue(value);
-				}
-			});
 		},
 		/**
 		 * Generates formData

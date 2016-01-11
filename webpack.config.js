@@ -21,10 +21,44 @@ module.exports = {
 	module: {
 		loaders: [
 			{ test: /\.html$/, loader: "html" },
-			{ test: /\.css$/, loader: "style-loader!css-loader" },
-			{ test: /\.less$/, loader: "style!css!less" },
 			{ test: /\.md$/, loader: "html!markdown" },
-			{ test: /\.(png|jpg|svg)$/, loader: 'url-loader?limit=10000' }
+			{ test: /\.(png|jpg|svg)$/, loader: 'url-loader?limit=10000' },
+            {
+                test: /\.css$/,
+                include: [
+                    path.join(__dirname, "/src/main/resources/client/components"),
+                    path.join(__dirname, "/src/main/resources/client/mixins"),
+                    path.join(__dirname, "/src/main/resources/client/css/modules")
+                ],
+                loader: "style-loader!css-loader?modules" 
+            },
+            {
+                test: /\.css$/,
+                exclude: [
+                    path.join(__dirname, "/src/main/resources/client/components"),
+                    path.join(__dirname, "/src/main/resources/client/mixins"),
+                    path.join(__dirname, "/src/main/resources/client/css/modules")
+                ],
+                loader: "style-loader!css-loader" 
+            },
+            {
+                test: /\.less$/,
+                include: [
+                    path.join(__dirname, "/src/main/resources/client/components"),
+                    path.join(__dirname, "/src/main/resources/client/mixins"),
+                    path.join(__dirname, "/src/main/resources/client/css/modules")
+                ],
+                loader: "style-loader!css-loader?modules!less-loader" 
+            },
+            {
+                test: /\.less$/,
+                exclude: [
+                    path.join(__dirname, "/src/main/resources/client/components"),
+                    path.join(__dirname, "/src/main/resources/client/mixins"),
+                    path.join(__dirname, "/src/main/resources/client/css/modules")
+                ],
+                loader: "style-loader!css-loader!less-loader" 
+            }
 		],
 	},
     plugins: [

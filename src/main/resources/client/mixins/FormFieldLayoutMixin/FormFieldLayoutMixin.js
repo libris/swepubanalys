@@ -1,7 +1,7 @@
 'use strict';
 
 // CSS-modules
-var styles = require('!!style!css?modules!./FormFieldLayoutWrapper.css');
+var styles = require('./FormFieldLayoutWrapper.css');
 
 /**
  * This mixin makes a wrapper component available. The wrapper may be used to insert form-field elements

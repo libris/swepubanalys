@@ -23,7 +23,9 @@ var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 var FormatAggregationUtil = require('utils/FormatAggregationUtil/FormatAggregationUtil.js');
 var getQueryVariable = require('utils/getQueryVariable.js');
 // CSS-modules
-var styles = _assign(require('!!style!css?modules!./inspector.css'), require('!!style!css?modules!css/modules/Colors.less'));
+var styles = _assign(require('!!style!css?modules!./inspector.css'), require('css/modules/Colors.less'));
+// CSS
+require('css/theme-inspector.less');
 
 /**
  * Inspector-view
@@ -132,14 +134,14 @@ var Inspector = {
 			}
 		},
 		/**
-		 *
+		 * 
 		 */
 		onCarouselNavigate: function(status) {
 			this.$set('visibleItems', status.visibleItems);
 		},
 		/**
 		 * Callback sent to Chart for selecting a specific org within the Form
-		 * @prop {Object} e
+		 * @prop {Object} e the org
 		 */
 		onClickOrg: function(e) {
 			if(e.id && this.formModel.org !== e.id) {
@@ -147,6 +149,22 @@ var Inspector = {
 			} else {
 				this.$broadcast('set-org-value', '');
 			}
+		},
+		/**
+		 * Callback sent to Chart for selecting a specific violation
+		 * @prop {Object} e the violation
+		 */
+		onClickViolation: function(e) {
+			$('html, body').animate({
+				scrollTop: $(this.$els.searchForm).offset().top-25,
+			}, 900);
+			SearchFormUtil.getViolations(function(violations) {
+				Object.keys(violations).map(function(v) {
+					if(violations[v].text === e.id) {
+						this.onClickViolationOption(v, violations[v]);
+					}
+				}.bind(this))
+			}.bind(this));
 		},
 		/**
 		 * Callback sent to ViolationDropdown
@@ -166,7 +184,7 @@ var Inspector = {
 					fieldName: 'violation',
 					value: code,
 					labels: [{
-						text: violation.name
+						text: violation.text
 					}]
 				});
 			}
@@ -203,13 +221,23 @@ var Inspector = {
 		 */
 		setAggregations: function(aggregations) {
 			// *** LINE CHART *** //
-			this.setChartContent('lineChart', FormatAggregationUtil.toGrade3ViolationRatioYearTimeSeries(aggregations, this.formModel.org.length === 0));	
+			this.setChartContent('grade3ViolationChart', FormatAggregationUtil.toGrade3ViolationRatioYearTimeSeries(aggregations, this.formModel.org.length === 0));	
 			// *** BAR CHART *** //
-			this.setChartContent('barChart', FormatAggregationUtil.toOrgViolationRatio(aggregations, this.formModel.org.length === 0 ? 5 : 10000));
+			this.setChartContent('orgViolations', FormatAggregationUtil.toOrgViolationRatio(aggregations, this.formModel.org.length === 0 ? 5 : 10000));
 			// *** VIOLATION TYPE DISTRIBUTION CHART *** //
-			this.setChartContent('violationTypeDistributionChart', FormatAggregationUtil.toViolationTypeDistributions(aggregations, this.formModel.org));
+			var aggs = FormatAggregationUtil.toViolationTypeDistributions(aggregations, this.formModel.org);
+			aggs.columns.forEach(function(column) {
+				SearchFormUtil.getViolations(function(violations) {
+					Object.keys(violations).forEach(function(v) {
+						if(violations[v].name === column[0]) {
+							column[0] = violations[v].text;
+						}
+					});
+				});
+			});
+			this.setChartContent('violationTypeDistributionChart', aggs);
 			// *** PIE CHART *** //
-			this.setChartContent('pieChart', FormatAggregationUtil.toViolationDistribution(aggregations));
+			this.setChartContent('violationDistributionChart', FormatAggregationUtil.toViolationDistribution(aggregations));
 		},
 		/**
 		 * Sets .getContent function for a chart-object
@@ -249,28 +277,7 @@ Vue.filter('visible', function(d, index, visibleItems) {
 // *** Define colors and categories for charts! *** //
 
 var colorPattern = ['#FFC300','#FFCB20','#FFD240','#FFDA60','#FFE180','#FFE99F','#FFF0BF','#FFF8DF','#EE681B','#F07B38','#F28E54','#F4A171','#F6B38D','#F9C6AA','#FBD9C6','#FDECE3','#9E0634','#AA254D','#B64467','#C26380','#CF839A','#DBA2B3','#E7C1CC','#F3E0E6','#5B2285','#703E94','#8459A4','#9875B3','#AD91C2','#C1ACD1','#D6C8E1','#EAE3F0','#61B5BF','#75BEC7','#89C8CF','#9CD1D7','#B0DADF','#C4E3E7','#D7ECEF','#EBF6F7'];
-var strongColorPattern = [
-	'#FFC300',
-	'#FFCB20',
-	'#FFD240',
-	'#FFDA60',
-	'#EE681B',
-	'#F07B38',
-	'#F28E54',
-	'#F4A171',
-	'#9E0634',
-	'#AA254D',
-	'#B64467',
-	'#C26380',
-	'#5B2285',
-	'#703E94',
-	'#8459A4',
-	'#9875B3',
-	'#61B5BF',
-	'#75BEC7',
-	'#89C8CF',
-	'#9CD1D7'
-];
+var strongColorPattern = ['#FFC300', '#FFCB20', '#FFD240', '#FFDA60', '#EE681B', '#F07B38', '#F28E54', '#F4A171', '#9E0634', '#AA254D', '#B64467', '#C26380', '#5B2285', '#703E94', '#8459A4', '#9875B3', '#61B5BF', '#75BEC7', '#89C8CF', '#9CD1D7'];
 
 var orgs = ['bth','cth','du','esh','fhs','gih','gu','hb','hh','hhs','hig','his','hj','hkr','hv','kau','ki','kmh','konstfack','kth','liu','lnu','ltu','lu','mah','mdh','miun','nai','nationalmuseum','naturvardsverket','nrm','oru','rkh','sh','shh','slu','su','umu','uu','vti'];
 var categories = orgs.concat(['Övriga','Alla lärosäten','Felaktiga poster','Felfria poster']);
@@ -339,13 +346,13 @@ var initialData = {
 		fields: [],
 	},
 	// Function which returns a data-set
-	lineChart: {
+	grade3ViolationChart: {
 		getContent: null, // We use a function to give data to the chart to avoid "indexing" by Vue
 	},
-	barChart: {
+	orgViolations: {
 		getContent: null,
 	},
-	pieChart: {
+	violationDistributionChart: {
 		getContent: null,
 	},
 	violationTypeDistributionChart: {
@@ -373,6 +380,6 @@ var initialData = {
 
 Vue.component('view', Inspector);
 
-var View = new Vue({
+new Vue({
 	el: '#app'
 });

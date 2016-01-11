@@ -1,7 +1,6 @@
 'use strict';
 
 // Vendor
-var Vue = require('vue');
 var _cloneDeep = require('lodash/lang/cloneDeep');
 var _findIndex = require('lodash/array/findIndex');
 // Mixins
@@ -11,7 +10,7 @@ var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
 var DataUtil = require('utils/DataUtil/DataUtil.js');
 // CSS-modules
-var styles = require('!!style!css?modules!./SearchResult.css');
+var styles = require('./SearchResult.css');
 // CSS
 require('css/transitions.css');
 

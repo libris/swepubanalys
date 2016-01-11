@@ -11,9 +11,8 @@ import wslite.rest.RESTClient
  */
 public class Elasticsearch {
 
-    static  ElasticRESTClient()
-    {
-        URL url = Elasticsearch.getClassLoader().getResource("config.groovy");
+    static ElasticRESTClient() {
+        URL url = Elasticsearch.classLoader.getResource("config.groovy");
         def config = new ConfigSlurper().parse(url)
         return new RESTClient(config.elasticSearch.location)
 
@@ -34,7 +33,7 @@ public class Elasticsearch {
         def aggs = new JsonSlurper().parseText(selectAggs(model.aggregate))
         def jsonToPost = model != null ? JsonOutput.toJson([query: filterByModel(model), aggs: aggs]) : JsonOutput.toJson([aggs: aggs])
         def client = ElasticRESTClient()
-        def path = "/swepub/${model.aggregate == 'inspector' ? 'dataQuality': 'bibliometrician'}/_search"
+        def path = "/swepub/${model.aggregate == 'inspector' ? 'dataQuality' : 'bibliometrician'}/_search"
         def response = client.post(
                 accept: ContentType.JSON,
                 path: path,
@@ -53,7 +52,7 @@ public class Elasticsearch {
         switch (aggregateName) {
             case "bibliometrician":
                 return bibliometricianAggregate
-            break
+                break
             case "inspector":
                 return inspectorAggregate
                 break
@@ -65,14 +64,29 @@ public class Elasticsearch {
     static def filterByModel(def model) {
         def queryBase = new JsonSlurper().parseText(filteredQueryBase)
         def filters = []
-        addToFilter(model.org, 'hasMods.recordContentSourceValue', filters)
+        addToFilter(model.org, 'recordContentSourceValue', filters)
+        addToFilter(model.orcid, 'orcid', filters)
+        addToFilter(model.author, 'name', filters)
+        if(model.output) {
+            addToFilter(model.output, 'outputCode', filters)
+        }
         addToFilter(model.subject, 'hsv3', filters)
-        addToFilter(model.openaccess, 'hasMods.oaType', filters)
-        addToFilter ((model.status ?:"").toUpperCase(), 'publicationStatus', filters)
-        addToFilter(model.publtype, 'hasMods.publicationTypeCode', filters)
+        if (model.openaccess) {
+            addToFilter("green,gold", 'oaType', filters)
+        }
+        switch (model.status) {
+            case "all":
+                break
+            case "published":
+                addToFilter(model.status.toUpperCase(), 'publicationStatus', filters)
+                break
+            case "unpublished":
+                addNotFilter("PUBLISHED", 'publicationStatus', filters)
+                break
 
-        filters.add(getRangeFilter("hasMods.publicationYear",model.from,model.to))
-        queryBase.filtered.filter = [bool: [must: filters.findAll{it!=null}]];
+        }
+        filters.add(getRangeFilter("publicationYear", model.from, model.to))
+        queryBase.filtered.filter = [bool: [must: filters.findAll { it != null }]];
 
         return queryBase
     }
@@ -84,8 +98,14 @@ public class Elasticsearch {
             return [range: [(name): [lte: to]]]
         } else if (from) {
             return [range: [(name): [gte: from]]]
+        } else return null;
+    }
+
+    static void addNotFilter(def property, String name, def filters) {
+        if (property) {
+            filters.add([not: [term: [(name): property]]])
         }
-        else return null;
+
     }
 
     static void addToFilter(def property, String name, def filters) {
@@ -109,19 +129,19 @@ public class Elasticsearch {
 
     static String bibliometricianAggregate = """{
     "openaccess": {
-      "terms": { "field": "hasMods.oaType", "size" : 0 }
+      "terms": { "field": "oaType", "size" : 0 }
     },
-    "contentTypes":{
-    "terms":{"field":"hasMods.contentTypeCode", "size" : 0}
+    "output":{
+    "terms":{"field":"outputCode", "size" : 0}
     },
     "publtype":{
-    "terms":{"field":"hasMods.publicationTypeCode", "size" : 0}
+    "terms":{"field":"publicationTypeCode", "size" : 0}
     },
     "year":{
-      "terms":{"field":"hasMods.publicationYear", "size" : 0}
+      "terms":{"field":"publicationYear", "size" : 0}
     },
     "org":{
-    "terms":{"field":"hasMods.recordContentSourceValue", "size" : 0}
+    "terms":{"field":"recordContentSourceValue", "size" : 0}
     },
     "publicationStatuses":{
     "terms":{"field":"publicationStatus", "size" : 0}
@@ -133,7 +153,7 @@ public class Elasticsearch {
     "terms":{"field":"hsv3", "size" : 0}
     },
     "missing_oa" : {
-            "missing" : { "field" : "hasMods.oaType" }
+            "missing" : { "field" : "oaType" }
      },
     "missing_hsv3" : {
             "missing" : { "field" : "hsv3"}
@@ -149,7 +169,7 @@ public class Elasticsearch {
 
   }"""
 
-    static String inspectorAggregate="""{
+    static String inspectorAggregate = """{
     "missingViolations": {
         "missing": {
             "field": "qualityViolations.label"
@@ -157,7 +177,7 @@ public class Elasticsearch {
     },
     "missing_violations_per_org": {
         "terms": {
-            "field": "hasMods.recordContentSourceValue",
+            "field": "recordContentSourceValue",
             "size": 0
         },
         "aggs": {
@@ -170,13 +190,13 @@ public class Elasticsearch {
     },
      "violation_severity_per_org_per_year": {
         "terms": {
-            "field": "hasMods.recordContentSourceValue",
+            "field": "recordContentSourceValue",
             "size": 0
         },
         "aggs": {
             "year": {
                 "terms": {
-                    "field": "hasMods.publicationYear","size":"0"
+                    "field": "publicationYear","size":"0"
                 },
                   "aggs": {
                      "severity": {
@@ -194,13 +214,13 @@ public class Elasticsearch {
     },
     "year": {
         "terms": {
-            "field": "hasMods.publicationYear",
+            "field": "publicationYear",
             "size": 0
         }
     },
     "org": {
         "terms": {
-            "field": "hasMods.recordContentSourceValue",
+            "field": "recordContentSourceValue",
             "size": 0
         }
     },
@@ -212,13 +232,13 @@ public class Elasticsearch {
         "aggs": {
             "org": {
                 "terms": {
-                    "field": "hasMods.recordContentSourceValue",
+                    "field": "recordContentSourceValue",
                     "size": 0
                 },
                 "aggs": {
                     "year": {
                         "terms": {
-                            "field": "hasMods.publicationYear",
+                            "field": "publicationYear",
                             "size": 0
                         }
                     }
@@ -228,13 +248,13 @@ public class Elasticsearch {
     },
     "org_per_year": {
         "terms": {
-            "field": "hasMods.recordContentSourceValue",
+            "field": "recordContentSourceValue",
             "size": 0
         },
         "aggs": {
             "year": {
                 "terms": {
-                    "field": "hasMods.publicationYear",
+                    "field": "publicationYear",
                     "size": 0
                 }
             }

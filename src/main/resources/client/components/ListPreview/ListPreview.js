@@ -2,15 +2,17 @@
 
 // Vendor
 var Vue = require('vue');
-var _find = require('lodash/collection/find');
 var _assign = require('lodash/object/assign');
+var $ = require('jquery');
 // Mixins
 var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
 // CSS modules
 var styles = _assign(
-	require('!!style!css?modules!./ListPreview.css'),
-	require('!!style!css?modules!css/modules/StaticHeader.css')
+	require('./ListPreview.css'),
+	require('css/modules/StaticHeader.css')
 );
+
+var show = 50;
 
 /**
  * List Preview-component
@@ -23,32 +25,41 @@ var ListPreview = {
 	props: ['result', 'filterFields'],
 	data: function() {
 		return {
-			filterFieldKeys: { },
+            show: show,
 			_styles: styles,
 		}
 	},
-	ready: function() {
-		// On update of filterFields prop, update data.filterFieldKeys
-		this.$watch('filterFields', function() {
-			if(this.filterFields) {
-				var filterFields = this.filterFields;
-				// Turn arr into object for access through index
-				var n = {};
-				for(var i = 0; i < filterFields.length; i++) {
-					n[filterFields[i].field] = {
-						field: filterFields[i].field,
-						fieldName: filterFields[i].fieldName,
-						checked: filterFields[i].checked,
-					}
-				};
-				this.$set('filterFieldKeys', n);
-			}
-			else {
-				console.error('*** ListPreview.ready: filterFields prop required');
-			}
-		}.bind(this), { deep: true });
-	},
+    computed: {
+        /**
+         * Show only <this.show> amount of rows
+         */
+        articles: function() {
+            var articles = ((this.result && this.result.results && this.result.results.bindings) ? this.result.results.bindings : []);
+            return articles.slice(0, this.show);
+        }
+    },
 	methods: {
+		/**
+		 * For old browsers
+		 */
+		onScrollContainer: function() {
+			this.onScroll(this.$els.container);
+		},
+		/**
+		 * If we reach the bottom of the <tbody>, load more rows
+		 */
+		onScrollTbody: function() {
+			this.onScroll(this.$els.tBody);
+			
+		},
+		/**
+		 * Load more rows
+		 */
+		onScroll: function(el) {
+			if($(el).scrollTop() + $(el).innerHeight() >= $(el)[0].scrollHeight) {
+				this.$set('show', this.show+show);
+			}
+		},
 		/**
 		 * Used to determine whether a field should constitute a link.
 		 * This method is not for validating Urls and VERY basic! It only checks if the
@@ -95,20 +106,10 @@ Vue.filter('filterFields', function(cells, filterFields) {
  * Filter filterFields and return only checked ones
  * @param {Object} filterFields
  */
-Vue.filter('onlyCheckedFilterFields', function(filterFieldKeys) {
-	if(filterFieldKeys) {
-		var checkedFilterFields = [];
-		Object.keys(filterFieldKeys).map(function(key) {
-			var filterFieldKey = filterFieldKeys[key];
-			if(filterFieldKey.checked === true) {
-				checkedFilterFields.push(filterFieldKey);
-			}
-		});
-		return checkedFilterFields;
-	}
-	else {
-		return [];
-	}
+Vue.filter('onlyCheckedFilterFields', function(filterFields) {
+    return filterFields.filter(function(field) {
+        return field.checked === true;
+    });
 });
 
 module.exports = ListPreview;

@@ -1,5 +1,5 @@
 Vänliga hälsningar,     
-[SwePub för analys och bibliometri](http://spf.libris.kb.se/bibliometriker)
+[SwePub för analys och bibliometri](http://bibliometri.swepub.kb.se)
 
 **Kontakt**    
 [Libris kundservice](libris@kb.se)     

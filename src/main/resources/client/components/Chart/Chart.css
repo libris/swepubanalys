@@ -19,7 +19,7 @@
 }
 
 .c3-arc[style] {
-	cursor: default !important;
+	/*cursor: default !important;*/
 }
 
 .c3-chart-arc text {
