@@ -37,7 +37,7 @@ repositories {
 war {
     baseName = 'ROOT'
     version = ''// + System.currentTimeMillis();
-    webXml = file('/WEB-INF/web.xml') // copies a file to WEB-INF/web.xml
+    webXml = file('WEB-INF/web.xml') // copies a file to WEB-INF/web.xml
 }
 
 dependencies {
