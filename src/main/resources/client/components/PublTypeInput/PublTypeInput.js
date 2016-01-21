@@ -15,7 +15,7 @@ var arrayToSparqlString = require('utils/arrayToSparqlString.js');
 var PublTypeInput = {
 	mixins: [FormFieldLayoutMixin],
 	props: ['field'],
-	template: require('./PubltypeInput.html'),
+	template: require('./PublTypeInput.html'),
 	components: {
 		'autocomplete-input': AutocompleteInput,
 		'hide-field-button': HideFieldButton
