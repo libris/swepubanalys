@@ -24,9 +24,13 @@ version '1.1-SNAPSHOT'
 
 apply plugin: 'groovy'
 apply plugin: 'war'
+apply plugin: 'java'
 
 
-
+task version << {
+    println "Gradle version: " + project.getGradle().getGradleVersion()
+    println "Groovy version: " + GroovySystem.getVersion()
+}
 
 repositories {
     mavenCentral()
@@ -101,6 +105,15 @@ task bowerInstall(type: Exec) {
     def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'bower.cmd' : 'bower'
     commandLine mainCommand, 'install'
 }
+
+task(runWebApp, dependsOn: 'classes', type: JavaExec) {
+    description "Serve App on <http://localhost:4567/>"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'Routes'
+}
+
+
+
 
 war.dependsOn npmInstall, bowerInstall, bowerSyncComponentsForBeta, bowerSyncComponentsForQf, CopyMissingFonts, webpack
 
