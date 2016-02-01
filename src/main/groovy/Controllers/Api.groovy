@@ -4,7 +4,6 @@ import Clients.Elasticsearch
 import Doers.AmbiguityCase
 import Doers.SparqlResultExporter
 import Clients.Virtuoso
-import Validators.OrcidValidator
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
@@ -38,16 +37,6 @@ class Api {
 
     }
 
-    static publicationYearSpan(Response response) {
-        def sparql = Thread.currentThread().getContextClassLoader().getResource("sparqlQueries/swepubPublicationYearLimits.sparql").getText();
-        def resp = new Virtuoso().post(sparql, "application/json");
-        final Map map = new HashMap();
-        map["min"] =  ((String)resp.results.bindings["callret-0"].value[0]).toInteger()
-        map["max"] = ((String) resp.results.bindings["callret-1"].value[0]).toInteger()
-        response.type("application/json");
-        return new JsonBuilder( map ).toPrettyString()
-    }
-
     static getStats(Response response)  {
         response.type("application/json");
         return Elasticsearch.getStats();
@@ -57,13 +46,6 @@ class Api {
         def model = request.queryParams("model") != null ? new JsonSlurper().parseText(request.queryParams("model")):null;
         response.type("application/json");
         return Elasticsearch.getAggs(model);
-    }
-
-    static validateOrcid(Request request, Response response) {
-        def orcid = request.queryParams("orcid");
-        response.type("application/json");
-        return JsonOutput.toJson(OrcidValidator.validateOrcid(orcid));
-
     }
 
     static def dataQuery(Request request, Response response) {

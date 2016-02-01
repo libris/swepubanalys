@@ -1,3 +1,4 @@
+import Controllers.APIs.InputValidator
 import Controllers.Api
 import Controllers.Beta
 import Controllers.Bibliometrician
@@ -47,20 +48,21 @@ public class Routes implements SparkApplication {
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
-        get("/api/2.0/publicationYearSpan", { req, res -> Api.publicationYearSpan(res) })
+        get("/api/2.0/publicationYearSpan", { req, res -> InputValidator.publicationYearSpan(res) })
         get("/api/2.0/dataqualityvalidations", { req, res -> Api.getDataQualityViolations(res) })
         get("/api/2.0/elastic/stats", { req, res -> Api.getStats(res) })
         get("/api/2.0/elastic/aggregations", { req, res -> Api.getAggregations(req, res) })
-        get("/api/2.0/validate/orcid", { req, res -> Api.validateOrcid(req, res); })
+        get("/api/2.0/validate/orcid", { req, res -> InputValidator.validateOrcid(req, res); })
         get("/api/2.0/data/query", { req, res -> Api.dataQuery(req, res) })
         post("/api/2.0/data/query", { req, res -> Api.dataQuery(req, res) })
         get("/api/2.0/ambiguity/case", { req, res -> Api.AmbiguityCase(req, res) })
 
         /**
-         * Authentication POC
+         * Custom 500 Stub
          */
-        get("/secure", { req, res -> new ModelAndView(Security.index(req, res), "secure.mustache") }, templateEngine)
-        post("/secure",{ req, res -> res.redirect(req.queryParams("referer")) })
+        exception(Exception, {e, request, response ->
+            response.body(e.message + e.stackTrace);
+        })
     }
 
 
