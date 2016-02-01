@@ -8,22 +8,22 @@
 </head>
 <body>
 <div id="app">
-<form method="post" action="">
-    <input name="referer"  value="" />
-    <button type="submit">Skicka vidare</button>
-</form>
     <h1>Headers</h1>
     <ul>
-    {{#headers}}
-        <li>{{.}}</li>
-    {{/headers}}
-    </ul>
-    <h1>Cookies</h1>
-    <ul>
-        {{#cookies}}
+        {{#headers}}
             <li>{{.}}</li>
-        {{/cookies}}
+        {{/headers}}
     </ul>
+    <h1>params</h1>
+    <ul>
+        {{#params}}
+            <li>{{.}}</li>
+        {{/params}}
+    </ul>
+
+
+    <h1>sessionAttributes {{sessionAttributes}}</h1>
+
 </div>
 </body>
 

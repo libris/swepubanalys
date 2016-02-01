@@ -30,6 +30,7 @@ public class Routes implements SparkApplication {
         post("/ladda-ner-fil", { req, res -> Beta.preview(req, res) }, templateEngine)
         get("/bibliometri", { req, res -> new ModelAndView(Bibliometrician.index(req, res), "bibliometrician.mustache") }, templateEngine)
         get("/databearbetning", { req, res -> new ModelAndView(Inspector.index(req, res), "inspector.mustache") }, templateEngine)
+        get("/secure", { req, res -> new ModelAndView(Security.index(req, res), "secure.mustache") }, templateEngine)
 
         /**
          * Redirects
@@ -56,6 +57,7 @@ public class Routes implements SparkApplication {
         get("/api/2.0/data/query", { req, res -> Api.dataQuery(req, res) })
         post("/api/2.0/data/query", { req, res -> Api.dataQuery(req, res) })
         get("/api/2.0/ambiguity/case", { req, res -> Api.AmbiguityCase(req, res) })
+        get("/api/2.0/security",{ req, res -> Controllers.APIs.Security.getLoginStatus(req, res) })
 
         /**
          * Custom 500 Stub
