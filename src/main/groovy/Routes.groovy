@@ -58,6 +58,7 @@ public class Routes implements SparkApplication {
         post("/api/2.0/data/query", { req, res -> Api.dataQuery(req, res) })
         get("/api/2.0/ambiguity/case", { req, res -> Api.AmbiguityCase(req, res) })
         get("/api/2.0/security",{ req, res -> Controllers.APIs.Security.getLoginStatus(req, res) })
+        get("/api/2.0/technicalInfo",{ req, res -> Api.getTechnicalInfo(req, res) })
 
         /**
          * Custom 500 Stub

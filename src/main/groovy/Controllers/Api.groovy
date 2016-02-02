@@ -48,18 +48,23 @@ class Api {
         return Elasticsearch.getAggs(model);
     }
 
-    static def dataQuery(Request request, Response response) {
+    static dataQuery(Request request, Response response) {
         def exporter = new SparqlResultExporter();
         response.type("application/json");
         return  exporter.startQueryAndDownload(request.queryParams("query"), request.queryParams("format"),request.queryParams("email"), request.queryParams("zip") == "true" );
 
     }
 
-    static def AmbiguityCase(Request request, Response response) {
+    static AmbiguityCase(Request request, Response response) {
         response.type("application/json");
         def ambiguityCase = new AmbiguityCase(request.queryParams("record1_id"), request.queryParams("record2_id"), request.queryParams("record1_org"), request.queryParams("record2_org"))
         return JsonOutput.toJson([ambiguities:ambiguityCase.ambiguities, record1: ambiguityCase.record1, record2:ambiguityCase.record2 ])
     }
 
-
+    static getTechnicalInfo(Request request, Response response) {
+        response.type("application/json");
+        def lastIndexDate = "2015-11-18 14:41:00"
+        def mapToReturn = [lastIndexDate: lastIndexDate]
+        return new JsonBuilder(mapToReturn).toPrettyString()
+    }
 }
