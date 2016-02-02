@@ -1,15 +1,16 @@
 package Controllers
 
 import Clients.Elasticsearch
+import Clients.GitHub
+import Clients.Virtuoso
 import Doers.AmbiguityCase
 import Doers.SparqlResultExporter
-import Clients.Virtuoso
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
+import groovy.util.logging.Slf4j
 import spark.Request
 import spark.Response
-import groovy.util.logging.Slf4j
 
 /**
  * This class sits between Route configuration and actual testable use case code (Doers) for the API parts of the system
@@ -28,7 +29,7 @@ class Api {
         return resp;
     }
 
-    static getDataQualityViolations(Response response)  {
+    static getDataQualityViolations(Response response) {
         def sparql = Thread.currentThread().getContextClassLoader().getResource("sparqlQueries/DataQualityViolation.sparql").getText();
         def resp = new Virtuoso().post(sparql, "application/json");
         def map = [values: resp.results.bindings.collect { it -> [name: it["_label"].value, comment: it["_comment"].value, severity: it["_severity"].value] }]
@@ -37,13 +38,14 @@ class Api {
 
     }
 
-    static getStats(Response response)  {
+    static getStats(Response response) {
         response.type("application/json");
         return Elasticsearch.getStats();
     }
-    static getAggregations(Request request, Response response)  {
 
-        def model = request.queryParams("model") != null ? new JsonSlurper().parseText(request.queryParams("model")):null;
+    static getAggregations(Request request, Response response) {
+
+        def model = request.queryParams("model") != null ? new JsonSlurper().parseText(request.queryParams("model")) : null;
         response.type("application/json");
         return Elasticsearch.getAggs(model);
     }
@@ -51,20 +53,31 @@ class Api {
     static dataQuery(Request request, Response response) {
         def exporter = new SparqlResultExporter();
         response.type("application/json");
-        return  exporter.startQueryAndDownload(request.queryParams("query"), request.queryParams("format"),request.queryParams("email"), request.queryParams("zip") == "true" );
+        return exporter.startQueryAndDownload(request.queryParams("query"), request.queryParams("format"), request.queryParams("email"), request.queryParams("zip") == "true");
 
     }
 
     static AmbiguityCase(Request request, Response response) {
         response.type("application/json");
         def ambiguityCase = new AmbiguityCase(request.queryParams("record1_id"), request.queryParams("record2_id"), request.queryParams("record1_org"), request.queryParams("record2_org"))
-        return JsonOutput.toJson([ambiguities:ambiguityCase.ambiguities, record1: ambiguityCase.record1, record2:ambiguityCase.record2 ])
+        return JsonOutput.toJson([ambiguities: ambiguityCase.ambiguities, record1: ambiguityCase.record1, record2: ambiguityCase.record2])
     }
 
     static getTechnicalInfo(Request request, Response response) {
-        response.type("application/json");
+        response.type("application/json")
         def lastIndexDate = "2015-11-18 14:41:00"
-        def mapToReturn = [lastIndexDate: lastIndexDate]
+        def releases = GitHub.releases
+
+        def latestRelease = [
+                tag: GitHub.releases[0].tag_name,
+                name: GitHub.releases[0].name,
+                published_at: GitHub.releases[0].published_at,
+                body:  GitHub.releases[0].body]
+        def allReleases =   GitHub.releases.collect{it->[tag:it.tag_name ,
+                                                         name:it.name,
+                                                         published_at: it.published_at,
+                                                         url: it.url]}
+        def mapToReturn = [lastIndexDate: lastIndexDate, latestRelease: latestRelease, allReleases:allReleases]
         return new JsonBuilder(mapToReturn).toPrettyString()
     }
 }

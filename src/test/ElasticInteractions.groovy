@@ -4,26 +4,28 @@ import org.junit.Test
 import wslite.json.JSONObject
 import wslite.rest.ContentType
 import wslite.rest.RESTClient
+
 /**
  * Created by Theodor on 2015-10-09.
  */
 
 class ElasticInteractions {
     @Before
-    public void setUp() throws Exception {
+    void setUp() throws Exception {
         println "Set Up"
     }
+
     @After
-    public void tearDown() throws Exception{
+    void tearDown() throws Exception {
         println "Tear Down"
     }
 
     @Test
-    public  void getElasticStats(){
+    void getElasticStats() {
         def client = new RESTClient('http://es01.kb.local:9200')
         def response = client.get(
                 accept: ContentType.JSON,
-                path:'/_stats')
+                path: '/_stats')
         assert 200 == response.statusCode
         assert response != null;
         assert response.json instanceof JSONObject;
@@ -32,8 +34,9 @@ class ElasticInteractions {
 
 
     }
+
     @Test
-    public void getDefaultAggs() {
+    void getDefaultAggs() {
         def aggs = Clients.Elasticsearch.getAggs();
         assert aggs != null;
     }
