@@ -283,6 +283,11 @@ LIMIT 10000000
         assert j instanceof JSONObject;
 
     }
+    @Test public void latestUpdate(){
+        def ts = Virtuoso.lastIndexDate
+        assert !ts.empty
+        assert ts.length() > 5
+    }
 
 
 }
