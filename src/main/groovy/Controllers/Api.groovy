@@ -65,22 +65,7 @@ class Api {
 
     static getTechnicalInfo(Request request, Response response) {
         response.type("application/json")
-        def lastIndexDate = Virtuoso.lastIndexDate
-
-        def latestRelease = [
-                tag         : GitHub.releases?.first()?.tag_name ?: "",
-                name        : GitHub.releases?.first()?.name ?: "",
-                published_at: GitHub.releases?.first()?.published_at ?: "",
-                body        : GitHub.releases?.first()?.body ?: ""]
-        def allReleases = GitHub.releases.collect { it ->
-            [tag         : it?.tag_name ?: "",
-             name        : it?.name ?: "",
-             published_at: it?.published_at ?: "",
-             url         : it?.url ?: ""]
-        }
-
-
-        def mapToReturn = [lastIndexDate: lastIndexDate, latestRelease: latestRelease, allReleases: allReleases]
+        def mapToReturn = [lastIndexDate: Virtuoso.lastIndexDate, releases: GitHub.releases]
         return new JsonBuilder(mapToReturn).toPrettyString()
     }
 }
