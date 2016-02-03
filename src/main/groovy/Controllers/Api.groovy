@@ -68,10 +68,10 @@ class Api {
         def lastIndexDate = Virtuoso.lastIndexDate
 
         def latestRelease = [
-                tag         : GitHub.releases.first()?.tag_name ?: "",
-                name        : GitHub.releases.first()?.name ?: "",
-                published_at: GitHub.releases.first()?.published_at ?: "",
-                body        : GitHub.releases.first()?.body ?: ""]
+                tag         : GitHub.releases?.first()?.tag_name ?: "",
+                name        : GitHub.releases?.first()?.name ?: "",
+                published_at: GitHub.releases?.first()?.published_at ?: "",
+                body        : GitHub.releases?.first()?.body ?: ""]
         def allReleases = GitHub.releases.collect { it ->
             [tag         : it?.tag_name ?: "",
              name        : it?.name ?: "",
