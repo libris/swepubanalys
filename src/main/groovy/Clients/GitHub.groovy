@@ -9,14 +9,19 @@ import wslite.rest.RESTClient
  */
 class GitHub {
     static getReleases() {
-        def restClient = new RESTClient('https://api.github.com')
-        def response = restClient.get(
-                accept: ContentType.JSON,
-                path: '/repos/libris/swepubanalys/releases')
-        assert 200 == response.statusCode
-        assert response != null
-        assert response.json instanceof JSONArray
-        return response.json
+        try {
+            def restClient = new RESTClient('https://api.github.com')
+            def response = restClient.get(
+                    accept: ContentType.JSON,
+                    path: '/repos/libris/swepubanalys/releases')
+            assert 200 == response.statusCode
+            assert response != null
+            assert response.json instanceof JSONArray
+            return response.json
+        }
+        catch (all) {
+            return new JSONArray()
+        }
 
     }
 
