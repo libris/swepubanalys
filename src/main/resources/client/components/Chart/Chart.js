@@ -99,6 +99,7 @@ var Chart = {
 				config.axis.y = config.axis.y || {};
 				config.axis.y.min = this.min;
 				config.axis.y.padding = { top: 0, bottom: 0 };
+
 			}
 			if(typeof this.max !== 'undefined') {
 				config.axis = config.axis || {};

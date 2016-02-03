@@ -5,7 +5,7 @@ var d3 = require('d3');
 var _sortBy = require('lodash/collection/sortBy');
 var _sortByOrder = require('lodash/collection/sortByOrder');
 var _sum = require('lodash/math/sum');
-var firstBy = require('exports?firstBy!thenby/thenBy.module.js');
+var firstBy = require('thenby');
 // Util
 var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 
@@ -18,6 +18,7 @@ var FormatAggregationUtil = {
 	 * @param {Object} aggregations
 	 * @return {Object}
 	 */
+	 
 	toOrgYearTimeSeries: function(aggregations) {
 		var xs = {};
 		var columns = [];
@@ -144,7 +145,7 @@ var FormatAggregationUtil = {
 				arr = arr.concat(filler);
 				// Fill start with zeros
 				filler.push(null);
-				var val = 1.0 - (bucket.missingViolations.doc_count / bucket.doc_count);
+				var val = (bucket.missingViolations.doc_count / bucket.doc_count);
 				arr.push(val);
 				columns.push(arr);
 				groups.push(bucket.key);
@@ -165,6 +166,7 @@ var FormatAggregationUtil = {
 			groups: [groups],
 			categories: groups
 		};
+		
 		return chart;
 	},
 	/**

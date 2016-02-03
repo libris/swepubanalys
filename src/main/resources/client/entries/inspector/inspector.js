@@ -30,6 +30,7 @@ require('css/theme-inspector.less');
 /**
  * Inspector-view
  */
+
 var Inspector = {
 	_t: null, // Timeout reference
 	mixins: [FieldLabelMixin],
