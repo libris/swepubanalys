@@ -93,12 +93,15 @@ var Chart = {
 					}
 				};
 			}
+			this.min = 0;
+			this.max = 1;
 			// Set Y min/max
 			if(typeof this.min !== 'undefined') {
 				config.axis = config.axis || {};
 				config.axis.y = config.axis.y || {};
 				config.axis.y.min = this.min;
 				config.axis.y.padding = { top: 0, bottom: 0 };
+
 			}
 			if(typeof this.max !== 'undefined') {
 				config.axis = config.axis || {};
