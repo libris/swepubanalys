@@ -15,7 +15,6 @@ var MatchWeightHelp = require('components/Helps/MatchWeightHelp/MatchWeightHelp.
 var DuplicatesHelp = require('components/Helps/DuplicatesHelp/DuplicatesHelp.js');
 var Carousel = require('components/Carousel/Carousel.js');
 var ViolationsDropdown = require('components/ViolationsDropdown/ViolationsDropdown.js');
-var TechInfo = require('components/TechInfo/TechInfo.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
@@ -67,8 +66,7 @@ var Inspector = {
 		'match-weight-help': MatchWeightHelp,
 		'ambiguities-tool': AmbiguitiesTool,
 		'carousel': Carousel,
-		'violations-dropdown': ViolationsDropdown,
-		'tech-info': TechInfo
+		'violations-dropdown': ViolationsDropdown
 	},
 	ready: function() {
 		/**
@@ -248,7 +246,6 @@ var Inspector = {
 		 * @param {Object} aggregations
 		 */
 		setChartContent: function(chartPath, aggregations) {
-			console.log(aggregations);
 			if(aggregations.columns && aggregations.columns.length > 0) {
 				this.$set(chartPath + '.getContent', function() {
 					return aggregations;

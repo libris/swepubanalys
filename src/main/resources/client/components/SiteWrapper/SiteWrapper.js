@@ -4,6 +4,7 @@
 var _assign = require('lodash/object/assign');
 // Utils
 var Authenticationutil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
+var TechnicalInfoUtil = require('utils/TechnicalInfoUtil/TechnicalInfoUtil.js');
 // CSS modules
 var styles = _assign(
 	require('./SiteWrapper.css'), 
@@ -28,9 +29,14 @@ var SiteWrapperMixin = {
 			if(this.authenticated) {
 				this.$broadcast('logged-in', this.userModel);
 			}
-		}
+		},
+
 	},
 	ready: function() {
+		TechnicalInfoUtil.getTechInfo(function(techinfo) {
+
+			console.log(techinfo);
+		});
 		/*
 		// Authenticate
 		Authenticationutil.authenticate(function(authenticated, userModel) {

@@ -93,8 +93,6 @@ var Chart = {
 					}
 				};
 			}
-			this.min = 0;
-			this.max = 1;
 			// Set Y min/max
 			if(typeof this.min !== 'undefined') {
 				config.axis = config.axis || {};
