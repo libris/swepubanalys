@@ -58,6 +58,8 @@ var SiteWrapperMixin = {
 			var thisVar = this;
 			TechnicalInfoUtil.getTechInfo(function(techinfo) {
 				thisVar.$set('latestRelease', 'v0.6.0');
+				//techinfo.latestRelease.tag
+				console.log(techinfo);
 			});
 		}
 	}
