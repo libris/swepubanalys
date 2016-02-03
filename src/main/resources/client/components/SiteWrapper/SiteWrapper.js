@@ -2,6 +2,8 @@
 
 // Vendor
 var _assign = require('lodash/object/assign');
+var Vue = require('vue');
+var $ = require('jquery');
 // Utils
 var Authenticationutil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
 var TechnicalInfoUtil = require('utils/TechnicalInfoUtil/TechnicalInfoUtil.js');
@@ -21,7 +23,8 @@ var SiteWrapperMixin = {
 		return {
 			authenticated: false,
 			userModel: {},
-			_styles: styles
+			_styles: styles,
+			latestRelease: ''
 		}
 	},
 	events: {
@@ -30,13 +33,13 @@ var SiteWrapperMixin = {
 				this.$broadcast('logged-in', this.userModel);
 			}
 		},
+		'setTextTitle': function() {
+			
+		}
 
 	},
 	ready: function() {
-		TechnicalInfoUtil.getTechInfo(function(techinfo) {
-
-			console.log(techinfo);
-		});
+		this.init();
 		/*
 		// Authenticate
 		Authenticationutil.authenticate(function(authenticated, userModel) {
@@ -49,7 +52,16 @@ var SiteWrapperMixin = {
 		*/
 		// Set GitHub-image
 		this.$els.githubImage1.src = this.$els.githubImage2.src = require('octicons/svg/mark-github.svg');
+	},
+	methods: { 
+		init: function() {
+			var thisVar = this;
+			TechnicalInfoUtil.getTechInfo(function(techinfo) {
+				thisVar.$set('latestRelease', 'v0.6.0');
+			});
+		}
 	}
 };
+
 
 module.exports = SiteWrapperMixin;
