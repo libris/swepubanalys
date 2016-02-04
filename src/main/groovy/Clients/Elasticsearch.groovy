@@ -1,5 +1,6 @@
 package Clients
 
+import Traits.ConfigConsumable
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import wslite.json.JSONObject
@@ -9,12 +10,10 @@ import wslite.rest.RESTClient
 /**
  * Created by Theodor on 2015-10-09.
  */
-public class Elasticsearch {
+public class Elasticsearch implements ConfigConsumable {
 
     static ElasticRESTClient() {
-        URL url = Elasticsearch.classLoader.getResource("config.groovy");
-        def config = new ConfigSlurper().parse(url)
-        return new RESTClient(config.elasticSearch.location)
+        return new RESTClient(currentConfig().elasticSearch.location)
 
     }
 
@@ -67,7 +66,7 @@ public class Elasticsearch {
         addToFilter(model.org, 'recordContentSourceValue', filters)
         addToFilter(model.orcid, 'orcid', filters)
         addToFilter(model.author, 'name', filters)
-        if(model.output) {
+        if (model.output) {
             addToFilter(model.output, 'outputCode', filters)
         }
         addToFilter(model.subject, 'hsv3', filters)

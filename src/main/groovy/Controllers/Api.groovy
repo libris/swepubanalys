@@ -65,7 +65,7 @@ class Api {
 
     static getTechnicalInfo(Request request, Response response) {
         response.type("application/json")
-        def mapToReturn = [lastIndexDate: Virtuoso.lastIndexDate, releases: GitHub.releases]
+        def mapToReturn = [lastIndexDate: Virtuoso.lastIndexDate, releaseInfo: GitHub.releases]
         return new JsonBuilder(mapToReturn).toPrettyString()
     }
 }
