@@ -9,7 +9,6 @@ var TechInfoWindow = require('components/TechInfoWindow/TechInfoWindow.js');
 
 // Utils
 var Authenticationutil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
-var TechnicalInfoUtil = require('utils/TechnicalInfoUtil/TechnicalInfoUtil.js');
 // CSS modules
 var styles = _assign(
 	require('./SiteWrapper.css'), 
@@ -26,8 +25,7 @@ var SiteWrapperMixin = {
 		return {
 			authenticated: false,
 			userModel: {},
-			_styles: styles,
-			latestRelease: ''
+			_styles: styles
 		}
 	},
 	components: {
@@ -59,13 +57,9 @@ var SiteWrapperMixin = {
 		// Set GitHub-image
 		this.$els.githubImage1.src = this.$els.githubImage2.src = require('octicons/svg/mark-github.svg');
 	},
-	methods: { 
+	methods: {
 		init: function() {
-			var thisVar = this;
-			TechnicalInfoUtil.getTechInfo(function(techinfo) {
-				thisVar.$set('latestRelease', techinfo.releaseInfo.releases[0].tag);
-				console.log(techinfo);
-			});
+			
 		}
 	}
 };

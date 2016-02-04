@@ -1,4 +1,9 @@
-<div class="tech-info-window">
-  <a v-on:click="toggle">{{{ trigger }}}</a>
-  <div class="content" v-show="show">{{{ content }}}</div>
+<div class="{{ $data._styles.techInfo }}">
+  <a v-on:click="toggle" class="{{ $data._styles.trigger }}">{{{ latestRelease.tag }}} <i v-show="hasNews" class="fa fa-exclamation-circle"></i></a>
+  <div class="{{ $data._styles.content }}" v-show="show">
+    <div class="{{ $data._styles.techInfoArrow }}"></div>
+    <h1>{{{ latestRelease.tag }}} - {{{ latestRelease.published_at }}}</h1>
+    <p>{{{ latestRelease.name }}}</p>
+    <p>{{{ # Nya funktioner ## Bibliometri * Författarnamn ingår i uppskattningen av antalet poster som returneras * Möjlighet att välja alla ämnen i ett intervall * Möjlighet att välja alla outputtyper av en överordnat kategori * Ersatt tidigare dokumenttyper med vetenskaplig output i formuläret * Lagt till vetenskaplig output som fält i exporten* ## Databearbetning * Feltyperna visas på svenska * Filter på feltyp * Samarbetspublikationer visar poster och vad som ger en konflikt * Förbättringar i graferna ## Annat * Dokumenterat klientutvecklingen * Lagt till Piwik * Grafiska förändringar efter AD-stöd * Sidfoten * Lagt till Licensfil # Rättningar * Uppskattningen av antalet poster som returneras i bibliometrikerns flöde kraschar }}}</p>
+  </div>
 </div>
