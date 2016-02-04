@@ -4,6 +4,9 @@
 var _assign = require('lodash/object/assign');
 var Vue = require('vue');
 var $ = require('jquery');
+// Components
+var TechInfoWindow = require('components/TechInfoWindow/TechInfoWindow.js');
+
 // Utils
 var Authenticationutil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
 var TechnicalInfoUtil = require('utils/TechnicalInfoUtil/TechnicalInfoUtil.js');
@@ -26,6 +29,9 @@ var SiteWrapperMixin = {
 			_styles: styles,
 			latestRelease: ''
 		}
+	},
+	components: {
+		'tech-info-window': TechInfoWindow
 	},
 	events: {
 		'authenticate': function() {
