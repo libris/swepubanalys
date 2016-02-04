@@ -7,7 +7,9 @@ import virtuoso.jena.driver.VirtGraph
 import virtuoso.jena.driver.VirtuosoQueryExecutionFactory
 import virtuoso.jena.driver.VirtuosoUpdateFactory
 import virtuoso.jena.driver.VirtuosoUpdateRequest
+
 import java.text.SimpleDateFormat
+
 /**
  * Created by Theodor on 2016-01-08.
  */
@@ -19,6 +21,7 @@ class DuplicateCandidateAdjudicator {
                     PREFIX admin: <http://owl.hs.com/SemDW/admin_data#>"""
     static String mods_data_ns = "http://swepub.kb.se/mods/data#"
     static String mURIadjudicationGraph = "http://swepub.kb.se/analysis/adjudication/data#graph"
+
     static
     def saveDuplicateCase(boolean samePublication, String record1Id, String record2Id, String comment, String userId) {
         //TODO: requires logged in user
@@ -62,6 +65,7 @@ class DuplicateCandidateAdjudicator {
             throw All
         }
     }
+
     static VirtGraph getGraph(String user, String pw) {
         def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
         String url = "jdbc:virtuoso://${config.virtuoso.jdbcConn}/charset=UTF-8/log_enable=2";
@@ -74,6 +78,7 @@ class DuplicateCandidateAdjudicator {
         }
         return virtGraph;
     }
+
     static String getIdentifierValue(String uriRecord) {
         def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
         VirtGraph graph = getGraph(config.virtuoso.jdbcUser.confic.virtuoso.jdbcPwd);
@@ -133,6 +138,7 @@ class DuplicateCandidateAdjudicator {
         }
         return result
     }
+
     static public String readFile(File file) {
         // Load from file
         long fileSize = file.length();
@@ -149,6 +155,7 @@ class DuplicateCandidateAdjudicator {
         }
         return content;
     }
+
     static String convertDateToXMLType(Date date) {
         // xs:dateTime format yyyy-mm-ddThh:mm:ss
         String xsDateTime;
