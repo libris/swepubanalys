@@ -57,7 +57,8 @@ var SiteWrapperMixin = {
 		init: function() {
 			var thisVar = this;
 			TechnicalInfoUtil.getTechInfo(function(techinfo) {
-				thisVar.$set('latestRelease', techinfo.releases.releases[0].tag);
+				thisVar.$set('latestRelease', techinfo.releaseInfo.releases[0].tag);
+				console.log(techinfo);
 			});
 		}
 	}
