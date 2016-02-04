@@ -140,16 +140,16 @@
 					</div>
 				</search-form>
 				<!-- Activity buttons -->
-				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="onClickViolationButton('al')">
+				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="onClickViolationButton('ALL')">
 					<div slot="Title">
-						VISA OFULLSTÄNDIG METADATA 
+						LISTA FELTYPER 
 					</div>
 				</button>
 				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
-					VISA DUBBLETTKANDIDATER
+					LISTA DUBBLETTKANDIDATER
 				</button>
 				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('AMBIGUITIES')">
-					VISA SAMARBETSPUBLIKATIONER
+					LISTA SAMARBETSPUBLIKATIONER
 				</button>
 			</div>
 		</div>
@@ -165,7 +165,7 @@
 						<h2>OFULLSTÄNDIG METADATA</h2>
 						<violations-dropdown :on-click-option="onClickViolationOption">
 							<div slot="Title">
-								VISA OFULLSTÄNDIG METADATA <span class="fa fa-caret-down"></span>
+								VÄLJ FELTYP <span class="fa fa-caret-down"></span>
 							</div>
 						</violations-dropdown>
 					</div>

@@ -196,9 +196,7 @@ var Inspector = {
 			this.$emit('start-activity', 'VIOLATIONS');
 		},
 		onClickViolationButton: function(violation) {
-			console.log(violation);
 			// Clear
-			
 			this.$set('formModel.violation', undefined);
 			this.$set('fields', (this.fields || []).filter(function(field) {
 				return field && field.fieldName && field.fieldName !== 'violation';
