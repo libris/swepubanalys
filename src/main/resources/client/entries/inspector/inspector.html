@@ -131,7 +131,7 @@
 						:to="new Date().getFullYear()" 
 						default-template="duplicates">
 					<div slot="SearchFormTitle">
-						<h2>TRE VÄGAR TILL HÖGRE DATAKVALITET</h2>
+						<h2>TRE STEG TILL HÖGRE DATAKVALITET</h2>
 					</div>
 					<div slot="SearchFormDescription">
 						<p>Här söker du fram ofullständig metadata om vetenskaplig output.</p>
@@ -140,11 +140,11 @@
 					</div>
 				</search-form>
 				<!-- Activity buttons -->
-				<violations-dropdown :on-click-option="onClickViolationOption">
+				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="onClickViolationButton('al')">
 					<div slot="Title">
-						VISA OFULLSTÄNDIG METADATA <span class="fa fa-caret-down"></span>
+						VISA OFULLSTÄNDIG METADATA 
 					</div>
-				</violations-dropdown>
+				</button>
 				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
 					VISA DUBBLETTKANDIDATER
 				</button>
@@ -163,6 +163,11 @@
 						:on-result-received.once="onResultReceived">
 					<div slot="SearchResultTitle">
 						<h2>OFULLSTÄNDIG METADATA</h2>
+						<violations-dropdown :on-click-option="onClickViolationOption">
+							<div slot="Title">
+								VISA OFULLSTÄNDIG METADATA <span class="fa fa-caret-down"></span>
+							</div>
+						</violations-dropdown>
 					</div>
 					<div slot="SearchResultDescription"></div>
 				</search-result>
