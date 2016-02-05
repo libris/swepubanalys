@@ -141,9 +141,7 @@
 				</search-form>
 				<!-- Activity buttons -->
 				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="onClickViolationButton('ALL')">
-					<div slot="Title">
-						LISTA FELTYPER 
-					</div>
+					LISTA FELTYPER
 				</button>
 				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
 					LISTA DUBBLETTKANDIDATER
@@ -168,7 +166,9 @@
 								VÄLJ FELTYP <span class="fa fa-caret-down"></span>
 							</div>
 						</violations-dropdown>
+						<about-vialations></about-vialations>
 					</div>
+
 					<div slot="SearchResultDescription"></div>
 				</search-result>
 				<!-- Local duplicates activity -->

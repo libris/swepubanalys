@@ -15,6 +15,7 @@ var MatchWeightHelp = require('components/Helps/MatchWeightHelp/MatchWeightHelp.
 var DuplicatesHelp = require('components/Helps/DuplicatesHelp/DuplicatesHelp.js');
 var Carousel = require('components/Carousel/Carousel.js');
 var ViolationsDropdown = require('components/ViolationsDropdown/ViolationsDropdown.js');
+var AboutVialations = require('components/AboutVialations/AboutVialations.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
@@ -66,7 +67,8 @@ var Inspector = {
 		'match-weight-help': MatchWeightHelp,
 		'ambiguities-tool': AmbiguitiesTool,
 		'carousel': Carousel,
-		'violations-dropdown': ViolationsDropdown
+		'violations-dropdown': ViolationsDropdown,
+		'about-vialations': AboutVialations
 	},
 	ready: function() {
 		/**
