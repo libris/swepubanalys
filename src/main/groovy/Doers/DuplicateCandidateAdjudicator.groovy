@@ -81,7 +81,7 @@ class DuplicateCandidateAdjudicator {
 
     static String getIdentifierValue(String uriRecord) {
         def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
-        VirtGraph graph = getGraph(config.virtuoso.jdbcUser.confic.virtuoso.jdbcPwd);
+        VirtGraph graph = getGraph(config.virtuoso.jdbcUser,config.virtuoso.jdbcPwd);
         ResultSet rs;
         String sparql;
         String sparqlTemplate = """
@@ -96,7 +96,7 @@ class DuplicateCandidateAdjudicator {
                                 ?Identifier mods_m:type ?_type .
                                 ?Identifier mods_m:identifierValue ?_identifierValue .
                                 ?Identifier mods_m:type "uri"^^xsd:string .}""";
-        sparql = sparqlTemplate.replace("_RECORD_URI_", mods_data_ns + uriRecord);
+        sparql = sparqlTemplate.replace("_RECORD_URI_",mods_data_ns + uriRecord);
         QueryExecution qe = VirtuosoQueryExecutionFactory.create(sparql, graph);
         try {
             rs = qe.execSelect();
