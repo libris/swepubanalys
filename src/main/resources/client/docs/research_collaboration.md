@@ -1,3 +1,3 @@
-Samarbetspublikationer är resultatet av lärosätesöverskridande samarbeten.
+Samarbetspublikationer är resultatet av lärosätesöverskridande samarbeten. För att avgöra om poster som kommer från olika lärosäten är dubbletter eller ej, används samma algoritm som för dubblettkandidater. Skillnaden är att samarbetspublikationer, eller så kallade nationella dubbletter, ska finnas kvar. Om det inte maskinellt går att avgöra behöver även dessa bedömas manuellt. Detta kan göras i samma verktyg som för lokala dubbletter. Inloggning sker via SWAMID.
 
-Valda publikationsposter innehåller motstridiga metadata. Dessa behöver följas upp för att posterna ska tas med i datauttag för analyser på nationell nivå
+Välj att ta ut en lista för bedömning och flaggning av samarbetspublikationer som innehåller motstridiga metadata. Dessa data behöver efter bedömning i SwePub åtgärdas lokalt för att posterna ska tas med i datauttag för analyser på nationell nivå.
