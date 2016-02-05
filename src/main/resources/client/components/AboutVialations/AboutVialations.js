@@ -16,7 +16,7 @@ var AboutVialation = {
 	props: ['field'],
 	template: require('./AboutVialation.html'),
 	ready: function() {
-		this.$set('about', marked(require('docs/about_vialations.md')));
+		this.$set('about', marked(require('docs/violation_type.md')));
 	}
 };
 
