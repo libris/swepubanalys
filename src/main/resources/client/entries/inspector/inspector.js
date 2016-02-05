@@ -183,7 +183,8 @@ var Inspector = {
 			}));
 			// Add to formModel
 			if(typeof code === 'string') {
-				console.log(violation.text);
+				console.log(ViolationsDropdown.data.compare('hej'));
+				
 				this.$set('formModel.violation', code);
 				this.fields.push({
 					fieldName: 'violation',

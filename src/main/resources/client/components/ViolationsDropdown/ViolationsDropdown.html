@@ -11,7 +11,7 @@
 		<li role="separator" class="divider"></li>
 		<template v-for="violation in violations">
 			<li>
-				<a href="javascript:void(0);" v-if="violation.text == 'Ämne saknas'" v-on:click="onClickOption($key, violation)">
+				<a href="javascript:void(0);" v-if="compare" v-on:click="onClickOption($key, violation)">
 					{{ violation.text }}
 				</a>
 				<a href="javascript:void(0);" v-else v-on:click="onClickOption($key, violation)">

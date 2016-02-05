@@ -18,7 +18,17 @@ var ViolationsDropdown = {
 			styleObject: {
 			    color: 'red',
 			    fontSize: '13px'
-			  }
+			  },
+			compare: function() {
+				console.log('hej');
+				if (1 == 2) {
+		    		return true;
+		    	}
+		    	else {
+		    		return false;
+		    	}
+
+			}  
 		}
 	},
 	ready: function() {
@@ -36,17 +46,10 @@ var ViolationsDropdown = {
 			this.$set('violations', _clone(violations))
 
 		}.bind(this));
-	},
-	events: {
-	    'compare': function () {
-	    	if (1 == 1) {
-	    		return true;
-	    	}
-	    	else {
-	    		return false;
-	    	}
-	    }
 	}
+	
 };
+
+//violation.text == 'Ämne saknas'
 
 module.exports = ViolationsDropdown;
