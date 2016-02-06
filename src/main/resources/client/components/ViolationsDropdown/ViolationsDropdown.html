@@ -3,7 +3,8 @@
 			type="button" id="violations" 
 			data-toggle="dropdown" 
 			aria-haspopup="true" 
-			aria-expanded="true">
+			aria-expanded="true"
+			style="width: 200px; background-color:#f4f4f4;">
 		<slot name="Title">
 	</button>
 	<ul class="dropdown-menu" aria-labelledby="violations">
@@ -11,15 +12,15 @@
 		<li role="separator" class="divider"></li>
 		<template v-for="violation in violations">
 			<li>
-				<a href="javascript:void(0);" v-if="compare" v-on:click="onClickOption($key, violation)">
-					{{ violation.text }}
+				<a  href="javascript:void(0);" v-if="returnCompare( violation.text )" v-on:click="onClickOption($key, violation)">
+					THE CHOOSEN
 				</a>
-				<a href="javascript:void(0);" v-else v-on:click="onClickOption($key, violation)">
-					hej
+				<a  href="javascript:void(0);" v-else v-on:click="onClickOption($key, violation)">
+					{{ violation.text }}
 				</a>
 
 			</li>
-		</template>		
+		</template>	
 	</ul>
 </div>
 

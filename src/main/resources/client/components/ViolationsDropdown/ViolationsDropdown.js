@@ -5,6 +5,8 @@ var _clone = require('lodash/lang/clone');
 // Utils
 var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil');
 
+var compareVal = ''; 
+
 /**
  * Violations Dropdown Component
  *
@@ -15,41 +17,41 @@ var ViolationsDropdown = {
 	data: function() {
 		return {
 			violations: [],
-			styleObject: {
-			    color: 'red',
-			    fontSize: '13px'
-			  },
-			compare: function() {
-				console.log('hej');
-				if (1 == 2) {
-		    		return true;
-		    	}
-		    	else {
-		    		return false;
-		    	}
-
-			}  
+			activeViolation: ''
 		}
 	},
+	
 	ready: function() {
 		/**
 		 * Get violations and populate array to be used in template
 		 */
-		/*
-		SearchFormUtil.getCleanViolations(function(violationsObjects) {
-			this.$set('violations', _clone(violationsObjects))
 
-		}.bind(this));
-		*/
+		 this.$set('activeViolation', compareVal);
 		
 		SearchFormUtil.getViolations(function(violations) {
-			this.$set('violations', _clone(violations))
+			this.$set('violations', _clone(violations));
 
 		}.bind(this));
+	},
+	methods: {
+		compareActive: function(valueble) {
+			//gets choosen vialation 
+			//console.log(valueble);
+			compareVal = valueble;
+		},
+		returnCompare: function(val) {
+			console.log(val);
+
+			if (val == compareVal) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
 	}
 	
 };
 
-//violation.text == 'Ämne saknas'
 
 module.exports = ViolationsDropdown;
