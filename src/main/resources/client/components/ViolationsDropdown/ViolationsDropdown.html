@@ -4,19 +4,23 @@
 			data-toggle="dropdown" 
 			aria-haspopup="true" 
 			aria-expanded="true"
-			style="width: 200px; background-color:#f4f4f4;">
+			style="width: 250px; background-color:#f4f4f4;">
 		<slot name="Title">
 	</button>
+
 	<ul class="dropdown-menu" aria-labelledby="violations">
 		<li><a href="javascript:void(0);" v-on:click="onClickOption(null)">Alla</a></li>
 		<li role="separator" class="divider"></li>
 		<template v-for="violation in violations">
 			<li>
-				<a  href="javascript:void(0);" v-if="returnCompare( violation.text )" v-on:click="onClickOption($key, violation)">
-					THE CHOOSEN
+				<a  href="javascript:void(0);" v-if="violation.grade === 1" v-on:click="onClickOption($key, violation)">
+					{{ violation.text }} <span style="margin-top:3px; margin-left:5px; float:right; color: #52BD34;"class="fa fa-circle"></span>
 				</a>
-				<a  href="javascript:void(0);" v-else v-on:click="onClickOption($key, violation)">
-					{{ violation.text }}
+				<a  href="javascript:void(0);" v-if="violation.grade === 2" v-on:click="onClickOption($key, violation)">
+					{{ violation.text }} <span style="margin-top:3px; margin-left:5px; float:right; color: #ffda60;"class="fa fa-circle"></span>
+				</a>
+				<a  href="javascript:void(0);" v-if="violation.grade === 3" v-on:click="onClickOption($key, violation)">
+					{{ violation.text }} <span style="margin-top:3px; margin-left:5px; float:right; color: #f07b38;"class="fa fa-circle"></span>
 				</a>
 
 			</li>

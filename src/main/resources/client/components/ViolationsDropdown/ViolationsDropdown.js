@@ -1,11 +1,13 @@
 'use strict';
 
 // Vendor
+var Vue = require('vue');
 var _clone = require('lodash/lang/clone');
+var _sortBy = require('lodash/collection/sortBy');
 // Utils
 var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil');
 
-var compareVal = ''; 
+//var compareVal = ''; 
 
 /**
  * Violations Dropdown Component
@@ -17,7 +19,8 @@ var ViolationsDropdown = {
 	data: function() {
 		return {
 			violations: [],
-			activeViolation: ''
+			activeViolation: '',
+			selected: '',
 		}
 	},
 	
@@ -26,14 +29,16 @@ var ViolationsDropdown = {
 		 * Get violations and populate array to be used in template
 		 */
 
-		 this.$set('activeViolation', compareVal);
-		
+		//this.$set('activeViolation', compareVal);
 		SearchFormUtil.getViolations(function(violations) {
 			this.$set('violations', _clone(violations));
+			//console.log(_clone(violations));
 
 		}.bind(this));
 	},
 	methods: {
+		//Start of work to mark selected values in dropdown 
+		 /*
 		compareActive: function(valueble) {
 			//gets choosen vialation 
 			//console.log(valueble);
@@ -49,9 +54,18 @@ var ViolationsDropdown = {
 				return false;
 			}
 		}
+		*/
 	}
 	
 };
+
+Vue.filter('orderViolations', function(violations) {
+	violations = _sortBy(violations, function(violation) {
+		return violation.grade;
+	});
+	return violations.reverse();
+});
+
 
 
 module.exports = ViolationsDropdown;

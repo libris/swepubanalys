@@ -175,15 +175,19 @@ var Inspector = {
 		 * @param {Object} violation
 		 */
 		onClickViolationOption: function(code, violation) {
-
 			// Clear
 			this.$set('formModel.violation', undefined);
 			this.$set('fields', (this.fields || []).filter(function(field) {
 				return field && field.fieldName && field.fieldName !== 'violation';
 			}));
+			//For sending selected violation to list
+			/*
+			if (violation.text !== undefined ) {
+				ViolationsDropdown.methods.compareActive(violation.text);
+			}
+			*/
 			// Add to formModel
 			if(typeof code === 'string') {
-				ViolationsDropdown.methods.compareActive(violation.text);
 				this.$set('formModel.violation', code);
 				this.fields.push({
 					fieldName: 'violation',
@@ -195,15 +199,12 @@ var Inspector = {
 			}
 			
 			// Start error-activity
+			
 			this.$emit('start-activity', 'VIOLATIONS');
 		},
 		onClickViolationButton: function(violation) {
 			// Clear
-			this.$set('formModel.violation', undefined);
-			this.$set('fields', (this.fields || []).filter(function(field) {
-				return field && field.fieldName && field.fieldName !== 'violation';
-			}));
-			
+			//this.$set('formModel.violation', undefined);
 			// Start error-activity
 			this.$emit('start-activity', 'VIOLATIONS');
 			

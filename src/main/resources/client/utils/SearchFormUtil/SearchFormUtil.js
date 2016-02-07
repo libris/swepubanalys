@@ -370,25 +370,4 @@ var violations = {
 	'swpa_m:ObsoletePublicationStatusViolation': { text: 'Publiceringsstatus fel', name: 'Obsolete publication status violation', grade: 2 }
 };
 
-var cleanViolations = [
-	{ text: 'Upphov - olika namnvarianter', name: 'Multiple variants of name', grade: 2 },
-	{ text: 'Ämne saknas', name: 'missing UK\u00c4/SCB 3-digit subject code', grade: 1 },
-	{ text: 'Upphov saknas', name: 'missing local creator', grade: 3 },
-	{ text: 'PersonalID saknas', name: 'missing identifier of local creator', grade: 3 },
-	{ text: 'Upphov - antal saknas', name: 'missing creator count', grade: 3 },
-	{ text: 'Konferenstitel saknas', name: 'Missing Conference Title Violation', grade: 3 },
-	{ text: 'ISBN på fel nivå', name: 'ISBN at wrong place violation', grade: 3 },
-	{ text: 'ISSN saknas', name: 'Missing ISSN Violation', grade: 3 },
-	{ text: 'DOI fel', name: 'DOI format violation', grade: 3 },
-	{ text: 'ISBN fel', name: 'ISBN format Violation', grade: 2 },
-	{ text: 'ISSN fel', name: 'ISSN format violation', grade: 3 },
-	{ text: 'PersonalID fel', name: 'href / local ID violation', grade: 3 },
-	{ text: 'Upphov - olika antal', name: 'creator count mismatch', grade: 3 },
-	{ text: 'ORCID fel', name: 'ORCID format violation', grade: 3 },
-	{ text: 'Upphov - dubblering', name: 'Duplicate Name Violation', grade: 2 },
-	{ text: 'ISBN - fel landkod', name: 'ISBN country code Violation', grade: 2 },
-	{ text: 'ISI-ID fel', name: 'ISI format violation', grade: 3 },
-	{ text: 'Publiceringsstatus fel', name: 'Obsolete publication status violation', grade: 2 }
-];
-
 module.exports = SearchFormUtil;
