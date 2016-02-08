@@ -24,6 +24,7 @@ class GitHub implements ConfigConsumable {
                     .collect { r ->
                 [tag         : r?.tag_name ?: "",
                  name        : r?.name ?: "",
+                 body        : r?.body ?: "",
                  published_at: r?.published_at ?: "",
                  url         : r?.html_url ?: ""]
             }.findAll { r -> r.published_at != '' }]
