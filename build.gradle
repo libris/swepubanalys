@@ -120,6 +120,10 @@ task(runWebApp, dependsOn: 'classes', type: JavaExec) {
     main = 'Routes'
 }
 task downloadJarsToLibs(){
+    def dir = new File('libs')
+    if (!dir.exists()) {
+        new File('libs').mkdir()
+    }
     def f = new File('libs/virt_jena2.jar')
     if (!f.exists()) {
         new URL('http://opldownload.s3.amazonaws.com/uda/virtuoso/7.2/rdfproviders/jena/210/virt_jena2.jar').withInputStream{ i -> f.withOutputStream{ it << i }}
