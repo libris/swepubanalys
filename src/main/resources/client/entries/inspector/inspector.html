@@ -153,6 +153,15 @@
 				</a>
 			</div>
 		</div>
+		<div class="chooseViolationSection" style="display:none;" slot="SearchResultTitle">
+			<h2>FELTYPER</h2>
+			<about-vialations></about-vialations>
+			<violations-dropdown :on-click-option="onClickViolationOption">
+				<div style="color:#000;" slot="Title">
+					<span style="float:left;">VÄLJ</span> <span style="float:right;" class="fa fa-caret-down"></span>
+				</div>
+			</violations-dropdown>
+		</div>
 		<div v-show="activity">
 			<div v-el:search-result>
 				<!-- Error list activity -->
@@ -161,15 +170,7 @@
 						:form-model="formData.formModel" 
 						:fields="formData.fields" 
 						:on-result-received.once="onResultReceived">
-					<div slot="SearchResultTitle">
-						<h2>FELTYPER</h2>
-						<about-vialations></about-vialations>
-						<violations-dropdown :on-click-option="onClickViolationOption">
-							<div style="color:#000;" slot="Title">
-								<span style="float:left;">VÄLJ</span> <span style="float:right;" class="fa fa-caret-down"></span>
-							</div>
-						</violations-dropdown>
-					</div>
+
 					<div slot="SearchResultDescription"></div>
 				</search-result>
 				<!-- Local duplicates activity -->

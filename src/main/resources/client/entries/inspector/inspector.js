@@ -206,6 +206,7 @@ var Inspector = {
 			// Clear
 			//this.$set('formModel.violation', undefined);
 			// Start error-activity
+			$(".chooseViolationSection").show();
 			this.$emit('start-activity', 'VIOLATIONS');
 			
 		},
@@ -214,6 +215,11 @@ var Inspector = {
 		 * @param {String} activity
 		 */
 		startActivity: function(activity) {
+
+			if (activity === 'LOCAL_DUPLICATES' || activity === 'AMBIGUITIES') {
+				$(".chooseViolationSection").hide();
+			}
+
 			var formData = {
 				formModel: _cloneDeep(this.formModel),
 				fields: _cloneDeep(this.fields)
