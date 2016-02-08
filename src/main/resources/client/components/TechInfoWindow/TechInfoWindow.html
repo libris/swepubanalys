@@ -1,0 +1,12 @@
+<div class="{{ $data._styles.techInfo }}">
+  <a v-on:click="toggle" class="{{ $data._styles.trigger }}">Teknisk information <i v-show="hasNews" class="fa fa-exclamation-circle"></i></a>
+  <div class="{{ $data._styles.content }}" v-show="show">
+    <div class="{{ $data._styles.techInfoArrow }}"></div>
+    <p>Data hämtat {{{ lastIndexDate }}}</p>
+    <p>MODS {{{ modsVersion }}}</p>
+    <hr>
+    <p>{{{ latestRelease.tag }}} - {{{ latestRelease.formatted_publish_date }}}</p>
+    {{{ latestRelease.formatted_body }}}
+    <p><a href="{{ latestRelease.url }}" target="_blank">Fullständig versionsinformation</a></p>
+  </div>
+</div>
