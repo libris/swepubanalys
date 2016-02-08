@@ -1,5 +1,6 @@
 'use strict';
-
+//Vendor
+var marked = require('marked');
 // Components
 var AmbiguitiesList = require('components/AmbiguitiesList/AmbiguitiesList.js');
 var MailExport = require('components/MailExport/MailExport.js');
@@ -22,12 +23,16 @@ var AmbiguitiesTool = {
 	data: function() {
 		return {
 			query: '',
-			_styles: styles
+			_styles: styles,
+			about: ''
 		}
 	},
 	components: {
 		'ambiguities-list': AmbiguitiesList,
 		'mail-export': MailExport
+	},
+	ready: function() {
+		this.$set('about', marked(require('docs/research_collaboration.md')));
 	},
 	methods: {
 		/**
