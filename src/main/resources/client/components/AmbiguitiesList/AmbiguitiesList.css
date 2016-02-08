@@ -56,7 +56,10 @@
 	max-width: 100%;
 }
 
-.DarkRow:nth-child(even) {
+.DarkRow:nth-child(odd) {
+	background-color: #fafafa;
+}
+.DarkRowRow:nth-child(even) {
 	background-color: #fafafa;
 }
 
