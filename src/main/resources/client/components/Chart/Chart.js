@@ -73,8 +73,9 @@ var Chart = {
 				},
 				size: {
 					height: this.height
-				}
+				},
 			};
+
 			if(this.onClick) {
 				config.legend.item = {
 					onclick: function(e) {

@@ -13,7 +13,7 @@
 			<div style="position: relative; width: 100%;">
 				<div style="position: absolute; top: 0; width: 100%;">
 					<div v-if="loadingData" class="{{ $data._styles.Info }}">
-						<h1>Laddar visualiseringar...</h1>
+						<h1 class="{{ $data._styles.loading }}">Laddar visualiseringar...</h1>
 					</div>
 					<div v-if="emptyAggregations" class="{{ $data._styles.Info }}">
 						<h1>Tomt sökresultat</h1>
@@ -38,6 +38,8 @@
 										legend-position="bottom"  
 										:color-categories.once="colorCategories"
 										height="390"
+										:min="0.0"
+										:max="1.0"
 										:get-content="violationDistributionChart.getContent">
 									</chart>
 								</div>
@@ -49,7 +51,7 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<template v-if="orgViolations.getContent | visible 2 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>ANDEL FELAKTIGA POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(topp 5)</span></p>
+									<p>ANDEL FELFRIA POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(topp 5)</span></p>
 								</div>
 								<div>
 									<chart 
@@ -59,6 +61,8 @@
 										:color-categories.once="colorCategories"
 										height="373"
 										tick-format="0%"
+										:min="0.0"
+										:max="1.0"
 										:on-click.once="onClickOrg"
 										:get-content="orgViolations.getContent">
 									</chart>

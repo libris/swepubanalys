@@ -1,6 +1,6 @@
 package Clients
 
-import wslite.json.JSONArray
+import Traits.ConfigConsumable
 import wslite.rest.ContentType
 import wslite.rest.RESTClient
 
@@ -10,19 +10,17 @@ import wslite.rest.RESTClient
  * Also a place to put stuff that is related to the local Virtuoso installation such as
  * indexing stuff
  */
-public class Virtuoso {
+public class Virtuoso implements ConfigConsumable {
 
     static VirtuosoRESTClient() {
-        URL url = Virtuoso.getClassLoader().getResource("config.groovy");
-        def config = new ConfigSlurper().parse(url)
-        return new RESTClient(config.virtuoso.location)
+        return new RESTClient(currentConfig().virtuoso.location)
     }
 
     def post(String sparql, String contentType) {
         def response = VirtuosoRESTClient().post(
                 accept: contentType == "application/json" ? ContentType.JSON : ContentType.TEXT,
                 path: '/',
-                ){
+        ) {
             type ContentType.URLENC
             urlenc query: sparql, format: contentType
         }
@@ -39,7 +37,7 @@ public class Virtuoso {
         return contentType == "application/json" ? response.json : response.text;
     }
 
-     Map postGetBytes(String sparql, String contentType, int maxRows) {
+    Map postGetBytes(String sparql, String contentType, int maxRows) {
         def response = VirtuosoRESTClient().post(
                 accept: contentType,
                 path: '/')
@@ -49,12 +47,13 @@ public class Virtuoso {
                 }
 
 
-        return [data: response.data, statusCode: response.statusCode, statusMessage: response.statusMessage ]
+        return [data: response.data, statusCode: response.statusCode, statusMessage: response.statusMessage]
     }
 
-    static String getLastIndexDate(){
+    static String getLastIndexDate() {
         try {
-            def restClient = new RESTClient('http://beta.swepub.kb.se/Data/LatestUpdate_TS')
+            def url = currentConfig().virtuoso.lastUpdateTimeStampLocation
+            def restClient = new RESTClient(url)
             def response = restClient.get(
                     accept: ContentType.TEXT,
                     path: '')

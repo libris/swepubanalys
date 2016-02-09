@@ -8,9 +8,9 @@ import wslite.json.JSONObject
 class GitHubClient {
     @Test
     void getReleases(){
-        def a = GitHub.getReleases()
+        def a = GitHub.releases
         assert a
-        assert a instanceof JSONObject
+        assert a.releases.count{it}>1
 
     }
 }

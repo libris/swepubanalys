@@ -2,9 +2,13 @@
 
 // Vendor
 var _assign = require('lodash/object/assign');
+var Vue = require('vue');
+var $ = require('jquery');
+// Components
+var TechInfoWindow = require('components/TechInfoWindow/TechInfoWindow.js');
+
 // Utils
 var Authenticationutil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
-var TechnicalInfoUtil = require('utils/TechnicalInfoUtil/TechnicalInfoUtil.js');
 // CSS modules
 var styles = _assign(
 	require('./SiteWrapper.css'), 
@@ -24,19 +28,22 @@ var SiteWrapperMixin = {
 			_styles: styles
 		}
 	},
+	components: {
+		'tech-info-window': TechInfoWindow
+	},
 	events: {
 		'authenticate': function() {
 			if(this.authenticated) {
 				this.$broadcast('logged-in', this.userModel);
 			}
 		},
+		'setTextTitle': function() {
+			
+		}
 
 	},
 	ready: function() {
-		TechnicalInfoUtil.getTechInfo(function(techinfo) {
-
-			console.log(techinfo);
-		});
+		this.init();
 		/*
 		// Authenticate
 		Authenticationutil.authenticate(function(authenticated, userModel) {
@@ -49,7 +56,13 @@ var SiteWrapperMixin = {
 		*/
 		// Set GitHub-image
 		this.$els.githubImage1.src = this.$els.githubImage2.src = require('octicons/svg/mark-github.svg');
+	},
+	methods: {
+		init: function() {
+			
+		}
 	}
 };
+
 
 module.exports = SiteWrapperMixin;
