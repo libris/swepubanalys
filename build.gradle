@@ -11,7 +11,7 @@ loadConfiguration()
 def loadConfiguration() {
     def environment = hasProperty('env') ? env : 'dev'
     project.ext.environment = environment
-    def configFile = file('configValues.groovy')
+    def configFile = file('configValues2.groovy')
     def config = new ConfigSlurper(environment).parse(configFile.toURI().toURL())
     println config.toString()
     config.mode = ext.environment
