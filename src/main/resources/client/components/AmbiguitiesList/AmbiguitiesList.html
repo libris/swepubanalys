@@ -37,13 +37,13 @@
 										<p>{{ article._id1 ? article._id2.value : '' }}</p>
 										<div class="{{ $parent.$data._styles.ExpandButtonContainer }}">
 											<a v-on:click="setHandleArticle(article)"  style="text-decoration: none; border-radius: 0px;">
+												<span v-if="article.show !== true">Visa</span>
+												<span v-else>Dölj</span>
 												<i 
 													class="fa" 
 													v-bind:class="{ 'fa-expand': article.show !== true, 'fa-compress' : article.show === true }"
-													style="">
+													style="margin-left:6px;">
 												</i>
-												<span v-if="article.show !== true">ÖPPNA POSTER</span>
-												<span v-else>STÄNG POSTER</span>
 											</a>
 										</div>
 									</div>

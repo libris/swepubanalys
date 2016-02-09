@@ -41,6 +41,7 @@ var SearchForm = {
 			// Data which will possibly be used onSearch
 			templateName: this.defaultTemplate || 'QfBibliometrics',
 			fields: getDefaultFields.call(this),
+			fieldMemory: {},
 			// CSS-modules
 			_styles: styles
 		}
@@ -210,10 +211,11 @@ var SearchForm = {
 			var formModel = models[this.templateName].call(this);
 			console.log('*** SearchForm.generateFormModel: formModel generated:');
 			console.log(JSON.stringify(formModel));
-			
+			this.$set('fieldMemory', formModel);
+			console.log(this);
 			//Example of setting & getting formfield
-			FormFieldMemoryUtil.setMemory(formModel);
-			console.log(FormFieldMemoryUtil.getMemory());
+			//FormFieldMemoryUtil.setMemory(formModel);
+			//console.log(FormFieldMemoryUtil.getMemory());
 
 			return formModel;
 		},

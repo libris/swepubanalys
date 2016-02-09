@@ -3,15 +3,19 @@
 var marked = require('marked');
 // Components
 var AmbiguitiesList = require('components/AmbiguitiesList/AmbiguitiesList.js');
+var SearchForm = require('components/SearchForm/SearchForm.js');
 var MailExport = require('components/MailExport/MailExport.js');
 var _assign = require('lodash/object/assign');
 // Mixins
 var AuthenticationMixin = require('mixins/AuthenticationMixin/AuthenticationMixin.js');
+//Utility
+var FormFieldMemoryUtil = require('utils/FormFieldMemoryUtil/FormFieldMemoryUtil.js');
 // CSS modules
 var styles = _assign(
     require('./AmbiguitiesTool.css'),
 	require('css/modules/Colors.less')	
 );
+
 
 /**
  * Ambiguities Tool Component
@@ -41,6 +45,11 @@ var AmbiguitiesTool = {
 		 */
 		onGenerateQuery: function(query) {
 			this.$set('query', query);
+		},
+		onClickExternal: function() {
+
+			//console.log(SearchForm.methods.getFormModel);
+			console.log(SearchForm.data().fields);
 		}
 	}
 };
