@@ -1,0 +1,36 @@
+
+SELECT DISTINCT
+?_uri1
+?_uri2
+
+
+WHERE
+{
+?CreativeWorkInstanceDuplicateAdjudication a swpa_m:CreativeWorkInstanceDuplicateAdjudication .
+?CreativeWorkInstanceDuplicateAdjudication a swpa_m:Adjudication .
+?CreativeWorkInstanceDuplicateAdjudication swpa_m:compares ?Record1 .
+?CreativeWorkInstanceDuplicateAdjudication swpa_m:compares ?Record2 .
+
+?Record1 a mods_m:Record .
+?Record1 a mods_m:Record .
+?Record1 a bmc:CreativeWorkInstanceRecord .
+?Record1 a swpa_m:DeduplicationEligible .
+?Record1 mods_m:hasMods ?Mods1 .
+?Mods1 a mods_m:Mods .
+?Mods1 mods_m:identifierValue ?_identifierValue1 .
+?Record1 swpa_m:uriRepository ?_uri1 .
+
+?Record2 a mods_m:Record .
+?Record2 a mods_m:Record .
+?Record2 a bmc:CreativeWorkInstanceRecord .
+?Record2 a swpa_m:DeduplicationEligible .
+?Record2 mods_m:hasMods ?Mods2 .
+?Mods2 a mods_m:Mods .
+?Record2 swpa_m:uriRepository ?_uri2 .
+
+
+
+FILTER (?_identifierValue2 != ?_identifierValue1)
+#FILTER (xsd:string(?_recordContentSourceValue1) IN ("du"))
+}
+LIMIT 5000000
