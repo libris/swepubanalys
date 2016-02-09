@@ -7,7 +7,6 @@ configurations {
 }
 
 loadConfiguration()
-
 def loadConfiguration() {
     def environment = hasProperty('env') ? env : 'dev'
     project.ext.environment = environment
