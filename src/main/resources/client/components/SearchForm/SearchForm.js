@@ -7,6 +7,7 @@ var _sortBy = require('lodash/collection/sortBy');
 var _max = require('lodash/math/max');
 // Utils
 var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
+var FormFieldMemoryUtil = require('utils/FormFieldMemoryUtil/FormFieldMemoryUtil.js');
 // Components
 var OrgInput = require('components/OrgInput/OrgInput.js');
 var TimeInput = require('components/TimeInput/TimeInput.js');
@@ -209,6 +210,11 @@ var SearchForm = {
 			var formModel = models[this.templateName].call(this);
 			console.log('*** SearchForm.generateFormModel: formModel generated:');
 			console.log(JSON.stringify(formModel));
+			
+			//Example of setting & getting formfield
+			FormFieldMemoryUtil.setMemory(formModel);
+			console.log(FormFieldMemoryUtil.getMemory());
+
 			return formModel;
 		},
 		/**
