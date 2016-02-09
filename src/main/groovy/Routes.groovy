@@ -63,7 +63,7 @@ public class Routes implements SparkApplication {
         get("/api/2.0/technicalInfo",{ req, res -> Api.getTechnicalInfo(req, res) })
 
         /**
-         * Custom 500 Stub
+         * Custom 500 Stubb
          */
         exception(Exception, {e, request, response ->
             response.body(e.message + e.stackTrace);
