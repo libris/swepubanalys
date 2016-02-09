@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
  * Created by Theodor on 2016-01-08.
  */
 
-class DuplicateCandidateAdjudicator {
+class Deduplicator {
     static String prefix = """PREFIX swpa_d: <http://swepub.kb.se/SwePubAnalysis/data#>
                     PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
                     PREFIX mods_d: <http://swepub.kb.se/mods/data#>

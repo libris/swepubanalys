@@ -14,9 +14,9 @@ import spark.Response
 @Slf4j
 class InputValidator {
     static validateOrcid(Request request, Response response) {
-        def orcid = request.queryParams("orcid");
-        response.type("application/json");
-        return JsonOutput.toJson(OrcidValidator.validateOrcid(orcid));
+        def orcid = request.queryParams("orcid")
+        response.type("application/json")
+        return JsonOutput.toJson(OrcidValidator.validateOrcid(orcid))
 
     }
 
