@@ -3,7 +3,7 @@
 // Vendor
 var _assign = require('lodash/object/assign');
 // Utils
-var Authenticationutil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
+var AuthenticationUtil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
 var TechnicalInfoUtil = require('utils/TechnicalInfoUtil/TechnicalInfoUtil.js');
 // CSS modules
 var styles = _assign(
@@ -33,9 +33,14 @@ var SiteWrapperMixin = {
 
 	},
 	ready: function() {
+
+		AuthenticationUtil.authenticate(function(authenticated) {
+			console.log(authenticated);
+		});
+
 		TechnicalInfoUtil.getTechInfo(function(techinfo) {
 
-			console.log(techinfo);
+			//console.log(techinfo);
 		});
 		/*
 		// Authenticate

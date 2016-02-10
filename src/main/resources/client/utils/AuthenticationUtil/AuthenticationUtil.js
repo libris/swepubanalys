@@ -8,7 +8,16 @@ var AuthenticationUtil = {
 	 * Attempt to retreive user credentials from server
 	 */
 	authenticate: function(callback) {
-		callback(false);
+		$.ajax({
+			type: 'GET',
+			url: 'https://spfs.libris.kb.se/secure', 
+			success: function(response) {
+				callback(response);
+			},
+			error: function(response, e) {
+				callback({ error: e, response: response });
+			}
+		});
 	}
 };
 
