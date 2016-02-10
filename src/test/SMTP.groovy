@@ -1,14 +1,12 @@
+import Traits.ConfigConsumable
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import wslite.json.JSONObject
-import wslite.rest.ContentType
-import wslite.rest.RESTClient
 
 /**
  * Created by Theodor on 2015-10-23.
  */
-class SMTP {
+class SMTP implements ConfigConsumable  {
 
     @Before
     public void setUp() throws Exception {
@@ -21,15 +19,14 @@ class SMTP {
 
     @Test
     public void sendMail(){
-        def message = "hejjom svejjom"
-        def subject = "groovy sent this"
-        def toAddress = "theodor.tolstoy@kb.se" //; separerar flera adresser
-        def fromAddress = "groovy@buildseerver"
-        def host = "smtp.kb.se"
-        def port = "25"
+        String message = "hejjom svejjom"
+        String subject = "groovy sent this"
+        String toAddress = "theodor.tolstoy@kb.se" //; separerar flera adresser
+        String fromAddress = currentConfig().smtp.from
+        String host = currentConfig().smtp.host
+        String port = currentConfig().smtp.port
 
-        //.sendmail(message , subject, toAddress, fromAddress, host, port);
-        Clients.SMTP.simpleMail(toAddress, subject, message, host, port)
+        Clients.SMTP.simpleMail(fromAddress,toAddress, subject, message, host, port)
     }
 
 

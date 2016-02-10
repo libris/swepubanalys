@@ -64,3 +64,25 @@
        -moz-border-radius: 8px;
             border-radius: 8px;
 }
+.loading {
+	color: #595d61;
+	-webkit-animation-name: example; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+    animation-name: example;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+/* Chrome, Safari, Opera */
+@-webkit-keyframes example {
+    0%   {color: #595d61;}
+    50%  {color: #f0f2f6;}
+    100%  {color: #595d61;}
+}
+
+/* Standard syntax */
+@keyframes example {
+    0%   {color: #595d61;}
+    50%  {color: #f0f2f6;}
+    100%  {color: #595d61;}
+}
+

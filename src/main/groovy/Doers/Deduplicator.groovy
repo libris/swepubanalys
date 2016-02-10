@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
  * Created by Theodor on 2016-01-08.
  */
 
-class DuplicateCandidateAdjudicator {
+class Deduplicator {
     static String prefix = """PREFIX swpa_d: <http://swepub.kb.se/SwePubAnalysis/data#>
                     PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
                     PREFIX mods_d: <http://swepub.kb.se/mods/data#>
@@ -81,7 +81,7 @@ class DuplicateCandidateAdjudicator {
 
     static String getIdentifierValue(String uriRecord) {
         def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
-        VirtGraph graph = getGraph(config.virtuoso.jdbcUser.confic.virtuoso.jdbcPwd);
+        VirtGraph graph = getGraph(config.virtuoso.jdbcUser,config.virtuoso.jdbcPwd);
         ResultSet rs;
         String sparql;
         String sparqlTemplate = """
@@ -96,7 +96,7 @@ class DuplicateCandidateAdjudicator {
                                 ?Identifier mods_m:type ?_type .
                                 ?Identifier mods_m:identifierValue ?_identifierValue .
                                 ?Identifier mods_m:type "uri"^^xsd:string .}""";
-        sparql = sparqlTemplate.replace("_RECORD_URI_", mods_data_ns + uriRecord);
+        sparql = sparqlTemplate.replace("_RECORD_URI_",mods_data_ns + uriRecord);
         QueryExecution qe = VirtuosoQueryExecutionFactory.create(sparql, graph);
         try {
             rs = qe.execSelect();

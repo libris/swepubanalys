@@ -1,5 +1,7 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
+import java.nio.charset.Charset
+
 import static java.util.UUID.randomUUID
 
 configurations {
@@ -95,14 +97,27 @@ task CopyMissingFonts(type: Copy) {
     into('src/main/resources/public/2.0/vendor/kungbib-styles/dist/fonts')
 }
 
+
 task webpack(type: Exec) {
     def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'webpack.cmd' : 'webpack'
+        standardOutput = new ByteArrayOutputStream()
+        if (project.environment == 'prod')
+            commandLine mainCommand, '-p'
+        else
+            commandLine mainCommand
 
-    if (project.environment == 'prod')
-        commandLine mainCommand, '-p'
-    else
-        commandLine mainCommand
+    doLast {
+        String output = standardOutput.toString()
+
+        if(output.readLines().any{line->line.trim().toLowerCase().startsWith("error")}) {
+            throw new GradleException("Error in WebPack: \n${output}")
+        } else {
+            println "Great success! Output is: ${output}"
+        }
+    }
+
 }
+
 
 task npmInstall(type: Exec) {
     def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'npm.cmd' : 'npm'
@@ -119,14 +134,26 @@ task(runWebApp, dependsOn: 'classes', type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     main = 'Routes'
 }
-task downloadJarsToLibs(){
+task downloadJarsToLibs() {
+    def dir = new File('libs')
+    if (!dir.exists()) {
+        new File('libs').mkdir()
+    }
     def f = new File('libs/virt_jena2.jar')
     if (!f.exists()) {
-        new URL('http://opldownload.s3.amazonaws.com/uda/virtuoso/7.2/rdfproviders/jena/210/virt_jena2.jar').withInputStream{ i -> f.withOutputStream{ it << i }}
+        new URL('http://opldownload.s3.amazonaws.com/uda/virtuoso/7.2/rdfproviders/jena/210/virt_jena2.jar').withInputStream { i ->
+            f.withOutputStream {
+                it << i
+            }
+        }
     }
     f = new File('libs/virtjdbc4.jar')
     if (!f.exists()) {
-        new URL('http://opldownload.s3.amazonaws.com/uda/virtuoso/7.2/jdbc/virtjdbc4.jar').withInputStream{ i -> f.withOutputStream{ it << i }}
+        new URL('http://opldownload.s3.amazonaws.com/uda/virtuoso/7.2/jdbc/virtjdbc4.jar').withInputStream { i ->
+            f.withOutputStream {
+                it << i
+            }
+        }
     }
 }
 

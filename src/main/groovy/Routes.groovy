@@ -1,3 +1,4 @@
+import Controllers.APIs.Deduplicator
 import Controllers.APIs.InputValidator
 import Controllers.Api
 import Controllers.Beta
@@ -49,6 +50,7 @@ public class Routes implements SparkApplication {
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
+        post("/api/2.0/deduplication/adjudicate", { req, res -> Deduplicator.adjudicate(req,res) })
         get("/api/2.0/publicationYearSpan", { req, res -> InputValidator.publicationYearSpan(res) })
         get("/api/2.0/dataqualityvalidations", { req, res -> Api.getDataQualityViolations(res) })
         get("/api/2.0/elastic/stats", { req, res -> Api.getStats(res) })
@@ -61,7 +63,7 @@ public class Routes implements SparkApplication {
         get("/api/2.0/technicalInfo",{ req, res -> Api.getTechnicalInfo(req, res) })
 
         /**
-         * Custom 500 Stub
+         * Custom 500 Stubb
          */
         exception(Exception, {e, request, response ->
             response.body(e.message + e.stackTrace);

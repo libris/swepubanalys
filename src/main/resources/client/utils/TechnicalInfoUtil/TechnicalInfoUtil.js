@@ -13,7 +13,7 @@ var TechnicalInfoUtil = {
 			type: 'GET',
 			url: '/api/2.0/technicalInfo', 
 			success: function(response) {
-				callback(response);				
+				callback(response);		
 			},
 			error: function(response, e) {
 				callback({ error: e, response: response });
