@@ -45,10 +45,7 @@ var SiteWrapperMixin = {
 
 	},
 	ready: function() {
-		AuthenticationUtil.authenticate(function(authenticated) {
-			console.log(authenticated);
-		});
-
+		
 		TechnicalInfoUtil.getTechInfo(function(techinfo) {
 
 			//console.log(techinfo);
@@ -69,7 +66,14 @@ var SiteWrapperMixin = {
 	methods: {
 		init: function() {
 			
+		},
+		checkLoggedInStatus: function() {
+			AuthenticationUtil.authenticate(function(authenticated) {
+				console.log(authenticated);
+			});
+
 		}
+
 	}
 };
 

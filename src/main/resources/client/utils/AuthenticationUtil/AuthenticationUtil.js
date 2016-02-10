@@ -1,5 +1,6 @@
 'use strict'
-
+//Vendor
+var $ = require('jquery');
 /**
  * This utility module is used to ask the server if a user is logged in
  */
@@ -13,6 +14,10 @@ var AuthenticationUtil = {
 			url: '/api/2.0/security', 
 			success: function(response) {
 				//https://spfs.libris.kb.se/secure
+				if (response.isLoggedIn === false) {
+					var url = '/secure?return=';
+					$(location).attr('href', url + window.location.href);
+				}
 				callback(response);
 			},
 			error: function(response, e) {
