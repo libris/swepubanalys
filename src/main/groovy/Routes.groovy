@@ -31,7 +31,7 @@ public class Routes implements SparkApplication {
         post("/ladda-ner-fil", { req, res -> Beta.preview(req, res) }, templateEngine)
         get("/bibliometri", { req, res -> new ModelAndView(Bibliometrician.index(req, res), "bibliometrician.mustache") }, templateEngine)
         get("/databearbetning", { req, res -> new ModelAndView(Inspector.index(req, res), "inspector.mustache") }, templateEngine)
-        get("/secure", { req, res -> new ModelAndView(Security.index(req, res), "secure.mustache") }, templateEngine)
+        get("/secure", { req, res ->  Security.index(req, res) }, templateEngine)
 
         /**
          * Redirects

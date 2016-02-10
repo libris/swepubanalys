@@ -1,10 +1,12 @@
 package Controllers
+
+import spark.ModelAndView
 import spark.Request
 import spark.Response
 
 class Security {
 
-    static Map index(final Request request, final Response response) {
+    static index(final Request request, final Response response) {
 
         if (request.headers("persistent-id") && request.headers("persistent-id").startsWith("https://")) {
             request.session(true)
@@ -18,18 +20,27 @@ class Security {
             request.session().attribute("loggedIn", false)
         }
 
-        return [
-                pageTitle        : "säkert",
-                headers          : request.headers().collect {
-                    it -> [it, request.headers(it)]
-                },
-                sessionAttributes: request.session().attribute("userId"),
-                params           : request.params().collect {
-                    it -> [it, request.params(it)]
-                }
+        if(request.queryParams("return")){
+            response.redirect(request.queryParams("return"))
+        }
+        else{
+            def map  = [
+                    pageTitle        : "säkert",
+                    headers          : request.headers().collect {
+                        it -> [it, request.headers(it)]
+                    },
+                    sessionAttributes: request.session().attribute("userId"),
+                    params           : request.params().collect {
+                        it -> [it, request.params(it)]
+                    }
 
 
-        ]
+            ]
+            new ModelAndView(map, "secure.mustache")
+        }
+
+
+
     }
 
 
