@@ -62,6 +62,7 @@ var SiteWrapperMixin = {
 			if (authenticated.isLoggedIn) {
 				this.$set('authenticated', true);
 				this.$set('userModel', authenticated);
+				console.log(authenticated);
 			}	
 		}.bind(this));
 
