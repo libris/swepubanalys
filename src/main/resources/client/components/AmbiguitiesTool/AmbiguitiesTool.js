@@ -47,9 +47,7 @@ var AmbiguitiesTool = {
 			this.$set('query', query);
 		},
 		onClickExternal: function() {
-
-			//console.log(SearchForm.methods.getFormModel);
-			console.log(SearchForm.data().fields);
+			localStorage.setItem('externalPass', true);
 		}
 	}
 };

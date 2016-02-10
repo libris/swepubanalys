@@ -212,10 +212,14 @@ var SearchForm = {
 			console.log('*** SearchForm.generateFormModel: formModel generated:');
 			console.log(JSON.stringify(formModel));
 			this.$set('fieldMemory', formModel);
-			console.log(this);
+
 			//Example of setting & getting formfield
-			//FormFieldMemoryUtil.setMemory(formModel);
-			//console.log(FormFieldMemoryUtil.getMemory());
+			FormFieldMemoryUtil.setMemory(formModel);
+			var externalPass = localStorage.getItem('externalPass');
+			if (externalPass === 'true') {
+				localStorage.setItem('externalPass', false);
+				console.log(FormFieldMemoryUtil.getMemory());
+			}
 
 			return formModel;
 		},
