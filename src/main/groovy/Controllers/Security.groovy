@@ -22,24 +22,24 @@ class Security {
 
             if (request.queryParams("return")) {
                 response.redirect(request.queryParams("return"))
-            } else {
-                def map = [
-                        pageTitle        : "säkert-uppdaterad",
-                        headers          : request.headers().collect {
-                            it -> [it, request.headers(it)]
-                        },
-                        sessionAttributes: request.session().attribute("userId"),
-                        params           : request.params().collect {
-                            it -> [it, request.params(it)]
-                        }
-
-
-                ]
-                new ModelAndView(map, "secure.mustache")
             }
+            def map = [
+                    pageTitle        : "säkert-uppdaterad",
+                    headers          : request.headers().collect {
+                        it -> [it, request.headers(it)]
+                    },
+                    sessionAttributes: request.session().attribute("userId"),
+                    params           : request.params().collect {
+                        it -> [it, request.params(it)]
+                    }
+
+
+            ]
+            new ModelAndView(map, "secure.mustache")
+
         }
         catch (all) {
-            new ModelAndView([pageTitle: "säkert-uppdaterad", error:all.message], "secure.mustache")
+            new ModelAndView([pageTitle: "säkert-uppdaterad", error: all.message], "secure.mustache")
         }
 
 
