@@ -8,7 +8,9 @@ var $ = require('jquery');
 var TechInfoWindow = require('components/TechInfoWindow/TechInfoWindow.js');
 
 // Utils
-var Authenticationutil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
+var AuthenticationUtil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
+var TechnicalInfoUtil = require('utils/TechnicalInfoUtil/TechnicalInfoUtil.js');
+
 // CSS modules
 var styles = _assign(
 	require('./SiteWrapper.css'), 
@@ -43,7 +45,11 @@ var SiteWrapperMixin = {
 
 	},
 	ready: function() {
-		this.init();
+		
+		TechnicalInfoUtil.getTechInfo(function(techinfo) {
+
+			//console.log(techinfo);
+		});
 		/*
 		// Authenticate
 		Authenticationutil.authenticate(function(authenticated, userModel) {
@@ -60,7 +66,14 @@ var SiteWrapperMixin = {
 	methods: {
 		init: function() {
 			
+		},
+		checkLoggedInStatus: function() {
+			AuthenticationUtil.authenticate(function(authenticated) {
+				console.log(authenticated);
+			});
+
 		}
+
 	}
 };
 

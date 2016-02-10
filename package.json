@@ -9,6 +9,7 @@
     "mustache": "^2.2.1",
     "q": "^1.4.1",
     "thenby": "1.1.3",
+    "vue-ui": "^0.1.3",
     "webpack": "^1.12.2"
   },
   "devDependencies": {
