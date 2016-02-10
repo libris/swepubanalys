@@ -10,8 +10,9 @@ var AuthenticationUtil = {
 	authenticate: function(callback) {
 		$.ajax({
 			type: 'GET',
-			url: 'https://spfs.libris.kb.se/secure', 
+			url: '/api/2.0/security', 
 			success: function(response) {
+				//https://spfs.libris.kb.se/secure
 				callback(response);
 			},
 			error: function(response, e) {
