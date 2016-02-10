@@ -1,11 +1,15 @@
 <div id="swepub-app" class="{{ $data._styles.SiteWrapper }}">
 	<div class="row {{ $data._styles.MenuBar }}">
 		<div class="col-md-6">
+			<button v-if="authenticated === false" v-on:click="checkLoggedInStatus" >
+				Logga in
+			</button>
+			<div v-else>
+				Hej {{userModel.userName}}
+			</div>
 		</div>
 		<div class="col-md-6">
 			<div class="row">
-				<button v-on:click="checkLoggedInStatus">
-				</button>
 				<div class="col-xs-3 {{ $data._styles.MenuItem }} {{ $data._styles.LightBlueBackground }}">
 					<a href="/bibliometriker">BIBLIOMETRI</a>
 				</div>
