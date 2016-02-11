@@ -143,7 +143,8 @@ var SearchResult = {
 				SparqlUtil.generateQuery({
 					limit: false,
 					formModel: formModel
-				}, function(query) {
+				}, 
+				function(query) {
 					this.$set('query', query);
 					if(this.onGenerateQuery) {
 						this.onGenerateQuery(query);
