@@ -1,2 +1,2 @@
 Här söker du fram en lista med samarbetspublikationer som innehåller motstridiga metadata för export och lokal åtgärd.  
-Posterna måste rättas för att utgöra underlag för kvalitetssäkrade uttag.
+Motstridigheter måste åtgärdas för att posterna ska utgöra underlag för kvalitetssäkrade uttag.
