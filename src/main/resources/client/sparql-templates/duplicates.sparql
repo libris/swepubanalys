@@ -7,8 +7,9 @@ SELECT
 ?_total_match_weight #Viktning
 ?_uri1 #Länk till post 1
 ?_uri2 #Länk till post 2
-?_id1 #Record 1 ID
-?_id2 #Record 2 ID
+?Record1 #Record 1 ID
+?Record2 #Record 2 ID
+
 WHERE
 {
 ?Record1 mods_m:hasMods ?Mods1 .
