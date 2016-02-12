@@ -148,19 +148,39 @@ class Deduplicator {
     }
 
     static String getRepositoryHtml(String recordId){
-        String uri = recordId//'http://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-107564'
+        String uri = recordId //'http://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-107564'
         def client =  new RESTClient(uri)
         def response = client.get(
+                followRedirects:false,
                 accept: ContentType.HTML,
                 path: '')
+        //return response.headers.location
+
+        if(302 == response.statusCode){
+            client.url = response.headers.location
+            response = client.get(
+                    followRedirects:false,
+                    accept: ContentType.HTML,
+                    path: '')
+        }
+        if(302 == response.statusCode){
+            client.url = response.headers.location
+            response = client.get(
+                    followRedirects:false,
+                    accept: ContentType.HTML,
+                    path: '')
+        }
         assert 200 == response.statusCode
         String text = response.text
-        if(text.indexOf("<HEAD>")>=0){
+        if(text.indexOf("<HEAD>")>-1){
            text =  text.replace("<HEAD>","<HEAD><base href=\"${response.url}\">")
         }
-        else
+        else if(text.indexOf("<head>")>-1)
         {
             text = text.replace("<head>","<head><base href=\"${response.url}\">")
+        }
+        else {
+            throw new Exception("Page ")
         }
         return text
     }
