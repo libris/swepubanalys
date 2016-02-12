@@ -14,10 +14,10 @@
 					<thead class="{{ $data._styles.Thead }} background-main" style="table-layout: initial;">
 						<!-- Top row -->
 						<th class="{{ $data._styles.Th }} {{ $data._styles.Col1 }}">
-							<p>ORGANISATION</p>
+							<p>POST 1</p>
 						</th>
 						<th class="{{ $data._styles.Th }} {{ $data._styles.Col2 }}">
-							<p>ORGANISATION</p>
+							<p>POST 2</p>
 						</th>
 					</thead>
 					<tbody class="{{ $data._styles.Tbody }} background-light" v-on:scroll="onScrollTbody" v-el:t-body>
@@ -28,20 +28,23 @@
 								transition="expand">
 							<tr class="{{ $parent.$data._styles.DarkRow }} {{ $parent.$data._styles.Td }}">
 								<td class="{{ $parent.$data._styles.Col1 }}">
-									<p>{{ article._orgCode1 ? article._orgCode1.value.toUpperCase() : '' }}</p>
+									<p>{{ mapName(article._orgCode1) }}</p>
 									<p>{{ article._id1 ? article._id1.value : '' }}</p>
 								</td>
 								<td class="{{ $parent.$data._styles.Col2 }}">
 									<div style="position: relative">
-										<p>{{ article._orgCode1 ? article._orgCode2.value.toUpperCase() : '' }}</p>
+										<p>{{ mapName(article._orgCode2) }}</p>
 										<p>{{ article._id1 ? article._id2.value : '' }}</p>
 										<div class="{{ $parent.$data._styles.ExpandButtonContainer }}">
-											<button v-on:click="setHandleArticle(article)" class="btn btn-sm btn-info" style="border-radius: 0px;">
+											<a v-on:click="setHandleArticle(article)"  style="text-decoration: none; border-radius: 0px;">
+												<span v-if="article.show !== true">Visa</span>
+												<span v-else>Dölj</span>
 												<i 
 													class="fa" 
-													v-bind:class="{ 'fa-expand': article.show !== true, 'fa-compress': article.show === true }">
+													v-bind:class="{ 'fa-expand': article.show !== true, 'fa-compress' : article.show === true }"
+													style="margin-left:6px;">
 												</i>
-											</button>
+											</a>
 										</div>
 									</div>
 								</td>
@@ -58,10 +61,10 @@
 								</template>
 							</tr>
 							<!-- Ambiguities -->
-							<tr v-if="article.show" transition="expand" class="{{ $data._styles.LightRow }}">
+							<tr  v-if="article.show" transition="expand" class="{{ $parent.$data._styles.DarkRow }}">
 								<template v-if="!article.loading">
 									<td colpan="3">
-										<p><b>MOTSTRIDIGHETER</b></p>
+										<!--p><b>MOTSTRIDIGHETER</b></p>
 										<p>
 											<span 
 												class="label label-danger" 
@@ -70,12 +73,12 @@
 												title="{{ ambiguity.violatingData }}">
 												{{ ambiguity.type.toUpperCase() }}
 											</span>
-										</p>
+										</p-->
 									</td>
 								</template>
 							</tr>
 							<!-- Iframes -->
-							<tr v-if="article.show" transition="expand" class="{{ $data._styles.LightRow }}">
+							<tr v-if="article.show" transition="expand" style="" class="{{ $data._styles.DarkRowRow }}">
 								<template v-if="!article.loading">
 									<td class="{{ $parent.$data._styles.Col1 }}">
 										<div class="{{ $parent.$data._styles.WindowContainer }}">

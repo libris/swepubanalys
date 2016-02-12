@@ -8,7 +8,7 @@ import wslite.rest.RESTClient
  * Created by Theodor on 2016-02-02.
  */
 class GitHub {
-    static getReleases() {
+    static Map getReleases() {
         try {
             def restClient = new RESTClient('https://api.github.com')
             def response = restClient.get(
@@ -17,10 +17,17 @@ class GitHub {
             assert 200 == response.statusCode
             assert response != null
             assert response.json instanceof JSONArray
-            return response.json
+
+            return [releases:response.json.collect { it ->
+                [tag         : it?.tag_name ?: "",
+                 name        : it?.name ?: "",
+                 published_at: it?.published_at ?: "",
+                 url         : it?.url ?: ""]
+            }]
+
         }
         catch (all) {
-            return new JSONArray()
+            return [releaseInfo:[], errorMessage:all.message]
         }
 
     }

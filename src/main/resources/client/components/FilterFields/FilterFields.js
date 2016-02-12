@@ -64,7 +64,8 @@ var FilterFields = {
 		SearchFormUtil.getFilterFieldGroups(function(filterFieldGroups) {
 			this.filterFieldGroups = filterFieldGroups;
 		}.bind(this));
-		// Initialize help
+		// Initialize help, add in the htlm to activate
+		/*
 		this.initHelp({
 			title: 'FRAKTIONERAD DATA',
 			content: require('docs/fractionated_data.md'),
@@ -73,6 +74,7 @@ var FilterFields = {
 			marginLeft: '3px',
 			marginTop: '-15px'
 		});
+		*/
 	}
 };
 

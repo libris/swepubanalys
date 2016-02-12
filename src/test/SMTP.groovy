@@ -21,15 +21,17 @@ class SMTP {
 
     @Test
     public void sendMail(){
+        URL url = SMTP.getClassLoader().getResource("config.groovy");
+        def config = new ConfigSlurper().parse(SparqlResultExporter.getClassLoader().getResource("config.groovy"))
+
         def message = "hejjom svejjom"
         def subject = "groovy sent this"
         def toAddress = "theodor.tolstoy@kb.se" //; separerar flera adresser
-        def fromAddress = "groovy@buildseerver"
-        def host = "smtp.kb.se"
-        def port = "25"
+        def fromAddress = config.smtp.from
+        def host = config.smtp.host
+        def port = config.smtp.port
 
-        //.sendmail(message , subject, toAddress, fromAddress, host, port);
-        Clients.SMTP.simpleMail(toAddress, subject, message, host, port)
+        Clients.SMTP.simpleMail(fromAddress,toAddress, subject, message, host, port)
     }
 
 

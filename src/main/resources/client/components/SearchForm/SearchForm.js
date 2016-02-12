@@ -7,6 +7,7 @@ var _sortBy = require('lodash/collection/sortBy');
 var _max = require('lodash/math/max');
 // Utils
 var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
+var FormFieldMemoryUtil = require('utils/FormFieldMemoryUtil/FormFieldMemoryUtil.js');
 // Components
 var OrgInput = require('components/OrgInput/OrgInput.js');
 var TimeInput = require('components/TimeInput/TimeInput.js');
@@ -40,6 +41,7 @@ var SearchForm = {
 			// Data which will possibly be used onSearch
 			templateName: this.defaultTemplate || 'QfBibliometrics',
 			fields: getDefaultFields.call(this),
+			fieldMemory: {},
 			// CSS-modules
 			_styles: styles
 		}
@@ -84,6 +86,7 @@ var SearchForm = {
 		}
 	},
 	ready: function() {
+		
 		// Get and set form tests
 		SearchFormUtil.getFormTests(function(formTests) {
 			this.$set('formTests', formTests);
@@ -102,10 +105,13 @@ var SearchForm = {
 			if(formSuggestions.output) {
 				this.$set('fields.output.suggestions', formSuggestions.output);
 			}
+
 		}.bind(this));
 		// Apply on-change listener and trigger on-change once
 		if(this.onChange) {
 			var formData = this.generateFormData();
+			//check if the user has been to another site through a href
+
 			this.onChange(formData);
 			this.$watch('fields', function() {
 				var formData = this.generateFormData();
@@ -209,6 +215,19 @@ var SearchForm = {
 			var formModel = models[this.templateName].call(this);
 			console.log('*** SearchForm.generateFormModel: formModel generated:');
 			console.log(JSON.stringify(formModel));
+			this.$set('fieldMemory', formModel);
+
+			//One setting memory of formfield
+			var externalPass = localStorage.getItem('externalPass');
+			if(externalPass === 'false') {
+				FormFieldMemoryUtil.setMemory(formModel);
+			}
+			else {
+
+				var schoolOrg = FormFieldMemoryUtil.getMemory().org;
+				setTimeout(function() { this.$broadcast('set-org-value', schoolOrg); }.bind(this), 1000);
+				localStorage.setItem('externalPass', false);
+			}
 			return formModel;
 		},
 		/**
@@ -226,7 +245,7 @@ var SearchForm = {
 				}
 			}
 			return valid;
-		}
+		},
 	}
 };
 
