@@ -86,6 +86,7 @@ var SearchForm = {
 		}
 	},
 	ready: function() {
+		
 		// Get and set form tests
 		SearchFormUtil.getFormTests(function(formTests) {
 			this.$set('formTests', formTests);
@@ -104,10 +105,13 @@ var SearchForm = {
 			if(formSuggestions.output) {
 				this.$set('fields.output.suggestions', formSuggestions.output);
 			}
+
 		}.bind(this));
 		// Apply on-change listener and trigger on-change once
 		if(this.onChange) {
 			var formData = this.generateFormData();
+			//check if the user has been to another site through a href
+
 			this.onChange(formData);
 			this.$watch('fields', function() {
 				var formData = this.generateFormData();
@@ -213,14 +217,17 @@ var SearchForm = {
 			console.log(JSON.stringify(formModel));
 			this.$set('fieldMemory', formModel);
 
-			//Example of setting & getting formfield
-			FormFieldMemoryUtil.setMemory(formModel);
+			//One setting memory of formfield
 			var externalPass = localStorage.getItem('externalPass');
-			if (externalPass === 'true') {
-				localStorage.setItem('externalPass', false);
-				console.log(FormFieldMemoryUtil.getMemory());
+			if(externalPass === 'false') {
+				FormFieldMemoryUtil.setMemory(formModel);
 			}
+			else {
 
+				var schoolOrg = FormFieldMemoryUtil.getMemory().org;
+				setTimeout(function() { this.$broadcast('set-org-value', schoolOrg); }.bind(this), 1000);
+				localStorage.setItem('externalPass', false);
+			}
 			return formModel;
 		},
 		/**
@@ -238,7 +245,7 @@ var SearchForm = {
 				}
 			}
 			return valid;
-		}
+		},
 	}
 };
 
