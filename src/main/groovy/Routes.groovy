@@ -5,6 +5,7 @@ import Controllers.Beta
 import Controllers.Bibliometrician
 import Controllers.Inspector
 import Controllers.Security
+import groovy.transform.CompileStatic
 import spark.ModelAndView
 import static spark.Spark.*
 import spark.servlet.SparkApplication
@@ -40,7 +41,6 @@ public class Routes implements SparkApplication {
         get("/bibliometriker", { req, res -> res.redirect("/bibliometri") })
         get("/form", { req, res -> res.redirect("/bibliometri") })
         get("/granskare", { req, res -> res.redirect("/databearbetning") })
-        get("/logga-in", { req, res -> new ModelAndView(Security.Login(req, res), "Login.mustache") }, templateEngine)
         get("/qf/bibliometrics", { req, res -> res.redirect("/bibliometri") })
 
         /**
@@ -51,6 +51,7 @@ public class Routes implements SparkApplication {
         post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         post("/api/2.0/deduplication/adjudicate", { req, res -> Deduplicator.adjudicate(req,res) })
+        get("/api/2.0/deduplication/adjudicate", { req, res -> Deduplicator.getPreviouslyAdjudicated(req,res) })
         get("/api/2.0/publicationYearSpan", { req, res -> InputValidator.publicationYearSpan(res) })
         get("/api/2.0/dataqualityvalidations", { req, res -> Api.getDataQualityViolations(res) })
         get("/api/2.0/elastic/stats", { req, res -> Api.getStats(res) })
@@ -58,7 +59,7 @@ public class Routes implements SparkApplication {
         get("/api/2.0/validate/orcid", { req, res -> InputValidator.validateOrcid(req, res); })
         get("/api/2.0/data/query", { req, res -> Api.dataQuery(req, res) })
         post("/api/2.0/data/query", { req, res -> Api.dataQuery(req, res) })
-        get("/api/2.0/ambiguity/case", { req, res -> Api.AmbiguityCase(req, res) })
+        get("/api/2.0/ambiguity/case", { req, res -> Api.ambiguityCase(req, res) })
         get("/api/2.0/security",{ req, res -> Controllers.APIs.Security.getLoginStatus(req, res) })
         get("/api/2.0/technicalInfo",{ req, res -> Api.getTechnicalInfo(req, res) })
 

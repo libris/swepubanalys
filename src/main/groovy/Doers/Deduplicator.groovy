@@ -1,5 +1,6 @@
 package Doers
 
+import Clients.Virtuoso
 import com.hp.hpl.jena.query.QueryExecution
 import com.hp.hpl.jena.query.QuerySolution
 import com.hp.hpl.jena.query.ResultSet
@@ -145,5 +146,29 @@ class Deduplicator {
         return xsDateTime;
     }
 
+    static List getPreviouslyAdjudicated(String organization = "") {
+        try {
+            def sparql = Thread.currentThread().getContextClassLoader().getResource("sparqlQueries/previouslyAdjudicated.sparql").getText();
+            sparql = organization ? sparql.replace("#!!orgFilter!!", "").replace("!!Org!!", organization) : sparql
+            def resp = new Virtuoso().post(sparql, "application/json")
+            return resp.results.bindings.collect { it ->
+                [
+                        adjudication: it["CreativeWorkInstanceDuplicateAdjudication"].value,
+                        id1         : it["_identifierValue1"].value,
+                        id2: it["_identifierValue2"].value,
+                        isDuplicate: it["_isDuplicate"].value,
+                        comment: it["_comment"].value,
+                        org1 : it["_recordContentSourceValue1"].value,
+                        org2: it["_recordContentSourceValue2"].value,
+                        userName: it["_userName"].value
 
+
+
+                ]
+            }
+        }
+        catch(all){
+            return []
+        }
+    }
 }

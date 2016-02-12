@@ -1,5 +1,6 @@
 package Controllers
 
+import groovy.transform.CompileStatic
 import spark.ModelAndView
 import spark.Request
 import spark.Response
@@ -7,6 +8,7 @@ import spark.Response
 /**
  * Created by Theodor on 2015-10-01.
  */
+@CompileStatic
 class Beta {
 
     static ModelAndView index(final Request request, final Response response) {

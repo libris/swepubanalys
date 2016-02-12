@@ -12,19 +12,28 @@ class DuplicateCandidates {
     @Test
     void getGraphCorrectUser() {
         def config = new ConfigSlurper().parse(DuplicateCandidates.getClassLoader().getResource("config.groovy"))
-        def graph =  Doers.Deduplicator.getGraph((String)config.virtuoso.jdbcUser, (String)config.virtuoso.jdbcPwd)
+        def graph = Doers.Deduplicator.getGraph((String) config.virtuoso.jdbcUser, (String) config.virtuoso.jdbcPwd)
         assert graph
     }
 
     @Test
-    void crud(){
+    void crud() {
         def config = new ConfigSlurper().parse(DuplicateCandidates.getClassLoader().getResource("config.groovy"))
-        def graph =  Doers.Deduplicator.getGraph((String)config.virtuoso.jdbcUser, (String)config.virtuoso.jdbcPwd)
+        def graph = Doers.Deduplicator.getGraph((String) config.virtuoso.jdbcUser, (String) config.virtuoso.jdbcPwd)
         assert graph
         def id1 = Doers.Deduplicator.getIdentifierValue('http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-206294')
         def id2 = Doers.Deduplicator.getIdentifierValue('http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-81607')
         assert id1
         assert id2
+    }
+
+    @Test
+    void getPreviouslyAdjudicated() {
+        def nonFiltered = Doers.Deduplicator.getPreviouslyAdjudicated("").count{it}
+        assert nonFiltered > 0
+        def filtered = Doers.Deduplicator.getPreviouslyAdjudicated("du").count{it}
+        assert filtered < nonFiltered
+
     }
 
 }
