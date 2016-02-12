@@ -7,8 +7,6 @@ import virtuoso.jena.driver.VirtGraph
 import virtuoso.jena.driver.VirtuosoQueryExecutionFactory
 import virtuoso.jena.driver.VirtuosoUpdateFactory
 import virtuoso.jena.driver.VirtuosoUpdateRequest
-import wslite.rest.ContentType
-import wslite.rest.RESTClient
 
 import java.text.SimpleDateFormat
 
@@ -147,44 +145,5 @@ class Deduplicator {
         return xsDateTime;
     }
 
-    static String getRepositoryHtml(String recordId){
-        String uri = recordId //'http://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-107564'
-        def client =  new RESTClient(uri)
-        def response = client.get(
-                followRedirects:false,
-                accept: ContentType.HTML,
-                path: '')
-        //return response.headers.location
 
-        if(302 == response.statusCode){
-            client.url = response.headers.location
-            response = client.get(
-                    followRedirects:false,
-                    accept: ContentType.HTML,
-                    path: '')
-        }
-        if(302 == response.statusCode){
-            client.url = response.headers.location
-            response = client.get(
-                    followRedirects:false,
-                    accept: ContentType.HTML,
-                    path: '')
-        }
-        assert 200 == response.statusCode
-        String text = response.text
-        if(text.indexOf("<HEAD>")>-1){
-           text =  text.replace("<HEAD>","<HEAD><base href=\"${response.url}\">")
-        }
-        else if(text.indexOf("<head>")>-1)
-        {
-            text = text.replace("<head>","<head><base href=\"${response.url}\">")
-        }
-        else {
-            throw new Exception("Page ")
-        }
-        return text
-    }
-    /*static String getGetRepositoryUriFromRecord(String recordUri) {
-        def sparql =
-    }*/
 }

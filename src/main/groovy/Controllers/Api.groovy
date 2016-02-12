@@ -4,7 +4,6 @@ import Clients.Elasticsearch
 import Clients.GitHub
 import Clients.Virtuoso
 import Doers.AmbiguityCase
-import Doers.Deduplicator
 import Doers.SparqlResultExporter
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
@@ -70,10 +69,4 @@ class Api {
         return new JsonBuilder(mapToReturn).toPrettyString()
     }
 
-    static def getGetRepositoryHTML(Request request, Response response) {
-        response.type("text/html")
-        assert request.queryParams("recordId")
-        //String uri = Virtuoso.getUriFromRecord(request.queryParams("recordId"))
-        return Deduplicator.getRepositoryHtml(request.queryParams("recordId"))
-    }
 }

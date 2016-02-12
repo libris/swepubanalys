@@ -61,7 +61,7 @@ public class Routes implements SparkApplication {
         get("/api/2.0/ambiguity/case", { req, res -> Api.AmbiguityCase(req, res) })
         get("/api/2.0/security",{ req, res -> Controllers.APIs.Security.getLoginStatus(req, res) })
         get("/api/2.0/technicalInfo",{ req, res -> Api.getTechnicalInfo(req, res) })
-        get("/api/2.0/repositoryHtml",{req,res -> Api.getGetRepositoryHTML(req,res)})
+
         /**
          * Custom 500 Stubb
          */
