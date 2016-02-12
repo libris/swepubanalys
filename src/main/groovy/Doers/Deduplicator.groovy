@@ -7,6 +7,8 @@ import virtuoso.jena.driver.VirtGraph
 import virtuoso.jena.driver.VirtuosoQueryExecutionFactory
 import virtuoso.jena.driver.VirtuosoUpdateFactory
 import virtuoso.jena.driver.VirtuosoUpdateRequest
+import wslite.rest.ContentType
+import wslite.rest.RESTClient
 
 import java.text.SimpleDateFormat
 
@@ -23,14 +25,12 @@ class Deduplicator {
     static String mURIadjudicationGraph = "http://swepub.kb.se/analysis/adjudication/data#graph"
 
     static
-    def saveDuplicateCase(boolean samePublication, String record1Id, String record2Id, String comment, String userId) {
+    def saveDuplicateCase(boolean samePublication, String uriRecord1, String uriRecord2, String comment, String userId) {
         //TODO: requires logged in user
         def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
         //TODO:Check if this needs to be a local user
         VirtGraph graph = getGraph(config.virtuoso.jdbcUser.confic.virtuoso.jdbcPwd);
-        String uriRecord1 = mods_data_ns + record1Id;
-        String uriRecord2 = mods_data_ns + record2Id;
-        String uri = "swpa_d:Adjudication__" + record1Id + "_" + record2Id + "_" + userId;
+        String uri = "swpa_d:Adjudication__" + uriRecord1.substring(31, 1000) + "_" + uriRecord2.substring(31, 1000) + "_" + userId;
         String time = "\"${convertDateToXMLType(new Date(System.currentTimeMillis()))} \"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         String sparqlTemplate = """${prefix}
                                         INSERT INTO <${mURIadjudicationGraph}>
@@ -81,7 +81,7 @@ class Deduplicator {
 
     static String getIdentifierValue(String uriRecord) {
         def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
-        VirtGraph graph = getGraph(config.virtuoso.jdbcUser,config.virtuoso.jdbcPwd);
+        VirtGraph graph = getGraph(config.virtuoso.jdbcUser, config.virtuoso.jdbcPwd);
         ResultSet rs;
         String sparql;
         String sparqlTemplate = """
@@ -96,7 +96,7 @@ class Deduplicator {
                                 ?Identifier mods_m:type ?_type .
                                 ?Identifier mods_m:identifierValue ?_identifierValue .
                                 ?Identifier mods_m:type "uri"^^xsd:string .}""";
-        sparql = sparqlTemplate.replace("_RECORD_URI_",mods_data_ns + uriRecord);
+        sparql = sparqlTemplate.replace("_RECORD_URI_", mods_data_ns + uriRecord);
         QueryExecution qe = VirtuosoQueryExecutionFactory.create(sparql, graph);
         try {
             rs = qe.execSelect();
@@ -107,10 +107,8 @@ class Deduplicator {
         }
     }
     //TODO: user must be logged in
-    static ArrayList getPreviouslyAdjudicated(String record1, String record2) {
+    static ArrayList getPreviouslyAdjudicated(String uriRecord1, String uriRecord2) {
         def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
-        String uriRecord1 = mods_data_ns + record1;
-        String uriRecord2 = mods_data_ns + record2;
         String sparql = """PREFIX mods_m: <http://swepub.kb.se/mods/model#>
                         PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
                         SELECT DISTINCT ?Is_same_publication ?Is_same_creative_work xsd:date(?time) as ?when ?adjudicator WHERE {
@@ -139,23 +137,6 @@ class Deduplicator {
         return result
     }
 
-    static public String readFile(File file) {
-        // Load from file
-        long fileSize = file.length();
-        byte[] bytes = new byte[(int) fileSize];
-        FileInputStream fis;
-        String content = new String(bytes);
-        try {
-            fis = new FileInputStream(file);
-            fis.read(bytes);
-            content = new String(bytes, "UTF-8");
-            fis.close();
-        } catch (Exception e) {
-            content = null;
-        }
-        return content;
-    }
-
     static String convertDateToXMLType(Date date) {
         // xs:dateTime format yyyy-mm-ddThh:mm:ss
         String xsDateTime;
@@ -165,4 +146,25 @@ class Deduplicator {
         xsDateTime = formatter.format(date);
         return xsDateTime;
     }
+
+    static String getRepositoryHtml(String recordId){
+        String uri = recordId//'http://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-107564'
+        def client =  new RESTClient(uri)
+        def response = client.get(
+                accept: ContentType.HTML,
+                path: '')
+        assert 200 == response.statusCode
+        String text = response.text
+        if(text.indexOf("<HEAD>")>=0){
+           text =  text.replace("<HEAD>","<HEAD><base href=\"${response.url}\">")
+        }
+        else
+        {
+            text = text.replace("<head>","<head><base href=\"${response.url}\">")
+        }
+        return text
+    }
+    /*static String getGetRepositoryUriFromRecord(String recordUri) {
+        def sparql =
+    }*/
 }

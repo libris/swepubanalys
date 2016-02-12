@@ -73,7 +73,7 @@ if (settings.index) {
         orgs.eachParallel { orgCode ->
             try {
                 //def orgCode = "kth"
-                getTurtle([
+              /*  getTurtle([
                         sparqlQuery      : qualitySparql,
                         elasticEndpoint  : settings.elasticEndpoint,
                         sparqlEndpoint   : settings.sparqlEndpoint,
@@ -85,7 +85,7 @@ if (settings.index) {
                         qualityViolations: qualityViolations,
                         fileStore        : settings.fileStore,
                         index            : settings.index
-                ])
+                ])*/
 
                 getTurtle([
                         sparqlQuery      : bibliometricianSparql,
