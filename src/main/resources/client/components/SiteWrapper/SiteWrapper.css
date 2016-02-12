@@ -8,7 +8,16 @@
 	padding-top: 40px; 
 	margin-bottom: 0px;
 }
-
+.TopInfo {
+	padding: 15px 0px 15px 45px;
+}
+.TopInfo a {
+	color: #333;
+}
+.TopInfo a:hover {
+	cursor: pointer;
+	color: #333;
+}
 .MenuBar {
 	background: #efefef;
 }
@@ -68,11 +77,3 @@
 	color: black;
 	font-size: x-large;
 }
-
-
-
-
-
-
-
-

@@ -1,11 +1,15 @@
 <div id="swepub-app" class="{{ $data._styles.SiteWrapper }}">
 	<div class="row {{ $data._styles.MenuBar }}">
 		<div class="col-md-6">
-			<button v-if="authenticated === false" v-on:click="checkLoggedInStatus" >
-				Logga in
-			</button>
-			<div v-else>
-				Hej {{userModel.userName}}
+			<div class="{{ $data._styles.TopInfo }}">
+				<a v-if="authenticated === false" v-on:click="checkLoggedInStatus" >
+					Logga in
+				</a>
+				<span v-else>
+					<i class="fa fa-fw fa-user"></i> {{userModel.userName}}
+				</span>
+				<tech-info-window>
+				</tech-info-window>
 			</div>
 		</div>
 		<div class="col-md-6">
@@ -42,8 +46,6 @@
 				</td>
 			</tr>
 		</table>
-		<tech-info-window>
-		</tech-info-window>
 	</div>
 	<div class="{{ $data._styles.Content }}">
 		<slot></slot>
