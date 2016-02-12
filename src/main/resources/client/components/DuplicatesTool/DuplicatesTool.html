@@ -1,13 +1,13 @@
-<div class="{{ $data._styles.AmbiguitiesTool }}">
+<div class="{{ $data._styles.DuplicatesTool }}">
 	<!-- Head -->
 	<div>
-		<h2>SAMARBETSPUBLIKATIONER</h2>
+		<h2>DUBBLETTKANDIDATER</h2>
 	</div>
 	<div>
 		<div class="row">
 			<div class="col-xs-8">
 				<p>
-					Valda publikationsposter innehåller motstridiga metadata. Dessa behöver följas upp för att posterna ska tas med i datauttag för analyser på nationell nivå
+					<match-weight-help></match-weight-help>
 				</p>
 			</div>
 			<div class="col-xs-4">
@@ -35,12 +35,12 @@
 		<!-- Tab content -->
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="raw-list">
-				<ambiguities-list 
+				<duplicates-list 
 						:form-model="formModel" 
 						:fields="fields" 
 						:on-result-received.once="onResultReceived"
 						:on-generate-query="onGenerateQuery">
-				</ambiguities-list>
+				</duplicates-list>
 			</div>
 			<div role="tabpanel" class="tab-pane active" id="flagged-other" v-if="isLoggedIn"></div>
 		</div>

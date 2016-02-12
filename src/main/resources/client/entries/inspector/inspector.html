@@ -171,7 +171,7 @@
 					<div slot="SearchResultDescription"></div>
 				</search-result>
 				<!-- Local duplicates activity -->
-				<search-result 
+				<!-- <search-result 
 						v-if="activity === 'LOCAL_DUPLICATES'" 
 						:form-model="formData.formModel" 
 						:fields="formData.fields" 
@@ -185,7 +185,14 @@
 							<match-weight-help></match-weight-help>
 						</p>
 					</div>
-				</search-result>
+				</search-result> -->
+				<duplicates-tool
+					v-if="activity === 'LOCAL_DUPLICATES'"
+					:form-model="formData.formModel"
+					:fields="formData.fields" 
+					:select-all-filter-fields.once="true"
+					:on-result-received.once="onResultReceived">
+				</duplicates-tool>
 				<!-- Duplicates activity -->
 				<ambiguities-tool 
 					v-if="activity === 'AMBIGUITIES'"
