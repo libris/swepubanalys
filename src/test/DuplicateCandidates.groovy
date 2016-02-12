@@ -26,4 +26,10 @@ class DuplicateCandidates {
         assert id1
         assert id2
     }
+
+    @Test
+    void httpProxy(){
+        String s = Doers.Deduplicator.getRepositoryHtml("")
+        assert s
+    }
 }

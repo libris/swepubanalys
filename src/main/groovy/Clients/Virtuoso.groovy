@@ -16,6 +16,8 @@ public class Virtuoso implements ConfigConsumable {
         return new RESTClient(currentConfig().virtuoso.location)
     }
 
+
+
     def post(String sparql, String contentType) {
         def response = VirtuosoRESTClient().post(
                 accept: contentType == "application/json" ? ContentType.JSON : ContentType.TEXT,
