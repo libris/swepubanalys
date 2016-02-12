@@ -53,6 +53,10 @@
 .ActivityButton {
 	margin-left: 25px;
 }
+.ActivityButton:hover {
+	cursor: pointer;
+	text-decoration: none;
+}
 
 .BtnHuge {
 	margin-top: 10px;
@@ -85,4 +89,3 @@
     50%  {color: #f0f2f6;}
     100%  {color: #595d61;}
 }
-

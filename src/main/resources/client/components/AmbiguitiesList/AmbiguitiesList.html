@@ -1,7 +1,7 @@
 <div class="{{ $data._resultStyles.Result }}">
 	<div class="{{ $data._resultStyles.Loading }}">
 		<div v-if="pendingUpdate === true" transition="expand" class="{{ $data._styles.PendingUpdate }}">
-			<h2>Laddar...</h2>
+			<h2><i class="fa fa-cog fa-spin"></i> Laddar...</h2>
 		</div>
 	    <div v-if="!hasNonEmptyResult()" class="{{ $data._resultStyles.PendingUpdate }}">
 	        <h2>Tomt sökresultat</h2>
@@ -41,7 +41,7 @@
 												<span v-else>Dölj</span>
 												<i 
 													class="fa" 
-													v-bind:class="{ 'fa-expand': article.show !== true, 'fa-compress' : article.show === true }"
+													v-bind:class="{ 'fa-plus-square': article.show !== true, 'fa-minus-square' : article.show === true }"
 													style="margin-left:6px;">
 												</i>
 											</a>
@@ -55,7 +55,7 @@
 								<template v-if="article.loading">
 									<td colpan="3">
 										<div class="{{ $parent.$data._styles.LoadingRow }}">
-											<h1>Loading...</h1>
+											<h1><i class="fa fa-cog fa-spin"></i> Laddar...</h1>
 										</div>
 									</td>
 								</template>
