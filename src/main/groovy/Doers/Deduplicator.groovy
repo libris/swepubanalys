@@ -151,9 +151,25 @@ class Deduplicator {
         String uri = recordId //'http://urn.kb.se/resolve?urn=urn:nbn:se:kth:diva-107564'
         def client =  new RESTClient(uri)
         def response = client.get(
-                followRedirects:true,
+                followRedirects:false,
                 accept: ContentType.HTML,
                 path: '')
+        //return response.headers.location
+
+        if(302 == response.statusCode){
+            client.url = response.headers.location
+            response = client.get(
+                    followRedirects:false,
+                    accept: ContentType.HTML,
+                    path: '')
+        }
+        if(302 == response.statusCode){
+            client.url = response.headers.location
+            response = client.get(
+                    followRedirects:false,
+                    accept: ContentType.HTML,
+                    path: '')
+        }
         assert 200 == response.statusCode
         String text = response.text
         if(text.indexOf("<HEAD>")>-1){
