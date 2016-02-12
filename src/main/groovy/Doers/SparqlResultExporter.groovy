@@ -2,6 +2,9 @@ package Doers
 
 import Clients.SMTP
 import Clients.Virtuoso
+import Traits.ConfigConsumable
+import com.github.rjeschke.txtmark.Processor
+import groovy.util.logging.Slf4j
 import org.apache.http.HttpEntity
 import org.apache.http.HttpResponse
 import org.apache.http.client.entity.UrlEncodedFormEntity
@@ -11,8 +14,6 @@ import org.apache.http.impl.client.HttpClientBuilder
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager
 import org.apache.http.message.BasicNameValuePair
 import org.apache.http.util.EntityUtils
-import groovy.util.logging.Slf4j
-import com.github.rjeschke.txtmark.*
 
 import java.util.zip.ZipEntry
 import java.util.zip.ZipOutputStream
@@ -24,10 +25,9 @@ import java.util.zip.ZipOutputStream
  *
  * **/
 @Slf4j
-public class SparqlResultExporter {
+public class SparqlResultExporter implements ConfigConsumable {
 
-    def config = new ConfigSlurper().parse(SparqlResultExporter.classLoader.getResource("config.groovy"))
-
+    def config = currentConfig()
     def nowString = { return (new Date()).format("yyyy_MM_dd_HH_mm_ss", TimeZone.getTimeZone('UTC')) }
     def localDir = {
         return (config?.ftp?.storageDir != null && new File(config.ftp.storageDir as String).exists()) ?
@@ -214,7 +214,7 @@ public class SparqlResultExporter {
     public
     static byte[] makeRequestWsLite(byte[] content, String queryString, String format, int maxRows, File fileStatus) {
         fileStatus.write("PING!")
-        def response = new Virtuoso().postGetBytes(queryString,format,maxRows)
+        def response = new Virtuoso().postGetBytes(queryString, format, maxRows)
         if (response.statusCode != 200) {
             fileStatus.write(response.statusMessage + "\n" + new String(content) + "\n")
             throw new Exception("Fel i anropet till Sparql-endpointen. \n ${response.statusMessage}")

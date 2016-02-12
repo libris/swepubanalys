@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat
  * Created by Theodor on 2016-01-08.
  */
 
-class DuplicateCandidateAdjudicator {
+class Deduplicator {
     static String prefix = """PREFIX swpa_d: <http://swepub.kb.se/SwePubAnalysis/data#>
                     PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
                     PREFIX mods_d: <http://swepub.kb.se/mods/data#>
@@ -23,14 +23,12 @@ class DuplicateCandidateAdjudicator {
     static String mURIadjudicationGraph = "http://swepub.kb.se/analysis/adjudication/data#graph"
 
     static
-    def saveDuplicateCase(boolean samePublication, String record1Id, String record2Id, String comment, String userId) {
+    def saveDuplicateCase(boolean samePublication, String uriRecord1, String uriRecord2, String comment, String userId) {
         //TODO: requires logged in user
         def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
         //TODO:Check if this needs to be a local user
         VirtGraph graph = getGraph(config.virtuoso.jdbcUser.confic.virtuoso.jdbcPwd);
-        String uriRecord1 = mods_data_ns + record1Id;
-        String uriRecord2 = mods_data_ns + record2Id;
-        String uri = "swpa_d:Adjudication__" + record1Id + "_" + record2Id + "_" + userId;
+        String uri = "swpa_d:Adjudication__" + uriRecord1.substring(31, 1000) + "_" + uriRecord2.substring(31, 1000) + "_" + userId;
         String time = "\"${convertDateToXMLType(new Date(System.currentTimeMillis()))} \"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         String sparqlTemplate = """${prefix}
                                         INSERT INTO <${mURIadjudicationGraph}>
@@ -81,7 +79,7 @@ class DuplicateCandidateAdjudicator {
 
     static String getIdentifierValue(String uriRecord) {
         def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
-        VirtGraph graph = getGraph(config.virtuoso.jdbcUser.confic.virtuoso.jdbcPwd);
+        VirtGraph graph = getGraph(config.virtuoso.jdbcUser, config.virtuoso.jdbcPwd);
         ResultSet rs;
         String sparql;
         String sparqlTemplate = """
@@ -107,10 +105,8 @@ class DuplicateCandidateAdjudicator {
         }
     }
     //TODO: user must be logged in
-    static ArrayList getPreviouslyAdjudicated(String record1, String record2) {
+    static ArrayList getPreviouslyAdjudicated(String uriRecord1, String uriRecord2) {
         def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
-        String uriRecord1 = mods_data_ns + record1;
-        String uriRecord2 = mods_data_ns + record2;
         String sparql = """PREFIX mods_m: <http://swepub.kb.se/mods/model#>
                         PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
                         SELECT DISTINCT ?Is_same_publication ?Is_same_creative_work xsd:date(?time) as ?when ?adjudicator WHERE {
@@ -137,23 +133,6 @@ class DuplicateCandidateAdjudicator {
                     [error: "Result is null"]
         }
         return result
-    }
-
-    static public String readFile(File file) {
-        // Load from file
-        long fileSize = file.length();
-        byte[] bytes = new byte[(int) fileSize];
-        FileInputStream fis;
-        String content = new String(bytes);
-        try {
-            fis = new FileInputStream(file);
-            fis.read(bytes);
-            content = new String(bytes, "UTF-8");
-            fis.close();
-        } catch (Exception e) {
-            content = null;
-        }
-        return content;
     }
 
     static String convertDateToXMLType(Date date) {
