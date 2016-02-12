@@ -45,7 +45,7 @@ var Inspector = {
 		'formModel': function() {
 			clearTimeout(this._t);
 			this._t = setTimeout(function() {
-				DataUtil.getFilterAggregations(this.formModel, function(aggregations) {
+				DataUtil.getFilterAggregations(this.formModel, function(aggregations) { 
 					if(!aggregations.error) {
 						this.setAggregations(aggregations);	
 						this.$set('error', false);

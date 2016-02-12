@@ -85,7 +85,7 @@
 											<iframe 
 												v-if="article.ambiguityCase" 
 												class="{{ $parent.$data._styles.Window }}" 
-												v-bind:src="article.ambiguityCase.record1.uri">
+												v-bind:src="'/api/2.0/repositoryHtml?recordId='+article.ambiguityCase.record1.uri">
 											</iframe>
 										</div>
 									</td>
@@ -94,7 +94,7 @@
 											<iframe 
 												v-if="article.ambiguityCase" 
 												class="{{ $parent.$data._styles.Window }}" 
-												v-bind:src="article.ambiguityCase.record2.uri">
+												v-bind:src="'/api/2.0/repositoryHtml?recordId='+article.ambiguityCase.record2.uri">
 											</iframe>
 										</div>
 									</td>
