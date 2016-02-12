@@ -7,6 +7,9 @@ SELECT
 ?_total_match_weight #Viktning
 ?_uri1 #Länk till post 1
 ?_uri2 #Länk till post 2
+?Record1 #Record 1 ID
+?Record2 #Record 2 ID
+
 WHERE
 {
 ?Record1 mods_m:hasMods ?Mods1 .
@@ -15,6 +18,8 @@ WHERE
 ?Mods2 mods_m:recordContentSourceValue ?_orgCode2 .
 ?Record1 swpa_m:uriRepository ?_uri1 .
 ?Record2 swpa_m:uriRepository ?_uri2 .
+?Mods1 mods_m:identifierValue ?_id1 .
+?Mods2 mods_m:identifierValue ?_id2 .
 {
 SELECT DISTINCT
 sum(?_weight) as ?_total_match_weight
