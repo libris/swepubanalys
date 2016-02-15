@@ -2,13 +2,16 @@
 PREFIX mods_m: <http://swepub.kb.se/mods/model#>
 PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
 SELECT
-?_orgCode1 #Organisation för post 1
-?_orgCode2 #Organisation för post 2
+?_isDuplicate
+xsd:string(?_orgCode1) as ?_orgCode1  #Organisation för post 1
+xsd:string(?_orgCode2) as ?_orgCode2 #Organisation för post 2
 ?_total_match_weight #Viktning
 ?_uri1 #Länk till post 1
 ?_uri2 #Länk till post 2
-?Record1 #Record 1 ID
-?Record2 #Record 2 ID
+xsd:string(?_id1) as ?_id1 # id post 1
+xsd:string(?_id2) as ?_id2 # id post 2
+?Record1 #Record 1
+?Record2 #Record 2
 
 WHERE
 {
@@ -20,6 +23,14 @@ WHERE
 ?Record2 swpa_m:uriRepository ?_uri2 .
 ?Mods1 mods_m:identifierValue ?_id1 .
 ?Mods2 mods_m:identifierValue ?_id2 .
+OPTIONAL
+{
+?Adjudication a swpa_m:Adjudication .
+?Adjudication swpa_m:compares ?Record1 .
+?Adjudication swpa_m:compares ?Record2 .
+?Adjudication swpa_m:isDuplicate ?_isDuplicate .
+}
+
 {
 SELECT DISTINCT
 sum(?_weight) as ?_total_match_weight
@@ -27,12 +38,13 @@ sum(?_weight) as ?_total_match_weight
 WHERE
 {
 ?Match swpa_m:weight ?_weight .
+
 {
-SELECT DISTINCT 
-?Record1 ?Record2 ?Match 
-?_orgCode1 
-xsd:string(?_orgCode2) as ?_orgCode2 
-?_pubYear 
+SELECT DISTINCT
+?Record1 ?Record2 ?Match
+?_orgCode1
+?_orgCode2
+?_pubYear
 WHERE
 {
 ?Record1 a swpa_m:DeduplicationEligible .
@@ -47,20 +59,14 @@ WHERE
 ?Record2 mods_m:hasMods ?Mods2 .
 ?Record2 a mods_m:Record .
 ?Mods2 mods_m:recordContentSourceValue ?_orgCode2 .
-MINUS
-{
-?Adjudication a swpa_m:Adjudication .
-?Adjudication swpa_m:compares ?Record1 .
-?Adjudication swpa_m:compares ?Record2 .
-?Adjudication swpa_m:isDuplicate 0 .
-}
+
 ###  FILTERS START ####
-#FILTER_<?_orgCode1> ( ?_orgCode1 IN ( <?_orgCode1>^^xsd:string ) ) 
-#FILTER_<?_pubYear_low> ( ?_pubYear >= <?_pubYear_low> ) 
-#FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> ) 
+#FILTER_<?_orgCode1> ( ?_orgCode1 IN ( <?_orgCode1>^^xsd:string ) )
+#FILTER_<?_pubYear_low> ( ?_pubYear >= <?_pubYear_low> )
+#FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> )
 ###  FILTERS END ####
 }
-LIMIT 500
+LIMIT 5000000
 }
 ###  FILTERS START ####
 #FILTER_<?_orgCode2> ( ?_orgCode2 IN ( <?_orgCode2> ) ) 
