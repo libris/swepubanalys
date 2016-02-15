@@ -12,10 +12,11 @@ var SearchForm = require('components/SearchForm/SearchForm.js');
 var SearchResult = require('components/SearchResult/SearchResult.js');
 var AmbiguitiesTool = require('components/AmbiguitiesTool/AmbiguitiesTool.js');
 var DuplicatesTool = require('components/DuplicatesTool/DuplicatesTool.js');
-var MatchWeightHelp = require('components/Helps/MatchWeightHelp/MatchWeightHelp.js');
 var DuplicatesHelp = require('components/Helps/DuplicatesHelp/DuplicatesHelp.js');
 var Carousel = require('components/Carousel/Carousel.js');
 var ViolationsDropdown = require('components/ViolationsDropdown/ViolationsDropdown.js');
+var AboutVialations = require('components/AboutVialations/AboutVialations.js');
+var AboutDuplicates = require('components/AboutDuplicates/AboutDuplicates.js');
 // Mxins
 var FieldLabelMixin = require('mixins/FieldLabelMixin/FieldLabelMixin.js');
 // Utils
@@ -46,7 +47,7 @@ var Inspector = {
 		'formModel': function() {
 			clearTimeout(this._t);
 			this._t = setTimeout(function() {
-				DataUtil.getFilterAggregations(this.formModel, function(aggregations) { 
+				DataUtil.getFilterAggregations(this.formModel, function(aggregations) {
 					if(!aggregations.error) {
 						this.setAggregations(aggregations);	
 						this.$set('error', false);
@@ -64,11 +65,12 @@ var Inspector = {
 		'search-form': SearchForm,
 		'search-result': SearchResult,
 		'duplicates-help': DuplicatesHelp,
-		'match-weight-help': MatchWeightHelp,
 		'ambiguities-tool': AmbiguitiesTool,
 		'duplicates-tool': DuplicatesTool,
 		'carousel': Carousel,
-		'violations-dropdown': ViolationsDropdown
+		'violations-dropdown': ViolationsDropdown,
+		'about-vialations': AboutVialations,
+		'about-duplicates': AboutDuplicates
 	},
 	ready: function() {
 		/**
@@ -180,6 +182,12 @@ var Inspector = {
 			this.$set('fields', (this.fields || []).filter(function(field) {
 				return field && field.fieldName && field.fieldName !== 'violation';
 			}));
+			//For sending selected violation to list
+			/*
+			if (violation.text !== undefined ) {
+				ViolationsDropdown.methods.compareActive(violation.text);
+			}
+			*/
 			// Add to formModel
 			if(typeof code === 'string') {
 				this.$set('formModel.violation', code);
@@ -191,14 +199,29 @@ var Inspector = {
 					}]
 				});
 			}
+			
 			// Start error-activity
+			
 			this.$emit('start-activity', 'VIOLATIONS');
+		},
+		onClickViolationButton: function(violation) {
+			// Clear
+			//this.$set('formModel.violation', undefined);
+			// Start error-activity
+			$(".chooseViolationSection").show();
+			this.$emit('start-activity', 'VIOLATIONS');
+			
 		},
 		/**
 		 * Starts an activity
 		 * @param {String} activity
 		 */
 		startActivity: function(activity) {
+
+			if (activity === 'LOCAL_DUPLICATES' || activity === 'AMBIGUITIES') {
+				$(".chooseViolationSection").hide();
+			}
+
 			var formData = {
 				formModel: _cloneDeep(this.formModel),
 				fields: _cloneDeep(this.fields)

@@ -1,9 +1,4 @@
-Feltyper är en benämning på maskinellt identifierade brister i datakvaliteten utifrån SwePubs regler. Feltyperna kan t. ex. röra sig om felaktigt angivna eller saknade identifikatorer som ISSN och DOI. Poster med allvarlighetsgrad 3 innebär att poster kan uteslutas från dubbletthantering och påverkar vilka bibliometriska analyser som data stödjer. 
-
-
-Det finns tre allvarlighetsgrader där grad 3 är den högsta. Poster märkta med feltyp 3 bör åtgärdas först. 
-
-
-
+Här gör du uttag av feltyper som är systemidentifierade brister i datakvaliteten utifrån SwePubs regler.  
+Bristerna medför att publikationsposter kan uteslutas från uttag av kvalitetssäkrade data.
 
 
