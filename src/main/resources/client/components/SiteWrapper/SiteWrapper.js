@@ -47,11 +47,6 @@ var SiteWrapperMixin = {
 
 	},
 	ready: function() {	
-		console.log(window.location.href);
-		console.log(window.location.protocol);
-		console.log(window.location.host);
-		console.log(window.location.hostname);
-
 		AuthenticationUtil.authenticate(function(authenticated) {
 			if (authenticated.isLoggedIn) {
 				this.$set('authenticated', true);
@@ -66,9 +61,11 @@ var SiteWrapperMixin = {
 		checkLoggedInStatus: function() {
 			AuthenticationUtil.authenticate(function(authenticated) {
 				if (!authenticated.isLoggedIn) {
-					var url = '/secure?return=';
+					var path = '/secure?return=';
 					var host = window.location.host;
-					$(location).attr('href', 'https://'+ host + url + window.location.href);
+					var protocol = 'https://';
+					var href = window.location.href;
+					$(location).attr('href', protocol+ host + path + href);
 				}
 			});
 		}
