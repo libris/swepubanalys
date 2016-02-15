@@ -21,7 +21,7 @@ class Security {
             }
 
             if (request.queryParams("return")) {
-                response.redirect(request.queryParams("return"))
+                response.redirect(request.queryParams("return").replace("https://","http://"))
             }
             def map = [
                     pageTitle        : "säkert-uppdaterad",

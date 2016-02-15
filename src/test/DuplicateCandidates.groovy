@@ -26,4 +26,5 @@ class DuplicateCandidates {
         assert id1
         assert id2
     }
+
 }

@@ -11,6 +11,7 @@ var Chart = require('components/Chart/Chart.js');
 var SearchForm = require('components/SearchForm/SearchForm.js');
 var SearchResult = require('components/SearchResult/SearchResult.js');
 var AmbiguitiesTool = require('components/AmbiguitiesTool/AmbiguitiesTool.js');
+var DuplicatesTool = require('components/DuplicatesTool/DuplicatesTool.js');
 var DuplicatesHelp = require('components/Helps/DuplicatesHelp/DuplicatesHelp.js');
 var Carousel = require('components/Carousel/Carousel.js');
 var ViolationsDropdown = require('components/ViolationsDropdown/ViolationsDropdown.js');
@@ -65,6 +66,7 @@ var Inspector = {
 		'search-result': SearchResult,
 		'duplicates-help': DuplicatesHelp,
 		'ambiguities-tool': AmbiguitiesTool,
+		'duplicates-tool': DuplicatesTool,
 		'carousel': Carousel,
 		'violations-dropdown': ViolationsDropdown,
 		'about-vialations': AboutVialations,

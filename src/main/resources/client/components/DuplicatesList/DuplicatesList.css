@@ -25,17 +25,20 @@
 }
 
 .ExpandButtonContainer {
-	text-align: right;
-	position: absolute;
+	/*text-align: right;*/
+	/*position: absolute;
 	top: 0;
-	right: 0;
-	padding-top: 15px; 
-	padding-right: 5px;
+	right: 0;*/
+	/*padding-top: 15px; 
+	padding-right: 5px;*/
 }
 .ExpandButtonContainer a {
+	display: block;
 	cursor: pointer;
 }
-
+.WeightSpan {
+	font-size: 12px;
+}
 .Col1 {
 	vertical-align: top;
 	width: 50%;
@@ -43,9 +46,18 @@
 
 .Col2 {
 	vertical-align: top;
+	width: 35%;
+}
+.Col3 {
+	vertical-align: top;
+	width: 15%;
+}
+.IframeCol1 {
 	width: 50%;
 }
-
+.IframeCol2 {
+	width: 50%;
+}
 .Thead {
 	table-layout: initial;
 }
@@ -62,7 +74,7 @@
 .DarkRow:nth-child(odd) {
 	background-color: #fafafa;
 }
-.DarkRowRow:nth-child(even) {
+.DarkRowRow:nth-child(odd) {
 	background-color: #fafafa;
 }
 

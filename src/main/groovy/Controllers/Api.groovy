@@ -68,4 +68,5 @@ class Api {
         def mapToReturn = [lastIndexDate: Virtuoso.lastIndexDate, releaseInfo: GitHub.releases, currentModsVersion: '2.6']
         return new JsonBuilder(mapToReturn).toPrettyString()
     }
+
 }

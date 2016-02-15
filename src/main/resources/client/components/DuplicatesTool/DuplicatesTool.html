@@ -1,18 +1,14 @@
-<div class="{{ $data._styles.AmbiguitiesTool }}">
+<div class="{{ $data._styles.DuplicatesTool }}">
 	<!-- Head -->
 	<div>
-		<h2>SAMARBETSPUBLIKATIONER</h2>
+		<h2>DUBBLETTKANDIDATER</h2>
 	</div>
 	<div>
 		<div class="row">
 			<div class="col-xs-8">
-				{{{ $data.about }}}
-				<a v-on:click="onClickExternal()" href="https://kundo.se/org/swepub/">FRAMTIDA LÄNK</a>
-			</div>
-			<div class="col-xs-4">
-				<div style="float: right;">
-					<mail-export :query="query"></mail-export>
-				</div>
+				<p>
+					<match-weight-help></match-weight-help>
+				</p>
 			</div>
 		</div>
 	</div>
@@ -34,12 +30,12 @@
 		<!-- Tab content -->
 		<div class="tab-content">
 			<div role="tabpanel" class="tab-pane active" id="raw-list">
-				<ambiguities-list 
+				<duplicates-list 
 						:form-model="formModel" 
 						:fields="fields" 
 						:on-result-received.once="onResultReceived"
 						:on-generate-query="onGenerateQuery">
-				</ambiguities-list>
+				</duplicates-list>
 			</div>
 			<div role="tabpanel" class="tab-pane active" id="flagged-other" v-if="isLoggedIn"></div>
 		</div>

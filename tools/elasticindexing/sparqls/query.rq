@@ -8,7 +8,7 @@ CONSTRUCT {
  ?Record a mods_m:Record;
         swpa_m:publicationStatus ?_status;
         mods_m:identifierValue ?_recordID;
-           swpa_m:publicationStatus ?_status;
+           #swpa_m:publicationStatus ?_status;
            swpa_m:publicationYear ?_pubYear;
            mods_m:recordContentSourceValue ?_orgCode;
            swpa_m:publicationTypeCode ?_publicatType;
@@ -37,7 +37,7 @@ CONSTRUCT {
     ?Record a mods_m:Record .
     ?Mods a mods_m:Mods .
     ?Mods mods_m:identifierValue ?_recordID .
-    ?Record swpa_m:publicationStatus ?_status .
+    #?Record swpa_m:publicationStatus ?_status .
     ?Mods swpa_m:publicationYear ?_pubYear .
     ?Mods mods_m:recordContentSourceValue ?_orgCode .
     ?Mods swpa_m:publicationTypeCode ?_publicatType .
