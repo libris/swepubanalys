@@ -8,7 +8,12 @@
 			<div class="col-xs-8">
 				{{{ $data.about }}}
 			</div>
-		</div>
+			<div class="col-xs-4">
+				<div style="float: right;">
+					<mail-export :query="query"></mail-export>
+				</div>
+			</div>
+		</div>		
 	</div>
 	<!-- Content -->
  	<div class="{{ $data._styles.Content }}">
