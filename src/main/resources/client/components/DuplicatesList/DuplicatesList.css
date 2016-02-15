@@ -38,6 +38,8 @@
 }
 .WeightSpan {
 	font-size: 12px;
+	display: block;
+	margin: 0.5em 0;
 }
 .Col1 {
 	vertical-align: top;
