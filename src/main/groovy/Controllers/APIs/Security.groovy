@@ -22,8 +22,9 @@ class Security implements ConfigConsumable {
                         [
                                 isLoggedIn: true,
                                 userName  : currentConfig().mode == 'dev' ? currentConfig().security.userName : request.session().attribute("userName"),
-                                userId    : currentConfig().mode == 'dev' ? currentConfig().security.userId : request.session().attribute("userId")
-
+                                userId    : currentConfig().mode == 'dev' ? currentConfig().security.userId : request.session().attribute("userId"),
+                                organizationCode    : currentConfig().mode == 'dev' ? currentConfig().security.organizationCode : request.session().attribute("norEduOrgAcronym"),
+                                organizationName    : currentConfig().mode == 'dev' ? currentConfig().security.organizationName : request.session().attribute("o")
                         ]
         )
     }
