@@ -324,7 +324,7 @@ var getDefaultFields = function() {
 		},
 		orcid: { 
 			fieldName: 'orcid',
-			name: 'Orcid', 
+			name: 'ORCID', 
 			value: '',
 			labels: [],
 			index: 5,					

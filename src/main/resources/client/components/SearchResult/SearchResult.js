@@ -24,7 +24,7 @@ require('css/transitions.css');
 var SearchResult = {
 	mixins: [ResultMixin, FieldLabelMixin],
 	template: require('./SearchResult.html'),
-	props: ['formModel', 'fields', 'selectAllFilterFields', 'onGenerateQuery'],
+	props: ['formModel', 'fields', 'selectAllFilterFields', 'onGenerateQuery', 'showFractional'],
 	data: function() {
 		return {
 			// Flags

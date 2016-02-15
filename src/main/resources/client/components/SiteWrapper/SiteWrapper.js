@@ -28,7 +28,6 @@ var SiteWrapperMixin = {
 			authenticated: false,
 			userModel: {},
 			_styles: styles,
-
 		}
 	},
 	components: {
@@ -48,21 +47,10 @@ var SiteWrapperMixin = {
 
 	},
 	ready: function() {	
-		/*
-		// Authenticate
-		Authenticationutil.authenticate(function(authenticated, userModel) {
-			if(authenticated) {
-				this.$set('authenticated', true);
-				this.$set('userModel', userModel);
-				this.$broadcast('logged-in', userModel);
-			}
-		}.bind(this));
-		*/
 		AuthenticationUtil.authenticate(function(authenticated) {
 			if (authenticated.isLoggedIn) {
 				this.$set('authenticated', true);
 				this.$set('userModel', authenticated);
-				console.log(authenticated);
 			}	
 		}.bind(this));
 
@@ -70,8 +58,6 @@ var SiteWrapperMixin = {
 		this.$els.githubImage1.src = this.$els.githubImage2.src = require('octicons/svg/mark-github.svg');
 	},
 	methods: {
-		init: function() {		
-		},
 		checkLoggedInStatus: function() {
 			AuthenticationUtil.authenticate(function(authenticated) {
 				if (!authenticated.isLoggedIn) {
