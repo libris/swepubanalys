@@ -2,10 +2,10 @@
 	<div class="row {{ $data._styles.MenuBar }}">
 		<div class="col-md-6">
 			<div class="{{ $data._styles.TopInfo }}">
-				<a v-if="authenticated === false" v-on:click="checkLoggedInStatus" >
+				<a v-show="authenticated === false" v-on:click="checkLoggedInStatus" >
 					Logga in
 				</a>
-				<span v-else>
+				<span v-show="authenticated === true">
 					<i class="fa fa-fw fa-user"></i> {{userModel.userName}}
 				</span>
 				<tech-info-window>
