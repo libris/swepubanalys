@@ -4,8 +4,10 @@
 var Vue = require('vue');
 var _each = require('lodash/collection/each');
 var _cloneDeep = require('lodash/lang/cloneDeep');
+var $ = require('jquery');
 // Components
 var FilterFieldButton = require('components/FilterFieldButton/FilterFieldButton.js');
+var SiteWrapper = require('components/SiteWrapper/SiteWrapper.js');
 // Mixins
 var FractionalMixin = require('mixins/FractionalMixin/FractionalMixin.js');
 var HelpMixin = require('mixins/HelpMixin/HelpMixin.js')
@@ -21,7 +23,7 @@ var styles = require('./FilterFields.css');
  */
 var FilterFields = {
 	mixins: [FractionalMixin, HelpMixin],
-	props: ['filterFields', 'defaultFilterFields'],
+	props: ['filterFields', 'defaultFilterFields', 'showFractional'],
 	template: require('./FilterFields.html'),
 	data: function() {
 		return {
@@ -60,12 +62,10 @@ var FilterFields = {
 			this.$set('filterFields', _cloneDeep(this.defaultFilterFields));
 		}
 	},
-	ready: function() {
+	ready: function() {		
 		SearchFormUtil.getFilterFieldGroups(function(filterFieldGroups) {
 			this.filterFieldGroups = filterFieldGroups;
 		}.bind(this));
-		// Initialize help, add in the htlm to activate
-		/*
 		this.initHelp({
 			title: 'FRAKTIONERAD DATA',
 			content: require('docs/fractionated_data.md'),
@@ -74,7 +74,6 @@ var FilterFields = {
 			marginLeft: '3px',
 			marginTop: '-15px'
 		});
-		*/
 	}
 };
 

@@ -173,7 +173,8 @@
 						v-if="activity === 'VIOLATIONS'" 
 						:form-model="formData.formModel" 
 						:fields="formData.fields" 
-						:on-result-received.once="onResultReceived">
+						:on-result-received.once="onResultReceived"
+						:show-fractional="false">
 
 					<div slot="SearchResultDescription"></div>
 				</search-result>
