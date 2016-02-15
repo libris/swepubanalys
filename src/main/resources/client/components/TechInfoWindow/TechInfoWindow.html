@@ -1,5 +1,5 @@
 <div class="{{ $data._styles.techInfo }}" v-show="$data.latestRelease.tag">
-  <a v-on:click="toggle" class="{{ $data._styles.trigger }}">Teknisk information <i v-show="hasNews" class="fa fa-exclamation-circle"></i></a>
+  <a v-on:click="toggle" class="{{ $data._styles.trigger }}">Senaste uppdatering <i v-show="hasNews" class="fa fa-exclamation-circle"></i></a>
   <div class="{{ $data._styles.content }}" v-show="show">
     <div class="{{ $data._styles.techInfoArrow }}"></div>
     <i v-on:click="toggle" class="fa fa-times pull-right"></i>
