@@ -31,15 +31,16 @@
 	right: 0;*/
 	/*padding-top: 15px; 
 	padding-right: 5px;*/
+	width: 90%;
+	margin: 0.5em;
 }
 .ExpandButtonContainer a {
 	display: block;
 	cursor: pointer;
 }
+
 .WeightSpan {
-	font-size: 12px;
-	display: block;
-	margin: 0.5em 0;
+	font-size: 14px;
 }
 .Col1 {
 	vertical-align: top;

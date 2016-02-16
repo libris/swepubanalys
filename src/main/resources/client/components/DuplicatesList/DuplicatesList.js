@@ -114,6 +114,45 @@ var DuplicatesList = {
 			articles.$set(index, article);
 
 		},
+		decideArticle: function(article, decision) {
+			if(article._isDuplicate && article._isDuplicate.value == decision) {
+				// Do nothing...
+				return;
+			}
+			var articles = this.result.results.bindings;
+			var index = articles.indexOf(article);
+			article = _cloneDeep(article);
+			
+			if (!article._isDuplicate) {
+				article._isDuplicate = { value: null };
+			}
+			if (!article.error) {
+				article.error = null;
+			}
+			
+			article.pendingChange = decision;
+			articles.$set(index, article);
+			var dataString = "recordId1="+article.Record1.value+"&recordId2="+article.Record2.value+"&sameOrDifferent="+decision;
+			$.ajax({
+			    type: "POST",
+			    url: "/api/2.0/deduplication/adjudicate",
+			    data: dataString,
+			    success: function(response) {
+						article._isDuplicate.value = decision;
+						article.pendingChange = null;
+						articles.$set(index, article);
+			    },
+					error: function(response) {
+						article.error = decision;
+						article.pendingChange = null;
+						articles.$set(index, article);
+						setTimeout(function() {
+							article.error = null;
+							articles.$set(index, article);
+						}, 1000);
+					}
+			  });
+		},
 		/**
 		 * Update the query
 		 */
