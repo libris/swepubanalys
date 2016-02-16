@@ -3,7 +3,7 @@
 // Vendor
 var $ = require('jquery');
 var _cloneDeep = require('lodash/lang/cloneDeep');
-
+var _ = require('lodash');
 /**
  * Search Form Utilities
  */
@@ -48,8 +48,8 @@ var SearchFormUtil = {
 	getViolations: function(callback) {
 		callback(_cloneDeep(violations));
 	},
-	getCleanViolations: function(callback) {
-		callback(cleanViolations);
+	handleAggregations: function(aggregations) {
+
 	},
 	/**
 	 * Validates a orcid-value

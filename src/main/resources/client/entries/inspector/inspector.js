@@ -49,6 +49,7 @@ var Inspector = {
 			this._t = setTimeout(function() {
 				DataUtil.getFilterAggregations(this.formModel, function(aggregations) {
 					if(!aggregations.error) {
+						SearchFormUtil.handleAggregations(aggregations);
 						this.setAggregations(aggregations);	
 						this.$set('error', false);
 					} else {
@@ -73,7 +74,7 @@ var Inspector = {
 		'about-duplicates': AboutDuplicates
 	},
 	ready: function() {
-		
+
 		/**
 		 * Broadcast events based on url-parameters
 		 */

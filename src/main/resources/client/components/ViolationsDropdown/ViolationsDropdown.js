@@ -27,7 +27,7 @@ var ViolationsDropdown = {
 	
 	ready: function() {
 		DataUtil.getAggregations(function(data) {
- 	        console.log(data);
+ 	        //console.log(data);
 	      });
 		/**
 		 * Get violations and populate array to be used in template
