@@ -223,3 +223,10 @@ When testing events, we have to wait for the next Vue update cycle. We can use t
 	}
 });
 ```
+#### Saving textfield state when leaving to external page
+There is an eventlistener that listens to the changes in the textfield. To store the state in localstorage so that the user receivs what has been put in the input a function has to be added to the a-tag, or similar, as follows:
+```
+onClickExternal: function() {
+	localStorage.setItem('externalPass', true);
+}
+```
