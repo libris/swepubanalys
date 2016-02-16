@@ -40,8 +40,6 @@ var Bibliometrician = {
 			_styles: styles
 		};
 	},
-	ready: function() {
-	},
 	components: {
 		'site-wrapper': SiteWrapper,
 		'search-form': SearchForm,
@@ -86,6 +84,8 @@ var Bibliometrician = {
 		}
 	}
 };
+
+
 
 Vue.component('view', Bibliometrician);
 

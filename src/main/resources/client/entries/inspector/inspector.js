@@ -73,6 +73,7 @@ var Inspector = {
 		'about-duplicates': AboutDuplicates
 	},
 	ready: function() {
+		
 		/**
 		 * Broadcast events based on url-parameters
 		 */
@@ -211,6 +212,12 @@ var Inspector = {
 			$(".chooseViolationSection").show();
 			this.$emit('start-activity', 'VIOLATIONS');
 			
+		},
+		/**
+		 * Gives site access to recieve the the state the user left
+		 */
+		onClickExternal: function() {
+			localStorage.setItem('externalPass', true);
 		},
 		/**
 		 * Starts an activity

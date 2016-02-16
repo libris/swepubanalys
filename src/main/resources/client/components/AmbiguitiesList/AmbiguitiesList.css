@@ -62,7 +62,7 @@
 .DarkRow:nth-child(odd) {
 	background-color: #fafafa;
 }
-.DarkRowRow:nth-child(even) {
+.DarkRowRow:nth-child(odd) {
 	background-color: #fafafa;
 }
 

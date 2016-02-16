@@ -38,7 +38,10 @@ var DuplicatesTool = {
 		 */
 		onGenerateQuery: function(query) {
 			this.$set('query', query);
-		}
+		},
+		onClickExternal: function() {
+			localStorage.setItem('externalPass', true);
+		},
 	}
 };
 
