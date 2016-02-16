@@ -8,6 +8,8 @@ Vue.js, Webpack, Bootstrap, Less, Karma, Jasmine,
 4. [Component mixins](#component-mixins)
 5. [CSS modules](#css-modules)
 6. [Unit testing](#unit-testing)
+7. [Saving textfield state when leaving to external page](#save-text)
+
 
 ### \# <a name="file-tree"></a>File tree
 ```
@@ -223,7 +225,7 @@ When testing events, we have to wait for the next Vue update cycle. We can use t
 	}
 });
 ```
-### Saving textfield state when leaving to external page
+### \# <a name="save-text"></a> Saving textfield state when leaving to external page
 There is an eventlistener that listens to the changes in the textfield. To store the state in localstorage so that the user receivs what has been put in the input a function has to be added to the a-tag, or similar, as follows:
 ```
 onClickExternal: function() {
