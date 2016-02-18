@@ -34,9 +34,15 @@
 	width: 90%;
 	margin: 0.5em;
 }
+
 .ExpandButtonContainer a {
 	display: block;
 	cursor: pointer;
+}
+.Error {
+	color: rgb(173, 20, 20);
+	font-weight: bold;
+	font-size: 12px;
 }
 
 .WeightSpan {

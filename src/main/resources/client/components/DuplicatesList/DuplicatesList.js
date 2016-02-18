@@ -39,6 +39,8 @@ var DuplicatesList = {
 			show: show,
 			pendingUpdate: false,
 			handleArticle: '',
+			org: 'hb', // TODO: Get from userModel
+			loggedIn: true, // TODO: Get from userModel
 			_styles: styles
 		}
 	},
@@ -114,7 +116,12 @@ var DuplicatesList = {
 			articles.$set(index, article);
 
 		},
+		getPermissions: function(article, org) {
+			return (article._orgCode1.value == org || article._orgCode2.value == org);
+		},
 		decideArticle: function(article, decision) {
+			
+			article.error = null;
 			if(article._isDuplicate && article._isDuplicate.value == decision) {
 				// Do nothing...
 				return;
@@ -125,9 +132,6 @@ var DuplicatesList = {
 			
 			if (!article._isDuplicate) {
 				article._isDuplicate = { value: null };
-			}
-			if (!article.error) {
-				article.error = null;
 			}
 			
 			article.pendingChange = decision;
@@ -146,10 +150,6 @@ var DuplicatesList = {
 						article.error = decision;
 						article.pendingChange = null;
 						articles.$set(index, article);
-						setTimeout(function() {
-							article.error = null;
-							articles.$set(index, article);
-						}, 1000);
 					}
 			  });
 		},
@@ -169,6 +169,7 @@ var DuplicatesList = {
 					this.onGenerateQuery(query);
 				}
 			}.bind(this));
+			
 		}
 	}
 };
