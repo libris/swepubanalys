@@ -1,11 +1,11 @@
 Här avses en nationell klassificering av output som omfattar såväl textbaserad som icke-textuell forskning och ersätter den gamla indelningen i publikationstyper. 
 
 Vetenskaplig output indelas i fem olika huvudkategorier:  
-1. Konstnärlig output  
-2. Publikationer  
-3. Konferensoutput  
-4. Immaterialrättslig output  
-5. Övrig output  
+• Konstnärlig output  
+• Publikationer  
+• Konferensoutput  
+• Immaterialrättslig output  
+• Övrig output  
 Under respektive huvudkategori finns ett antal underkategorier.  
 
 **Tänk på**  
