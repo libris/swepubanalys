@@ -2,10 +2,6 @@
 @Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
 @Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.6')
 import com.github.jsonldjava.core.JsonLdOptions
-@Grab('com.github.jsonld-java:jsonld-java:0.7.0')
-@Grab('com.github.groovy-wslite:groovy-wslite:1.1.2')
-@Grab('org.codehaus.groovy.modules.http-builder:http-builder:0.6')
-import com.github.jsonldjava.core.JsonLdOptions
 import com.github.jsonldjava.core.JsonLdProcessor
 import groovy.json.JsonBuilder
 import groovyx.net.http.AsyncHTTPBuilder
@@ -25,13 +21,13 @@ class IndexingTools {
      * Calls a sparql endpoind and downloads paged turtle results.
      * @param fileNameFrom file containing sparql query
      * @param orgCode organisation code to filter the Sparql query
-     * @return the concatenated results from all the requests                                **/
-    static getTurtle(Map args) {
+     * @return the concatenated results from all the requests                                        **/
+    static ArrayList getTurtle(Map args) {
         //TODO: make more generic with more args. Rename orgCode
         //TODO: rename to something more apropiate
         assert args.elasticEndpoint
         assert args.fileStore
-
+        def results = []
         try {
             def defaultLimit = 130000
             def prefixes = ["@prefix foaf:\t<http://xmlns.com/foaf/0.1/> .",
@@ -43,65 +39,98 @@ class IndexingTools {
             def severityByViolationName = { String violationName -> [label: violationName, severity: (args.qualityViolations.values.find { tit -> tit.name == violationName }?.severity ?: "0").toInteger()] }
             def toSeconds = { long start, long stop -> Math.round(((stop - start) / 1000000000.0)) }
             def defaultLimitClause = { int offset, int limit -> "\nOFFSET ${offset}  LIMIT ${limit}" }
-
             String sparqlString = args.organisationCode == null ? args.sparqlQuery : args.sparqlQuery.replace('${orgCodeArg}', args.organisationCode)
-
             def currentResponse
             while (true) {
                 long startTick = System.nanoTime();
                 currentResponse = makeSparqlRequest(sparqlString + defaultLimitClause(defaultOffset, defaultLimit), args.sparqlEndpoint, "${args.batchName}_${defaultOffset}")
+                long fetchTick = System.nanoTime();
                 if (currentResponse.startsWith("# Empty TURTLE")) {
                     break
                 } else {
-                    long fetchTick = System.nanoTime();
                     def turtles = splitTurtles(currentResponse, prefixes)//samma
                     def ttlCount = turtles.count { t -> t }
                     if (ttlCount == 1) {
                         println turtles[0]
                     }
                     long splitTick = System.nanoTime();
+
                     def compactos = turtles.collect { turtle -> compact(expand(turtle, args.organisationCode), args.context, args.organisationCode) }
-
-                    def d = compactos.findAll { it != null }
-                            .collect { compacto ->
-                        return compacto != null ? compacto."@graph".find { args.graphFilter } : null
-                    }
-
+                    List<Object> d = filterOutCompactosByGraph(compactos, args)
                     long compactTick = System.nanoTime();
-                    def e = d.collect { record ->
-                        if (record?.qualityName != null) {
-                            def newStuff = (record.qualityName instanceof String) ?
-                                    [severityByViolationName(record.qualityName as String)]
-                                    : record.qualityName.collect { qualityName -> severityByViolationName(qualityName) }
-                            record['qualityViolations'] = newStuff;
-                        }
-                        return record
-                    }
-                    handleJsons(e, args.batchName, "swepub", args.elasticType, args.index, args.fileStore, args.elasticEndpoint)
+
+                    List<Object> jsons = addSeverityToQuelityName(d, severityByViolationName)
+                    def res = saveRecordsToDisk(jsons, args.batchName+defaultOffset, "swepub", args.elasticType, args.fileStore)
                     long postTick = System.nanoTime();
-                    println "${new Date()} ${args.batchName} (${defaultOffset}) \t Turtles: ${ttlCount} Compactos: ${compactos.count { c -> c }} Jsons: ${d.count { j -> j }} \t Jsons2: ${e.count { j -> j }} \tRequest: ${toSeconds(startTick, fetchTick)}\t Split: ${toSeconds(fetchTick, splitTick)}\t Compact: ${toSeconds(splitTick, compactTick)} \t Post: ${toSeconds(compactTick, postTick)}"
+                    results.add([fileSave: res,
+                                 offset  : defaultOffset,
+                                 counts  :
+                                         [turtles: ttlCount, compactos: compactos.count { c -> c }, jsons: d.count { j -> j }, jsons2: jsons.count { j -> j }],
+                                 timings :
+                                         [request: toSeconds(startTick, fetchTick), split: toSeconds(fetchTick, splitTick), compact: toSeconds(splitTick, compactTick), post: toSeconds(compactTick, postTick)]])
                     totalJsons += d.count { j -> j }
                 }
                 defaultOffset += defaultLimit
             }
-            println "${args.batchName} klar. Totalt antal poster: ${totalJsons}"
+            println "${new Date()} \nSummering ${args.batchName}:\n====================  \n Turtlar: ${results.sum { res -> res.counts.turtles }} \n Jsons: ${results.sum { res -> res.counts.jsons2 }} \n Request från Sparql endpoint: ${results.sum { res -> res.timings.request }} s \n Split: ${results.sum { res -> res.timings.split }} s \n Compact: ${results.sum { res -> res.timings.compact }} s\n Spara till disk: ${results.sum { res -> res.timings.post }}s\n Antal filer: ${results.sum { res -> res.fileSave.chunks }} \n====================\n"
         }
         catch (All) {
             println "${All.message}\n====================\n ${All.stackTrace}"
         }
+        return results
 
 
     }
 
-    private static void handleJsons(List<Object> e,
-                                    def batchName,
-                                    def indexName, def typeName, def index, def fileStore, def elasticEndpoint) {
-        if (index) {
-            sendToElastic(e, indexName, typeName, elasticEndpoint)
-        } else {
-            createElasticExport("${fileStore}/${batchName}.json", e, indexName, typeName)
+    private static List<Object> filterOutCompactosByGraph(List<Map<String, Object>> compactos, args) {
+        def d = compactos.findAll { it != null }
+                .collect { compacto ->
+            return compacto != null ? compacto."@graph".find { args.graphFilter } : null
         }
+        d
+    }
 
+    private static List<Object> addSeverityToQuelityName(List<Object> d, severityByViolationName) {
+        def jsons = d.collect { record ->
+            if (record?.qualityName != null) {
+                def newStuff = (record.qualityName instanceof String) ?
+                        [severityByViolationName(record.qualityName as String)]
+                        : record.qualityName.collect { qualityName -> severityByViolationName(qualityName) }
+                record['qualityViolations'] = newStuff;
+            }
+            return record
+        }
+        jsons
+    }
+
+    private static Map saveRecordsToDisk(List<Object> infoList,
+                                         def batchName,
+                                         def indexName, def typeName, def fileStore) {
+
+        def insertCommand = { _indexName, _typeName, id ->
+            """{ "create":  { "_index": "${_indexName}", "_type": "${_typeName}", "_id" : "${id}"}}}"""
+        };
+        def chunks = infoList.collate(5000)
+        int i = 0
+        int totalLines = 0
+        chunks.each { chunk ->
+            i++;
+            try {
+                def fileName2 = "${fileStore}/${batchName}_${i}.json"
+                new File(fileName2).withWriterAppend { out ->
+                    chunk.findAll { it?.identifierValue != null }.each { record ->
+                        out.println insertCommand(indexName, typeName, record.identifierValue)
+                        out.println new JsonBuilder(record).toString();
+                    }
+                }
+                totalLines += (new File(fileName2).readLines().count { c -> c })
+            }
+            catch (All) {
+                println All.message
+                println All.stackTrace
+            }
+        }
+        return [chunks: i, totalinesInFiles: totalLines, recordsCount: infoList.count { c -> c }]
     }
 
     /**
@@ -110,19 +139,8 @@ class IndexingTools {
      * @param sparql raw sparql query
      * @return the result in turtle format
      * **/
-    static makeSparqlRequest(def sparql, def sparqlEndPoint, def batchName) {
+    static String makeSparqlRequest(def sparql, def sparqlEndPoint, def batchName) {
 
-        //TODO replace hardcoded server string with configuration
-        //def result = ''
-        /*RESTClient client = new RESTClient(sparqlEndPoint)
-        def response = client.post(
-                accept: ContentType.TEXT,
-                path: '/',
-                query: [query: sparql, format: "text/turtle"])
-        assert 200 == response.statusCode
-        return response.text*/
-
-        // initialze a new builder and give a default URL
         def http = new AsyncHTTPBuilder(
                 uri: sparqlEndPoint,
                 poolSize: 20,
@@ -131,8 +149,8 @@ class IndexingTools {
         def result = http.post(
                 path: '/sparql',
                 body: [query: sparql, format: "text/turtle"],
-                requestContentType: URLENC ) { resp, text ->
-            println "${batchName} got async response!"
+                requestContentType: URLENC) { resp, text ->
+            //println "${new Date()} ${batchName} fick svar från Sparql endpointen efter !"
             return text.getText()
         }
 
@@ -141,34 +159,17 @@ class IndexingTools {
         int sleepcycles = 0
 
         while (!result.done) {
-            if(sleepcycles % 120 == 0) {
-                println "${batchName} is waiting for the ${sleepcycles}th time"
+            int sleepTime = 1000
+            if (sleepcycles % 30 == 0 && sleepcycles != 0) {
+                println "${new Date()} ${batchName} has been waiting for  ${sleepcycles * (sleepTime / 1000)} seconds"
             }
-            Thread.sleep(250)
-            sleepcycles ++
+            Thread.sleep(sleepTime)
+            sleepcycles++
 
         }
-
-/* The Future instance contains whatever is returned from the response
-   closure above; in this case the parsed HTML data: */
         def text = result.get()
-        //println "${batchName} hämtad."
         assert text
         return text
-
-       /* http.request(POST, TEXT) { req ->
-            uri.path = ''
-            send URLENC, [query: sparql, format: "text/turtle"]
-            response.success = { resp, reader ->
-                assert resp.status == 200
-                println "My response handler got response: ${resp.statusLine}"
-                println "Response length: ${resp.headers.'Content-Length'}"
-                result = reader.getText() // print response reader
-            }
-        }
-
-
-        return result*/
     }
 
     /**
@@ -259,14 +260,15 @@ class IndexingTools {
      * @param fileName name of file
      * @param infoList list of json documents
      */
-    static void createElasticExport(def fileName, def infoList, String indexName, String typeName) {
+    static int createElasticExport(def fileName, def infoList, String indexName, String typeName) {
+        print "Create export started"
         def insertCommand = { index, type, id ->
             """{ "create":  { "_index": "${index}", "_type": "${type}", "_id" : "${id}"}}}"""
         };
-        //def chunks = infoList.collate(500)
+        def chunks = infoList.collate(5000)
         int i = 0
         int totalLines = 0
-        //chunks.each { chunk ->
+        chunks.each { chunk ->
             i++;
             try {
                 def fileName2 = "${fileName}_${i}.json"
@@ -276,14 +278,16 @@ class IndexingTools {
                         out.println new JsonBuilder(record).toString();
                     }
                 }
-                totalLines +=(new File(fileName2).readLines().count{c->c}/2)
+                totalLines += (new File(fileName2).readLines().count { c -> c } / 2)
+                println fileName2
             }
             catch (All) {
                 println All.message
                 println All.stackTrace
             }
-        //}
-        println "fileName: ${totalLines} rader i filerna. ${infoList.count{c->c}} poster."
+        }
+        println "Chunks: ${i}"
+        println "fileName: ${totalLines} rader i filerna. ${infoList.count { c -> c }} poster."
     }
 
     static sendToElastic(def infoList, String indexName, String typeName, String elasticEndPoint) {
@@ -291,7 +295,7 @@ class IndexingTools {
         def insertCommand = { index, type, id ->
             """{ "create":  { "_index": "${index}", "_type": "${type}", "_id" : "${id}"}}}"""
         };
-        def chunks = infoList.collate(500)
+        def chunks = infoList.collate(25000)
         int i = 0;
         chunks.each { chunk ->
             i++;
@@ -401,22 +405,13 @@ class IndexingTools {
             c longOpt: 'clear', 'Clear ElasticSearch prior to indexing'
         }
         def options = cli.parse(args)
-        if (!options) {
-            return
-        }
+
+        def config = new ConfigSlurper().parse(new File("config.groovy").getText())
+
         // Show usage text when -h or --help option is used.
-        if (options.h) {
+        if (options && options.h) {
             cli.usage()
             return
-        }
-
-        // Determine formatter.
-        def settings = [index: false, fileStore: '', clearIndex: false, sparqlEndpoint: '', elasticEndpoint: '']
-        if (options.i) {  // Using short option.
-            settings.index = true
-        }
-        if (options.c) {
-            settings.clearIndex = true
         }
 
         def extraArguments = options.arguments()
@@ -425,6 +420,16 @@ class IndexingTools {
             settings.sparqlEndpoint = extraArguments[0]
             settings.elasticEndpoint = extraArguments[2]
         }
+
+        def settings = [index          : options.i,
+                        fileStore      : extraArguments && extraArguments[1] ? extraArguments[1] : config.fileStore,
+                        clearIndex     : options.c,
+                        sparqlEndpoint : extraArguments && extraArguments[0] ? extraArguments[0] : config.virtuosoLocation,
+                        elasticEndpoint: extraArguments && extraArguments[2] ? extraArguments[2] : config.elasticLocation,]
+
+
+
+
 
         return settings
     }

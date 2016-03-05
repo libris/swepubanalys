@@ -2,6 +2,7 @@ package Controllers.APIs
 
 import Doers.Authenticator
 import Traits.ConfigConsumable
+import Traits.Controller
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
 import spark.Request
@@ -11,7 +12,7 @@ import spark.Response
  * Created by Theodor on 2015-12-14.
  */
 @Slf4j
-class Security implements ConfigConsumable {
+class Security implements Controller {
 
     static def getLoginStatus(Request request, Response response) {
         boolean isLoggedIn = Authenticator.isLoggedIn(request)

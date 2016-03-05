@@ -78,4 +78,5 @@ HAVING ( sum( ?_weight )  >= 0.8 && sum( ?_weight ) <= 1.1 )
 }
 }
 #ORDER BY DESC( ?_total_match_weight)
+ORDER BY DESC(?_isDuplicate)
 

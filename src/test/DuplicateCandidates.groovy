@@ -1,3 +1,4 @@
+import Doers.Deduplicator
 import org.junit.Test
 
 /**
@@ -21,10 +22,15 @@ class DuplicateCandidates {
         def config = new ConfigSlurper().parse(DuplicateCandidates.getClassLoader().getResource("config.groovy"))
         def graph = Doers.Deduplicator.getGraph((String) config.virtuoso.jdbcUser, (String) config.virtuoso.jdbcPwd)
         assert graph
-        def id1 = Doers.Deduplicator.getIdentifierValue('http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-206294')
-        def id2 = Doers.Deduplicator.getIdentifierValue('http://urn.kb.se/resolve?urn=urn:nbn:se:uu:diva-81607')
-        assert id1
-        assert id2
+        def record1 ="http://swepub.kb.se/mods/data#Record__oai_DiVA_org_kau11383_1"
+        def record2 = "http://swepub.kb.se/mods/data#Record__oai_DiVA_org_uu206251_1"
+        def before = Doers.Deduplicator.getPreviouslyAdjudicated("kau")
+        assert !before.any{it-> [record1,record2].contains(it.record1) && [record1,record2].contains(it.record2)}
+        Deduplicator.saveDuplicateCase(true,record1, record2, "test", "thetol", graph)
+        def after = Doers.Deduplicator.getPreviouslyAdjudicated("kau").count{it}
+        assert after.any{it-> [record1,record2].contains(it.record1) && [record1,record2].contains(it.record2)}
+
+
     }
 
     @Test
@@ -33,7 +39,7 @@ class DuplicateCandidates {
         assert nonFiltered > 0
         def filtered = Doers.Deduplicator.getPreviouslyAdjudicated("du").count{it}
         assert filtered < nonFiltered
-
     }
+
 
 }

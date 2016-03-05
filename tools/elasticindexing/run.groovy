@@ -46,7 +46,7 @@ println "Grab and Init done. Starting..."
 long startTick = System.nanoTime();
 
 if (settings.index) {
-    println "Set to index data into ElasticSearch. Deleteing old data."
+    println "Set to index data into ElasticSearch. Deleteing old data..."
     removeFromElastic(settings.elasticEndpoint)
     println "Deleting Done. Posting new initscript:"
     println initData
@@ -59,7 +59,7 @@ if (settings.index) {
     def lines = 0
     println "Posting new initscript"
     println "Found ${files.count { c -> c }} files to index"
-    files.findAll { file -> file.getName().endsWith(".json") }.toSorted { b-> b.length() }.each { file ->
+    files.findAll { file -> file.getName().endsWith(".json") }.toSorted { b -> b.length() }.each { file ->
         def fileLines = file.readLines().count { line -> line }
         println "Skickar ${file.getName()} med ${fileLines} rader (${fileLines / 2} poster) "
         lines += fileLines
@@ -69,25 +69,36 @@ if (settings.index) {
 
 
 } else {
-    withPool(8) {
+    def totalResults = []
+    /*withPool(8) {
         orgs.eachParallel { orgCode ->
             try {
-                //def orgCode = "kth"
-              /*  getTurtle([
+                totalResults.add(getTurtle([
                         sparqlQuery      : qualitySparql,
                         elasticEndpoint  : settings.elasticEndpoint,
                         sparqlEndpoint   : settings.sparqlEndpoint,
                         organisationCode : orgCode,
-                        batchName        : "quality_${orgCode}",
+                        batchName        : "dataQuality_${orgCode}",
                         context          : context,
-                        graphFilter      : { m -> m.@type == "Mods" },
+                        graphFilter      : { rec -> rec."@type" == "Record" },
                         elasticType      : "dataQuality",
                         qualityViolations: qualityViolations,
                         fileStore        : settings.fileStore,
                         index            : settings.index
-                ])*/
+                ]))
 
-                getTurtle([
+
+            } catch (All) {
+                println "fel \n"
+                println All.message + "\n"
+                println All.stackTrace
+            }
+        }
+    }*/
+    withPool(8) {
+        orgs.eachParallel { orgCode ->
+            try {
+                totalResults.add(getTurtle([
                         sparqlQuery      : bibliometricianSparql,
                         elasticEndpoint  : settings.elasticEndpoint,
                         sparqlEndpoint   : settings.sparqlEndpoint,
@@ -99,7 +110,7 @@ if (settings.index) {
                         qualityViolations: qualityViolations,
                         fileStore        : settings.fileStore,
                         index            : settings.index
-                ])
+                ]))
 
 
             } catch (All) {

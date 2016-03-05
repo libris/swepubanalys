@@ -1,6 +1,7 @@
 package Doers
 
 import Clients.Virtuoso
+import Traits.ConfigConsumable
 import com.hp.hpl.jena.query.QueryExecution
 import com.hp.hpl.jena.query.QuerySolution
 import com.hp.hpl.jena.query.ResultSet
@@ -15,7 +16,13 @@ import java.text.SimpleDateFormat
  * Created by Theodor on 2016-01-08.
  */
 
-class Deduplicator {
+class Deduplicator implements ConfigConsumable {
+
+    static String createAdjudicationUri(String uriRecord1, String uriRecord2){
+        return "swpa_d:CreativeWorkInstanceDuplicateAdjudication__" + uriRecord1.substring(31, uriRecord1.length()) + "_" + uriRecord2.substring(31, uriRecord2.length())
+
+    }
+
     static String prefix = """PREFIX swpa_d: <http://swepub.kb.se/SwePubAnalysis/data#>
                     PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
                     PREFIX mods_d: <http://swepub.kb.se/mods/data#>
@@ -23,13 +30,30 @@ class Deduplicator {
     static String mods_data_ns = "http://swepub.kb.se/mods/data#"
     static String mURIadjudicationGraph = "http://swepub.kb.se/analysis/adjudication/data#graph"
 
+    static void removeDuplicateCase(String uriRecord1, String uriRecord2, VirtGraph graph) {
+        try {
+            //TODO: requires logged in user
+            assert graph != null
+            String uriadj = createAdjudicationUri(uriRecord1,uriRecord2)
+
+            String deleteQuery = """${prefix}
+                                    DELETE FROM <${mURIadjudicationGraph}>
+                                    { ${uriadj} ?p ?o }
+                                    WHERE { ${uriadj}?p ?o . }"""
+            VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(deleteQuery, graph);
+            vur.exec();
+        }
+        catch (All) {
+            throw All
+        }
+    }
+
     static
-    def saveDuplicateCase(boolean samePublication, String uriRecord1, String uriRecord2, String comment, String userId) {
+    void saveDuplicateCase(boolean samePublication, String uriRecord1, String uriRecord2, String comment, String userId, VirtGraph graph) {
         //TODO: requires logged in user
-        def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
+        assert graph != null
         //TODO:Check if this needs to be a local user
-        VirtGraph graph = getGraph(config.virtuoso.jdbcUser.confic.virtuoso.jdbcPwd);
-        String uri = "swpa_d:Adjudication__" + uriRecord1.substring(31, 1000) + "_" + uriRecord2.substring(31, 1000) + "_" + userId;
+        String uri = createAdjudicationUri(uriRecord1,uriRecord2)
         String time = "\"${convertDateToXMLType(new Date(System.currentTimeMillis()))} \"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         String sparqlTemplate = """${prefix}
                                         INSERT INTO <${mURIadjudicationGraph}>
@@ -45,19 +69,11 @@ class Deduplicator {
                                         } WHERE { }""";
         String sparql;
         try {
-            String uriadj = uri.replace("swpa_d:Adjudication__", "swpa_d:CreativeWorkInstanceDuplicateAdjudication__");
-            // First delete exists
-            String deleteQuery = """${prefix}
-                                            DELETE FROM <${mURIadjudicationGraph}>
-                                            { ${uriadj} ?p ?o }
-                                            WHERE { ${uriadj}?p ?o . }"""
-            VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(deleteQuery, graph);
-            vur.exec();
-            // Insert
+            removeDuplicateCase(uriRecord1,uriRecord2, graph)
             sparql = sparqlTemplate.replace("__TYPE__", "CreativeWorkInstanceDuplicateAdjudication");
             sparql = sparql.replace("swpa_d:Adjudication__", "swpa_d:CreativeWorkInstanceDuplicateAdjudication__");
             sparql = sparql.replace("__BOOL__", samePublication.toString());
-            vur = VirtuosoUpdateFactory.create(sparql, graph);
+            VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(sparql, graph);
             vur.exec();
         }
         catch (All) {
@@ -66,8 +82,7 @@ class Deduplicator {
     }
 
     static VirtGraph getGraph(String user, String pw) {
-        def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
-        String url = "jdbc:virtuoso://${config.virtuoso.jdbcConn}/charset=UTF-8/log_enable=2";
+        String url = "jdbc:virtuoso://${currentConfig().virtuoso.jdbcConn}/charset=UTF-8/log_enable=2";
         VirtGraph virtGraph = null;
         try {
             virtGraph = new VirtGraph(null, url, user, pw, true);
@@ -78,36 +93,11 @@ class Deduplicator {
         return virtGraph;
     }
 
-    static String getIdentifierValue(String uriRecord) {
-        def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
-        VirtGraph graph = getGraph(config.virtuoso.jdbcUser, config.virtuoso.jdbcPwd);
-        ResultSet rs;
-        String sparql;
-        String sparqlTemplate = """
-                                PREFIX mods_m: <http://swepub.kb.se/mods/model#>
-                                SELECT DISTINCT ?_identifierValue WHERE {
-                                FILTER ( ?Record = <_RECORD_URI_>)
-                                ?Record a mods_m:Record .
-                                ?Record mods_m:hasMetadata ?Metadata .
-                                ?Metadata mods_m:hasMods ?Mods .
-                                ?Mods mods_m:hasIdentifier ?Identifier .
-                                ?Identifier a mods_m:Identifier .
-                                ?Identifier mods_m:type ?_type .
-                                ?Identifier mods_m:identifierValue ?_identifierValue .
-                                ?Identifier mods_m:type "uri"^^xsd:string .}""";
-        sparql = sparqlTemplate.replace("_RECORD_URI_", mods_data_ns + uriRecord);
-        QueryExecution qe = VirtuosoQueryExecutionFactory.create(sparql, graph);
-        try {
-            rs = qe.execSelect();
-            QuerySolution qs = rs.next();
-            return qs.getLiteral("_identifierValue").getLexicalForm();
-        } catch (All) {
-            return ""
-        }
-    }
     //TODO: user must be logged in
-    static ArrayList getPreviouslyAdjudicated(String uriRecord1, String uriRecord2) {
-        def config = new ConfigSlurper().parse(this.getClassLoader().getResource("config.groovy"))
+    static ArrayList getPreviouslyAdjudicated(String uriRecord1, String uriRecord2, VirtGraph graph = null) {
+        if (!graph) {
+            graph = getGraph(currentConfig().virtuoso.jdbcUser, currentConfig().virtuoso.jdbcPwd);
+        }
         String sparql = """PREFIX mods_m: <http://swepub.kb.se/mods/model#>
                         PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
                         SELECT DISTINCT ?Is_same_publication ?Is_same_creative_work xsd:date(?time) as ?when ?adjudicator WHERE {
@@ -120,7 +110,7 @@ class Deduplicator {
                         ?CreativeWorkDuplicateAdjudication swpa_m:compares <${uriRecord2}> .
                         }
                         }"""
-        VirtGraph graph = getGraph(config.virtuoso.jdbcUser.confic.virtuoso.jdbcPwd);
+
         QueryExecution qe = VirtuosoQueryExecutionFactory.create(sparql, graph);
         def result = []
         ResultSet rs = qe.execSelect();
@@ -155,19 +145,18 @@ class Deduplicator {
                 [
                         adjudication: it["CreativeWorkInstanceDuplicateAdjudication"].value,
                         id1         : it["_identifierValue1"].value,
-                        id2: it["_identifierValue2"].value,
-                        isDuplicate: it["_isDuplicate"].value,
-                        comment: it["_comment"].value,
-                        org1 : it["_recordContentSourceValue1"].value,
-                        org2: it["_recordContentSourceValue2"].value,
-                        userName: it["_userName"].value
-
-
-
+                        id2         : it["_identifierValue2"].value,
+                        isDuplicate : it["_isDuplicate"].value,
+                        comment     : it["_comment"].value,
+                        org1        : it["_recordContentSourceValue1"].value,
+                        org2        : it["_recordContentSourceValue2"].value,
+                        userName    : it["_userName"].value,
+                        record1     : it["Record1"].value,
+                        record2     : it["Record2"].value
                 ]
             }
         }
-        catch(all){
+        catch (all) {
             return []
         }
     }
