@@ -128,6 +128,7 @@
 				</carousel>
 			</div>
 			<!-- Search form -->
+			<h2>TRE STEG TILL HÖGRE DATAKVALITET</h2>
 			<div class="{{ $data._styles.SearchForm }}" v-el:search-form>
 				<search-form 
 						:on-change.once="onChange" 
@@ -135,7 +136,7 @@
 						:to="new Date().getFullYear()" 
 						default-template="duplicates">
 					<div slot="SearchFormTitle">
-						<h2>TRE VÄGAR TILL HÖGRE DATAKVALITET</h2>
+						
 					</div>
 					<div slot="SearchFormDescription">
 						<p>Här söker du fram ofullständig metadata om vetenskaplig output.</p>
@@ -144,18 +145,26 @@
 					</div>
 				</search-form>
 				<!-- Activity buttons -->
-				<violations-dropdown :on-click-option="onClickViolationOption">
-					<div slot="Title">
-						VISA OFULLSTÄNDIG METADATA <span class="fa fa-caret-down"></span>
-					</div>
-				</violations-dropdown>
-				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
-					VISA DUBBLETTKANDIDATER
-				</button>
-				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('AMBIGUITIES')">
-					VISA SAMARBETSPUBLIKATIONER
-				</button>
+				<!--In case of button-Look: class="btn btn-info {{ $data._styles.ActivityButton }}" -->
+				<a class="{{ $data._styles.ActivityButton }}" v-on:click="onClickViolationButton('ALL')">
+					<span class="fa fa-exclamation-circle"></span> FELTYPER 
+				</a>
+				<a class="{{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
+					<span class="fa fa-files-o"></span> DUBBLETTKANDIDATER 
+				</a>
+				<a class="{{ $data._styles.ActivityButton }}" v-on:click="startActivity('AMBIGUITIES')">
+					<span class="fa fa-group"></span> SAMARBETSPUBLIKATIONER 
+				</a>
 			</div>
+		</div>
+		<div class="chooseViolationSection" style="display:none;" slot="SearchResultTitle">
+			<h2>FELTYPER</h2>
+			<about-vialations></about-vialations>
+			<violations-dropdown :on-click-option="onClickViolationOption">
+				<div style="color:#000;" slot="Title">
+					<span style="float:left;">VÄLJ</span> <span style="float:right;" class="fa fa-caret-down"></span>
+				</div>
+			</violations-dropdown>
 		</div>
 		<div v-show="activity">
 			<div v-el:search-result>
@@ -164,28 +173,12 @@
 						v-if="activity === 'VIOLATIONS'" 
 						:form-model="formData.formModel" 
 						:fields="formData.fields" 
-						:on-result-received.once="onResultReceived">
-					<div slot="SearchResultTitle">
-						<h2>OFULLSTÄNDIG METADATA</h2>
-					</div>
+						:on-result-received.once="onResultReceived"
+						:show-fractional="false">
+
 					<div slot="SearchResultDescription"></div>
 				</search-result>
 				<!-- Local duplicates activity -->
-				<!-- <search-result 
-						v-if="activity === 'LOCAL_DUPLICATES'" 
-						:form-model="formData.formModel" 
-						:fields="formData.fields" 
-						:select-all-filter-fields.once="true"
-						:on-result-received.once="onResultReceived">
-					<div slot="SearchResultTitle">
-						<h2>DUBBLETTKANDIDATER</h2>
-					</div>
-					<div slot="SearchResultDescription">
-						<p>
-							<match-weight-help></match-weight-help>
-						</p>
-					</div>
-				</search-result> -->
 				<duplicates-tool
 					v-if="activity === 'LOCAL_DUPLICATES'"
 					:form-model="formData.formModel"

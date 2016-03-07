@@ -42,7 +42,7 @@ var OAInput = {
 		this.updateLabels();
 		// Initialize help
 		this.initHelp({
-			title: 'OPENACCESS',
+			title: 'OPEN ACCESS',
 			content: require('docs/openaccess.md'), 
 			anchorToElement: this.$els.formFieldInput,
 		});
