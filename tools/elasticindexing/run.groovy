@@ -59,7 +59,7 @@ if (settings.index) {
     def lines = 0
     println "Posting new initscript"
     println "Found ${files.count { c -> c }} files to index"
-    files.findAll { file -> file.getName().endsWith(".json") }.toSorted { b -> b.length() }.each { file ->
+    files.findAll { file -> file.getName().endsWith(".json") }.toSorted { b -> b.length() }.reverse().each { file ->
         def fileLines = file.readLines().count { line -> line }
         println "${new Date()} Skickar ${file.getName()} med ${fileLines} rader (${fileLines / 2} poster) "
         lines += fileLines

@@ -434,28 +434,31 @@ class IndexingTools {
         return settings
     }
     String initData = """{
-    "mappings": {
-        "dataQuality": {
-            "properties": {
-                "qualityViolations_label": {
-                    "type": "string",
-                    "index": "not_analyzed"
+        "mappings": {
+            "dataQuality": {
+                "properties": {
+                    "qualityViolations": {
+                        "properties": {
+                            "label": {
+                                "type": "string",
+                                "index": "not_analyzed"
+                            }
+                        }
+                    }
                 }
-
-            }
-        },
-        "bibliometrician": {
-            "properties": {
-                "publicationStatus": {
-                    "type": "string",
-                    "index": "not_analyzed"
-                },
-                "outputCode": {
-                    "type": "string",
-                    "index": "not_analyzed"
+            },
+            "bibliometrician": {
+                "properties": {
+                    "publicationStatus": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    },
+                    "outputCode": {
+                        "type": "string",
+                        "index": "not_analyzed"
+                    }
                 }
             }
         }
-    }
-}"""
+    }"""
 }
