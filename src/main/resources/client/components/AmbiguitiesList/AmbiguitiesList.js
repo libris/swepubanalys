@@ -122,6 +122,7 @@ var AmbiguitiesList = {
 					article = _cloneDeep(article);
 					article.loading = false;
 					article.ambiguityCase = ambiguityCase;
+					article = article;
 					articles.$set(index, article);
 				}.bind(this));
 			}

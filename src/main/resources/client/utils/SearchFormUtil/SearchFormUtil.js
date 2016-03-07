@@ -48,6 +48,9 @@ var SearchFormUtil = {
 	getViolations: function(callback) {
 		callback(_cloneDeep(violations));
 	},
+	getCleanViolations: function(callback) {
+		callback(cleanViolations);
+	},
 	/**
 	 * Validates a orcid-value
 	 * @param {String} value

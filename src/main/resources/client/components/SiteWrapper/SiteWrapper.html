@@ -6,7 +6,7 @@
 					Logga in
 				</a>
 				<span v-else>
-					<i class="fa fa-fw fa-user"></i> {{userModel.userName}}
+					<i class="fa fa-fw fa-university"></i> {{ userModel.organizationName ? userModel.organizationName : userModel.organizationCode }}
 				</span>
 				<tech-info-window>
 				</tech-info-window>

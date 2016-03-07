@@ -32,7 +32,7 @@
 					</div>
 				</div>
 				<div v-if="selectAllFilterFields !== true">
-					<filter-fields :filter-fields.sync="filterFields" :default-filter-fields="defaultFilterFields">
+					<filter-fields :filter-fields.sync="filterFields" :show-fractional="showFractional" :default-filter-fields="defaultFilterFields">
 						<div slot="Top"><mail-export :query="query"></mail-export></div>
 					</filter-fields>
 				</div>
@@ -42,7 +42,7 @@
 							<list-preview :result="result" :filter-fields="filterFields"></list-preview>
 						</div>
 						<div v-show="pendingRefresh == true" class="{{ $data._styles.PendingRefresh }}">
-							<h2>Hämtar förhandsvisning...</h2>
+							<h2>Laddar...</h2>
 						</div>
 					</div>
 				</div>
