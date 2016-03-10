@@ -1,7 +1,7 @@
-### DEFINITION
+
 Med publiceringsår avses det år då ett arbete publicerats och offentliggjorts. Information om utgivningsår ligger till grund för det tidsspann som analysen görs på.
 
-### LÄS MER
+**Läs mer**  
 [SwePub MODS](http://www.kb.se/dokument/SwePub/v.-2.6-SwePub_MODS_Final_version_2015_09_10.pdf), avsnitt 16.1 "Publication date".
 
 
