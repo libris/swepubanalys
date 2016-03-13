@@ -7,7 +7,7 @@ Om samma upphovspersoner affilieras till olika lärosäten för samma publikatio
 ●	Antal upphovspersoner får inte variera för samma publikation.  
 ●	Publiceringsår får inte variera för samma publikation mer än ett år.  
 ●	Publiceringskanaler får inte variera för samma publikation.  
-●	De identifikatorer som finns angivna på båda publikationsposter får inte variera.
+●	De identifikatorer som finns angivna i båda publikationsposter får inte variera.
 
 
 
