@@ -39,7 +39,7 @@ class Deduplicator implements ConfigConsumable {
             String deleteQuery = """${prefix}
                                     DELETE FROM <${mURIadjudicationGraph}>
                                     { ${uriadj} ?p ?o }
-                                    WHERE { ${uriadj}?p ?o . }"""
+                                    WHERE { ${uriadj} ?p ?o . }"""
             VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(deleteQuery, graph);
             vur.exec();
         }
@@ -58,14 +58,14 @@ class Deduplicator implements ConfigConsumable {
         String sparqlTemplate = """${prefix}
                                         INSERT INTO <${mURIadjudicationGraph}>
                                         {
-                                            a swpa_m:Adjudication .
-                                            a swpa_m:__TYPE__ .
-                                            swpa_m:isDuplicate '__BOOL__'^^xsd:boolean .
-                                            swpa_m:compares <${uriRecord1}"> .
-                                            swpa_m:compares <${uriRecord2}"> .
-                                            admin:userName \"${userId}\"^^xsd:string .
-                                            swpa_m:validAt ${time} .
-                                            uri + " rdfs:comment \"${comment}\" .
+                                            ${uri} a swpa_m:Adjudication .
+                                            ${uri} a swpa_m:__TYPE__ .
+                                            ${uri} swpa_m:isDuplicate '__BOOL__'^^xsd:boolean .
+                                            ${uri} swpa_m:compares <${uriRecord1}> .
+                                            ${uri} swpa_m:compares <${uriRecord2}> .
+                                            ${uri} admin:userName \"${userId}\"^^xsd:string .
+                                            ${uri} swpa_m:validAt ${time} .
+                                            ${uri} rdfs:comment \"${comment}\" .
                                         } WHERE { }""";
         String sparql;
         try {
