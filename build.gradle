@@ -90,10 +90,14 @@ task CopyMissingFonts(type: Copy) {
 task webpack(type: Exec) {
     def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'webpack.cmd' : 'webpack'
 
-    if (project.environment == 'prod')
-        commandLine mainCommand, '-p'
-    else
-        commandLine mainCommand
+    if (project.environment == 'prod'){
+        commandLine mainCommand, '-p --display-modules'
+        println "prod"
+    }
+    else {
+        commandLine mainCommand, '--display-modules'
+        println "not prod"
+    }
 }
 
 task npmInstall(type: Exec) {
@@ -115,7 +119,7 @@ task(runWebApp, dependsOn: 'classes', type: JavaExec) {
 
 
 
-war.dependsOn npmInstall, bowerInstall, bowerSyncComponentsForBeta, bowerSyncComponentsForQf, CopyMissingFonts, webpack
+//war.dependsOn npmInstall, bowerInstall, bowerSyncComponentsForBeta, bowerSyncComponentsForQf, CopyMissingFonts, webpack
 
 
 
