@@ -1,0 +1,16 @@
+.DuplicatesTool {
+	padding-top: 15px;
+}
+
+.Content {
+	margin-top: 25px;
+}
+
+.ListRow {
+  height: 500px;
+}
+.PreviewIframe {
+  width: 100%;
+  border: none;
+  height: 95%;
+}

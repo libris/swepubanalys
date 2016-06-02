@@ -27,7 +27,12 @@ var show = 20;
  */
 var AmbiguitiesList = {
 	mixins: [ResultMixin],
-	props: ['formModel', 'fields', 'onResultReceived', 'onGenerateQuery'],
+	props: [
+		'formModel', 
+		'fields', 
+		'onResultReceived', 
+		'onGenerateQuery', 
+      ],
 	template: require('./AmbiguitiesList.html'),
 	data: function() {
 		return {
@@ -83,6 +88,19 @@ var AmbiguitiesList = {
 				this.$set('show', this.show+show);
 			}
 		},
+		mapName: function(nameShort) {
+			var index = this.arrayObjectIndexOf(orgs, nameShort.value);
+			return orgs[index].text;
+
+		},
+		arrayObjectIndexOf: function(myArray, searchTerm) {
+			for(var i = 0; i < myArray.length; i++) {
+		        if (myArray[i].value === searchTerm) {
+		        	return i;
+		        }
+			}
+	    	return -1;
+		},
 		/**
 		 * Set currently handled article
 		 * @param {Object} article
@@ -104,6 +122,7 @@ var AmbiguitiesList = {
 					article = _cloneDeep(article);
 					article.loading = false;
 					article.ambiguityCase = ambiguityCase;
+					article = article;
 					articles.$set(index, article);
 				}.bind(this));
 			}
@@ -127,5 +146,48 @@ var AmbiguitiesList = {
 		}
 	}
 };
+
+var orgs = [
+		{ value: 'bth', text: 'Blekinge Tekniska Högskola' },
+        { value: 'cth', text: 'Chalmers tekniska högskola' },
+        { value: 'esh', text: 'Ersta Sköndal högskola' },
+        { value: 'fhs', text: 'Försvarshögskolan' },
+        { value: 'gih', text: 'Gymnastik- och idrottshögskolan' },
+        { value: 'gu', text: 'Göteborgs universitet' },
+        { value: 'hhs', text: 'Handelshögskolan i Stockholm' },
+        { value: 'du', text: 'Högskolan Dalarna' },
+        { value: 'hkr', text: 'Högskolan Kristianstad' },
+        { value: 'hv', text: 'Högskolan Väst' },
+        { value: 'hb', text: 'Högskolan i Borås' },
+        { value: 'hig', text: 'Högskolan i Gävle' },
+        { value: 'hh', text: 'Högskolan i Halmstad' },
+        { value: 'hj', text: 'Högskolan i Jönköping' },
+        { value: 'his', text: 'Högskolan i Skövde' },
+        { value: 'kth', text: 'Kungliga Tekniska högskolan' },
+        { value: 'kau', text: 'Karlstads universitet' },
+        { value: 'ki', text: 'Karolinska Institutet' },
+        { value: 'konstfack', text: 'Konstfack' },
+        { value: 'kmh', text: 'Kungliga Musikhögskolan' },
+        { value: 'liu', text: 'Linköpings universitet' },
+        { value: 'lnu', text: 'Linnéuniversitetet' },
+        { value: 'ltu', text: 'Luleåtekniska universitet' },
+        { value: 'lu', text: 'Lunds universitet' },
+        { value: 'mah', text: 'Malmö Högskola' },
+        { value: 'miun', text: 'Mittuniversitetet' },
+        { value: 'mdh', text: 'Mälardalens högskola' },
+        { value: 'nationalmuseum', text: 'Nationalmuseum' },
+        { value: 'nrm', text: 'Naturhistoriska riksmuseet' },
+        { value: 'naturvardsverket', text: 'Naturvårdsverket' },
+        { value: 'nai', text: 'Nordiska Afrikainstitutet' },
+        { value: 'rkh', text: 'Röda Korsets Högskola' },
+        { value: 'shh', text: 'Sophiahemmet Högskola' },
+        { value: 'vti', text: 'Statens väg- och transportforskningsinstitut' },
+        { value: 'su', text: 'Stockholms universitet' },
+        { value: 'slu', text: 'Sveriges lantbruksuniversitet' },
+        { value: 'sh', text: 'Södertörns högskola' },
+        { value: 'umu', text: 'Umeåuniversitet' },
+        { value: 'uu', text: 'Uppsala universitet' },
+        { value: 'oru', text: 'Örebro universitet' }
+	];
 
 module.exports = AmbiguitiesList;

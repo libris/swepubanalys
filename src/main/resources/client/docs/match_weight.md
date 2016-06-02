@@ -8,5 +8,4 @@ Maskinellt identifierade möjliga dubblettpar vars sammanslagna viktning ligger 
 
 ### LÄS MER
 
-[Algoritm för dubbletthantering](http://info.swepub.kb.se/leverans-av-data/dubbletthantering/regler-for-dubbletthantering/)
-
+<a href="http://info.swepub.kb.se/leverans-av-data/dubbletthantering/regler-for-dubbletthantering/" target="_blank">Algoritm för dubbletthantering</a> 

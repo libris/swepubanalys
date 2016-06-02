@@ -12,8 +12,8 @@ Innebär att forskaren, så snart förlaget tillåter det, själv arkiverar en s
 Innebär att forskaren publicerar sig hos ett open access-förlag. Boken eller artikeln blir då omedelbart öppet tillgänglig på internet. 
 
 ### TÄNK PÅ  
-En utsökning av open access i SwePub baseras på attributet **note="free"** i elementet **url** i SwePub MODS-posten samt om publikationernas ISSN finns med i [DOAJ](https://doaj.org/) som listar öppna tidskrifter. 
+En utsökning av open access i SwePub baseras på attributet **note="free"** i elementet **url** i SwePub MODS-posten samt om publikationernas ISSN finns med i <a href="https://doaj.org/" target="_blank">DOAJ</a> som listar öppna tidskrifter. 
 Det går för närvarande inte att få ut information om **hybrid-versioner**, det vill säga när artiklar publiceras i en traditionellt prenumerationsbaserad tidskrift som mot en avgift (article processing charge) görs omedelbart öppet tillgänglig. 
 
 ### LÄS MER  
-[SwePub MODS metadata format specification v. 2.6, avsnitt 18.1 URL](http://www.kb.se/dokument/SwePub/v.-2.6-SwePub_MODS_Final_version_2015_09_10.pdf)
+<a href="http://www.kb.se/dokument/SwePub/v.-2.6-SwePub_MODS_Final_version_2015_09_10.pdf" target="_blank">SwePub MODS metadata format specification v. 2.6, avsnitt 18.1 URL</a> 

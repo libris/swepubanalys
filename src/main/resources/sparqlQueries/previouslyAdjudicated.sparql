@@ -1,0 +1,47 @@
+# Generated from Linked Data Browser navigation history
+SELECT DISTINCT
+?CreativeWorkInstanceDuplicateAdjudication
+?_identifierValue1
+?_identifierValue2
+?_isDuplicate
+?_comment
+?_recordContentSourceValue1
+?_recordContentSourceValue2
+?_userName
+
+
+WHERE
+{
+?CreativeWorkInstanceDuplicateAdjudication a swpa_m:CreativeWorkInstanceDuplicateAdjudication .
+?CreativeWorkInstanceDuplicateAdjudication a swpa_m:Adjudication .
+?CreativeWorkInstanceDuplicateAdjudication rdfs:comment ?_comment .
+?CreativeWorkInstanceDuplicateAdjudication swpa_m:isDuplicate ?_isDuplicate .
+?CreativeWorkInstanceDuplicateAdjudication <http://owl.hs.com/SemDW/admin_data#userName> ?_userName .
+?CreativeWorkInstanceDuplicateAdjudication swpa_m:compares ?Record1 .
+?CreativeWorkInstanceDuplicateAdjudication swpa_m:compares ?Record2 .
+
+?Record1 a mods_m:Record .
+?Record1 a mods_m:Record .
+?Record1 a bmc:CreativeWorkInstanceRecord .
+?Record1 a swpa_m:DeduplicationEligible .
+?Record1 mods_m:hasMods ?Mods1 .
+?Mods1 a mods_m:Mods .
+?Mods1 mods_m:identifierValue ?_identifierValue1 .
+?Mods2 mods_m:recordContentSourceValue ?_recordContentSourceValue1 .
+
+
+?Record2 a mods_m:Record .
+?Record2 a mods_m:Record .
+?Record2 a bmc:CreativeWorkInstanceRecord .
+?Record2 a swpa_m:DeduplicationEligible .
+?Record2 mods_m:hasMods ?Mods2 .
+?Mods2 a mods_m:Mods .
+?Mods2 mods_m:identifierValue ?_identifierValue2 .
+?Mods2 mods_m:recordContentSourceValue ?_recordContentSourceValue2 .
+
+
+
+FILTER (?_identifierValue2 != ?_identifierValue1)
+#FILTER (xsd:string(?_recordContentSourceValue1) IN ("!!rec1Org!!"))
+}
+LIMIT 5000

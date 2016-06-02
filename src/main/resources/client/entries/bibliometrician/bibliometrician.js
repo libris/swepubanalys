@@ -85,6 +85,8 @@ var Bibliometrician = {
 	}
 };
 
+
+
 Vue.component('view', Bibliometrician);
 
 new Vue({

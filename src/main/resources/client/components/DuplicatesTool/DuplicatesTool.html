@@ -1,0 +1,41 @@
+<div class="{{ $data._styles.DuplicatesTool }}">
+	<!-- Head -->
+	<div>
+		<h2>DUBBLETTKANDIDATER</h2>
+	</div>
+	<div>
+		<div class="row">
+			<div class="col-xs-8">
+				<a v-on:click="onClickExternal()" href="https://kundo.se/org/swepub/">FRAMTIDA LÄNK</a>
+			</div>
+		</div>
+	</div>
+	<!-- Content -->
+ 	<div class="{{ $data._styles.Content }}">
+		<!-- Tabs for samarbetspublikationer -->
+		<!--div>
+			<ul class="nav nav-tabs" role="tablist">
+				<li role="presentation" class="background-main">
+					<a href="#raw-list" aria-controls="form" role="tab" data-toggle="tab">
+						<i class="fa fa-database"></i> Maskinellt urval
+					</a>
+				</li>
+				<li role="presentation" class="{{ $data._styles.DarkBackground }}" v-if="isLoggedIn">
+					<a href="#flagged-other" aria-controls="profile" role="tab" data-toggle="tab">Flaggade från andra lärosäten</a>
+				</li>
+			</ul>
+		</div-->
+		<!-- Tab content -->
+		<div class="tab-content">
+			<div role="tabpanel" class="tab-pane active" id="raw-list">
+				<duplicates-list 
+						:form-model="formModel" 
+						:fields="fields" 
+						:on-result-received.once="onResultReceived"
+						:on-generate-query="onGenerateQuery">
+				</duplicates-list>
+			</div>
+			<div role="tabpanel" class="tab-pane active" id="flagged-other" v-if="isLoggedIn"></div>
+		</div>
+	</div>
+</div>

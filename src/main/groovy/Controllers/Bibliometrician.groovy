@@ -1,19 +1,17 @@
 package Controllers
 
-import static java.util.UUID.randomUUID
+import Traits.ConfigConsumable
 import spark.Request
 import spark.Response
 
 /**
  * Created by Theodor on 2015-10-01.
  */
-class Bibliometrician {
+class Bibliometrician implements ConfigConsumable {
 
     static Map index(final Request request, final Response response) {
-        URL url = Bibliometrician.getClassLoader().getResource("config.groovy");
-        def config = new ConfigSlurper().parse(url)
-        final Map map = new HashMap();
-        map.put("cacheBustingUid",config.buildStamp)
+         final Map map = new HashMap();
+        map.put("cacheBustingUid",currentConfig().buildStamp)
         map.put("pageTitle","SIDTITEL");
         return map;
 

@@ -1,5 +1,6 @@
 import Clients.Virtuoso
 import Controllers.Api
+import Traits.ConfigConsumable
 import groovy.json.JsonBuilder
 import org.junit.After
 import org.junit.Before
@@ -12,7 +13,7 @@ import wslite.rest.RESTClient
  * Created by Theodor on 2015-09-17.
  */
 
-public class VirtuosoInteractions {
+public class VirtuosoInteractions implements ConfigConsumable  {
     def sparqlCount = """PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
 PREFIX mods_m: <http://swepub.kb.se/mods/model#>
 PREFIX xlink: <http://www.w3.org/1999/xlink#>
@@ -218,9 +219,7 @@ LIMIT 10000000
 
     @Test
     public void configIsAvailable() {
-        URL url = VirtuosoInteractions.getClassLoader().getResource("config.groovy");
-        def config = new ConfigSlurper().parse(url)
-        assert config.virtuoso.location == 'http://virhp07.libris.kb.se/sparql'
+       assert currentConfig().virtuoso.location == 'http://virhp07.libris.kb.se/sparql'
     }
 
     @Test
@@ -282,6 +281,11 @@ LIMIT 10000000
          def j = new JsonBuilder(map).toPrettyString()
         assert j instanceof JSONObject;
 
+    }
+    @Test public void latestUpdate(){
+        def ts = Virtuoso.lastIndexDate
+        assert !ts.empty
+        assert ts.length() > 5
     }
 
 

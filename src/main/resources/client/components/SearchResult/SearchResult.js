@@ -24,7 +24,7 @@ require('css/transitions.css');
 var SearchResult = {
 	mixins: [ResultMixin, FieldLabelMixin],
 	template: require('./SearchResult.html'),
-	props: ['formModel', 'fields', 'selectAllFilterFields', 'onGenerateQuery'],
+	props: ['formModel', 'fields', 'selectAllFilterFields', 'onGenerateQuery', 'showFractional'],
 	data: function() {
 		return {
 			// Flags
@@ -143,7 +143,8 @@ var SearchResult = {
 				SparqlUtil.generateQuery({
 					limit: false,
 					formModel: formModel
-				}, function(query) {
+				}, 
+				function(query) {
 					this.$set('query', query);
 					if(this.onGenerateQuery) {
 						this.onGenerateQuery(query);

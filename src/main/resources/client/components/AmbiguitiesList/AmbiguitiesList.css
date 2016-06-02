@@ -32,6 +32,9 @@
 	padding-top: 15px; 
 	padding-right: 5px;
 }
+.ExpandButtonContainer a {
+	cursor: pointer;
+}
 
 .Col1 {
 	vertical-align: top;
@@ -56,7 +59,10 @@
 	max-width: 100%;
 }
 
-.DarkRow:nth-child(even) {
+.DarkRow:nth-child(odd) {
+	background-color: #fafafa;
+}
+.DarkRowRow:nth-child(odd) {
 	background-color: #fafafa;
 }
 

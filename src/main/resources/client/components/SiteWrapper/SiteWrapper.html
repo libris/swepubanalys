@@ -1,6 +1,16 @@
 <div id="swepub-app" class="{{ $data._styles.SiteWrapper }}">
 	<div class="row {{ $data._styles.MenuBar }}">
 		<div class="col-md-6">
+			<div class="{{ $data._styles.TopInfo }}">
+				<a v-show="!authenticated" v-on:click="checkLoggedInStatus" >
+					Logga in
+				</a>
+				<span v-show="authenticated">
+					<i class="fa fa-fw fa-user"></i> {{userModel.userName}}
+				</span>
+				<tech-info-window>
+				</tech-info-window>
+			</div>
 		</div>
 		<div class="col-md-6">
 			<div class="row">

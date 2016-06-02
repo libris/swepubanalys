@@ -18,7 +18,7 @@
 					<div class="{{ $data._styles.LightBackground }} {{ $data._styles.TabContent }}">
 						<search-form :on-search="onFormSearch">
 							<div slot="SearchFormTitle">
-								<h2>1. GÖR UTSÖKNING</h2>
+								<h2>1. UTSÖKNING</h2>
 							</div>
 							<div slot="SearchFormDescription">
 								<p>
@@ -34,9 +34,10 @@
 									:form-model="formData.formModel" 
 									:fields="formData.fields" 
 									:on-result-received.once="onResultReceived"
-									:on-generate-query.once="onGenerateQuery">
+									:on-generate-query.once="onGenerateQuery"
+									:show-fractional="true">
 								<div slot="SearchResultTitle">
-									<h2>2. ANPASSA FÖR EXPORT</h2>
+									<h2>2. ANPASSNING & EXPORT</h2>
 								</div>
 							</search-result>
 						</div>
@@ -48,7 +49,7 @@
 					<div class="{{ $data._styles.DarkBackground }} {{ $data._styles.TabContent }}">
 						<query-form :query="generatedQuery" :on-search="onQuerySearch">
 							<div slot="QueryFormTitle">
-								<h2>1. FORMULERA SPARQL-FRÅGA</h2>
+								<h2>1. GÖR EN AVANCERAD UTSÖKNING</h2>
 							</div>
 							<div slot="QueryFormDescription" class="{{ $data._styles.QueryFormDescription }}">
 								<p>

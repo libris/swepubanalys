@@ -13,7 +13,7 @@
 			<div style="position: relative; width: 100%;">
 				<div style="position: absolute; top: 0; width: 100%;">
 					<div v-if="loadingData" class="{{ $data._styles.Info }}">
-						<h1>Laddar visualiseringar...</h1>
+						<h1 class="{{ $data._styles.loading }}">Laddar visualiseringar...</h1>
 					</div>
 					<div v-if="emptyAggregations" class="{{ $data._styles.Info }}">
 						<h1>Tomt sökresultat</h1>
@@ -38,6 +38,8 @@
 										legend-position="bottom"  
 										:color-categories.once="colorCategories"
 										height="390"
+										:min="0.0"
+										:max="1.0"
 										:get-content="violationDistributionChart.getContent">
 									</chart>
 								</div>
@@ -49,7 +51,7 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<template v-if="orgViolations.getContent | visible 2 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>ANDEL FELAKTIGA POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(topp 5)</span></p>
+									<p>ANDEL FELFRIA POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(topp 5)</span></p>
 								</div>
 								<div>
 									<chart 
@@ -59,6 +61,8 @@
 										:color-categories.once="colorCategories"
 										height="373"
 										tick-format="0%"
+										:min="0.0"
+										:max="1.0"
 										:on-click.once="onClickOrg"
 										:get-content="orgViolations.getContent">
 									</chart>
@@ -124,6 +128,7 @@
 				</carousel>
 			</div>
 			<!-- Search form -->
+			<h2>TRE STEG TILL HÖGRE DATAKVALITET</h2>
 			<div class="{{ $data._styles.SearchForm }}" v-el:search-form>
 				<search-form 
 						:on-change.once="onChange" 
@@ -131,7 +136,7 @@
 						:to="new Date().getFullYear()" 
 						default-template="duplicates">
 					<div slot="SearchFormTitle">
-						<h2>TRE VÄGAR TILL HÖGRE DATAKVALITET</h2>
+						
 					</div>
 					<div slot="SearchFormDescription">
 						<p>Här söker du fram ofullständig metadata om vetenskaplig output.</p>
@@ -140,18 +145,27 @@
 					</div>
 				</search-form>
 				<!-- Activity buttons -->
-				<violations-dropdown :on-click-option="onClickViolationOption">
-					<div slot="Title">
-						VISA OFULLSTÄNDIG METADATA <span class="fa fa-caret-down"></span>
-					</div>
-				</violations-dropdown>
-				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
-					VISA DUBBLETTKANDIDATER
-				</button>
-				<button class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('AMBIGUITIES')">
-					VISA SAMARBETSPUBLIKATIONER
-				</button>
+				<!--In case of button-Look: class="btn btn-info {{ $data._styles.ActivityButton }}" -->
+				<a class="{{ $data._styles.ActivityButton }}" v-on:click="onClickViolationButton('ALL')">
+					<span class="fa fa-exclamation-circle"></span> FELTYPER 
+				</a>
+				<a class="{{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
+					<span class="fa fa-files-o"></span> DUBBLETTKANDIDATER 
+				</a>
+				<a class="{{ $data._styles.ActivityButton }}" v-on:click="startActivity('AMBIGUITIES')">
+					<span class="fa fa-group"></span> SAMARBETSPUBLIKATIONER 
+				</a>
 			</div>
+		</div>
+		<div class="chooseViolationSection" style="display:none;" slot="SearchResultTitle">
+			<h2>FELTYPER</h2>
+			<about-vialations></about-vialations>
+			<a v-on:click="onClickExternal()" href="https://kundo.se/org/swepub/">FRAMTIDA LÄNK</a>
+			<violations-dropdown :on-click-option="onClickViolationOption">
+				<div style="color:#000;" slot="Title">
+					<span style="float:left;">VÄLJ</span> <span style="float:right;" class="fa fa-caret-down"></span>
+				</div>
+			</violations-dropdown>
 		</div>
 		<div v-show="activity">
 			<div v-el:search-result>
@@ -160,28 +174,19 @@
 						v-if="activity === 'VIOLATIONS'" 
 						:form-model="formData.formModel" 
 						:fields="formData.fields" 
-						:on-result-received.once="onResultReceived">
-					<div slot="SearchResultTitle">
-						<h2>OFULLSTÄNDIG METADATA</h2>
-					</div>
+						:on-result-received.once="onResultReceived"
+						:show-fractional="false">
+
 					<div slot="SearchResultDescription"></div>
 				</search-result>
 				<!-- Local duplicates activity -->
-				<search-result 
-						v-if="activity === 'LOCAL_DUPLICATES'" 
-						:form-model="formData.formModel" 
-						:fields="formData.fields" 
-						:select-all-filter-fields.once="true"
-						:on-result-received.once="onResultReceived">
-					<div slot="SearchResultTitle">
-						<h2>DUBBLETTKANDIDATER</h2>
-					</div>
-					<div slot="SearchResultDescription">
-						<p>
-							<match-weight-help></match-weight-help>
-						</p>
-					</div>
-				</search-result>
+				<duplicates-tool
+					v-if="activity === 'LOCAL_DUPLICATES'"
+					:form-model="formData.formModel"
+					:fields="formData.fields" 
+					:select-all-filter-fields.once="true"
+					:on-result-received.once="onResultReceived">
+				</duplicates-tool>
 				<!-- Duplicates activity -->
 				<ambiguities-tool 
 					v-if="activity === 'AMBIGUITIES'"

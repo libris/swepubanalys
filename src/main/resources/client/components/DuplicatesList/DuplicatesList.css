@@ -1,0 +1,95 @@
+.PendingUpdate {
+	text-align: center;
+}
+
+.TableContainer {
+	width: 100%;
+	max-height: 1600px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.TableContainer td {
+	border: 0px !important;
+}
+
+.TableContainer p {
+	padding-top: 15px;
+	padding-left: 17px;
+}
+
+.LoadingRow {
+	text-align: center; 
+	padding: 55px;
+	padding-bottom: 70px;
+}
+
+.ExpandButtonContainer {
+	/*text-align: right;*/
+	/*position: absolute;
+	top: 0;
+	right: 0;*/
+	/*padding-top: 15px; 
+	padding-right: 5px;*/
+}
+.ExpandButtonContainer a {
+	display: block;
+	cursor: pointer;
+}
+.WeightSpan {
+	font-size: 12px;
+}
+.Col1 {
+	vertical-align: top;
+	width: 50%;
+}
+
+.Col2 {
+	vertical-align: top;
+	width: 35%;
+}
+.Col3 {
+	vertical-align: top;
+	width: 15%;
+}
+.IframeCol1 {
+	width: 50%;
+}
+.IframeCol2 {
+	width: 50%;
+}
+.Thead {
+	table-layout: initial;
+}
+
+.Th {
+	border: 0px !important;
+}
+
+.Tbody {
+	max-height: 1500px;
+	max-width: 100%;
+}
+
+.DarkRow:nth-child(odd) {
+	background-color: #fafafa;
+}
+.DarkRowRow:nth-child(odd) {
+	background-color: #fafafa;
+}
+
+.LightRow {
+	background-color: #ffffff;
+}
+
+.WindowContainer {
+	height: 500px;
+	padding-right: 5px;
+	padding-bottom: 15px;
+}
+
+.Window {
+	border: none;
+	height: 100%;
+	width: 100%;
+}

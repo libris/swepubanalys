@@ -142,7 +142,7 @@ class IndexingTools {
 
         while (!result.done) {
             if(sleepcycles % 120 == 0) {
-                println "${batchName} is waiting"
+                println "${batchName} is waiting for the ${sleepcycles}th time"
             }
             Thread.sleep(250)
             sleepcycles ++
@@ -432,7 +432,7 @@ class IndexingTools {
     "mappings": {
         "dataQuality": {
             "properties": {
-                "qualityViolations.label": {
+                "qualityViolations_label": {
                     "type": "string",
                     "index": "not_analyzed"
                 }
