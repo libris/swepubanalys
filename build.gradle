@@ -163,9 +163,3 @@ task downloadJarsToLibs() {
         }
     }
 }
-
-
-
-
-
-//war.dependsOn npmInstall, bowerInstall, bowerSyncComponentsForBeta, bowerSyncComponentsForQf, CopyMissingFonts, webpack
