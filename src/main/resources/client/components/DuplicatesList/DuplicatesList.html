@@ -92,7 +92,7 @@
 								<template v-if="!article.loading">
 									<td class="{{ $parent.$data._styles.IframeCol1 }}">
 										<div class="{{ $parent.$data._styles.WindowContainer }}">
-											<iframe 
+											<iframe sandbox
 												v-if="article._uri1" 
 												class="{{ $parent.$data._styles.Window }}" 
 												v-bind:src="article._uri1.value">
@@ -101,7 +101,7 @@
 									</td>
 									<td class="{{ $parent.$data._styles.IframeCol2 }}">
 										<div class="{{ $parent.$data._styles.WindowContainer }}">
-											<iframe 
+											<iframe sandbox
 												v-if="article._uri2" 
 												class="{{ $parent.$data._styles.Window }}" 
 												v-bind:src="article._uri2.value">
