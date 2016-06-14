@@ -120,13 +120,13 @@ OPTIONAL
 
 #START_<?_isbnValue>
 OPTIONAL
-{ 
-?Mods mods_m:hasIdentifier ?ISBN .
-?ISBN mods_m:isbnValue ?_isbnValue .
-} 
-#END_<?_isbnValue>
-
-#START_<?_channel>
+#{
+#?Mods mods_m:hasIdentifier ?ISBN .
+#?ISBN mods_m:isbnValue ?_isbnValue .
+#}
+END_<?_isbnValue>
+#
+START_<?_channel>
 OPTIONAL { ?Mods swpa_m:titleValueRelatedItem ?_channel }
 #END_<?_channel>
 #START_<?_issn>

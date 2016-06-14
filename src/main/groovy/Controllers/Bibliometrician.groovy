@@ -1,13 +1,13 @@
 package Controllers
 
-import Traits.ConfigConsumable
+import Traits.Controller
 import spark.Request
 import spark.Response
 
 /**
  * Created by Theodor on 2015-10-01.
  */
-class Bibliometrician implements ConfigConsumable {
+class Bibliometrician implements Controller {
 
     static Map index(final Request request, final Response response) {
          final Map map = new HashMap();

@@ -5,8 +5,9 @@
 				<a v-show="!authenticated" v-on:click="checkLoggedInStatus" >
 					Logga in
 				</a>
-				<span v-show="authenticated">
-					<i class="fa fa-fw fa-user"></i> {{userModel.userName}}
+				<span v-else>
+					<i class="fa fa-fw fa-university"></i> 
+					{{ userModel.organizationName ? userModel.organizationName : userModel.organizationCode }}
 				</span>
 				<tech-info-window>
 				</tech-info-window>

@@ -31,13 +31,22 @@
 	right: 0;*/
 	/*padding-top: 15px; 
 	padding-right: 5px;*/
+	width: 90%;
+	margin: 0.5em;
 }
+
 .ExpandButtonContainer a {
 	display: block;
 	cursor: pointer;
 }
-.WeightSpan {
+.Error {
+	color: rgb(173, 20, 20);
+	font-weight: bold;
 	font-size: 12px;
+}
+
+.WeightSpan {
+	font-size: 14px;
 }
 .Col1 {
 	vertical-align: top;

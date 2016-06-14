@@ -2,6 +2,7 @@ package Controllers.APIs
 
 import Doers.Authenticator
 import Traits.ConfigConsumable
+import Traits.Controller
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
 import spark.Request
@@ -11,7 +12,7 @@ import spark.Response
  * Created by Theodor on 2015-12-14.
  */
 @Slf4j
-class Security implements ConfigConsumable {
+class Security implements Controller {
 
     static def getLoginStatus(Request request, Response response) {
         boolean isLoggedIn = Authenticator.isLoggedIn(request)
@@ -22,8 +23,9 @@ class Security implements ConfigConsumable {
                         [
                                 isLoggedIn: true,
                                 userName  : currentConfig().mode == 'dev' ? currentConfig().security.userName : request.session().attribute("userName"),
-                                userId    : currentConfig().mode == 'dev' ? currentConfig().security.userId : request.session().attribute("userId")
-
+                                userId    : currentConfig().mode == 'dev' ? currentConfig().security.userId : request.session().attribute("userId"),
+                                organizationCode    : currentConfig().mode == 'dev' ? currentConfig().security.organizationCode : request.session().attribute("organizationCode"),
+                                organizationName    : currentConfig().mode == 'dev' ? currentConfig().security.organizationName : request.session().attribute("organizationName")
                         ]
         )
     }

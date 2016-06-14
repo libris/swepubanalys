@@ -20,7 +20,7 @@
 							<p>POST 2</p>
 						</th>
 						<th class="{{ $data._styles.Th }} {{ $data._styles.Col3 }}">
-							<p>Hantera</p>
+							<p>Bedöm</p>
 						</th>
 					</thead>
 					<tbody class="{{ $data._styles.Tbody }} background-light" v-on:scroll="onScrollTbody" v-el:t-body>
@@ -42,25 +42,38 @@
 								</td>
 								<td class="{{ $parent.$data._styles.Col3 }}">
 									<div class="{{ $parent.$data._styles.ExpandButtonContainer }}">
-										<span class="{{ $parent.$data._styles.WeightSpan }}">Viktning: {{ article._total_match_weight.value }}</span>
-										<div class="btn-group" data-toggle="buttons">
-											<label class="btn btn-xs btn-default">
-												<input type="radio" name="options" id="option1" autocomplete="off"> Samma
-											</label>
-											<label class="btn btn-xs btn-default">
-												<input type="radio" name="options" id="option2" autocomplete="off"> Olika
-											</label>
-										</div>
-										<a v-on:click="setHandleArticle(article)"  style="text-decoration: none; border-radius: 0px;">
-											<i 
-												class="fa" 
-												v-bind:class="{ 'fa-plus-square': article.show !== true, 'fa-minus-square' : article.show === true }"
-												style="">
-											</i>
-											<span v-if="article.show !== true">ÖPPNA POSTER</span>
-											<span v-else>STÄNG POSTER</span>
-										</a>
+											<span class="{{ $parent.$data._styles.WeightSpan }}">Viktning: {{ parseFloat(article._total_match_weight.value).toFixed(2) }}</span>
+											<a class="pull-right" v-on:click="setHandleArticle(article)"  style="text-decoration: none; border-radius: 0px;">
+												<i 
+													class="fa" 
+													v-bind:class="{ 'fa-plus-square': article.show !== true, 'fa-minus-square' : article.show === true }"
+													style="">
+												</i>
+												<span v-if="article.show !== true">Visa</span>
+												<span v-else>Dölj</span>
+											</a>
 									</div>
+									<div v-if="!loggedIn">
+										<!-- TODO: Buttons with popover explaining the need to log in -->
+									</div>
+									<div v-if="loggedIn && !getPermissions(article, org)">
+										<!-- TODO: Buttons with popover explaining the lack of permissions -->
+									</div>
+									<div v-else class="btn-group" data-toggle="buttons">
+										<button class="btn btn-default" v-bind:class="{ 'btn-success': (article._isDuplicate.value == 0 && article.pendingChange != 0) }" v-on:click="decideArticle(article, 0)">
+												<i class="fa fa-circle-thin" v-show="(!article._isDuplicate || article._isDuplicate.value != 0) && article.pendingChange != 0"></i>
+												<i class="fa fa-cog fa-spin" v-show="article.pendingChange == 0"></i>
+												<i class="fa fa-check-circle" v-show="article._isDuplicate.value == 0 && article.pendingChange != 0"></i>
+												Samma
+										</button>
+										<button class="btn btn-default" v-bind:class="{ 'btn-success': (article._isDuplicate.value == 1 && article.pendingChange != 1) }" v-on:click="decideArticle(article, 1)">
+												<i class="fa fa-circle-thin" v-show="(!article._isDuplicate || article._isDuplicate.value != 1) && article.pendingChange != 1"></i>
+												<i class="fa fa-cog fa-spin" v-show="article.pendingChange == 1"></i>
+												<i class="fa fa-check-circle" v-show="article._isDuplicate.value == 1 && article.pendingChange != 1"></i>
+												Olika
+										</button>
+									</div>
+									<span class="{{ $parent.$data._styles.Error }}" v-show="article.error != null">Kunde inte spara...</span>
 								</td>
 							</tr>
 							<!-- Expanded row -->

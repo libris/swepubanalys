@@ -1,5 +1,7 @@
 'use strict';
 
+//Vendor
+var marked = require('marked');
 // Components
 var DuplicatesList = require('components/DuplicatesList/DuplicatesList.js');
 var MatchWeightHelp = require('components/Helps/MatchWeightHelp/MatchWeightHelp.js');
@@ -23,7 +25,8 @@ var DuplicatesTool = {
 	data: function() {
 		return {
 			query: '',
-			_styles: styles
+			_styles: styles,
+			about: ''
 		}
 	},
 	components: {
@@ -31,6 +34,9 @@ var DuplicatesTool = {
 		'match-weight-help': MatchWeightHelp,
 		'mail-export': MailExport
 	},
+  ready: function() {
+    this.$set('about', marked(require('docs/research_collaboration.md')));
+  },
 	methods: {
 		/**
 		 * Sent as a callback to <ambiguities-list> in order to get the generated query used in <mail-export>
