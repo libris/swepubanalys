@@ -1,5 +1,5 @@
 import org.apache.tools.ant.taskdefs.condition.Os
-
+import static groovy.json.JsonOutput.*
 import java.nio.charset.Charset
 
 import static java.util.UUID.randomUUID
@@ -15,7 +15,7 @@ def loadConfiguration() {
     project.ext.environment = environment
     def configFile = file('configValues.groovy')
     def config = new ConfigSlurper(environment).parse(configFile.toURI().toURL())
-    println config.toString()
+    println prettyPrint(toJson(config))
     config.mode = ext.environment
     config.buildStamp = (randomUUID() as String).toUpperCase()
     config.buildTimeStamp = (new Date()).format('yyyy-MM-dd HH:mm:ss')
