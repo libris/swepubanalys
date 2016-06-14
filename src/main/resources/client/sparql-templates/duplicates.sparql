@@ -68,9 +68,6 @@ WHERE
 }
 LIMIT 5000000
 }
-###  FILTERS START ####
-#FILTER_<?_orgCode2> ( ?_orgCode2 IN ( <?_orgCode2> ) ) 
-###  FILTERS END ####
 }
 GROUP BY ?Record1 ?Record2 
 HAVING ( sum( ?_weight )  >= 0.8 && sum( ?_weight ) <= 1.1 ) 
