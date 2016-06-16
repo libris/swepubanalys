@@ -34,13 +34,14 @@ var SiteWrapperMixin = {
 		'tech-info-window': TechInfoWindow
 	},
 	events: {
-		/*
+
 		'authenticate': function() {
 			if(this.authenticated) {
 				this.$broadcast('logged-in', this.userModel);
+
 			}
 		},
-		*/
+
 		'setTextTitle': function() {
 			
 		}

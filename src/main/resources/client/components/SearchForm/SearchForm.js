@@ -215,6 +215,7 @@ var SearchForm = {
 			var formModel = models[this.templateName].call(this);
 			console.log('*** SearchForm.generateFormModel: formModel generated:');
 			console.log(JSON.stringify(formModel));
+			
 			this.$set('fieldMemory', formModel);
 			
 			//Setting memory of formfield
