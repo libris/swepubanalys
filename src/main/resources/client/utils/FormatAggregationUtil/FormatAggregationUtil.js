@@ -5,7 +5,7 @@ var d3 = require('d3');
 var _sortBy = require('lodash/collection/sortBy');
 var _sortByOrder = require('lodash/collection/sortByOrder');
 var _sum = require('lodash/math/sum');
-var firstBy = require('exports?firstBy!thenby/thenBy.js');
+var firstBy = require('thenby');
 // Util
 var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil.js');
 

@@ -1,4 +1,7 @@
 import org.apache.tools.ant.taskdefs.condition.Os
+import static groovy.json.JsonOutput.*
+import java.nio.charset.Charset
+
 import static java.util.UUID.randomUUID
 
 configurations {
@@ -12,7 +15,7 @@ def loadConfiguration() {
     project.ext.environment = environment
     def configFile = file('configValues.groovy')
     def config = new ConfigSlurper(environment).parse(configFile.toURI().toURL())
-    println config.toString()
+    println prettyPrint(toJson(config))
     config.mode = ext.environment
     config.buildStamp = (randomUUID() as String).toUpperCase()
     config.buildTimeStamp = (new Date()).format('yyyy-MM-dd HH:mm:ss')
@@ -24,24 +27,35 @@ version '1.1-SNAPSHOT'
 
 apply plugin: 'groovy'
 apply plugin: 'war'
+apply plugin: 'java'
 
 
-
+task version << {
+    println "Gradle version: " + project.getGradle().getGradleVersion()
+    println "Groovy version: " + GroovySystem.getVersion()
+}
 
 repositories {
     mavenCentral()
 }
-
-
-
 war {
     baseName = 'ROOT'
     version = ''// + System.currentTimeMillis();
-    webXml = file('../swepubanalys/WEB-INF/web.xml') // copies a file to WEB-INF/web.xml
+    webXml = file('WEB-INF/web.xml') // copies a file to WEB-INF/web.xml
 }
 
 dependencies {
-    compile 'com.github.rjeschke:txtmark:0.13','org.apache.httpcomponents:httpclient:4.5.1','log4j:log4j:1.2.17','org.codehaus.groovy:groovy-all:2.4.5', 'com.sun.mail:javax.mail:1.5.4', 'com.sparkjava:spark-core:2.3', 'com.sparkjava:spark-template-mustache:1.0.0', 'com.github.groovy-wslite:groovy-wslite:1.1.2', 'commons-validator:commons-validator:1.4.1'
+    compile(
+            [fileTree(dir: 'libs', include: ['*.jar']),
+             'org.apache.jena:jena-arq:2.11.2',
+             'com.github.rjeschke:txtmark:0.13',
+             'org.apache.httpcomponents:httpclient:4.5.1',
+             'log4j:log4j:1.2.17', 'org.codehaus.groovy:groovy-all:2.4.5',
+             'com.sun.mail:javax.mail:1.5.4', 'com.sparkjava:spark-core:2.3',
+             'com.sparkjava:spark-template-mustache:1.0.0',
+             'com.github.groovy-wslite:groovy-wslite:1.1.2',
+             'commons-validator:commons-validator:1.4.1'])
+
     testCompile group: 'junit', name: 'junit', version: '4.11'
 
 }
@@ -83,31 +97,87 @@ task CopyMissingFonts(type: Copy) {
     into('src/main/resources/public/2.0/vendor/kungbib-styles/dist/fonts')
 }
 
+
 task webpack(type: Exec) {
     def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'webpack.cmd' : 'webpack'
-
+    standardOutput = new ByteArrayOutputStream()
     if (project.environment == 'prod')
         commandLine mainCommand, '-p'
     else
         commandLine mainCommand
+
+    doLast {
+        String output = standardOutput.toString()
+
+        if(output.readLines().any{line->line.trim().toLowerCase().startsWith("error")}) {
+            throw new GradleException("Error in WebPack: \n${output}")
+        } else {
+            println "Great success! Output is: ${output}"
+        }
+    }
+    if (project.environment == 'prod'){
+        commandLine mainCommand, '-p --display-modules'
+        println "prod"
+    }
+    else {
+        commandLine mainCommand, '--display-modules'
+        println "not prod"
+    }
 }
 
+
 task npmInstall(type: Exec) {
+    doLast {
+        String output = standardOutput.toString()
+
+        if(output.readLines().any{line->line.trim().toLowerCase().startsWith("error")}) {
+            throw new GradleException("Error in npmInstall: \n${output}")
+        } else {
+            println "Great success! Output is: ${output}"
+        }
+    }
     def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'npm.cmd' : 'npm'
     commandLine mainCommand, 'install'
 }
 
 task bowerInstall(type: Exec) {
+    doLast {
+        String output = standardOutput.toString()
+
+        if(output.readLines().any{line->line.trim().toLowerCase().startsWith("error")}) {
+            throw new GradleException("Error in bowerInstall: \n${output}")
+        } else {
+            println "Great success! Output is: ${output}"
+        }
+    }
     def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'bower.cmd' : 'bower'
     commandLine mainCommand, 'install'
 }
 
-war.dependsOn npmInstall, bowerInstall, bowerSyncComponentsForBeta, bowerSyncComponentsForQf, CopyMissingFonts, webpack
-
-
-
-
-
-
-
-
+task(runWebApp, dependsOn: 'classes', type: JavaExec) {
+    description "Serve App on <http://localhost:4567/>"
+    classpath = sourceSets.main.runtimeClasspath
+    main = 'Routes'
+}
+task downloadJarsToLibs() {
+    def dir = new File('libs')
+    if (!dir.exists()) {
+        new File('libs').mkdir()
+    }
+    def f = new File('libs/virt_jena2.jar')
+    if (!f.exists()) {
+        new URL('http://opldownload.s3.amazonaws.com/uda/virtuoso/7.2/rdfproviders/jena/210/virt_jena2.jar').withInputStream { i ->
+            f.withOutputStream {
+                it << i
+            }
+        }
+    }
+    f = new File('libs/virtjdbc4.jar')
+    if (!f.exists()) {
+        new URL('http://opldownload.s3.amazonaws.com/uda/virtuoso/7.2/jdbc/virtjdbc4.jar').withInputStream { i ->
+            f.withOutputStream {
+                it << i
+            }
+        }
+    }
+}
