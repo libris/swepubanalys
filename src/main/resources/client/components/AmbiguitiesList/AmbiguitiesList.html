@@ -79,7 +79,7 @@
 								<template v-if="!article.loading">
 									<td class="{{ $parent.$data._styles.Col1 }}">
 										<div class="{{ $parent.$data._styles.WindowContainer }}">
-											<iframe 
+											<iframe sandbox
 												v-if="article.ambiguityCase" 
 												class="{{ $parent.$data._styles.Window }}" 
 												v-bind:src="article.ambiguityCase.record1.uri">
@@ -88,7 +88,7 @@
 									</td>
 									<td class="{{ $parent.$data._styles.Col2 }}">
 										<div class="{{ $parent.$data._styles.WindowContainer }}">
-											<iframe 
+											<iframe sandbox
 												v-if="article.ambiguityCase" 
 												class="{{ $parent.$data._styles.Window }}" 
 												v-bind:src="article.ambiguityCase.record2.uri">
