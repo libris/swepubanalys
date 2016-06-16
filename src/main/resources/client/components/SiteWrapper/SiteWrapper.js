@@ -3,7 +3,7 @@
 // Vendor
 var _assign = require('lodash/object/assign');
 // Utils
-var Authenticationutil = require('utils/Authenticationutil/Authenticationutil.js');
+var Authenticationutil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
 // CSS modules
 var styles = _assign(
 	require('./SiteWrapper.css'), 
