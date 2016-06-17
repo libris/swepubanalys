@@ -10,4 +10,4 @@ Vetenskaplig output indelas i fem olika huvudkategorier:
 
 **Läs mer**   
 [Svensk indelning av vetenskaplig output 2015](http://www.kb.se/dokument/SwePub/Svensk-indelning-av-vetenskaplig-output_2015.pdf)  
-[Mappningstabell](http://www.kb.se/dokument/SwePub/SwePub-Output-types-codes-and-mapping.pdf) som hanterar relationer och nivåer mellan tidigare publikationstyper och nya outputtyper
+[Mappningstabell](http://www.kb.se/dokument/SwePub/SwePub-Output-types-codes-and-mapping.pdf) mellan tidigare publikationstyper och nya outputtyper
