@@ -1,4 +1,4 @@
-Här avses en nationell klassificering av output som omfattar såväl textbaserad som icke-textuell forskning och ersätter den gamla indelningen i publikationstyper. 
+Här avses en indelning i outputtyper som ersätter de gamla publikationstyperna. 
 
 Vetenskaplig output indelas i fem olika huvudkategorier:  
 
