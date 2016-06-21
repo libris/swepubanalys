@@ -8,6 +8,8 @@ var _assign = require('lodash/object/assign');
 var ResultMixin = require('mixins/ResultMixin/ResultMixin.js');
 // Utils
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
+var AuthenticationUtil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
+
 // CSS-modules
 var styles = _assign(
 	require('./DuplicatesList.css'),
@@ -39,8 +41,8 @@ var DuplicatesList = {
 			show: show,
 			pendingUpdate: false,
 			handleArticle: '',
-			org: 'hb', // TODO: Get from userModel
-			loggedIn: true, // TODO: Get from userModel
+			org: '',
+			loggedIn: false, 
 			_styles: styles
 		}
 	},
@@ -66,6 +68,13 @@ var DuplicatesList = {
 		}
 	},
 	ready: function() {
+		AuthenticationUtil.authenticate(function(authenticated) {
+			if (authenticated.isLoggedIn) {
+				this.$set('loggedIn', true);
+				this.$set('org', authenticated.organizationCode);
+				console.log(authenticated);
+			}
+		}.bind(this));
 		this.updateQuery();
 	},
 	methods: {

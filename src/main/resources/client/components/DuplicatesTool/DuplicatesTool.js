@@ -4,6 +4,7 @@
 var marked = require('marked');
 // Components
 var DuplicatesList = require('components/DuplicatesList/DuplicatesList.js');
+var AuthenticationUtil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
 var MatchWeightHelp = require('components/Helps/MatchWeightHelp/MatchWeightHelp.js');
 var MailExport = require('components/MailExport/MailExport.js');
 var _assign = require('lodash/object/assign');
@@ -49,6 +50,7 @@ var DuplicatesTool = {
 			localStorage.setItem('externalPass', true);
 		},
 	}
+
 };
 
 module.exports = DuplicatesTool;
