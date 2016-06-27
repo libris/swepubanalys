@@ -1,7 +1,7 @@
 <div class="{{ $data._resultStyles.Result }}">
 	<div class="{{ $data._resultStyles.Loading }}">
 		<div v-if="pendingUpdate === true" transition="expand" class="{{ $data._styles.PendingUpdate }}">
-			<h2><i class="fa fa-cog fa-spin"></i> Laddar...</h2>
+			<h2 class="{{ $data._styles.loading }}">Laddar...</h2>
 		</div>
 	    <div v-if="!hasNonEmptyResult()" class="{{ $data._resultStyles.PendingUpdate }}">
 	        <h2>Tomt sökresultat</h2>
@@ -82,7 +82,7 @@
 								<template v-if="article.loading">
 									<td colpan="3">
 										<div class="{{ $parent.$data._styles.LoadingRow }}">
-											<h1><i class="fa fa-cog fa-spin"></i> Laddar...</h1>
+											<h1 class="{{ $data._styles.loading }}">Laddar...</h1>
 										</div>
 									</td>
 								</template>
