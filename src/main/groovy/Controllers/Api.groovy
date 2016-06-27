@@ -63,7 +63,7 @@ class Api {
         return JsonOutput.toJson([ambiguities: ambiguityCase.ambiguities, record1: ambiguityCase.record1, record2: ambiguityCase.record2])
     }
 
-    static getTechnicalInfo(Request request, Response response) {
+    static getTechnicalInfo(Response response) {
         response.type("application/json")
         def mapToReturn = [lastIndexDate: Virtuoso.lastIndexDate, releaseInfo: GitHub.releases, currentModsVersion: '2.6']
         return new JsonBuilder(mapToReturn).toPrettyString()

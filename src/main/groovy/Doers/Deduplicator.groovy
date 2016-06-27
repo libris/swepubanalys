@@ -44,6 +44,7 @@ class Deduplicator implements ConfigConsumable {
             vur.exec();
         }
         catch (All) {
+            graph.close()
             throw All
         }
     }
@@ -51,7 +52,7 @@ class Deduplicator implements ConfigConsumable {
     static
     void saveDuplicateCase(boolean samePublication, String uriRecord1, String uriRecord2, String comment, String userId, VirtGraph graph) {
         //TODO: requires logged in user
-        assert graph != null
+        assert graph != null && !graph.isClosed()
         //TODO:Check if this needs to be a local user
         String uri = createAdjudicationUri(uriRecord1,uriRecord2)
         String time = "\"${convertDateToXMLType(new Date(System.currentTimeMillis()))} \"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
@@ -75,9 +76,12 @@ class Deduplicator implements ConfigConsumable {
             sparql = sparql.replace("__BOOL__", samePublication.toString());
             VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(sparql, graph);
             vur.exec();
+
         }
         catch (All) {
+            graph.close()
             throw All
+
         }
     }
 
@@ -89,6 +93,7 @@ class Deduplicator implements ConfigConsumable {
             virtGraph.setReadFromAllGraphs(true)
         }
         catch (All) {
+            virtGraph.close()
         }
         return virtGraph;
     }

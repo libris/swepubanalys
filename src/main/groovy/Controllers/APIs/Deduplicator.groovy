@@ -16,18 +16,16 @@ class Deduplicator implements Controller {
         response.type("application/json")
         def map = [result: "success"]
         try {
-            validate(SecurityValidator.isLoggedIn(request),"User not logged in")
+            validate(SecurityValidator.isLoggedIn(request),'User not logged in',403)
             String record1 = request.queryParams("recordId1")
             String record2 = request.queryParams("recordId2")
             int sameOrDifferent = request.queryParams("sameOrDifferent").toInteger()
-            validate(sameOrDifferent == 0 || sameOrDifferent == 1, "sameOrDifferent must be either 0 or 1")
-            validate(record1,"record1 not supplied")
-            validate(record2, "record2 not supplied")
+            validate(sameOrDifferent == 0 || sameOrDifferent == 1, "sameOrDifferent must be either 0 or 1",400)
+
         }
         catch (all) {
             map.result = "error"
             map.put("errormessage", all.message)
-
         }
         return new JsonBuilder(map).toPrettyString()
 
