@@ -355,7 +355,7 @@ var violations = {
 	'swpa_m:MissingLocalCreatorViolation': 		{ text: 'Upphov saknas', name: 'missing local creator', grade: 3 },
 	'swpa_m:MissingLocalCreatorIdentifierViolation': 	{ text: 'PersonalID saknas', name: 'missing identifier of local creator', grade: 3 },
 	'swpa_m:MissingCreatorCountViolation': 		{ text: 'Upphov - antal saknas', name: 'missing creator count', grade: 3 },
-	'swpa_m:MissingConferenceTitleViolation': 	{ text: 'Konferenstitel saknas', name: 'Missing Conference Title Violation', grade: 3 },
+	'swpa_m:MissingConferenceTitleViolation': 	{ text: 'Konferens - saknad', name: 'Missing Conference Title Violation', grade: 3 },
 	'swpa_m:ISBNAtWrongPlaceViolation': 		{ text: 'ISBN på fel nivå', name: 'ISBN at wrong place violation', grade: 3 },
 	'swpa_m:MissingISSNViolation':				{ text: 'ISSN saknas', name: 'Missing ISSN Violation', grade: 3 },
 	'swpa_m:DOIViolation': 						{ text: 'DOI fel', name: 'DOI format violation', grade: 3 },
