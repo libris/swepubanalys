@@ -23,26 +23,29 @@ public class Routes implements SparkApplication {
     void init() {
         staticFileLocation("/public")
 
+
+        //<editor-fold desc="Old Beta implementation">
         get("/uttag-av-data", { req, res -> Beta.index(req, res) }, templateEngine)
         post("/uttag-av-data/", { req, res -> Beta.index(req, res) }, templateEngine)
         post("/ladda-ner-fil", { req, res -> Beta.preview(req, res) }, templateEngine)
+        //</editor-fold>
+
 
         get("/bibliometri", { req, res -> new ModelAndView(Bibliometrician.index(req, res), "bibliometrician.mustache") }, templateEngine)
         get("/databearbetning", { req, res -> new ModelAndView(Inspector.index(req, res), "inspector.mustache") }, templateEngine)
         get("/secure", { req, res -> Security.index(req, res) }, templateEngine)
 
-        /**
-         * Redirects
-         */
+
+        //<editor-fold desc="Redirects">
         get("/", { req, res -> res.redirect("/bibliometri") })
         get("/bibliometriker", { req, res -> res.redirect("/bibliometri") })
         get("/form", { req, res -> res.redirect("/bibliometri") })
         get("/granskare", { req, res -> res.redirect("/databearbetning") })
         get("/qf/bibliometrics", { req, res -> res.redirect("/bibliometri") })
+        //</editor-fold>
 
-        /**
-         * REST-APIs
-         */
+
+        //<editor-fold desc="REST-APIs">
         post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
         post("/api/2.0/deduplication/adjudicate", { req, res -> Deduplicator.adjudicate(req, res) })
@@ -57,6 +60,7 @@ public class Routes implements SparkApplication {
         get("/api/2.0/ambiguity/case", { req, res -> Api.ambiguityCase(req, res) })
         get("/api/2.0/security", { req, res -> controllers.APIs.Security.getLoginStatus(req, res) })
         get("/api/2.0/technicalInfo", { req, res -> Api.getTechnicalInfo(res) })
+        //</editor-fold>
 
         /**
          * Custom 500 Stub
