@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat
 
 class Deduplicator implements ConfigConsumable {
 
-    static String createAdjudicationUri(String uriRecord1, String uriRecord2){
+    static String createAdjudicationUri(String uriRecord1, String uriRecord2) {
         return "swpa_d:CreativeWorkInstanceDuplicateAdjudication__" + uriRecord1.substring(31, uriRecord1.length()) + "_" + uriRecord2.substring(31, uriRecord2.length())
 
     }
@@ -32,14 +32,30 @@ class Deduplicator implements ConfigConsumable {
 
     static void removeDuplicateCase(String uriRecord1, String uriRecord2, VirtGraph graph) {
         try {
+            def previous = Doers.Deduplicator.getPreviouslyAdjudicated()
+                    .findAll{ it -> [uriRecord1, uriRecord2].contains(it.record1) && [uriRecord1, uriRecord2].contains(it.record2) }
+            previous.each {it-> Deduplicator.removeDuplicateCase(it.adjudicationURI, graph)};
             //TODO: requires logged in user
             assert graph != null
-            String uriadj = createAdjudicationUri(uriRecord1,uriRecord2)
-
+        }
+        catch (All) {
+            graph.close()
+            throw All
+        }
+    }
+    /**
+     * Removes a duplicate case (adjudication) from the triple store.
+     * @param adjudicationURI
+     * @param graph
+     */
+    static void removeDuplicateCase(String adjudicationURI, VirtGraph graph) {
+        try {
+            //TODO: requires logged in user
+            assert graph != null
             String deleteQuery = """${prefix}
                                     DELETE FROM <${mURIadjudicationGraph}>
-                                    { ${uriadj} ?p ?o }
-                                    WHERE { ${uriadj} ?p ?o . }"""
+                                    { <${adjudicationURI}> ?p ?o }
+                                    WHERE { <${adjudicationURI}> ?p ?o . }"""
             VirtuosoUpdateRequest vur = VirtuosoUpdateFactory.create(deleteQuery, graph);
             vur.exec();
         }
@@ -54,23 +70,23 @@ class Deduplicator implements ConfigConsumable {
         //TODO: requires logged in user
         assert graph != null && !graph.isClosed()
         //TODO:Check if this needs to be a local user
-        String uri = createAdjudicationUri(uriRecord1,uriRecord2)
+        String uri = createAdjudicationUri(uriRecord1, uriRecord2)
         String time = "\"${convertDateToXMLType(new Date(System.currentTimeMillis()))} \"^^<http://www.w3.org/2001/XMLSchema#dateTime>"
         String sparqlTemplate = """${prefix}
                                         INSERT INTO <${mURIadjudicationGraph}>
                                         {
-                                            ${uri} a swpa_m:Adjudication .
-                                            ${uri} a swpa_m:__TYPE__ .
-                                            ${uri} swpa_m:isDuplicate '__BOOL__'^^xsd:boolean .
-                                            ${uri} swpa_m:compares <${uriRecord1}> .
-                                            ${uri} swpa_m:compares <${uriRecord2}> .
-                                            ${uri} admin:userName \"${userId}\"^^xsd:string .
-                                            ${uri} swpa_m:validAt ${time} .
-                                            ${uri} rdfs:comment \"${comment}\" .
+                                            <${uri}> a swpa_m:Adjudication .
+                                            <${uri}> a swpa_m:__TYPE__ .
+                                            <${uri}> swpa_m:isDuplicate '__BOOL__'^^xsd:boolean .
+                                            <${uri}> swpa_m:compares <${uriRecord1}> .
+                                            <${uri}> swpa_m:compares <${uriRecord2}> .
+                                            <${uri}> admin:userName \"${userId}\"^^xsd:string .
+                                            <${uri}> swpa_m:validAt ${time} .
+                                            <${uri}> rdfs:comment \"${comment}\" .
                                         } WHERE { }""";
         String sparql;
         try {
-            removeDuplicateCase(uriRecord1,uriRecord2, graph)
+            removeDuplicateCase(uriRecord1, uriRecord2, graph)
             sparql = sparqlTemplate.replace("__TYPE__", "CreativeWorkInstanceDuplicateAdjudication");
             sparql = sparql.replace("swpa_d:Adjudication__", "swpa_d:CreativeWorkInstanceDuplicateAdjudication__");
             sparql = sparql.replace("__BOOL__", samePublication.toString());
@@ -148,7 +164,7 @@ class Deduplicator implements ConfigConsumable {
             def resp = new Virtuoso().post(sparql, "application/json")
             return resp.results.bindings.collect { it ->
                 [
-                        adjudication: it["CreativeWorkInstanceDuplicateAdjudication"].value,
+                        adjudicationURI: it["CreativeWorkInstanceDuplicateAdjudication"].value,
                         id1         : it["_identifierValue1"].value,
                         id2         : it["_identifierValue2"].value,
                         isDuplicate : it["_isDuplicate"].value,
