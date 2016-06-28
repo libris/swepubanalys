@@ -362,7 +362,7 @@ var Templates = {
     },
 	'QfBibliometrics': {
         title: 'Bibliometri',
-        template: require('raw!sparql-templates/QfBibliometrics.sparql')
+        template: require('raw!sparql-templates/bibliometrician.sparql')
     },
     'quality': {
         title: 'Feltyper',
@@ -370,7 +370,7 @@ var Templates = {
     },
     'AmbiguityListing': {
         title: 'Samarbetspublikationer',
-        template: require('raw!sparql-templates/AmbiguityListing.sparql')
+        template: require('raw!sparql-templates/ambiguities.sparql')
     }
 };
 

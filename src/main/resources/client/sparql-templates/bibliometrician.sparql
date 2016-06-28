@@ -56,7 +56,6 @@ OPTIONAL { ?Record swpa_m:localCreatorCount ?_numLocalCreator . }
 #END_<?_numLocalCreator>
 
 #START_<?_titleValue>
-
 ?Mods mods_m:hasTitleInfo ?TitleInfo .
 MINUS { ?TitleInfo mods_m:type 'alternative'^^xsd:string }
 ?TitleInfo mods_m:hasTitle ?Title .
@@ -70,12 +69,14 @@ MINUS { ?TitleInfo mods_m:type 'alternative'^^xsd:string }
 #START_<?_fulltext>
 OPTIONAL { ?Record swpa_m:uriFulltext ?_fulltext . }
 #END_<?_fulltext>
+
 #START_<?_outputCode>
 OPTIONAL {
 ?Record swpa_m:hasOutputType ?OutputType .
 ?OutputType outt_m:code ?_outputCode .
 }
 #END_<?_outputCode>
+
 #START_<?_doiValue>
 OPTIONAL
 {
@@ -120,15 +121,16 @@ OPTIONAL
 
 #START_<?_isbnValue>
 OPTIONAL
-#{
-#?Mods mods_m:hasIdentifier ?ISBN .
-#?ISBN mods_m:isbnValue ?_isbnValue .
-#}
+{
+?Mods mods_m:hasIdentifier ?ISBN .
+?ISBN mods_m:isbnValue ?_isbnValue .
+}
 #END_<?_isbnValue>
-#
+
 #START_<?_channel>
 OPTIONAL { ?Mods swpa_m:titleValueRelatedItem ?_channel }
 #END_<?_channel>
+
 #START_<?_issn>
 OPTIONAL { ?Mods swpa_m:issnRelatedItem ?_issn }
 #END_<?_issn>
@@ -187,15 +189,17 @@ OPTIONAL
 
 
 #START_<?_name>
-
 ?Name foaf:name ?_name .
 #END_<?_name>
+
 #START_<?_localID>
 OPTIONAL{ ?Name xlink:href ?_localID }
 #END_<?_localID>
+
 #START_<?_orcid>
 OPTIONAL{ ?Name swpa_m:orcid ?_orcid }
 #END_<?_orcid>
+
 #START_<?_affiliation>
 OPTIONAL
 {
@@ -204,7 +208,9 @@ OPTIONAL
 ?Affiliation mods_m:valueURI ?_affiliation .
 }
 #END_<?_affiliation>
+
 ###  FILTERS START ####
+
 #START_<ONE_CREATOR_NAME_FILTER>
 ?Mods mods_m:hasName ?Name .
 ?Name foaf:name ?_name .
@@ -234,14 +240,14 @@ UNION
 #FILTER_<?_orcid> ( xsd:string(?_orcid) = <?_orcid> )
 }
 #END_<ONE_CREATOR_TWO_FILTERS>
+
 ###  FILTERS START ####
 #FILTER_<?_orgCode> ( xsd:string(?_orgCode) IN ( <?_orgCode> ) ) 
 #FILTER_<?_pubYear_low> ( ?_pubYear >= <?_pubYear_low> ) 
 #FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> ) 
 #FILTER_<?_publicatType> (xsd:string(?_publicatType) IN ( <?_publicatType> ) )
 #FILTER_<?_outputCode> (xsd:string(?_outputCode) IN ( <?_outputCode> ) )
-
-#FILTER_<?_contentType> (xsd:string(?_contentType) IN ( <?_contentType> ) ) 
+#FILTER_<?_contentType> (xsd:string(?_contentType) IN ( <?_contentType> ) )
 #FILTER_<?_isPublished> ( ?_isPublished = <?_isPublished> ) 
 #FILTER_<?_hsv3> ( xsd:int(?_hsv3) IN ( <?_hsv3> ) )
 #FILTER_<?_OA> ( BOUND(?_OA ))
