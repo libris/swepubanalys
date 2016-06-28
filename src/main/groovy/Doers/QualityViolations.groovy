@@ -1,6 +1,6 @@
-package Doers
+package doers
 
-import Clients.Virtuoso
+import clients.Virtuoso
 
 /**
  * Created by Theodor on 2016-02-12.

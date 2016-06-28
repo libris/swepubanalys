@@ -1,8 +1,7 @@
-package Controllers.APIs
+package controllers.APIs
 
-import Doers.Authenticator
-import Traits.ConfigConsumable
-import Traits.Controller
+import doers.Authenticator
+import traits.Controller
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
 import spark.Request

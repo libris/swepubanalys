@@ -1,6 +1,6 @@
-import Controllers.*
-import Controllers.APIs.Deduplicator
-import Controllers.APIs.InputValidator
+import controllers.*
+import controllers.APIs.Deduplicator
+import controllers.APIs.InputValidator
 import spark.ModelAndView
 import spark.Request
 import spark.servlet.SparkApplication
@@ -86,7 +86,7 @@ public class Routes implements SparkApplication {
             Api.dataQuery(req, res)
         })
         get("/api/2.0/ambiguity/case", { req, res -> Api.ambiguityCase(req, res) })
-        get("/api/2.0/security", { req, res -> Controllers.APIs.Security.getLoginStatus(req, res) })
+        get("/api/2.0/security", { req, res -> controllers.APIs.Security.getLoginStatus(req, res) })
         get("/api/2.0/technicalInfo", { req, res -> Api.getTechnicalInfo(res) })
 
         /**

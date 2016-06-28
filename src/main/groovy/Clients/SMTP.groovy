@@ -1,4 +1,4 @@
-package Clients
+package clients
 
 import groovy.util.logging.Slf4j
 

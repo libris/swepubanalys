@@ -1,4 +1,4 @@
-import Traits.ConfigConsumable
+import traits.ConfigConsumable
 import groovy.util.logging.Slf4j
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager
 import org.junit.After
@@ -25,7 +25,7 @@ class SparqlResultExporter implements ConfigConsumable  {
 
     @Test
     public void exportAll() {
-       def sre = new Doers.SparqlResultExporter()
+       def sre = new doers.SparqlResultExporter()
         def result = sre.startQueryAndDownload(query,format,"theodor.tolstoy@kb.se",true)
         assert result.success == "true"
     }
@@ -35,18 +35,18 @@ class SparqlResultExporter implements ConfigConsumable  {
     public void exportPartsZip() {
         String sparqlEndpointURL = currentConfig().ftp.sparqlEndpoint
 
-        def ftpClient = new Doers.SparqlResultExporter();
+        def ftpClient = new doers.SparqlResultExporter();
         def result = ftpClient.prepareQueryExecution(sparqlEndpointURL,query,format, "resultset_" + ftpClient.nowString(), "theodor.tolstoy@kb.se", true);
         assert result instanceof Map
 
 
         byte[] content = null;
         PoolingHttpClientConnectionManager connman = new PoolingHttpClientConnectionManager();
-        content = Doers.SparqlResultExporter.makeRequest(sparqlEndpointURL, connman,content,query,format,200,result.fileStatus);
+        content = doers.SparqlResultExporter.makeRequest(sparqlEndpointURL, connman,content,query,format,200,result.fileStatus);
         assert content instanceof byte[]
         assert result.fileStatus.text.contains("Query execution successful")
         def length = result.fileZip.length()
-        Doers.SparqlResultExporter.saveZipFile(content, query,result.fileZip)
+        doers.SparqlResultExporter.saveZipFile(content, query,result.fileZip)
 
         assert length < result.fileZip.length()
 
@@ -55,7 +55,7 @@ class SparqlResultExporter implements ConfigConsumable  {
     public void exportPartsTSV() {
          String sparqlEndpointURL = currentConfig().ftp.sparqlEndpoint
 
-        def ftpClient = new Doers.SparqlResultExporter();
+        def ftpClient = new doers.SparqlResultExporter();
         def result = ftpClient.prepareQueryExecution(sparqlEndpointURL,query,"text/tab-separated-values", "theodor.tolstoy@kb.se", false);
         assert result instanceof Map
         assert result.fileResults.name.endsWith(".tsv")
@@ -63,7 +63,7 @@ class SparqlResultExporter implements ConfigConsumable  {
 
         byte[] content = null;
         PoolingHttpClientConnectionManager connman = new PoolingHttpClientConnectionManager();
-        content = Doers.SparqlResultExporter.makeRequest(sparqlEndpointURL, connman,content,result.queryString,result.format,200,result.fileStatus);
+        content = doers.SparqlResultExporter.makeRequest(sparqlEndpointURL, connman,content,result.queryString,result.format,200,result.fileStatus);
         assert content instanceof byte[]
         assert result.fileStatus.text.contains("Query execution successful")
         result.fileResults.bytes = content

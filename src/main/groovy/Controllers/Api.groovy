@@ -1,11 +1,11 @@
-package Controllers
+package controllers
 
-import Clients.Elasticsearch
-import Clients.GitHub
-import Clients.Virtuoso
-import Doers.AmbiguityCase
-import Doers.QualityViolations
-import Doers.SparqlResultExporter
+import clients.Elasticsearch
+import clients.GitHub
+import clients.Virtuoso
+import doers.AmbiguityCase
+import doers.QualityViolations
+import doers.SparqlResultExporter
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper

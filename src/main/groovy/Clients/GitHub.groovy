@@ -1,6 +1,6 @@
-package Clients
+package clients
 
-import Traits.ConfigConsumable
+import traits.ConfigConsumable
 import wslite.json.JSONArray
 import wslite.rest.ContentType
 import wslite.rest.RESTClient

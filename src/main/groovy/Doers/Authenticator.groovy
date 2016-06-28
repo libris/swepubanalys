@@ -1,6 +1,6 @@
-package Doers
+package doers
 
-import Traits.ConfigConsumable
+import traits.ConfigConsumable
 import spark.Request
 
 /**

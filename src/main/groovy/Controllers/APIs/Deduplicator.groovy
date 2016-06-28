@@ -1,7 +1,7 @@
-package Controllers.APIs
+package controllers.APIs
 
-import Traits.Controller
-import Validators.SecurityValidator
+import traits.Controller
+import validators.SecurityValidator
 import groovy.json.JsonBuilder
 import groovy.transform.CompileStatic
 import spark.Request
@@ -33,7 +33,7 @@ class Deduplicator implements Controller {
 
     static def getPreviouslyAdjudicated(Request request, Response response) {
         response.type("application/json")
-        return new JsonBuilder(Doers.Deduplicator.getPreviouslyAdjudicated(request.queryParams("organization") ?: ""))
+        return new JsonBuilder(doers.Deduplicator.getPreviouslyAdjudicated(request.queryParams("organization") ?: ""))
 
     }
 }

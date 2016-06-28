@@ -1,4 +1,4 @@
-package Traits
+package traits
 /**
  * Created by Theodor on 2016-02-03.
  */

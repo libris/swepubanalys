@@ -1,8 +1,8 @@
-package Doers
+package doers
 
-import Clients.SMTP
-import Clients.Virtuoso
-import Traits.ConfigConsumable
+import clients.SMTP
+import clients.Virtuoso
+import traits.ConfigConsumable
 import com.github.rjeschke.txtmark.Processor
 import groovy.util.logging.Slf4j
 import org.apache.http.HttpEntity

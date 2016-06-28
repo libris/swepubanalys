@@ -1,7 +1,7 @@
-package Controllers.APIs
+package controllers.APIs
 
-import Clients.Virtuoso
-import Validators.OrcidValidator
+import clients.Virtuoso
+import validators.OrcidValidator
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j

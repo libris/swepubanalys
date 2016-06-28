@@ -1,6 +1,6 @@
-package Controllers
+package controllers
 
-import Traits.Controller
+import traits.Controller
 import spark.Request
 import spark.Response
 
