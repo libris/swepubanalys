@@ -31,7 +31,7 @@ class DuplicateCandidates {
         Deduplicator.removeDuplicateCase(record1, record2, graph)
         Deduplicator.saveDuplicateCase(true, record1, record2, "test", "thetol", graph)
         List<DuplicateCase> after = doers.Deduplicator.getPreviouslyAdjudicated("oru")
-        assert after.any { it -> [record1, record2].contains(it.record1) && [record1, record2].contains(it.record2) }
+        assert after.any { it -> [record1, record2].contains(it.record1) && [record1, record2].contains(it.record2) && it.isDuplicate }
         graph.close()
         assert graph.isClosed()
     }
