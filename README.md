@@ -28,3 +28,12 @@ To come.
 
 ### Front-end documentation
 [Link](src/main/resources/client/README.md)
+
+### Virtuoso prerequisites
+To be able to write to Virtuoso you need to configure a user in your configvalues.groovy file.
+The user need the following permissions set:
+SPARQL_SELECT
+SPARQL_UPDATE
+The user need to be granted permission to the following graph
+DB.DBA.RDF_GRAPH_USER_PERMS_SET ('http://swepub.kb.se/analysis/adjudication/data#graph', 'adjudicator', 3);
+
