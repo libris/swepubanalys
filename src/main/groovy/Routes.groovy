@@ -2,7 +2,6 @@ import controllers.*
 import controllers.APIs.Deduplicator
 import controllers.APIs.InputValidator
 import spark.ModelAndView
-import spark.Request
 import spark.servlet.SparkApplication
 import spark.template.mustache.MustacheTemplateEngine
 
@@ -44,71 +43,27 @@ public class Routes implements SparkApplication {
         /**
          * REST-APIs
          */
-        post("/api/1.0/sparql", { req, res ->
-            validateQueryParameters(['query', 'format'] as String[], req)
-            Api.sparql(req, res)
-        })
-        get("/api/1.0/sparql", { req, res ->
-            validateQueryParameters(['query', 'format'] as String[], req)
-            Api.sparql(req, res)
-        })
-        post("/api/2.0/deduplication/adjudicate", { req, res ->
-            validateQueryParameters(['recordId1', 'recordId2', 'sameOrDifferent'] as String[], req)
-            validate((0..1).contains(req.queryParams("sameOrDifferent").toInteger()), 400, 'Value of sameOrDifferent must be 0 or 1')
-            Deduplicator.adjudicate(req, res)
-        })
-
-        get("/api/2.0/deduplication/adjudicate", { req, res ->
-            //TODO: if organization is set, check that it is an actual organizationcode...
-            Deduplicator.getPreviouslyAdjudicated(req, res)
-        })
-
+        post("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
+        get("/api/1.0/sparql", { req, res -> Api.sparql(req, res) })
+        post("/api/2.0/deduplication/adjudicate", { req, res -> Deduplicator.adjudicate(req, res) })
+        get("/api/2.0/deduplication/adjudicate", { req, res -> Deduplicator.getPreviouslyAdjudicated(req, res) })
         get("/api/2.0/publicationYearSpan", { req, res -> InputValidator.publicationYearSpan(res) })
-
         get("/api/2.0/dataqualityvalidations", { req, res -> Api.getDataQualityViolations(res) })
-
         get("/api/2.0/elastic/stats", { req, res -> Api.getStats(res) })
-
-        get("/api/2.0/elastic/aggregations", { req, res ->
-            validateQueryParameters(['model'] as String[], req)
-            Api.getAggregations(req, res)
-        })
-        get("/api/2.0/validate/orcid", { req, res ->
-            validateQueryParameters(['orcid'] as String[], req)
-            InputValidator.validateOrcid(req, res);
-        })
-        get("/api/2.0/data/query", { req, res ->
-            validateQueryParameters(['query', 'format', 'email', 'zip'] as String[], req)
-            Api.dataQuery(req, res)
-        })
-        post("/api/2.0/data/query", { req, res ->
-            validateQueryParameters(['query', 'format', 'email', 'zip']  as String[], req)
-            Api.dataQuery(req, res)
-        })
+        get("/api/2.0/elastic/aggregations", { req, res -> Api.getAggregations(req, res) })
+        get("/api/2.0/validate/orcid", { req, res -> InputValidator.validateOrcid(req, res); })
+        get("/api/2.0/data/query", { req, res -> Api.dataQuery(req, res) })
+        post("/api/2.0/data/query", { req, res -> Api.dataQuery(req, res) })
         get("/api/2.0/ambiguity/case", { req, res -> Api.ambiguityCase(req, res) })
         get("/api/2.0/security", { req, res -> controllers.APIs.Security.getLoginStatus(req, res) })
         get("/api/2.0/technicalInfo", { req, res -> Api.getTechnicalInfo(res) })
 
         /**
-         * Custom 500 Stubb
+         * Custom 500 Stub
          */
         exception(Exception, { e, request, response ->
             response.body(e.message + e.stackTrace);
         })
-    }
-
-    void validate(boolean criteria, int httpStatus, String message) {
-        if (!criteria) {
-            halt(httpStatus, message)
-        }
-    }
-
-    void validateQueryParameters(String[] params, Request request) {
-        params.each { it ->
-            if (!request.queryParams(it)) {
-                halt(400, "Parameter ${it} is missing")
-            }
-        }
     }
 
 

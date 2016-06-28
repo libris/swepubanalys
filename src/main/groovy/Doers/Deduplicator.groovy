@@ -9,6 +9,7 @@ import virtuoso.jena.driver.VirtuosoUpdateFactory
 import virtuoso.jena.driver.VirtuosoUpdateRequest
 
 import java.text.SimpleDateFormat
+
 /**
  * Created by Theodor on 2016-01-08.
  */
@@ -16,7 +17,7 @@ import java.text.SimpleDateFormat
 class Deduplicator implements ConfigConsumable {
 
     static String createAdjudicationUri(String uriRecord1, String uriRecord2) {
-        return "swpa_d:CreativeWorkInstanceDuplicateAdjudication__${uriRecord1.substring(31, uriRecord1.length())}_${uriRecord2.substring(31, uriRecord2.length())}"
+        return "swpa_d:CreativeWorkInstanceDuplicateAdjudication__${uriRecord1.substring(30, uriRecord1.length())}_${uriRecord2.substring(30, uriRecord2.length())}"
     }
 
     static String prefix = """PREFIX swpa_d: <http://swepub.kb.se/SwePubAnalysis/data#>
@@ -68,8 +69,10 @@ class Deduplicator implements ConfigConsumable {
         }
     }
 
-    static void saveDuplicateCase(boolean isDuplicate, String uriRecord1, String uriRecord2, String comment, String userId, VirtGraph graph) {
-        //TODO: requires logged in user
+    static void saveDuplicateCase(boolean isDuplicate, String uriRecord1, String uriRecord2, String comment, String userId, VirtGraph graph = null) {
+        graph = (graph && !graph.isClosed()) ?:
+                Deduplicator.getGraph(currentConfig().virtuoso.jdbcUser, currentConfig().virtuoso.jdbcPwd)
+
         assert graph != null && !graph.isClosed()
         //TODO:Check if this needs to be a local user
         String uri = createAdjudicationUri(uriRecord1, uriRecord2)
@@ -84,7 +87,7 @@ class Deduplicator implements ConfigConsumable {
                                             <${uri}> swpa_m:compares <${uriRecord2}> .
                                             <${uri}> admin:userName \"${userId}\"^^xsd:string .
                                             <${uri}> swpa_m:validAt ${time} .
-                                            <${uri}> rdfs:comment \"${comment}\" .
+                                            <${uri}> rdfs:comment \"${''}\" .
                                         } WHERE { }""";
         String sparql;
         try {
@@ -133,7 +136,7 @@ class Deduplicator implements ConfigConsumable {
     /**
      * Returns all previously adjudications. Optionally filtered by organization.
      * @param organization filter
-     * @return List<DuplicateCase> of all previously adjudications. Optionally filtered by organization.
+     * @return List < DuplicateCase >  of all previously adjudications. Optionally filtered by organization.
      */
     static List<DuplicateCase> getPreviouslyAdjudicated(String organization = "") {
         try {

@@ -12,6 +12,7 @@ xsd:string(?_id1) as ?_id1 # id post 1
 xsd:string(?_id2) as ?_id2 # id post 2
 ?Record1 #Record 1
 ?Record2 #Record 2
+EXISTS {?Adjudication a swpa_m:Adjudication .} as ?hasAdjudication
 
 WHERE
 {
@@ -26,6 +27,7 @@ WHERE
 OPTIONAL
 {
 ?Adjudication a swpa_m:Adjudication .
+?Adjudication a swpa_m:CreativeWorkInstanceDuplicateAdjudication .
 ?Adjudication swpa_m:compares ?Record1 .
 ?Adjudication swpa_m:compares ?Record2 .
 ?Adjudication swpa_m:isDuplicate ?_isDuplicate .
@@ -75,5 +77,5 @@ HAVING ( sum( ?_weight )  >= 0.8 && sum( ?_weight ) <= 1.1 )
 }
 }
 #ORDER BY DESC( ?_total_match_weight)
-ORDER BY DESC(?_isDuplicate)
+ORDER BY ?hasAdjudication
 
