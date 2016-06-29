@@ -70,7 +70,7 @@ class Deduplicator implements ConfigConsumable {
     }
 
     static void saveDuplicateCase(boolean isDuplicate, String uriRecord1, String uriRecord2, String comment, String userId, VirtGraph graph = null) {
-        graph = (graph && !graph.isClosed()) ?:
+        graph = (graph && !graph.isClosed()) ? graph :
                 Deduplicator.getGraph(currentConfig().virtuoso.jdbcUser, currentConfig().virtuoso.jdbcPwd)
 
         assert graph != null && !graph.isClosed()
@@ -173,8 +173,7 @@ class Deduplicator implements ConfigConsumable {
             def resp = new Virtuoso().post(template.toString(), "application/json")
             [resp.results.bindings[0].org1.value, resp.results.bindings[0].org2.value]
         }
-        catch(any)
-        {
+        catch (any) {
             []
         }
     }
