@@ -62,6 +62,7 @@ class Api implements Controller {
 
     static ambiguityCase(Request request, Response response) {
         response.type("application/json")
+        validateQueryParameters(['record1_id', 'record2_id', 'record1_org', 'record2_org'] as String[], request)
         def ambiguityCase = new AmbiguityCase(request.queryParams("record1_id"), request.queryParams("record2_id"), request.queryParams("record1_org"), request.queryParams("record2_org"))
         return JsonOutput.toJson([ambiguities: ambiguityCase.ambiguities, record1: ambiguityCase.record1, record2: ambiguityCase.record2])
     }
