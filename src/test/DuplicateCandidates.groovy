@@ -1,5 +1,6 @@
 import doers.Deduplicator
 import domain.DuplicateCase
+import org.apache.commons.validator.routines.UrlValidator
 import org.junit.Test
 
 /**
@@ -28,6 +29,9 @@ class DuplicateCandidates {
         assert !graph.isClosed()
         def record1 = "http://swepub.kb.se/mods/data#Record__oai_DiVA_org_oru34906_1"
         def record2 = "http://swepub.kb.se/mods/data#Record__oai_DiVA_org_oru34910_1"
+        def urlVal = new UrlValidator(["http", "https"] as String[])
+        assert urlVal.isValid(record1)
+        assert urlVal.isValid(record2)
         Deduplicator.removeDuplicateCase(record1, record2, graph)
         Deduplicator.saveDuplicateCase(true, record1, record2, "test", "thetol", graph)
         List<DuplicateCase> after = doers.Deduplicator.getPreviouslyAdjudicated("oru")

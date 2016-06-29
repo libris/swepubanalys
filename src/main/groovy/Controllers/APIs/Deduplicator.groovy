@@ -5,6 +5,7 @@ import domain.LoginStatus
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.transform.CompileStatic
+import org.apache.commons.validator.routines.UrlValidator
 import spark.Request
 import spark.Response
 import traits.Controller
@@ -21,6 +22,9 @@ class Deduplicator implements Controller {
 
         String record1 = request.queryParams("recordId1")
         String record2 = request.queryParams("recordId2")
+        def urlVal = new UrlValidator(["http", "https"] as String[])
+        validate(urlVal.isValid(record1), 400, "Parameter recordId1 is not a valid URL")
+        validate(urlVal.isValid(record2), 400, "Parameter recordId2 is not a valid URL")
         def allowedOrganizations = doers.Deduplicator.getOrganizationsFromRecordUris(record1,record2)
         LoginStatus loginStatus = Authenticator.getLoginStatus(request)
 
