@@ -1,0 +1,20 @@
+#Get orgs of two Records by uri
+PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+PREFIX mods_m: <http://swepub.kb.se/mods/model#>
+SELECT DISTINCT
+xsd:string(?_orgCode1) as ?org1
+xsd:string(?_orgCode2) as ?org2
+
+WHERE
+{
+
+<$record1> a mods_m:Record .
+?Mods1 a mods_m:Mods .
+<$record1> mods_m:hasMods ?Mods1 .
+?Mods1 mods_m:recordContentSourceValue ?_orgCode1 .
+
+<$record2> a mods_m:Record .
+?Mods2 a mods_m:Mods .
+<$record2> mods_m:hasMods ?Mods2 .
+?Mods2 mods_m:recordContentSourceValue ?_orgCode2 .
+}

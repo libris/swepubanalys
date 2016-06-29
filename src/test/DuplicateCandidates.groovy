@@ -37,7 +37,6 @@ class DuplicateCandidates {
     }
 
 
-
     @Test
     void getPreviouslyAdjudicated() {
         def nonFiltered = doers.Deduplicator.getPreviouslyAdjudicated("").count { it }
@@ -46,5 +45,13 @@ class DuplicateCandidates {
         assert filtered < nonFiltered
     }
 
+    @Test
+    void getOrganizationsFromIds() {
+        List<String> orgs = doers.Deduplicator.getOrganizationsFromRecordUris(
+                'http://swepub.kb.se/mods/data#Record__oai_DiVA_org_du10237_1',
+                'http://swepub.kb.se/mods/data#Record__oai_DiVA_org_uu100815_1'
+        )
+        assert orgs.contains("uu") && orgs.contains("du")
+    }
 
 }

@@ -18,11 +18,21 @@ class Deduplicator implements Controller {
         validate(Authenticator.isLoggedIn(request), 403, 'User not logged in')
         validateQueryParameters(['recordId1', 'recordId2', 'sameOrDifferent'] as String[], request)
         validate((0..1).contains(request.queryParams("sameOrDifferent").toInteger()), 400, 'Value of sameOrDifferent must be 0 or 1')
+
         String record1 = request.queryParams("recordId1")
         String record2 = request.queryParams("recordId2")
-        int sameOrDifferent = request.queryParams("sameOrDifferent").toInteger()
+        def allowedOrganizations = doers.Deduplicator.getOrganizationsFromRecordUris(record1,record2)
         LoginStatus loginStatus = Authenticator.getLoginStatus(request)
-        //TODO: get the records to be adjudicated and see if any of them belongs to the users organization
+
+        validate(
+                allowedOrganizations.contains(loginStatus.organizationCode) || loginStatus.organizationCode == 'kb',
+                403,
+                "You are trying to adjudicate records from another organization than your own"
+        )
+
+        int sameOrDifferent = request.queryParams("sameOrDifferent").toInteger()
+
+
         response.type("application/json")
         def map = [result: "success"]
         try {

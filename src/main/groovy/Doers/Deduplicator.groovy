@@ -163,4 +163,19 @@ class Deduplicator implements ConfigConsumable {
             []
         }
     }
+
+    static List<String> getOrganizationsFromRecordUris(String recordUri1, String recordUri2) {
+        try {
+            def sparql = Thread.currentThread().getContextClassLoader().getResource("sparqlQueries/organizationFromRecordURI.sparql").getText();
+            def binding = ["record1": recordUri1, "record2": recordUri2]
+            def engine = new groovy.text.SimpleTemplateEngine()
+            def template = engine.createTemplate(sparql).make(binding)
+            def resp = new Virtuoso().post(template.toString(), "application/json")
+            [resp.results.bindings[0].org1.value, resp.results.bindings[0].org2.value]
+        }
+        catch(any)
+        {
+            []
+        }
+    }
 }
