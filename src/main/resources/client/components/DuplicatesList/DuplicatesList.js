@@ -126,7 +126,7 @@ var DuplicatesList = {
 
 		},
 		getPermissions: function(article, org) {
-			return (article._orgCode1.value == org || article._orgCode2.value == org);
+			return (article._orgCode1.value == org || article._orgCode2.value == org || org == 'kb');
 		},
 		decideArticle: function(article, decision) {
 			

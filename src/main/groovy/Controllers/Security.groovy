@@ -15,7 +15,7 @@ class Security {
                 request.session().attribute("userEmail", request.headers("mail"))
                 request.session().attribute("userName", request.headers("displayName"))
                 request.session().attribute("organizationName", request.headers("o"))
-                request.session().attribute("organizationCode", request.headers("norEduOrgAcronym"))
+                request.session().attribute("organizationCode", request.headers("norEduOrgAcronym").toLowerCase())
             } else {
                 request.session(true)
                 request.session().attribute("loggedIn", false)
