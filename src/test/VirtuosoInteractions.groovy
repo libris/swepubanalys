@@ -1,6 +1,5 @@
-import Clients.Virtuoso
-import Controllers.Api
-import Traits.ConfigConsumable
+import clients.Virtuoso
+import traits.ConfigConsumable
 import groovy.json.JsonBuilder
 import org.junit.After
 import org.junit.Before

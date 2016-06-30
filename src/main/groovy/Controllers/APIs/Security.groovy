@@ -1,8 +1,8 @@
-package Controllers.APIs
+package controllers.APIs
 
-import Doers.Authenticator
-import Traits.ConfigConsumable
-import Traits.Controller
+import doers.Authenticator
+import domain.LoginStatus
+import traits.Controller
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
 import spark.Request
@@ -14,19 +14,9 @@ import spark.Response
 @Slf4j
 class Security implements Controller {
 
-    static def getLoginStatus(Request request, Response response) {
-        boolean isLoggedIn = Authenticator.isLoggedIn(request)
-        response.type("application/json")
-        return JsonOutput.toJson(
-                !isLoggedIn ? [isLoggedIn: false]
-                        :
-                        [
-                                isLoggedIn: true,
-                                userName  : currentConfig().mode == 'dev' ? currentConfig().security.userName : request.session().attribute("userName"),
-                                userId    : currentConfig().mode == 'dev' ? currentConfig().security.userId : request.session().attribute("userId"),
-                                organizationCode    : currentConfig().mode == 'dev' ? currentConfig().security.organizationCode : request.session().attribute("organizationCode"),
-                                organizationName    : currentConfig().mode == 'dev' ? currentConfig().security.organizationName : request.session().attribute("organizationName")
-                        ]
-        )
+    static getLoginStatus(Request request, Response response) {
+        response.type "application/json"
+        LoginStatus loginStatus = Authenticator.getLoginStatus(request)
+        return JsonOutput.prettyPrint(JsonOutput.toJson(loginStatus))
     }
 }

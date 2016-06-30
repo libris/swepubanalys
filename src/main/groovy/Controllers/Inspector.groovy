@@ -1,10 +1,8 @@
-package Controllers
+package controllers
 
-import Traits.Controller
+import traits.Controller
 import spark.Request
 import spark.Response
-
-import static java.util.UUID.randomUUID
 
 /**
  * Created by jimber on 2015-10-20.

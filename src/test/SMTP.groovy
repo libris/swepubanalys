@@ -1,4 +1,4 @@
-import Traits.ConfigConsumable
+import traits.ConfigConsumable
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -26,7 +26,7 @@ class SMTP implements ConfigConsumable  {
         String host = currentConfig().smtp.host
         String port = currentConfig().smtp.port
 
-        Clients.SMTP.simpleMail(fromAddress,toAddress, subject, message, host, port)
+        clients.SMTP.simpleMail(fromAddress,toAddress, subject, message, host, port)
     }
 
 

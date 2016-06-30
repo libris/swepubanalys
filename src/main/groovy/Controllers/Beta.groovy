@@ -1,4 +1,4 @@
-package Controllers
+package controllers
 
 import groovy.transform.CompileStatic
 import spark.ModelAndView

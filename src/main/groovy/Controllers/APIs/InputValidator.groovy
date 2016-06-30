@@ -1,7 +1,8 @@
-package Controllers.APIs
+package controllers.APIs
 
-import Clients.Virtuoso
-import Validators.OrcidValidator
+import clients.Virtuoso
+import traits.Controller
+import validators.OrcidValidator
 import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
@@ -12,8 +13,9 @@ import spark.Response
  * Created by Theodor on 2015-12-14.
  */
 @Slf4j
-class InputValidator {
+class InputValidator implements Controller {
     static validateOrcid(Request request, Response response) {
+        validateQueryParameters(['orcid'] as String[], request)
         def orcid = request.queryParams("orcid")
         response.type("application/json")
         return JsonOutput.toJson(OrcidValidator.validateOrcid(orcid))

@@ -1,6 +1,6 @@
-package Clients
+package clients
 
-import Traits.ConfigConsumable
+import traits.ConfigConsumable
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import wslite.json.JSONObject
