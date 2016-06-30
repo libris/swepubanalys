@@ -2,12 +2,6 @@
 
 Analyser är ofta baserade på metadata om publikationer som är formellt publicerade och det finns behov av att kunna skilja mellan publicerat och opublicerat material.
 
-**Som publicerat räknas:**  
-
-**&bull;** publikationer som är formellt utgivna med beständiga bibliografiska uppgifter på plats (volym, årtal, nummer, sidantal)
-
-**&bull;** publikationer utan anmärkning om publiceringsstatus
-
 **Som opublicerat räknas:**  
 
 **&bull;** preprint som till exempel används för att låta fysikerna arkivera sina publikationer i lokala publiceringsdatabaser/&shy;institutionella arkiv (för synliggörande)
