@@ -8,6 +8,7 @@ var _assign = require('lodash/object/assign');
 var ResultMixin = require('mixins/ResultMixin/ResultMixin.js');
 // Utils
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
+var AuthenticationUtil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
 // CSS-modules
 var styles = _assign(
 	require('./AmbiguitiesList.css'),
@@ -39,6 +40,8 @@ var AmbiguitiesList = {
 			show: show,
 			pendingUpdate: false,
 			handleArticle: '',
+			org: '',
+			loggedIn: false,
 			_styles: styles
 		}
 	},
@@ -64,6 +67,13 @@ var AmbiguitiesList = {
 		}
 	},
 	ready: function() {
+		AuthenticationUtil.authenticate(function(authenticated) {
+			if (authenticated.isLoggedIn) {
+				this.$set('loggedIn', true);
+				this.$set('org', authenticated.organizationCode);
+				console.log(authenticated);
+			}
+		}.bind(this));
 		this.updateQuery();
 	},
 	methods: {
@@ -126,6 +136,43 @@ var AmbiguitiesList = {
 					articles.$set(index, article);
 				}.bind(this));
 			}
+		},
+		getPermissions: function(article, org) {
+			return (article._orgCode1.value == org || article._orgCode2.value == org || org == 'kb');
+		},
+		decideArticle: function(article, decision) {
+
+			article.error = null;
+			if(article.ambiguityCase.isDuplicate && article.ambiguityCase.isDuplicate.value == decision) {
+				// Do nothing...
+				return;
+			}
+			var articles = this.result.results.bindings;
+			var index = articles.indexOf(article);
+			article = _cloneDeep(article);
+
+			if (!article.ambiguityCase.isDuplicate) {
+				article.ambiguityCase.isDuplicate = { value: null };
+			}
+
+			article.pendingChange = decision;
+			articles.$set(index, article);
+			var dataString = "recordId1="+article.ambiguityCase.record1.Record+"&recordId2="+article.ambiguityCase.record2.Record+"&sameOrDifferent="+decision;
+			$.ajax({
+				type: "POST",
+				url: "/api/2.0/deduplication/adjudicate",
+				data: dataString,
+				success: function(response) {
+					article.ambiguityCase.isDuplicate.value = decision;
+					article.pendingChange = null;
+					articles.$set(index, article);
+				},
+				error: function(response) {
+					article.error = decision;
+					article.pendingChange = null;
+					articles.$set(index, article);
+				}
+			});
 		},
 		/**
 		 * Update the query

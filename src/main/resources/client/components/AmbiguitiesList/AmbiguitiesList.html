@@ -27,25 +27,27 @@
 								v-for="article in ambiguities" 
 								transition="expand">
 							<tr class="{{ $parent.$data._styles.DarkRow }} {{ $parent.$data._styles.Td }}">
-								<td class="{{ $parent.$data._styles.Col1 }}">
-									<p>{{ mapName(article._orgCode1) }}</p>
-									<p>{{ article._id1 ? article._id1.value : '' }}</p>
+								<td class="{{ $data._styles.Col1 }}">
+									<p>{{ mapName(article._orgCode1) }} - <em>{{ article._id1 ? article._id1.value : '' }}</em></p>
 								</td>
-								<td class="{{ $parent.$data._styles.Col2 }}">
+								<td class="{{ $data._styles.Col2 }}">
 									<div style="position: relative">
-										<p>{{ mapName(article._orgCode2) }}</p>
-										<p>{{ article._id1 ? article._id2.value : '' }}</p>
-										<div class="{{ $parent.$data._styles.ExpandButtonContainer }}">
-											<a v-on:click="setHandleArticle(article)"  style="text-decoration: none; border-radius: 0px;">
-												<span v-if="article.show !== true">Visa</span>
-												<span v-else>Dölj</span>
-												<i 
-													class="fa" 
+										<p>{{ mapName(article._orgCode2) }} - <em>{{ article._id1 ? article._id2.value : '' }}</em></p>
+
+									</div>
+								</td>
+								<td class="{{ $data._styles.Col3 }}">
+									<div class="{{ $parent.$data._styles.ExpandButtonContainer }}">
+										<span class="{{ $parent.$data._styles.WeightSpan }}">{{ (article.ambiguityCase && article.ambiguityCase.matchWeight) ? 'Viktning:'+ parseFloat(article.ambiguityCase.matchWeight).toFixed(2) : ''}}</span>
+										<a class="pull-right" v-on:click="setHandleArticle(article)"  style="text-decoration: none; border-radius: 0px;">
+											<span v-if="article.show !== true">Visa</span>
+											<span v-else>Dölj</span>
+											<i
+													class="fa"
 													v-bind:class="{ 'fa-plus-square': article.show !== true, 'fa-minus-square' : article.show === true }"
 													style="margin-left:6px;">
-												</i>
-											</a>
-										</div>
+											</i>
+										</a>
 									</div>
 								</td>
 							</tr>
@@ -61,12 +63,11 @@
 								</template>
 							</tr>
 							<!-- Ambiguities -->
-							<!--tr  v-if="article.show" transition="expand" class="{{ $parent.$data._styles.DarkRow }}">
+							<tr  v-if="article.show" transition="expand" class="{{ $parent.$data._styles.DarkRow }}">
 								<template v-if="!article.loading">
-									<td colpan="3">
-										<p><b>MOTSTRIDIGHETER</b></p>
-										<p>
-											<span 
+									<td class="{{ $data._styles.Col1 }" >
+										<p><b>MOTSTRIDIGHETER</b>
+										<span
 												class="label label-danger" 
 												v-for="ambiguity in article.ambiguityCase.ambiguities || []"
 												style="margin-right: 5px; font-size: x-small;"
@@ -75,21 +76,46 @@
 											</span>
 										</p>
 									</td>
+									<td class="{{ $data._styles.Col2 }" >&nbsp;</td>
+									<td class="{{ $data._styles.Col3 }}">
+									<div v-if="!loggedIn">
+										<!-- TODO: Buttons with popover explaining the need to log in -->
+									</div>
+									<div v-if="loggedIn && !getPermissions(article, org)">
+										<!-- TODO: Buttons with popover explaining the lack of permissions -->
+									</div>
+									<div v-else class="btn-group" data-toggle="buttons">
+										<button class="btn btn-default" v-bind:class="{ 'btn-success': (article.ambiguityCase.isDuplicate.value == 0 && article.pendingChange != 0) }" v-on:click="decideArticle(article, 0)">
+
+											<i class="fa fa-circle-thin" v-show="(!article.ambiguityCase.isDuplicate || article.ambiguityCase.isDuplicate.value != 0) && article.pendingChange != 0"></i>
+											<i class="fa fa-cog fa-spin" v-show="article.pendingChange == 0"></i>
+											<i class="fa fa-check-circle" v-show="article.ambiguityCase.isDuplicate.value == 0 && article.pendingChange != 0"></i>
+											Samma
+										</button>
+										<button class="btn btn-default" v-bind:class="{ 'btn-success': (article.ambiguityCase.isDuplicate.value == 1 && article.pendingChange != 1) }" v-on:click="decideArticle(article, 1)">
+											<i class="fa fa-circle-thin" v-show="(!article.ambiguityCase.isDuplicate || article.ambiguityCase.isDuplicate.value != 1) && article.pendingChange != 1"></i>
+											<i class="fa fa-cog fa-spin" v-show="article.pendingChange == 1"></i>
+											<i class="fa fa-check-circle" v-show="article.ambiguityCase.isDuplicate.value == 1 && article.pendingChange != 1"></i>
+											Olika
+										</button>
+									</div>
+									<span class="{{ $parent.$data._styles.Error }}" v-show="article.error != null">Kunde inte spara...</span>
+									</td>
 								</template>
-							</tr-->
+							</tr>
 							<!-- Iframes -->
 							<tr v-if="article.show" transition="expand" style="" class="{{ $data._styles.DarkRowRow }}">
 								<template v-if="!article.loading">
-									<td class="{{ $parent.$data._styles.Col1 }}">
+									<td class="{{ $parent.$data._styles.IframeCol1 }}">
 										<div class="{{ $parent.$data._styles.WindowContainer }}">
 											<iframe sandbox
-												v-if="article.ambiguityCase" 
+												v-if="article.ambiguityCase"
 												class="{{ $parent.$data._styles.Window }}" 
 												v-bind:src="article.ambiguityCase.record1.uri">
 											</iframe>
 										</div>
 									</td>
-									<td class="{{ $parent.$data._styles.Col2 }}">
+									<td class="{{ $parent.$data._styles.IframeCol2 }}">
 										<div class="{{ $parent.$data._styles.WindowContainer }}">
 											<iframe sandbox
 												v-if="article.ambiguityCase" 

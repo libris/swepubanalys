@@ -7,7 +7,6 @@ import doers.AmbiguityCase
 import doers.QualityViolations
 import doers.SparqlResultExporter
 import groovy.json.JsonBuilder
-import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -64,7 +63,15 @@ class Api implements Controller {
         response.type("application/json")
         validateQueryParameters(['record1_id', 'record2_id', 'record1_org', 'record2_org'] as String[], request)
         def ambiguityCase = new AmbiguityCase(request.queryParams("record1_id"), request.queryParams("record2_id"), request.queryParams("record1_org"), request.queryParams("record2_org"))
-        return JsonOutput.toJson([ambiguities: ambiguityCase.ambiguities, record1: ambiguityCase.record1, record2: ambiguityCase.record2])
+        return new JsonBuilder(
+                [
+                        ambiguities    : ambiguityCase.ambiguities,
+                        record1        : ambiguityCase.record1,
+                        record2        : ambiguityCase.record2,
+                        matchWeight    : ambiguityCase.matchWeight,
+                        hasAdjudication: ambiguityCase.hasAdjudication,
+                        isDuplicate    : ambiguityCase.isDuplicate
+                ]).toPrettyString()
     }
 
     static getTechnicalInfo(Response response) {

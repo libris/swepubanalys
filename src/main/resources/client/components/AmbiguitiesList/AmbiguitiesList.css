@@ -1,104 +1,146 @@
 .PendingUpdate {
-	text-align: center;
+    text-align: center;
 }
 
-
 .TableContainer {
-	width: 100%;
-	max-height: 1600px;
-	overflow-y: auto;
-	overflow-x: hidden;
+    width: 100%;
+    max-height: 1600px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .TableContainer td {
-	border: 0px !important;
+    border: 0px !important;
 }
 
 .TableContainer p {
-	padding-top: 15px;
-	padding-left: 17px;
+    padding-top: 15px;
+    padding-left: 17px;
 }
 
 .LoadingRow {
-	text-align: center; 
-	padding: 55px;
-	padding-bottom: 70px;
+    text-align: center;
+    padding: 55px;
+    padding-bottom: 70px;
 }
 
 .ExpandButtonContainer {
-	text-align: right;
-	position: absolute;
-	top: 0;
-	right: 0;
-	padding-top: 15px; 
-	padding-right: 5px;
+    width: 90%;
+    margin: 0.5em;
 }
+
 .ExpandButtonContainer a {
-	cursor: pointer;
+    display: block;
+    cursor: pointer;
+}
+
+.Error {
+    color: rgb(173, 20, 20);
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.WeightSpan {
+    font-size: 14px;
+}
+
+ .IframeCol1 {
+    width: 50%;
+}
+
+.IframeCol2 {
+    width: 50%;
 }
 
 .Col1 {
-	vertical-align: top;
-	width: 50%;
+    vertical-align: top;
+    width: 50%;
 }
 
 .Col2 {
-	vertical-align: top;
-	width: 50%;
+    vertical-align: top;
+    width: 35%;
+}
+
+.Col3 {
+    vertical-align: top;
+    width: 15%;
 }
 
 .Thead {
-	table-layout: initial;
+    table-layout: initial;
 }
 
 .Th {
-	border: 0px !important;
+    border: 0px !important;
 }
 
 .Tbody {
-	max-height: 1500px;
-	max-width: 100%;
+    max-height: 1500px;
+    max-width: 100%;
 }
 
 .DarkRow:nth-child(odd) {
-	background-color: #fafafa;
+    background-color: #fafafa;
 }
+
 .DarkRowRow:nth-child(odd) {
-	background-color: #fafafa;
+    background-color: #fafafa;
 }
 
 .LightRow {
-	background-color: #ffffff;
+    background-color: #ffffff;
 }
 
 .WindowContainer {
-	height: 500px;
-	padding-right: 5px;
-	padding-bottom: 15px;
+    height: 500px;
+    padding-right: 5px;
+    padding-bottom: 15px;
 }
 
 .Window {
-	border: none;
-	height: 100%;
-	width: 100%;
+    border: none;
+    height: 100%;
+    width: 100%;
 }
+
+.Ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+}
+
 .loading {
-	color: #595d61;
-	-webkit-animation-name: example; /* Chrome, Safari, Opera */
-	-webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
-	animation-name: example;
-	animation-duration: 2s;
-	animation-iteration-count: infinite;
+    color: #595d61;
+    -webkit-animation-name: example; /* Chrome, Safari, Opera */
+    -webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+    animation-name: example;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
 }
+
 @-webkit-keyframes example {
-	0%   {color: #595d61;}
-	50%  {color: #f0f2f6;}
-	100%  {color: #595d61;}
+    0% {
+        color: #595d61;
+    }
+    50% {
+        color: #f0f2f6;
+    }
+    100% {
+        color: #595d61;
+    }
 }
 
 /* Standard syntax */
 @keyframes example {
-	0%   {color: #595d61;}
-	50%  {color: #f0f2f6;}
-	100%  {color: #595d61;}
+    0% {
+        color: #595d61;
+    }
+    50% {
+        color: #f0f2f6;
+    }
+    100% {
+        color: #595d61;
+    }
 }
