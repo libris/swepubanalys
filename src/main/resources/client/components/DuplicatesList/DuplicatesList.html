@@ -31,13 +31,13 @@
 								transition="expand">
 							<tr class="{{ $parent.$data._styles.DarkRow }} {{ $parent.$data._styles.Td }}">
 								<td class="{{ $parent.$data._styles.Col1 }}">
-									<p>{{ mapName(article._orgCode1) }}</p>
-									<p>{{ article._id1 ? article._id1.value : '' }}</p>
+									<p>{{ mapName(article._orgCode1) }} - {{ article._id1 ? article._id1.value : '' }}</p>
+									<p v-if="article.show" class="{{ $data._styles.Ellipsis }}" style="..."><small >Visas inte posten nedan? Länk till posten:<a href="{{article._uri1.value}}">{{article._uri1.value}}</a> </small></p>
 								</td>
 								<td class="{{ $parent.$data._styles.Col2 }}">
 									<div style="position: relative">
-										<p>{{ mapName(article._orgCode2) }}</p>
-										<p>{{ article._id1 ? article._id2.value : '' }}</p>
+										<p>{{ mapName(article._orgCode2) }} {{ article._id1 ? article._id2.value : '' }}</p>
+										<p v-if="article.show" class="{{ $data._styles.Ellipsis }}" style="..."><small >Visas inte posten nedan? Länk till posten:<a href="{{article._uri2.value}}">{{article._uri2.value}}</a> </small></p>
 									</div>
 								</td>
 								<td class="{{ $parent.$data._styles.Col3 }}">

@@ -102,3 +102,30 @@
 	height: 100%;
 	width: 100%;
 }
+
+.Ellipsis {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+}
+.loading {
+	color: #595d61;
+	-webkit-animation-name: example; /* Chrome, Safari, Opera */
+	-webkit-animation-duration: 4s; /* Chrome, Safari, Opera */
+	animation-name: example;
+	animation-duration: 2s;
+	animation-iteration-count: infinite;
+}
+@-webkit-keyframes example {
+	0%   {color: #595d61;}
+	50%  {color: #f0f2f6;}
+	100%  {color: #595d61;}
+}
+
+/* Standard syntax */
+@keyframes example {
+	0%   {color: #595d61;}
+	50%  {color: #f0f2f6;}
+	100%  {color: #595d61;}
+}
