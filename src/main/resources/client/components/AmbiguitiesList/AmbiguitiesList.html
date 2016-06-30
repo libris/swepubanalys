@@ -53,7 +53,7 @@
 							</tr>
 							<!-- Expanded row -->
 							<!-- Loading... -->
-							<tr v-if="article.show" transition="expand" class="{{ $data._styles.LightRow }}">
+							<tr v-if="article.show" transition="expand" class="{{ $parent.$data._styles.LightRow }}">
 								<template v-if="article.loading">
 									<td colpan="3">
 										<div class="{{ $parent.$data._styles.LoadingRow }}">
@@ -85,28 +85,32 @@
 										<!-- TODO: Buttons with popover explaining the lack of permissions -->
 									</div>
 									<div v-else class="btn-group" data-toggle="buttons">
-										<button class="btn btn-default" v-bind:class="{ 'btn-success': (article.ambiguityCase.isDuplicate.value == 0 && article.pendingChange != 0) }" v-on:click="decideArticle(article, 0)">
+										<!--<button class="btn btn-default" v-bind:class="{ 'btn-success': (article.ambiguityCase.hasAdjudication == 1 && article.ambiguityCase.isDuplicate == 1 && article.pendingChange != 1) }" v-on:click="decideArticle(article, 1)">
 
-											<i class="fa fa-circle-thin" v-show="(!article.ambiguityCase.isDuplicate || article.ambiguityCase.isDuplicate.value != 0) && article.pendingChange != 0"></i>
-											<i class="fa fa-cog fa-spin" v-show="article.pendingChange == 0"></i>
-											<i class="fa fa-check-circle" v-show="article.ambiguityCase.isDuplicate.value == 0 && article.pendingChange != 0"></i>
-											Samma
-										</button>
-										<button class="btn btn-default" v-bind:class="{ 'btn-success': (article.ambiguityCase.isDuplicate.value == 1 && article.pendingChange != 1) }" v-on:click="decideArticle(article, 1)">
-											<i class="fa fa-circle-thin" v-show="(!article.ambiguityCase.isDuplicate || article.ambiguityCase.isDuplicate.value != 1) && article.pendingChange != 1"></i>
+											<i class="fa fa-circle-thin" v-show="(article.ambiguityCase.hasAdjudication != 1 || article.ambiguityCase.isDuplicate != 1) && article.pendingChange != 1"></i>
 											<i class="fa fa-cog fa-spin" v-show="article.pendingChange == 1"></i>
-											<i class="fa fa-check-circle" v-show="article.ambiguityCase.isDuplicate.value == 1 && article.pendingChange != 1"></i>
-											Olika
+											<i class="fa fa-check-circle" v-show="article.ambiguityCase.isDuplicate == 1 && article.pendingChange != 1"></i>
+											Samma
+										</button>-->
+										<button class="btn btn-default" v-bind:class="{ 'btn-success':  (article.ambiguityCase.hasAdjudication == 1 && article.ambiguityCase.isDuplicate == 0 && article.pendingChange != 0) }" v-on:click="decideArticle(article, 0)">
+											<i class="fa fa-circle-thin" v-show="(article.ambiguityCase.hasAdjudication != 1 || article.ambiguityCase.isDuplicate != 0) && article.pendingChange != 0"></i>
+											<i class="fa fa-cog fa-spin" v-show="article.pendingChange == 0"></i>
+											<i class="fa fa-check-circle" v-show="(article.ambiguityCase.hasAdjudication == 1 && article.ambiguityCase.isDuplicate == 0) && article.pendingChange != 0"></i>
+											Ej dubbletter
 										</button>
 									</div>
+										<!--<span>hasAdj{{article.ambiguityCase.hasAdjudication}} isDup{{article.ambiguityCase.isDuplicate}}</span>-->
+									<br v-show="(article.ambiguityCase.hasAdjudication == 1 && article.ambiguityCase.isDuplicate == 0 && article.pendingChange != 0)" />
+										<span v-show="(article.ambiguityCase.hasAdjudication == 1 && article.ambiguityCase.isDuplicate == 0 && article.pendingChange != 0)">Posterna kommer att splittras och behandlas som separata poster vid nästa omindexering</span>
 									<span class="{{ $parent.$data._styles.Error }}" v-show="article.error != null">Kunde inte spara...</span>
 									</td>
 								</template>
 							</tr>
 							<!-- Iframes -->
-							<tr v-if="article.show" transition="expand" style="" class="{{ $data._styles.DarkRowRow }}">
+							<tr v-if="article.show" transition="expand" style="" class="{{ $parent.$data._styles.LightRow }}">
 								<template v-if="!article.loading">
 									<td class="{{ $parent.$data._styles.IframeCol1 }}">
+										<div><p v-if="article.show" class="{{ $data._styles.Ellipsis }}" style="..."><small >Visas inte posten nedan? Länk till posten:<a href="{{article.ambiguityCase.record1.uri}}">{{article.ambiguityCase.record1.uri}}</a> </small></p></div>
 										<div class="{{ $parent.$data._styles.WindowContainer }}">
 											<iframe sandbox
 												v-if="article.ambiguityCase"
@@ -116,6 +120,7 @@
 										</div>
 									</td>
 									<td class="{{ $parent.$data._styles.IframeCol2 }}">
+										<div><p v-if="article.show" class="{{ $data._styles.Ellipsis }}" style="..."><small >Visas inte posten nedan? Länk till posten:<a href="{{article.ambiguityCase.record2.uri}}">{{article.ambiguityCase.record2.uri}}</a> </small></p></div>
 										<div class="{{ $parent.$data._styles.WindowContainer }}">
 											<iframe sandbox
 												v-if="article.ambiguityCase" 

@@ -34,5 +34,18 @@ SELECT DISTINCT *
 }
 LIMIT 500
 }
-
+MINUS
+{
+?Adjudication a swpa_m:Adjudication .
+?Adjudication a swpa_m:CreativeWorkInstanceDuplicateAdjudication .
+?Adjudication swpa_m:compares ?Record1 .
+?Adjudication swpa_m:compares ?Record2 .
+?Record2 mods_m:hasMods ?Mods2 .
+?Record1 mods_m:hasMods ?Mods1 .
+?Record1 a mods_m:Record .
+?Record2 a mods_m:Record .
+?Mods1 mods_m:identifierValue ?_id1 .
+?Mods2 mods_m:identifierValue ?_id2 .
+?Adjudication swpa_m:isDuplicate ?_isDuplicate .
+}
 }

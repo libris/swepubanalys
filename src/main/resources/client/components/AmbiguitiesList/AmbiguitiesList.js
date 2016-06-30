@@ -132,7 +132,8 @@ var AmbiguitiesList = {
 					article = _cloneDeep(article);
 					article.loading = false;
 					article.ambiguityCase = ambiguityCase;
-					article = article;
+					var a = (article.ambiguityCase.hasAdjudication == 1 && article.ambiguityCase.isDuplicate == 0 && article.pendingChange != 0)
+					/*article = article;*/
 					articles.$set(index, article);
 				}.bind(this));
 			}
@@ -141,7 +142,6 @@ var AmbiguitiesList = {
 			return (article._orgCode1.value == org || article._orgCode2.value == org || org == 'kb');
 		},
 		decideArticle: function(article, decision) {
-
 			article.error = null;
 			if(article.ambiguityCase.isDuplicate && article.ambiguityCase.isDuplicate.value == decision) {
 				// Do nothing...
@@ -163,7 +163,8 @@ var AmbiguitiesList = {
 				url: "/api/2.0/deduplication/adjudicate",
 				data: dataString,
 				success: function(response) {
-					article.ambiguityCase.isDuplicate.value = decision;
+					article.ambiguityCase.isDuplicate = decision;
+					article.ambiguityCase.hasAdjudication = 1;
 					article.pendingChange = null;
 					articles.$set(index, article);
 				},
