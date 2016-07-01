@@ -11,8 +11,9 @@ class Bibliometrician implements Controller {
 
     static Map index(final Request request, final Response response) {
          final Map map = new HashMap();
-        map.put("cacheBustingUid",currentConfig().buildStamp)
-        map.put("pageTitle","SIDTITEL");
+        map["cacheBustingUid"] = currentConfig().buildStamp
+        //noinspection GroovyMapPutCanBeKeyedAccess
+        map["pageTitle"] = "SIDTITEL";
         return map;
 
     }

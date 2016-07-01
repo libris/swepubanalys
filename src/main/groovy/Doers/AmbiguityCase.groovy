@@ -1,6 +1,7 @@
 package doers
 
 import clients.Virtuoso
+import groovy.text.SimpleTemplateEngine
 
 /**
  * Created by Theodor on 2015-11-04.
@@ -16,7 +17,7 @@ class AmbiguityCase {
     def AmbiguityCase(String record1Id, String record2Id, String record1Org, String record2Org) {
         def sparql = Thread.currentThread().contextClassLoader.getResource("sparqlQueries/ambiguityCaseAndAdjud.sparql").text;
         def binding = ["record1": record1Id, "record2": record2Id, "org1": record1Org, "org2": record2Org]
-        def engine = new groovy.text.SimpleTemplateEngine()
+        def engine = new SimpleTemplateEngine()
         def template = engine.createTemplate(sparql).make(binding)
         def resp = new Virtuoso().post(template.toString(), "application/json")
 

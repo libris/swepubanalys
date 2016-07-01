@@ -2,6 +2,7 @@ package doers
 
 import clients.Virtuoso
 import domain.DuplicateCase
+import groovy.text.SimpleTemplateEngine
 import groovy.util.logging.Log4j
 import traits.ConfigConsumable
 import virtuoso.jena.driver.VirtGraph
@@ -35,9 +36,9 @@ class Deduplicator implements ConfigConsumable {
      */
     static void removeDuplicateCase(String uriRecord1, String uriRecord2, VirtGraph graph) {
         try {
-            doers.Deduplicator.getPreviouslyAdjudicated()
+            getPreviouslyAdjudicated()
                     .findAll { it -> [uriRecord1, uriRecord2].contains(it.record1) && [uriRecord1, uriRecord2].contains(it.record2) }
-                    .each { it -> Deduplicator.removeDuplicateCase(it.adjudicationURI, graph) };
+                    .each { it -> removeDuplicateCase(it.adjudicationURI, graph) };
         }
         catch (any) {
             log.error any
@@ -71,7 +72,7 @@ class Deduplicator implements ConfigConsumable {
 
     static void saveDuplicateCase(boolean isDuplicate, String uriRecord1, String uriRecord2, String comment, String userId, VirtGraph graph = null) {
         graph = (graph && !graph.isClosed()) ? graph :
-                Deduplicator.getGraph(currentConfig().virtuoso.jdbcUser as String, currentConfig().virtuoso.jdbcPwd as String)
+                getGraph(currentConfig().virtuoso.jdbcUser as String, currentConfig().virtuoso.jdbcPwd as String)
 
         assert graph != null && !graph.isClosed()
         //TODO:Check if this needs to be a local user
@@ -168,7 +169,7 @@ class Deduplicator implements ConfigConsumable {
         try {
             def sparql = Thread.currentThread().getContextClassLoader().getResource("sparqlQueries/organizationFromRecordURI.sparql").getText();
             def binding = ["record1": recordUri1, "record2": recordUri2]
-            def engine = new groovy.text.SimpleTemplateEngine()
+            def engine = new SimpleTemplateEngine()
             def template = engine.createTemplate(sparql).make(binding)
             def resp = new Virtuoso().post(template.toString(), "application/json")
             [resp.results.bindings[0].org1.value, resp.results.bindings[0].org2.value]

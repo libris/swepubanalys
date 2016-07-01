@@ -10,8 +10,8 @@ import spark.Response
 class Inspector implements Controller  {
     static Map index(final Request request, final Response response) {
         final Map map = new HashMap();
-        map.put("pageTitle", "SIDTITEL");
-        map.put("cacheBustingUid",currentConfig().buildStamp)
+        map["pageTitle"] = "SIDTITEL";
+        map["cacheBustingUid"] = currentConfig().buildStamp
         return map
     }
 

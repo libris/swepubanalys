@@ -19,7 +19,7 @@ class Authenticator implements ConfigConsumable {
     }
 
     static LoginStatus getLoginStatus(Request request) {
-        boolean isLoggedIn = Authenticator.isLoggedIn(request)
+        boolean isLoggedIn = isLoggedIn(request)
         new LoginStatus(
                 !isLoggedIn ? [isLoggedIn: false]
                         :
