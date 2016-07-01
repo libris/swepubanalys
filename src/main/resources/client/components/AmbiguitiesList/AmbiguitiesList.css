@@ -84,7 +84,13 @@
     background-color: #fafafa;
 }
 
-.DarkRowRow:nth-child(odd) {
+.DarkRow2:nth-child(even) {
+    background-color: #fafafa;
+}
+.DarkRow3:nth-child(odd) {
+    background-color: #fafafa;
+}
+.DarkRow4:nth-child(even) {
     background-color: #fafafa;
 }
 
