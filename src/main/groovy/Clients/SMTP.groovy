@@ -14,21 +14,21 @@ public class SMTP {
 
     public static void simpleMail(String from, String to, String subject, String body, String host, String port) {
         try {
-            Properties props = System.getProperties();
+            Properties props = System.properties;
             props["mail.smtp.host"] = host;
             props["mail.smtp.port"] = port;
             props["mail.smtp.connectiontimeout"] = 1000
             Session session = Session.getDefaultInstance(props, null);
             MimeMessage message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(from));
+            message.from = new InternetAddress(from);
             InternetAddress toAddress = new InternetAddress(to);
             message.addRecipient(Message.RecipientType.TO, toAddress);
-            message.setSubject(subject);
+            message.subject = subject;
             message.setContent(body, "text/html; charset=utf-8");
 
             Transport transport = session.getTransport("smtp");
             transport.connect(host, port.toInteger(), "", "");
-            transport.sendMessage(message, message.getAllRecipients());
+            transport.sendMessage(message, message.allRecipients);
             transport.close();
         }
         catch (all) {

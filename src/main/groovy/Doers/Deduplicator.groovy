@@ -71,7 +71,7 @@ class Deduplicator implements ConfigConsumable {
 
     static void saveDuplicateCase(boolean isDuplicate, String uriRecord1, String uriRecord2, String comment, String userId, VirtGraph graph = null) {
         graph = (graph && !graph.isClosed()) ? graph :
-                Deduplicator.getGraph(currentConfig().virtuoso.jdbcUser, currentConfig().virtuoso.jdbcPwd)
+                Deduplicator.getGraph(currentConfig().virtuoso.jdbcUser as String, currentConfig().virtuoso.jdbcPwd as String)
 
         assert graph != null && !graph.isClosed()
         //TODO:Check if this needs to be a local user

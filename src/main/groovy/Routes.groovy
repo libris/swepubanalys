@@ -23,7 +23,6 @@ public class Routes implements SparkApplication {
     void init() {
         staticFileLocation("/public")
 
-
         //<editor-fold desc="Old Beta implementation">
         get("/uttag-av-data", { req, res -> Beta.index(req, res) }, templateEngine)
         post("/uttag-av-data/", { req, res -> Beta.index(req, res) }, templateEngine)

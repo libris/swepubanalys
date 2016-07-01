@@ -4,7 +4,7 @@ package traits
  */
 trait ConfigConsumable {
     static currentConfig(){
-        URL url = this.getClassLoader().getResource("config.groovy");
+        URL url = this.classLoader.getResource("config.groovy");
         def config =  new ConfigSlurper().parse(url)
         return config
     }

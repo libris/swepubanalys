@@ -41,7 +41,7 @@ class Api implements Controller {
 
     static getStats(Response response) {
         response.type("application/json");
-        return Elasticsearch.getStats();
+        return Elasticsearch.stats;
     }
 
     static getAggregations(Request request, Response response) {

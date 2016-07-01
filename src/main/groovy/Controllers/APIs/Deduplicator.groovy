@@ -51,7 +51,7 @@ class Deduplicator implements Controller {
         catch (all) {
             map.result = "error"
             map.put("errormessage", all.message)
-
+            throw all
         }
         return new JsonBuilder(map).toPrettyString()
 

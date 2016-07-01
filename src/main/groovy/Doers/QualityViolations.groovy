@@ -8,7 +8,7 @@ import clients.Virtuoso
 class QualityViolations {
     static Map getQualityViolations() {
         try {
-            def sparql = Thread.currentThread().getContextClassLoader().getResource("sparqlQueries/DataQualityViolation.sparql").getText();
+            def sparql = Thread.currentThread().contextClassLoader.getResource("sparqlQueries/DataQualityViolation.sparql").text;
             def resp = new Virtuoso().post(sparql, "application/json");
             return [values: resp.results.bindings.collect {
                 it ->

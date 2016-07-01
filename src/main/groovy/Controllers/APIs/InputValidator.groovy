@@ -23,7 +23,7 @@ class InputValidator implements Controller {
     }
 
     static publicationYearSpan(Response response) {
-        def sparql = Thread.currentThread().getContextClassLoader().getResource("sparqlQueries/swepubPublicationYearLimits.sparql").getText();
+        def sparql = Thread.currentThread().contextClassLoader.getResource("sparqlQueries/swepubPublicationYearLimits.sparql").getText();
         def resp = new Virtuoso().post(sparql, "application/json");
         final Map map = new HashMap();
         map["min"] = ((String) resp.results.bindings["callret-0"].value[0]).toInteger()
