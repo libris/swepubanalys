@@ -4,7 +4,7 @@ Analyser är ofta baserade på metadata om publikationer som är formellt public
 
 **Som opublicerat räknas:**  
 
-**&bull;** preprint som till exempel används för att låta fysikerna arkivera sina publikationer i lokala publiceringsdatabaser/&shy;institutionella arkiv (för synliggörande)
+**&bull;** preprint som används för att låta forskare arkivera sina publikationer i lokala publiceringsdatabaser/&shy;institutionella arkiv (för synliggörande)
 
 **&bull;** submitted, accepted och in press som framförallt används för delar i sammanläggnings&shy;avhandlingar
 
