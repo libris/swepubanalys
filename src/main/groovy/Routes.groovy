@@ -23,13 +23,6 @@ public class Routes implements SparkApplication {
     void init() {
         staticFileLocation("/public")
 
-        //<editor-fold desc="Old Beta implementation">
-        get("/uttag-av-data", { req, res -> Beta.index(req, res) }, templateEngine)
-        post("/uttag-av-data/", { req, res -> Beta.index(req, res) }, templateEngine)
-        post("/ladda-ner-fil", { req, res -> Beta.preview(req, res) }, templateEngine)
-        //</editor-fold>
-
-
         get("/bibliometri", { req, res -> new ModelAndView(Bibliometrician.index(req, res), "bibliometrician.mustache") }, templateEngine)
         get("/databearbetning", { req, res -> new ModelAndView(Inspector.index(req, res), "inspector.mustache") }, templateEngine)
         get("/secure", { req, res -> Security.index(req, res) }, templateEngine)

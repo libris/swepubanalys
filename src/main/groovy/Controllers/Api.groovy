@@ -20,23 +20,9 @@ import traits.Controller
 @Slf4j
 @CompileStatic
 class Api implements Controller {
-    //TODO: Refactor so the methods are testable....
-
-    static sparql(Request request, Response response) {
-        validateQueryParameters(['query', 'format'] as String[], request)
-        println request.queryParams()
-        def query = request.queryParams("query");
-        def format = request.queryParams("format");
-
-        def resp = new Virtuoso().post(query, format)
-        response.type(format);
-        return resp;
-    }
-
     static getDataQualityViolations(Response response) {
         response.type("application/json");
         return new JsonBuilder(QualityViolations.qualityViolations).toPrettyString()
-
     }
 
     static getStats(Response response) {
