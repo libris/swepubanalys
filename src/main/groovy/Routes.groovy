@@ -28,6 +28,7 @@ public class Routes implements SparkApplication {
         get("/secure", { req, res -> Security.index(req, res) }, templateEngine)
 
 
+
         //<editor-fold desc="Redirects">
         get("/", { req, res -> res.redirect("/bibliometri") })
         get("/bibliometriker", { req, res -> res.redirect("/bibliometri") })
