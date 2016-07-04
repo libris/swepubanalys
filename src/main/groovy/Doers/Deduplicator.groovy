@@ -120,6 +120,7 @@ class Deduplicator implements ConfigConsumable {
             if (virtualGraph != null && !virtualGraph.isClosed()) {
                 virtualGraph.close()
             }
+            throw any
         }
         return virtualGraph;
     }
