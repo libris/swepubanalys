@@ -36,7 +36,7 @@ var DuplicatesTool = {
 		'mail-export': MailExport
 	},
   ready: function() {
-    this.$set('about', marked(require('docs/research_collaboration.md')));
+    this.$set('about', marked(require('docs/duplicates.md')));
   },
 	methods: {
 		/**

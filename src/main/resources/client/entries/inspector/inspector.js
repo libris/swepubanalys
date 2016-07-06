@@ -314,7 +314,7 @@ var colorPattern = ['#FFC300','#FFCB20','#FFD240','#FFDA60','#FFE180','#FFE99F',
 var strongColorPattern = ['#FFC300', '#FFCB20', '#FFD240', '#FFDA60', '#EE681B', '#F07B38', '#F28E54', '#F4A171', '#9E0634', '#AA254D', '#B64467', '#C26380', '#5B2285', '#703E94', '#8459A4', '#9875B3', '#61B5BF', '#75BEC7', '#89C8CF', '#9CD1D7'];
 
 var orgs = ['bth','cth','du','esh','fhs','gih','gu','hb','hh','hhs','hig','his','hj','hkr','hv','kau','ki','kmh','konstfack','kth','liu','lnu','ltu','lu','mah','mdh','miun','nai','nationalmuseum','naturvardsverket','nrm','oru','rkh','sh','shh','slu','su','umu','uu','vti'];
-var categories = orgs.concat(['Övriga','Alla lärosäten','Felaktiga poster','Felfria poster']);
+var categories = orgs.concat(['Övriga','Alla lärosäten','Ofullständiga poster','Kvalitetssäkrade poster']);
 
 var colorCategories = {};
 
@@ -322,9 +322,9 @@ var l = strongColorPattern.length;
 var offset = Math.floor(strongColorPattern.length/2);
 offset = 7;
 categories.forEach(function(category, i) {
-	if(category === 'Felfria poster') {
+	if(category === 'Kvalitetssäkrade poster') {
 		colorCategories[category] = '#FFDA60';
-	} else if(category === 'Felaktiga poster') {
+	} else if(category === 'Ofullständiga poster') {
 		colorCategories[category] = '#FFC300';
 	} else if(category === 'Alla lärosäten') {
 		colorCategories[category] = '#8459A4';

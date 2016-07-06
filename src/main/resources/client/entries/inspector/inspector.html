@@ -30,7 +30,7 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<template v-if="violationDistributionChart.getContent | visible 1 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>TOTAL ANDEL POSTER MED FEL</p>
+									<p>FÖRDELNING AV KVALITETSSÄKRADE POSTER</p>
 								</div>
 								<div>
 									<chart 
@@ -51,7 +51,7 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<template v-if="orgViolations.getContent | visible 2 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>ANDEL FELFRIA POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(topp 5)</span></p>
+									<p>ANDEL KVALITETSSÄKRADE POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(topp 5)</span></p>
 								</div>
 								<div>
 									<chart 
@@ -75,7 +75,7 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<div v-if="violationTypeDistributionChart.getContent | visible 3 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>DISTRIBUTION AV FELTYPER</p>
+									<p>DISTRIBUTION AV SWEPUBS FELTYPER</p>
 								</div>
 								<chart 
 									type="donut" 
@@ -105,7 +105,7 @@
 							<template v-if="grade3ViolationChart.getContent | visible 4 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>
-										ANDEL POSTER MED ALLVARLIGA FEL
+										ANDEL POSTER MED OFULLSTÄNDIG METADATA
 										<span style="font-size: x-small;">
 											(allvarlighetsgrad 3 <i class="fa fa-circle" v-bind:style="{ color: violationGrade3Color }"></i> )
 										</span>
@@ -147,7 +147,7 @@
 				<!-- Activity buttons -->
 				<!--In case of button-Look: class="btn btn-info {{ $data._styles.ActivityButton }}" -->
 				<a class="{{ $data._styles.ActivityButton }}" v-on:click="onClickViolationButton('ALL')">
-					<span class="fa fa-exclamation-circle"></span> FELTYPER 
+					<span class="fa fa-exclamation-circle"></span> OFULLSTÄNDIG METADATA
 				</a>
 				<a class="{{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
 					<span class="fa fa-files-o"></span> DUBBLETTKANDIDATER 
@@ -158,7 +158,7 @@
 			</div>
 		</div>
 		<div class="chooseViolationSection" style="display:none;" slot="SearchResultTitle">
-			<h2>FELTYPER</h2>
+			<h2>OFULLSTÄNDIG METADATA</h2>
 			<about-vialations></about-vialations>
 			<a v-on:click="onClickExternal()" href="https://kundo.se/org/swepub/">FRAMTIDA LÄNK</a>
 			<violations-dropdown :on-click-option="onClickViolationOption">

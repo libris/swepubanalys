@@ -114,12 +114,12 @@ var FormatAggregationUtil = {
 		var formattedData = []; // Data to be returned
 		// If there are buckets on organisations
 		if(aggregations.org && aggregations.org.buckets && aggregations.org.buckets.length > 0 && aggregations.missingViolations) {
-			formattedData.push(['Felaktiga poster']);
+			formattedData.push(['Ofullständiga poster']);
 			aggregations.org.buckets.map(function(bucket, i) {
 				formattedData[0].push(bucket.doc_count)
 			});
 			formattedData[0].push(-1*aggregations.missingViolations.doc_count);
-			formattedData.push(['Felfria poster', aggregations.missingViolations.doc_count]);
+			formattedData.push(['Kvalitetssäkrade poster', aggregations.missingViolations.doc_count]);
 		}
 		return {
 			columns: formattedData
