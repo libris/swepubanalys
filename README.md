@@ -33,17 +33,17 @@ gradle clean build npmInstall bowerInstall webpack war
 * Drop the war file into a Tomcat server and point your browser to http://[Your url goes here]
 
 ## Running Swepub för analys och bibliometri on Jetty
-There is a Gradle task configured to run Jetty, runWebApp.
+There is a Gradle task configured to run Jetty, runWebApp.   
   gradle clean build npmInstall bowerInstall webpack war runWebApp should get you going
 
 ## Front-end documentation
-[Link](src/main/resources/client/README.md)
+Swepub for analys and bibliometri is a client heavy web application that needs javascript to run. The client parts are built using vue.js. Please see the [Front-end documentation](src/main/resources/client/README.md) for more information.
 
 ## Virtuoso prerequisites
 To be able to write to Virtuoso you need to configure a user in your configvalues.groovy file.
-The user need the following permissions set:
-SPARQL_SELECT
-SPARQL_UPDATE
-The user need to be granted permission to the following graph
+The user need the following permissions set in Virtuoso:   
+SPARQL_SELECT   
+SPARQL_UPDATE   
+The user also need to be granted permission to the following graph     
 DB.DBA.RDF_GRAPH_USER_PERMS_SET ('http://swepub.kb.se/analysis/adjudication/data#graph', 'adjudicator', 3);
 
