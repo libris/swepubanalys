@@ -2,34 +2,44 @@
 
 This is the source code for the web interface for the SwePub för analys och bibliometri service - SwePub for analysis and bibliometrics (http://bibliometri.swepub.kb.se/)
 
-### SPARQL-repository  
+## Other related repositories
+### Sparql library
+There is a repository dedicated for direct SPARQL interaction with the data in SwePub at https://github.com/libris/swepub-sparql
 
-There is also a repository dedicated for direct SPARQL interaction with the data in SwePub at https://github.com/libris/swepub-sparql
+### Data loading utilities
+There is also a git project that handles the different parts of data loading of Swepub för analys och bibliometri. This is not a public repo and is located internally at KB
+This repo handles:
+* Loading of data into Virtuoso, including the extraction and triplifying of MODS records from the OAI-PMH harvester
+* Making "complete" data dumps in SQL format from Sparql queries
+* Loading data into Elasticsearch to facilitate for faster result counting and graph drawing in the web interface
+* Triplifying external CSV sources
+* Keeping track of external sources like DOAJ to facilitate for historic data
+* bash scripts for running the above utilities
 
-Please note that configuration and a few more key koncepts are not yet implemented into the solution.
-
-### Dependencies
+## Dependencies
 * install groovy (>2.4.0) from http://groovy-lang.org/download.html (or use a package manager, e.g.: brew install groovy).    
 * Install gradle from http://gradle.org/ (or use a package manager, e.g.: brew install gradle).   
 * Install node from https://nodejs.org (or use a package manager, e.g.: brew install node).   
 * Install bower from http://bower.io/ (or use a package manager, e.g.: npm install -g bower). 
 * Install webpack from https://webpack.github.io/  (or use a package manager, e.g.: npm install webpack -g)
 * Install elasticsearch from http://elasticsearch.org/ (or use a package manager, e.g.: brew install elasticsearch).
-
-### Running SwePub för analys och bibliometri on Tomcat
+## typical build command
+gradle clean build npmInstall bowerInstall webpack war
+## Running SwePub för analys och bibliometri on Tomcat
 * Download the sourcecode
 * Open a commandline tool and go to the root folder of the project
-* Run gradle clean build war
+* Run gradle clean build npmInstall bowerInstall webpack war
 * Locate the war file in the build/libs directory
-* Drop the war file into a Tomcat server and point your browser to http://[Your url goes here]/form
+* Drop the war file into a Tomcat server and point your browser to http://[Your url goes here]
 
-### Running Swepub för analys och bibliometri on Jetty
-To come.
+## Running Swepub för analys och bibliometri on Jetty
+There is a Gradle task configured to run Jetty, runWebApp.
+  gradle clean build npmInstall bowerInstall webpack war runWebApp should get you going
 
-### Front-end documentation
+## Front-end documentation
 [Link](src/main/resources/client/README.md)
 
-### Virtuoso prerequisites
+## Virtuoso prerequisites
 To be able to write to Virtuoso you need to configure a user in your configvalues.groovy file.
 The user need the following permissions set:
 SPARQL_SELECT
