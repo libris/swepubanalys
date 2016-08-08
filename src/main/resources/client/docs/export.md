@@ -1,1 +1,1 @@
-Hjälpavsnitt kommer inom kort.
+Här kan du anpassa ditt sökresultat genom att välja vilka fält som ska ingå i ditt uttag. Om ditt sökresultat överstiger 2 miljoner rader per uttag bör du begränsa din sökning med publiceringsår eller andra variabler. Fält som markeras med en punkt är fraktionerade vilket innebär att det skapas flera rader för varje post i uttaget. 
