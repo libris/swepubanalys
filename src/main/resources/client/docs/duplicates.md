@@ -1,2 +1,3 @@
-Här söker du fram en lista med potentiella dubblettposter för bedömning och märkning om det gäller samma eller olika publikationsposter samt för export och lokal åtgärd. Uppmärkningen av poster är en förutsättning för att posterna ska kunna hanteras vidare av systemet och utgöra underlag för kvalitetssäkrade uttag. 
+Här kan du söka fram en lista med potentiella dubblettposter för bedömning. Dessa måste märkas för att systemet ska kunna avgöra om posterna är dubbletter eller ej. Processen för hantering av dubblettkandidater finns beskriven i [Lathunden].   
+
 
