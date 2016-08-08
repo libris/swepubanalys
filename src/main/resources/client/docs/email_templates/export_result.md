@@ -1,5 +1,5 @@
 Hej,
 
-Här kommer en länk till din beställda uttagsfil för nedladdning. Den underliggande sökfrågan finns bifogad i mejlet.
+Här kommer länken till din beställda uttagsfil för nedladdning. Bifogat finner du även den underliggande sökfrågan för att kunna återskapa ditt uttag via den avancerade utsökningen.
 
 
