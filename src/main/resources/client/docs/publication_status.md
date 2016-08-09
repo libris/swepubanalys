@@ -1,6 +1,5 @@
+Analyser baseras oftast på metadata om publikationer som är formellt publicerade och därför finns det behov av att kunna skilja mellan publicerat och opublicerat material. Som opublicerat material räknas: preprint, submitted, accepted, in press, epub ahead of print/online first. Läs mer i [Nationella riktlinjer för beskrivning av vetenskaplig output avsnitt 3.4 och 3.13](http://info.swepub.kb.se/wp-content/uploads/2015/02/v-1.2-Nationella-riktlinjer-f%C3%B6r-beskrivning-av-vetenskaplig-output_2015_09_10.pdf).  
 
-
-Analyser baseras oftast på metadata om publikationer som är formellt publicerade och därför finns det behov av att kunna skilja mellan publicerat och opublicerat material. Som opublicerat material räknas: preprint, submitted, accepted, in press, epub ahead of print/online first. Läs mer i [Nationella riktlinjer för beskrivning av vetenskaplig output avsnitt 3.4 och 3.13](http://info.swepub.kb.se/wp-content/uploads/2015/02/v-1.2-Nationella-riktlinjer-f%C3%B6r-beskrivning-av-vetenskaplig-output_2015_09_10.pdf)  
 
 
 
