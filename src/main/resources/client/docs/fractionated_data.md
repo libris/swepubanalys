@@ -1,4 +1,5 @@
-En artikel med flera författare delas eller fraktioneras i lika delar för alla ingående författare. Detsamma gäller en artikel med flera forskningsämnen. Summan av alla fraktioner ska vara 1.   
+Fraktionering innebär att en publikation med flera författare delas i lika delar för alla ingående författare. Beroende av analys kan en publikation även fraktioneras utifrån länder, organisationer eller ämnen. Summan av alla fraktioner ska alltid vara 1.  
+
 
 
 
