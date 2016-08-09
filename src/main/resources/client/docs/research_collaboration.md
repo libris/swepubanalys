@@ -1,1 +1,3 @@
-Här söker du fram en lista med samarbetspublikationer som innehåller motstridiga metadata för export och lokal åtgärd. Motstridigheter måste åtgärdas för att posterna ska kunna hanteras vidare av systemet och utgöra underlag för kvalitetssäkrade uttag.
+Här kan du söka fram en lista med samarbetspublikationer som innehåller motstridiga metadata om antal upphovspersoner, publiceringskanaler, fraktionering med flera uppgifter. Dessa poster behöver först bedömas och åtgärdas i lokala system innan posterna kan ingå i kvalitetssäkrade uttag. Processen för hantering av samarbetspublikationer finns beskriven i [Lathunden].  
+
+
