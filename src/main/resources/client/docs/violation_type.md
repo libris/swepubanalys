@@ -1,11 +1,5 @@
+Här kan du göra uttag av poster med systemidentifierade brister i datakvaliteten utifrån SwePubs regler.
+Bristerna delas in i feltyper av olika allvarlighetsgrader beroende på hur de påverkar olika typer av analyser. Posterna behöver åtgärdas i lokala system. Läs mer om hantering av ofullständig metadata i [Lathunden].  
 
-
-Feltyper är en benämning på maskinellt identifierade brister i datakvaliteten utifrån SwePubs regler. Feltyperna kan t. ex. röra sig om felaktigt angivna eller saknade identifikatorer som ISSN och DOI. Bristande eller ofullständig metadata innebär att poster kan uteslutas från dubbletthantering och påverkar vilka bibliometriska analyser som data stödjer. 
-
-**Tänk på**  
-Det finns tre allvarlighetsgrader där grad 3 är den högsta. Poster märkta med feltyp 3 bör åtgärdas först. 
-
-**Läs mer**  
-[Mer information kommer.]
 
 
