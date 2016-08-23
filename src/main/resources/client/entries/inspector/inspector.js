@@ -44,9 +44,12 @@ var Inspector = {
 		/**
 		 * On formModel-change, get aggregations from server
 		 */
-		'formModel': function() {
+		'formModel': function(value) {
 			clearTimeout(this._t);
+			console.log('fm:' + JSON.stringify(value))
 			this._t = setTimeout(function() {
+
+				
 				DataUtil.getFilterAggregations(this.formModel, function(aggregations) {
 					if(!aggregations.error) {
 						SearchFormUtil.handleAggregations(aggregations);
@@ -58,7 +61,14 @@ var Inspector = {
 					this.$set('loadingData', false);
 				}.bind(this));
 			}.bind(this), 800);
+		},
+		'formData': function(value) {
+			/*console.log('fd:'+JSON.stringify(value))*/
+		},
+		'activity': function(value) {
+			/*console.log('activity:'+JSON.stringify(value))*/
 		}
+
 	},
 	components: {
 		'site-wrapper': SiteWrapper,

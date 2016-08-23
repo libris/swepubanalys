@@ -48,7 +48,7 @@ class Api implements Controller {
         validateQueryParameters(['model'] as String[], request)
         def model = request.queryParams("model") != null ? new JsonSlurper().parseText(request.queryParams("model")) : null;
         response.type("application/json");
-        return Elasticsearch.getAggs(model);
+        return Elasticsearch.getAggregations(model);
     }
 
     static dataQuery(Request request, Response response) {

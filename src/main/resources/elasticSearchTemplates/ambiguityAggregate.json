@@ -1,0 +1,30 @@
+{
+  "org": {
+    "terms": {
+      "field": "recordContentSourceValue",
+      "size": 0
+    }
+  },
+  "ambiguities_per_org_per_year": {
+    "terms": {
+      "field": "ambiguity",
+      "size": 0
+    },
+    "aggs": {
+      "org": {
+        "terms": {
+          "field": "recordContentSourceValue",
+          "size": 0
+        },
+        "aggs": {
+          "year": {
+            "terms": {
+              "field": "publicationYear",
+              "size": 0
+            }
+          }
+        }
+      }
+    }
+  }
+}

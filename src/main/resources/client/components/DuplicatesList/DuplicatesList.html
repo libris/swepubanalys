@@ -25,9 +25,9 @@
 					</thead>
 					<tbody class="{{ $data._styles.Tbody }} background-light" v-on:scroll="onScrollTbody" v-el:t-body>
 						<!-- Collapsed row -->
-						<template 
-								track-by="$index" 
-								v-for="article in ambiguities" 
+						<template
+								track-by="$index"
+								v-for="article in ambiguities"
 								transition="expand">
 							<tr class="{{ $parent.$data._styles.DarkRow }} {{ $parent.$data._styles.Td }}">
 								<td class="{{ $parent.$data._styles.Col1 }}">
@@ -42,8 +42,8 @@
 									<div class="{{ $parent.$data._styles.ExpandButtonContainer }}">
 											<span class="{{ $parent.$data._styles.WeightSpan }}">Viktning: {{ parseFloat(article._total_match_weight.value).toFixed(2) }}</span>
 											<a class="pull-right" v-on:click="setHandleArticle(article)"  style="text-decoration: none; border-radius: 0px;">
-												<i 
-													class="fa" 
+												<i
+													class="fa"
 													v-bind:class="{ 'fa-plus-square': article.show !== true, 'fa-minus-square' : article.show === true }"
 													style="">
 												</i>
@@ -92,8 +92,8 @@
 										<div><p v-if="article.show" class="{{ $data._styles.Ellipsis }}" style="..."><small >Visas inte posten nedan? Länk till posten:<a href="{{article._uri1.value}}">{{article._uri1.value}}</a> </small></p></div>
 										<div class="{{ $parent.$data._styles.WindowContainer }}">
 											<iframe sandbox
-												v-if="article._uri1" 
-												class="{{ $parent.$data._styles.Window }}" 
+												v-if="article._uri1"
+												class="{{ $parent.$data._styles.Window }}"
 												v-bind:src="article._uri1.value">
 											</iframe>
 										</div>
@@ -102,8 +102,8 @@
 										<div><p v-if="article.show" class="{{ $data._styles.Ellipsis }}" style="..."><small >Visas inte posten nedan? Länk till posten:<a href="{{article._uri2.value}}">{{article._uri2.value}}</a> </small></p></div>
 										<div class="{{ $parent.$data._styles.WindowContainer }}">
 											<iframe sandbox
-												v-if="article._uri2" 
-												class="{{ $parent.$data._styles.Window }}" 
+												v-if="article._uri2"
+												class="{{ $parent.$data._styles.Window }}"
 												v-bind:src="article._uri2.value">
 											</iframe>
 										</div>

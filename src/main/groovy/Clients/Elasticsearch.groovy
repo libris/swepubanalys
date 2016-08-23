@@ -1,19 +1,20 @@
 package clients
 
-import traits.ConfigConsumable
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
+import traits.ConfigConsumable
 import wslite.json.JSONObject
 import wslite.rest.ContentType
 import wslite.rest.RESTClient
 
 /**
  * Created by Theodor on 2015-10-09.
+ * Class for interacting with Elasticsearch
  */
 public class Elasticsearch implements ConfigConsumable {
 
     static ElasticRESTClient() {
-        return new RESTClient(currentConfig().elasticSearch.location)
+        return new RESTClient(currentConfig().elasticSearch.location as String)
 
     }
 
@@ -28,9 +29,9 @@ public class Elasticsearch implements ConfigConsumable {
         return response.json.indices.swepub;
     }
 
-    public static getAggs(def model) {
-        def aggs = new JsonSlurper().parseText(selectAggs(model.aggregate))
-        def jsonToPost = model != null ? JsonOutput.toJson([query: filterByModel(model), aggs: aggs]) : JsonOutput.toJson([aggs: aggs])
+    public static getAggregations(def model) {
+        def aggregations = new JsonSlurper().parseText(selectAggregations(model.aggregate as String))
+        def jsonToPost = model != null ? JsonOutput.toJson([query: filterByModel(model), aggs: aggregations]) : JsonOutput.toJson([aggs: aggregations])
         def client = ElasticRESTClient()
         def path = "/swepub/${model.aggregate == 'inspector' ? 'dataQuality' : 'bibliometrician'}/_search"
         def response = client.post(
@@ -40,23 +41,61 @@ public class Elasticsearch implements ConfigConsumable {
         assert 200 == response.statusCode
         assert response != null;
         assert response.json instanceof JSONObject;
-        def jsonresp = response.json;
-        assert jsonresp.aggregations.collect { it }.count { it } > 0;
-        jsonresp.aggregations.total_hits = jsonresp.hits.total;
-        def output = JsonOutput.toJson(jsonresp.aggregations)
+        def jsonResponse = response.json;
+        assert jsonResponse.aggregations.collect { it }.count { it } > 0;
+        jsonResponse.aggregations.total_hits = getTotalHits(model)
+        def output = JsonOutput.toJson(jsonResponse.aggregations)
         return JsonOutput.prettyPrint(output);
     }
 
-    static def selectAggs(def aggregateName) {
+    static getTotalHits(def model) {
+        def client = ElasticRESTClient()
+        def indexName = { String templateName ->
+            switch (templateName) {
+                case 'AmbiguityListing':
+                    'ambiguities'
+                    break
+                case 'quality':
+                    'dataQuality'
+                    break
+                case 'duplicates':
+                    'duplicates'
+                    break
+                case 'QFBibliometrics':
+                    'bibliometrician'
+                    break
+                default:
+                    'bibliometrician'
+            }
+        }
+        def path = "/swepub/${indexName(model.templateName as String)}/_search"
+        def response = client.post(
+                accept: ContentType.JSON,
+                path: path,
+        ) { text JsonOutput.toJson([query: filterByModel(model)]) }
+        assert 200 == response.statusCode
+        assert response != null;
+        assert response.json instanceof JSONObject;
+        response.json.hits.total
+    }
+
+    static def selectAggregations(String aggregateName) {
+        def getResource = { String location -> this.classLoader.getResource(location).text }
         switch (aggregateName) {
             case "bibliometrician":
-                return bibliometricianAggregate
+                getResource "elasticSearchTemplates/bibliometricianAggregate.json"
                 break
             case "inspector":
-                return inspectorAggregate
+                getResource "elasticSearchTemplates/inspectorAggregate.json"
+                break
+            case "duplicates":
+                getResource "elasticSearchTemplates/duplicateAggregate.json"
+                break
+            case "AmbiguityListing":
+                getResource "elasticSearchTemplates/ambiguityAggregate.json"
                 break
             default:
-                return bibliometricianAggregate
+                getResource "elasticSearchTemplates/bibliometricianAggregate.json"
         }
     }
 
@@ -110,7 +149,7 @@ public class Elasticsearch implements ConfigConsumable {
     static void addToFilter(def property, String name, def filters) {
         if (property) {
             filters.add(property.contains(",") ?
-                    [bool: [should: property.split(",").collect { it -> [term: [(name): it]] }]]
+                    [bool: [should: property.split(',').collect { it -> [term: [(name): it]] }]]
                     : [term: [(name): property]])
         }
 
@@ -125,139 +164,4 @@ public class Elasticsearch implements ConfigConsumable {
         }
     }"""
 
-
-    static String bibliometricianAggregate = """{
-    "openaccess": {
-      "terms": { "field": "oaType", "size" : 0 }
-    },
-    "output":{
-    "terms":{"field":"outputCode", "size" : 0}
-    },
-    "publtype":{
-    "terms":{"field":"publicationTypeCode", "size" : 0}
-    },
-    "year":{
-      "terms":{"field":"publicationYear", "size" : 0}
-    },
-    "org":{
-    "terms":{"field":"recordContentSourceValue", "size" : 0}
-    },
-    "publicationStatuses":{
-    "terms":{"field":"publicationStatus", "size" : 0}
-    },
-    "hsv1s":{
-    "terms":{"field":"hsv1", "size" : 0}
-    },
-    "subject":{
-    "terms":{"field":"hsv3", "size" : 0}
-    },
-    "missing_oa" : {
-            "missing" : { "field" : "oaType" }
-     },
-    "missing_hsv3" : {
-            "missing" : { "field" : "hsv3"}
-     }
-    ,
-    "missing_hsv1" : {
-            "missing" : { "field" : "hsv1"}
-     }
-    ,
-    "missing_hsv5" : {
-            "missing" : { "field" : "hsv5" }
-     }
-
-  }"""
-
-    static String inspectorAggregate = """{
-    "missingViolations": {
-        "missing": {
-            "field": "qualityViolations.label"
-        }
-    },
-    "missing_violations_per_org": {
-        "terms": {
-            "field": "recordContentSourceValue",
-            "size": 0
-        },
-        "aggs": {
-            "missingViolations": {
-                "missing": {
-                    "field": "qualityViolations.label"
-                }
-            }
-        }
-    },
-     "violation_severity_per_org_per_year": {
-        "terms": {
-            "field": "recordContentSourceValue",
-            "size": 0
-        },
-        "aggs": {
-            "year": {
-                "terms": {
-                    "field": "publicationYear","size":"0"
-                },
-                  "aggs": {
-                     "severity": {
-                      "terms": { "field": "qualityViolations.severity", "size":0 }
-                    }
-                }
-            }
-        }
-    },
-    "qualityViolations": {
-        "terms": {
-            "field": "qualityViolations.label",
-            "size": 0
-        }
-    },
-    "year": {
-        "terms": {
-            "field": "publicationYear",
-            "size": 0
-        }
-    },
-    "org": {
-        "terms": {
-            "field": "recordContentSourceValue",
-            "size": 0
-        }
-    },
-    "violations_per_org_per_year": {
-        "terms": {
-            "field": "qualityViolations.label",
-            "size": 0
-        },
-        "aggs": {
-            "org": {
-                "terms": {
-                    "field": "recordContentSourceValue",
-                    "size": 0
-                },
-                "aggs": {
-                    "year": {
-                        "terms": {
-                            "field": "publicationYear",
-                            "size": 0
-                        }
-                    }
-                }
-            }
-        }
-    },
-    "org_per_year": {
-        "terms": {
-            "field": "recordContentSourceValue",
-            "size": 0
-        },
-        "aggs": {
-            "year": {
-                "terms": {
-                    "field": "publicationYear",
-                    "size": 0
-                }
-            }
-        }
-    }
-}"""
 }
