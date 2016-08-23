@@ -371,7 +371,7 @@ var violations = {
     'swpa_m:ISSNViolation': {text: 'ISSN fel', name: 'ISSN format violation', grade: 3},
     'swpa_m:MissingISSNViolation': {text: 'ISSN saknas', name: 'Missing ISSN Violation', grade: 3},
     'swpa_m:MissingConferenceTitleViolation': {
-        text: 'Konferens - saknad värdpublikation',
+        text: 'Konferens - saknad värdpubl.',
         name: 'Missing Conference Title Violation',
         grade: 3
     },
