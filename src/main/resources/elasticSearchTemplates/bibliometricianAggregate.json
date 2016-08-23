@@ -1,0 +1,70 @@
+{
+  "openaccess": {
+    "terms": {
+      "field": "oaType",
+      "size": 0
+    }
+  },
+  "output": {
+    "terms": {
+      "field": "outputCode",
+      "size": 0
+    }
+  },
+  "publtype": {
+    "terms": {
+      "field": "publicationTypeCode",
+      "size": 0
+    }
+  },
+  "year": {
+    "terms": {
+      "field": "publicationYear",
+      "size": 0
+    }
+  },
+  "org": {
+    "terms": {
+      "field": "recordContentSourceValue",
+      "size": 0
+    }
+  },
+  "publicationStatuses": {
+    "terms": {
+      "field": "publicationStatus",
+      "size": 0
+    }
+  },
+  "hsv1s": {
+    "terms": {
+      "field": "hsv1",
+      "size": 0
+    }
+  },
+  "subject": {
+    "terms": {
+      "field": "hsv3",
+      "size": 0
+    }
+  },
+  "missing_oa": {
+    "missing": {
+      "field": "oaType"
+    }
+  },
+  "missing_hsv3": {
+    "missing": {
+      "field": "hsv3"
+    }
+  },
+  "missing_hsv1": {
+    "missing": {
+      "field": "hsv1"
+    }
+  },
+  "missing_hsv5": {
+    "missing": {
+      "field": "hsv5"
+    }
+  }
+}
