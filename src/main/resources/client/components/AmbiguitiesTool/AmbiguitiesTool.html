@@ -8,6 +8,7 @@
 			<div class="col-xs-8">
 				{{{ $data.about }}}
 				<a v-on:click="onClickExternal()" href="https://kundo.se/org/swepub/">FRAMTIDA LÄNK</a>
+				<p>{{ totalHits !== false ? 'Din sökning gav ' + totalHits + ' poster.' : '' }}</p>
 			</div>
 			<div class="col-xs-4">
 				<div style="float: right;">

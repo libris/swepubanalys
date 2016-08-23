@@ -96,6 +96,7 @@ var SearchResult = {
                 this.$set('formModelHasChanged', false);
             }
             ;
+            console.log('1')
             if (this.formModel.templateName) {
                 // *** Post "Preview-query" if there are selected filterFields which does not exist in result
                 // *** Update list preview with result
@@ -105,14 +106,18 @@ var SearchResult = {
                 }, function (query) {
                     var selectedFields = 0;
                     for (var i = 0; i < formModel.filterFields.length; i++) {
+
                         if (formModel.filterFields[i].checked === true) {
+                            console.log('2')
                             selectedFields++;
                             if (this.result && this.result.head && this.result.head.vars) {
                                 var index = _findIndex(this.result.head.vars, function (field) {
                                     return '?' + field === formModel.filterFields[i].field;
                                 });
+                                console.log('3')
                                 if (index === -1 || formModelChanged === true) {
                                     console.log('*** SearchResults.updateQuery: Posting query');
+                                    console.log(JSON.stringify(formModel))
                                     this.$set(formModelChanged === true ? 'pendingUpdate' : 'pendingRefresh', true);
                                     this.getResult(query, function () {
                                         this.$set('pendingUpdate', false);

@@ -10,6 +10,7 @@ var _assign = require('lodash/object/assign');
 var AuthenticationMixin = require('mixins/AuthenticationMixin/AuthenticationMixin.js');
 //Utility
 var FormFieldMemoryUtil = require('utils/FormFieldMemoryUtil/FormFieldMemoryUtil.js');
+var DataUtil = require('utils/DataUtil/DataUtil.js');
 // CSS modules
 var styles = _assign(
     require('./AmbiguitiesTool.css'),
@@ -37,6 +38,15 @@ var AmbiguitiesTool = {
 	},
 	ready: function() {
 		this.$set('about', marked(require('docs/research_collaboration.md')));
+		this.$watch('formModel', function () {
+			this.formModelChanged();
+		}.bind(this));
+		// Watch for deep mutation of filterFields, regenerate query if this occurs
+		this.$watch('filterFields', function () {
+			this.filterFieldsChanged();
+		}.bind(this), {deep: true});
+		// Generate query on ready hook
+		this.formModelChanged();
 	},
 	methods: {
 		/**
@@ -48,7 +58,31 @@ var AmbiguitiesTool = {
 		},
 		onClickExternal: function() {
 			localStorage.setItem('externalPass', true);
+		},
+		/**
+		 * Should be called if props.formModel has been received or updated. Gets appropriate filterFields according
+		 * to template name and updates data.filterFields accordingly
+		 */
+		formModelChanged: function () {
+			console.log(JSON.stringify(this.formModel))
+			DataUtil.getFilterAggregations(this.formModel, function (aggregations) {
+				if (aggregations && typeof aggregations.total_hits !== 'undefined') {
+					this.$set('totalHits', aggregations.total_hits);
+				} else {
+					this.$set('totalHits', false);
+				}
+			}.bind(this));
+		},
+		/**
+		 * Should be called if data.filterFields has been mutated. This can be triggered either by the user interacting
+		 * with the GUI or if formModelChanged(). We subsequently updateQuery(), and let that function decide whether
+		 * to do a POST or not
+		 */
+		filterFieldsChanged: function () {
+
 		}
+
+
 	}
 };
 
