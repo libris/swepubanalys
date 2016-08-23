@@ -2,17 +2,19 @@ package clients
 
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
+import traits.ConfigConsumable
 import wslite.json.JSONObject
 import wslite.rest.ContentType
 import wslite.rest.RESTClient
 
 /**
  * Created by Theodor on 2015-10-09.
+ * Class for interacting with Elasticsearch
  */
-public class Elasticsearch implements traits.ConfigConsumable {
+public class Elasticsearch implements ConfigConsumable {
 
     static ElasticRESTClient() {
-        return new RESTClient(currentConfig().elasticSearch.location)
+        return new RESTClient(currentConfig().elasticSearch.location as String)
 
     }
 
@@ -27,9 +29,9 @@ public class Elasticsearch implements traits.ConfigConsumable {
         return response.json.indices.swepub;
     }
 
-    public static getAggs(def model) {
-        def aggs = new JsonSlurper().parseText(selectAggs(model.aggregate))
-        def jsonToPost = model != null ? JsonOutput.toJson([query: filterByModel(model), aggs: aggs]) : JsonOutput.toJson([aggs: aggs])
+    public static getAggregations(def model) {
+        def aggregations = new JsonSlurper().parseText(selectAggregations(model.aggregate as String))
+        def jsonToPost = model != null ? JsonOutput.toJson([query: filterByModel(model), aggs: aggregations]) : JsonOutput.toJson([aggs: aggregations])
         def client = ElasticRESTClient()
         def path = "/swepub/${model.aggregate == 'inspector' ? 'dataQuality' : 'bibliometrician'}/_search"
         def response = client.post(
@@ -39,10 +41,10 @@ public class Elasticsearch implements traits.ConfigConsumable {
         assert 200 == response.statusCode
         assert response != null;
         assert response.json instanceof JSONObject;
-        def jsonresp = response.json;
-        assert jsonresp.aggregations.collect { it }.count { it } > 0;
-        jsonresp.aggregations.total_hits = getTotalHits(model)
-        def output = JsonOutput.toJson(jsonresp.aggregations)
+        def jsonResponse = response.json;
+        assert jsonResponse.aggregations.collect { it }.count { it } > 0;
+        jsonResponse.aggregations.total_hits = getTotalHits(model)
+        def output = JsonOutput.toJson(jsonResponse.aggregations)
         return JsonOutput.prettyPrint(output);
     }
 
@@ -50,23 +52,23 @@ public class Elasticsearch implements traits.ConfigConsumable {
         def client = ElasticRESTClient()
         def indexName = { String templateName ->
             switch (templateName) {
-                case "AmbiguityListing":
-                    "ambiguities"
+                case 'AmbiguityListing':
+                    'ambiguities'
                     break
-                case "quality":
-                    "dataQuality"
+                case 'quality':
+                    'dataQuality'
                     break
-                case "duplicates":
-                    "duplicates"
+                case 'duplicates':
+                    'duplicates'
                     break
-                case "QFBibliometrics":
-                    "bibliometrician"
+                case 'QFBibliometrics':
+                    'bibliometrician'
                     break
                 default:
-                    "bibliometrician"
+                    'bibliometrician'
             }
         }
-        def path = "/swepub/${indexName(model.templateName)}/_search"
+        def path = "/swepub/${indexName(model.templateName as String)}/_search"
         def response = client.post(
                 accept: ContentType.JSON,
                 path: path,
@@ -77,7 +79,7 @@ public class Elasticsearch implements traits.ConfigConsumable {
         response.json.hits.total
     }
 
-    static def selectAggs(String aggregateName) {
+    static def selectAggregations(String aggregateName) {
         def getResource = { String location -> this.classLoader.getResource(location).text }
         switch (aggregateName) {
             case "bibliometrician":
@@ -147,7 +149,7 @@ public class Elasticsearch implements traits.ConfigConsumable {
     static void addToFilter(def property, String name, def filters) {
         if (property) {
             filters.add(property.contains(",") ?
-                    [bool: [should: property.split(",").collect { it -> [term: [(name): it]] }]]
+                    [bool: [should: property.split(',').collect { it -> [term: [(name): it]] }]]
                     : [term: [(name): property]])
         }
 

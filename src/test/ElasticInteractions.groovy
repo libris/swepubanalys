@@ -38,7 +38,7 @@ class ElasticInteractions {
     @Test
     void getDefaultAggs() {
         def model = [model:[aggregate:'bibliometrician']]
-        def aggs = clients.Elasticsearch.getAggs(model);
+        def aggs = clients.Elasticsearch.getAggregations(model);
         assert aggs != null;
     }
 }
