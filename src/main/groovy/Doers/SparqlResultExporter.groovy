@@ -80,7 +80,7 @@ public class SparqlResultExporter implements ConfigConsumable {
                         log.info "Saved:" + prepData.fileResults.absolutePath
                     }
                     prepData.fileStatus.write("DONE: ${nowString()} \n")
-                    sleep(30000)
+                    sleep(5000)
                     SMTP.simpleMail(
                             config.smtp.from as String,
                             emailAddress,
@@ -102,7 +102,7 @@ public class SparqlResultExporter implements ConfigConsumable {
                             config.smtp.port as String)
                 }
             }
-            sleep(3000)
+            sleep(30000)
             if (thread.isAlive()) {
                 log.info "thread is alive. Sending email."
                 SMTP.simpleMail(
