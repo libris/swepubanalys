@@ -42,7 +42,7 @@ var SiteWrapperMixin = {
 		}.bind(this));
 		*/
 		// Set GitHub-image
-		this.$els.githubImage1.src = this.$els.githubImage2.src = require('octicons/svg/mark-github.svg');
+		this.$els.githubImage1.src = this.$els.githubImage2.src = require('octicons/lib/svg/mark-github.svg');
 	}
 };
 
