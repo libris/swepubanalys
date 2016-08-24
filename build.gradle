@@ -9,6 +9,7 @@ configurations {
 }
 
 loadConfiguration()
+
 def loadConfiguration() {
     def environment = hasProperty('env') ? env : 'dev'
     project.ext.environment = environment
@@ -53,6 +54,7 @@ dependencies {
              'com.sun.mail:javax.mail:1.5.4', 'com.sparkjava:spark-core:2.3',
              'com.sparkjava:spark-template-mustache:1.0.0',
              'com.github.groovy-wslite:groovy-wslite:1.1.2',
+             'commons-validator:commons-validator:1.5.1',
              'commons-validator:commons-validator:1.4.1'])
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -126,29 +128,11 @@ task webpack(type: Exec) {
 
 
 task npmInstall(type: Exec) {
-    doLast {
-        String output = standardOutput.toString()
-
-        if(output.readLines().any{line->line.trim().toLowerCase().startsWith("error")}) {
-            throw new GradleException("Error in npmInstall: \n${output}")
-        } else {
-            println "Great success! Output is: ${output}"
-        }
-    }
     def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'npm.cmd' : 'npm'
     commandLine mainCommand, 'install'
 }
 
 task bowerInstall(type: Exec) {
-    doLast {
-        String output = standardOutput.toString()
-
-        if(output.readLines().any{line->line.trim().toLowerCase().startsWith("error")}) {
-            throw new GradleException("Error in bowerInstall: \n${output}")
-        } else {
-            println "Great success! Output is: ${output}"
-        }
-    }
     def mainCommand = Os.isFamily(Os.FAMILY_WINDOWS) ? 'bower.cmd' : 'bower'
     commandLine mainCommand, 'install'
 }
