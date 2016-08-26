@@ -29,7 +29,8 @@ var AmbiguitiesTool = {
 		return {
 			query: '',
 			_styles: styles,
-			about: ''
+			about: '',
+			totalHits: false
 		}
 	},
 	components: {

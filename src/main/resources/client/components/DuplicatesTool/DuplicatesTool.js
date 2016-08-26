@@ -34,7 +34,7 @@ var DuplicatesTool = {
             // UI state
             pendingRefresh: true,
             // Data
-            totalHits: true
+            totalHits: false
         }
     },
     components: {
