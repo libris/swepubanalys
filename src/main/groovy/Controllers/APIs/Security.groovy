@@ -19,4 +19,9 @@ class Security implements Controller {
         LoginStatus loginStatus = Authenticator.getLoginStatus(request)
         return JsonOutput.prettyPrint(JsonOutput.toJson(loginStatus))
     }
+    static Response logout(Request request, Response response) {
+        if(request.session(true))
+            request.session().attribute('loggedIn',false)
+        response.redirect('/')
+    }
 }

@@ -25,8 +25,8 @@ public class Routes implements SparkApplication {
 
         get("/bibliometri", { req, res -> new ModelAndView(Bibliometrician.index(req, res), "bibliometrician.mustache") }, templateEngine)
         get("/databearbetning", { req, res -> new ModelAndView(Inspector.index(req, res), "inspector.mustache") }, templateEngine)
-        get("/secure", { req, res -> Security.index(req, res) }, templateEngine)
-
+        get("/secure", { req, res -> Security.index(req, res) })
+        get("/logout", { req, res -> controllers.APIs.Security.logout(req, res) })
 
 
         //<editor-fold desc="Redirects">
@@ -52,6 +52,7 @@ public class Routes implements SparkApplication {
         post("/api/2.0/data/query", { req, res -> Api.dataQuery(req, res) })
         get("/api/2.0/ambiguity/case", { req, res -> Api.ambiguityCase(req, res) })
         get("/api/2.0/security", { req, res -> controllers.APIs.Security.getLoginStatus(req, res) })
+
         get("/api/2.0/technicalInfo", { req, res -> Api.getTechnicalInfo(res) })
         //</editor-fold>
 

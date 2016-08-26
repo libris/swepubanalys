@@ -13,8 +13,7 @@ class Authenticator implements ConfigConsumable {
                 && currentConfig().security.isLoggedIn) {
             true
         } else {
-            (request.session(true)
-                    && request.session().attribute("loggedIn") == true)
+            (request.session(true) && request.session().attribute("loggedIn") == true)
         }
     }
 

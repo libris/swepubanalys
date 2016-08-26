@@ -3,12 +3,19 @@
 		<div class="col-md-6">
 			<div class="{{ $data._styles.TopInfo }}">
 				<a v-show="!authenticated" v-on:click="checkLoggedInStatus" >
+					<i class="fa fa-sign-in" aria-hidden="true"></i>
 					Logga in
 				</a>
 				<span v-else>
 					<i class="fa fa-fw fa-university"></i> 
 					{{ userModel.organizationName ? userModel.organizationName : userModel.organizationCode }}
 				</span>
+				<div v-show="authenticated" class="{{ $data._styles.Logout }}">
+					<a href="/logout">
+						<i class="fa fa-sign-out" aria-hidden="true"></i>
+						Logga ut
+					</a>
+				</div>
 				<tech-info-window>
 				</tech-info-window>
 			</div>

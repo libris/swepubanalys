@@ -32,6 +32,11 @@
 .MenuItem a {
 	color: #FFFFFF;
 }
+.Logout{
+	width: 250px;
+	display: inline-block;
+	text-align: center;
+}
 
 .ActiveMenuItem {
 	background-color: #2e2e2e;
