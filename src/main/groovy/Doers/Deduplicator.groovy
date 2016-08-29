@@ -18,7 +18,7 @@ import java.text.SimpleDateFormat
 class Deduplicator implements ConfigConsumable {
 
     static String createAdjudicationUri(String uriRecord1, String uriRecord2) {
-        return "swpa_d:CreativeWorkInstanceDuplicateAdjudication__${uriRecord1.substring(30, uriRecord1.length())}_${uriRecord2.substring(30, uriRecord2.length())}"
+        return "http://swepub.kb.se/SwePubAnalysis/data#CreativeWorkInstanceDuplicateAdjudication__${uriRecord1.substring(30, uriRecord1.length())}_${uriRecord2.substring(30, uriRecord2.length())}"
     }
 
     static String prefix = """PREFIX swpa_d: <http://swepub.kb.se/SwePubAnalysis/data#>
