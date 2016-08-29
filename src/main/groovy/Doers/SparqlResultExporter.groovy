@@ -102,7 +102,7 @@ public class SparqlResultExporter implements ConfigConsumable {
                             config.smtp.port as String)
                 }
             }
-            sleep(30000)
+            sleep(5000)
             if (thread.isAlive()) {
                 log.info "thread is alive. Sending email."
                 SMTP.simpleMail(
