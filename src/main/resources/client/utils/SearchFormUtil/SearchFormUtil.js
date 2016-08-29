@@ -376,9 +376,9 @@ var violations = {
         grade: 3
     },
     'swpa_m:ORCIDViolation': {text: 'ORCID fel', name: 'ORCID format violation', grade: 3},
-    'swpa_m:HREFViolation': {text: 'PersonalID fel', name: 'href / local ID violation', grade: 3},
+    'swpa_m:HREFViolation': {text: 'PersonID fel', name: 'href / local ID violation', grade: 3},
     'swpa_m:MissingLocalCreatorIdentifierViolation': {
-        text: 'PersonalID saknas',
+        text: 'PersonID saknas',
         name: 'missing identifier of local creator',
         grade: 3
     },
