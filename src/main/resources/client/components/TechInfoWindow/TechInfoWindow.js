@@ -56,7 +56,7 @@ var TechInfoWindow = {
       this.modsVersion = data.currentModsVersion;
       this.lastIndexDate = moment(data.lastIndexDate, "YYYY-MM-DDHH:mm:ss").format('LL');
       this.latestRelease = data.releaseInfo.releases[0];
-      this.latestRelease.formatted_publish_date = moment(this.latestRelease.published_at, "YYYY-MM-DDTHH:mm:ssZ").format('YYYY MM DD');
+      this.latestRelease.formatted_publish_date = moment(this.latestRelease.published_at, "YYYY-MM-DDTHH:mm:ssZ").format('YYYY-MM-DD');
       this.harvestNotes(this.latestRelease.body);
       this.checkForUpdates();
     },
