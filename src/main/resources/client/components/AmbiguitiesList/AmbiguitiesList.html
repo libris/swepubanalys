@@ -79,19 +79,12 @@
 									<td class="{{ $data._styles.Col2 }" >&nbsp;</td>
 									<td class="{{ $data._styles.Col3 }}">
 									<div v-if="!loggedIn">
-										<!-- TODO: Buttons with popover explaining the need to log in -->
+										Logga in om du vill justera felaktigt ihopslagna poster
 									</div>
 									<div v-if="loggedIn && !getPermissions(article, org)">
 										<!-- TODO: Buttons with popover explaining the lack of permissions -->
 									</div>
-									<div v-else class="btn-group" data-toggle="buttons">
-										<!--<button class="btn btn-default" v-bind:class="{ 'btn-success': (article.ambiguityCase.hasAdjudication == 1 && article.ambiguityCase.isDuplicate == 1 && article.pendingChange != 1) }" v-on:click="decideArticle(article, 1)">
-
-											<i class="fa fa-circle-thin" v-show="(article.ambiguityCase.hasAdjudication != 1 || article.ambiguityCase.isDuplicate != 1) && article.pendingChange != 1"></i>
-											<i class="fa fa-cog fa-spin" v-show="article.pendingChange == 1"></i>
-											<i class="fa fa-check-circle" v-show="article.ambiguityCase.isDuplicate == 1 && article.pendingChange != 1"></i>
-											Samma
-										</button>-->
+									<div v-if="loggedIn && getPermissions(article, org)" class="btn-group" data-toggle="buttons">
 										<button class="btn btn-default" v-bind:class="{ 'btn-success':  (article.ambiguityCase.hasAdjudication == 1 && article.ambiguityCase.isDuplicate == 0 && article.pendingChange != 0) }" v-on:click="decideArticle(article, 0)">
 											<i class="fa fa-circle-thin" v-show="(article.ambiguityCase.hasAdjudication != 1 || article.ambiguityCase.isDuplicate != 0) && article.pendingChange != 0"></i>
 											<i class="fa fa-cog fa-spin" v-show="article.pendingChange == 0"></i>
