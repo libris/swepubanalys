@@ -146,21 +146,21 @@
 				</search-form>
 				<!-- Activity buttons -->
 				<!--In case of button-Look: class="btn btn-info {{ $data._styles.ActivityButton }}" -->
-				<a class="{{ $data._styles.ActivityButton }}" v-on:click="onClickViolationButton('ALL')">
-					<span class="fa fa-exclamation-circle"></span> OFULLSTÄNDIG METADATA
+				<a class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="onClickViolationButton('ALL')">
+					OFULLSTÄNDIG METADATA
 				</a>
-				<a class="{{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
-					<span class="fa fa-files-o"></span> DUBBLETTKANDIDATER 
+				<a class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
+					DUBBLETTKANDIDATER
 				</a>
-				<a class="{{ $data._styles.ActivityButton }}" v-on:click="startActivity('AMBIGUITIES')">
-					<span class="fa fa-group"></span> SAMARBETSPUBLIKATIONER 
+				<a class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('AMBIGUITIES')">
+					SAMARBETSPUBLIKATIONER
 				</a>
 			</div>
 		</div>
-		<div class="chooseViolationSection" style="display:none;" slot="SearchResultTitle">
+		<div class="chooseViolationSection">
 			<h2>OFULLSTÄNDIG METADATA</h2>
 			<about-vialations></about-vialations>
-			<a v-on:click="onClickExternal()" href="https://kundo.se/org/swepub/">FRAMTIDA LÄNK</a>
+			<!--<a v-on:click="onClickExternal()" href="https://kundo.se/org/swepub/">FRAMTIDA LÄNK</a>-->
 			<violations-dropdown :on-click-option="onClickViolationOption">
 				<div style="color:#000;" slot="Title">
 					<span style="float:left;">VÄLJ</span> <span style="float:right;" class="fa fa-caret-down"></span>
