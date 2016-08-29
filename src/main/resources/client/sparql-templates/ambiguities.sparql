@@ -46,6 +46,6 @@ MINUS
 ?Record2 a mods_m:Record .
 ?Mods1 mods_m:identifierValue ?_id1 .
 ?Mods2 mods_m:identifierValue ?_id2 .
-?Adjudication swpa_m:isDuplicate ?_isDuplicate .
+?Adjudication swpa_m:isDuplicate  0.
 }
 }
