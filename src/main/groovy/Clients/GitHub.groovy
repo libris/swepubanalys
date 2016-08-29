@@ -20,15 +20,15 @@ class GitHub implements ConfigConsumable {
             assert 200 == response.statusCode
             assert response != null
             assert response.json instanceof JSONArray
-            return [releases: response.json
+            def ret = [releases: response.json
                     .collect { r ->
                 [tag         : r?.tag_name ?: "",
                  name        : r?.name ?: "",
                  body        : r?.body ?: "",
                  published_at: r?.published_at ?: "",
                  url         : r?.html_url ?: ""]
-            }.findAll { r -> r.published_at != '' }]
-
+            }.findAll { r -> r.published_at != '' }.toSorted { a, b -> a.published_at <=> b.published_at}.reverse()]
+            return ret
         }
         catch (all) {
             return [releases: [], errorMessage: all.message]
