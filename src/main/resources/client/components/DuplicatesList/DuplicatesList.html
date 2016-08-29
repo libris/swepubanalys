@@ -52,12 +52,14 @@
 											</a>
 									</div>
 									<div v-if="!loggedIn">
+										<em>Logga in för att bedöma</em>
 										<!-- TODO: Buttons with popover explaining the need to log in -->
 									</div>
 									<div v-if="loggedIn && !getPermissions(article, org)">
+										<em>Du har saknar behörighet att arbeta med posterna</em>
 										<!-- TODO: Buttons with popover explaining the lack of permissions -->
 									</div>
-									<div v-else class="btn-group" data-toggle="buttons">
+									<div v-if="loggedIn && getPermissions(article, org)" class="btn-group" data-toggle="buttons">
 										<button class="btn btn-default" v-bind:class="{ 'btn-success': (article._isDuplicate.value == 1 && article.pendingChange != 0) }" v-on:click="decideArticle(article, 1)">
 												<i class="fa fa-circle-thin" v-show="(!article._isDuplicate || article._isDuplicate.value != 1) && article.pendingChange != 0"></i>
 												<i class="fa fa-cog fa-spin" v-show="article.pendingChange == 1"></i>
