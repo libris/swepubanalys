@@ -25,7 +25,7 @@ public class Routes implements SparkApplication {
 
         get("/bibliometri", { req, res -> new ModelAndView(Bibliometrician.index(req, res), "bibliometrician.mustache") }, templateEngine)
         get("/databearbetning", { req, res -> new ModelAndView(Inspector.index(req, res), "inspector.mustache") }, templateEngine)
-        get("/secure", { req, res -> Security.index(req, res) })
+        get("/secure", { req, res -> Security.index(req, res) }, templateEngine)
         get("/logout", { req, res -> controllers.APIs.Security.logout(req, res) })
 
 
