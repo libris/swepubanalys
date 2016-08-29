@@ -1,2 +1,1 @@
-Här kan du söka fram en lista med potentiella dubblettposter för bedömning. Dessa måste märkas för att systemet ska kunna avgöra om posterna är dubbletter eller ej. Processen för hantering av dubblettkandidater och information kring viktning finns beskriven i [Lathunden].   
-
+Fraktionering innebär att en publikation med flera författare delas i lika delar för alla ingående författare. Beroende av analys kan en publikation även fraktioneras utifrån länder, organisationer eller forskningsämnen. Summan av alla fraktioner ska vara 1. Fält som markeras med en punkt är fraktionerade vilket innebär att det skapas flera rader för varje post i uttaget.  
