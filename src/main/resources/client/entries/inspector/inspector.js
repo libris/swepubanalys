@@ -332,9 +332,9 @@ var l = strongColorPattern.length;
 var offset = Math.floor(strongColorPattern.length/2);
 offset = 7;
 categories.forEach(function(category, i) {
-	if(category === 'Kvalitetssäkrade poster') {
+	if(category === 'Felfria poster') {
 		colorCategories[category] = '#FFDA60';
-	} else if(category === 'Ofullständiga poster') {
+	} else if(category === 'Bristfälliga poster') {
 		colorCategories[category] = '#FFC300';
 	} else if(category === 'Alla lärosäten') {
 		colorCategories[category] = '#8459A4';

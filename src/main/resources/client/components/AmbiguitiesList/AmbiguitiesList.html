@@ -94,7 +94,7 @@
 									</div>
 										<!--<span>hasAdj{{article.ambiguityCase.hasAdjudication}} isDup{{article.ambiguityCase.isDuplicate}}</span>-->
 									<br v-show="(article.ambiguityCase.hasAdjudication == 1 && article.ambiguityCase.isDuplicate == 0 && article.pendingChange != 0)" />
-										<span v-show="(article.ambiguityCase.hasAdjudication == 1 && article.ambiguityCase.isDuplicate == 0 && article.pendingChange != 0)">Posterna kommer att splittras och behandlas som separata poster vid nästa omindexering</span>
+										<span v-show="(article.ambiguityCase.hasAdjudication == 1 && article.ambiguityCase.isDuplicate == 0 && article.pendingChange != 0)">Posterna kommer att behandlas som separata poster vid nästa omindexering</span>
 									<span class="{{ $parent.$data._styles.Error }}" v-show="article.error != null">Kunde inte spara...</span>
 									</td>
 								</template>

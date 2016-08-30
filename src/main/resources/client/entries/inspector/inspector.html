@@ -30,7 +30,7 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<template v-if="violationDistributionChart.getContent | visible 1 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>FÖRDELNING AV KVALITETSSÄKRADE POSTER</p>
+									<p>FÖRDELNING AV POSTER</p>
 								</div>
 								<div>
 									<chart 
@@ -51,7 +51,7 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<template v-if="orgViolations.getContent | visible 2 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>ANDEL KVALITETSSÄKRADE POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(topp 5)</span></p>
+									<p>ANDEL FELFRIA POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(topp 5)</span></p>
 								</div>
 								<div>
 									<chart 
@@ -164,7 +164,7 @@
 			<!--<a v-on:click="onClickExternal()" href="https://kundo.se/org/swepub/">FRAMTIDA LÄNK</a>-->
 			<violations-dropdown :on-click-option="onClickViolationOption">
 				<div style="color:#000;" slot="Title">
-					<span style="float:left;">VÄLJ</span> <span style="float:right;" class="fa fa-caret-down"></span>
+					<span style="float:left;">VÄLJ FELTYP</span> <span style="float:right;" class="fa fa-caret-down"></span>
 				</div>
 			</violations-dropdown>
 		</div>
