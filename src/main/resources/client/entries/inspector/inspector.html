@@ -157,7 +157,8 @@
 				</a>
 			</div>
 		</div>
-		<div class="chooseViolationSection">
+
+		<div v-if="activity === 'VIOLATIONS'" class="chooseViolationSection">
 			<h2>OFULLSTÄNDIG METADATA</h2>
 			<about-vialations></about-vialations>
 			<!--<a v-on:click="onClickExternal()" href="https://kundo.se/org/swepub/">FRAMTIDA LÄNK</a>-->
