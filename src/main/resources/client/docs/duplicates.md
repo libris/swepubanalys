@@ -1,1 +1,1 @@
-Dubblettkandidater måste bedömas manuellt om de är samma eller olika publikationer för att systemet ska kunna avgöra om posterna är dubbletter eller ej. Processen för hantering av dubblettkandidater finns beskriven i [Lathunden].   
+Dubblettkandidater måste bedömas manuellt om de är samma eller olika för att systemet ska kunna avgöra om posterna är dubbletter eller ej. Processen för hantering av dubblettkandidater finns beskriven i [Lathunden].   
