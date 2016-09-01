@@ -1,7 +1,11 @@
-# Generated from Linked Data Browser navigation history
+PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+PREFIX mods_m: <http://swepub.kb.se/mods/model#>
+PREFIX bmc: <http://swepub.kb.se/bibliometric/model#>
 SELECT DISTINCT
 ?CreativeWorkInstanceDuplicateAdjudication
 ?_identifierValue1
+?Record1
+?Record2
 ?_identifierValue2
 ?_isDuplicate
 ?_comment
@@ -42,6 +46,6 @@ WHERE
 
 
 FILTER (?_identifierValue2 != ?_identifierValue1)
-#FILTER (xsd:string(?_recordContentSourceValue1) IN ("!!rec1Org!!"))
+#!!orgFilter!!FILTER (xsd:string(?_recordContentSourceValue1) IN ("!!Org!!"))
 }
 LIMIT 5000

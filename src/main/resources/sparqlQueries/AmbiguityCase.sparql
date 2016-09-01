@@ -1,7 +1,7 @@
 #Ambiguity
 PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
 PREFIX mods_m: <http://swepub.kb.se/mods/model#>
-
+PREFIX bmc: <http://swepub.kb.se/bibliometric/model#>
 SELECT DISTINCT
 ?_ambiguityType #Tvetydighet typ
 ?_comment #Kommentar #-

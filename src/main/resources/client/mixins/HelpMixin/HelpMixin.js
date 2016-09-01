@@ -22,6 +22,8 @@ var HelpMixin = {
 	components: {
 		'help-initiator-button': HelpInitiatorButton
 	},
+	ready: function() {
+	},
 	methods: {
 		/**
 		 * Initiates the help-popover

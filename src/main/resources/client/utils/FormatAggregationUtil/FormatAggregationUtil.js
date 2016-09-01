@@ -114,7 +114,7 @@ var FormatAggregationUtil = {
 		var formattedData = []; // Data to be returned
 		// If there are buckets on organisations
 		if(aggregations.org && aggregations.org.buckets && aggregations.org.buckets.length > 0 && aggregations.missingViolations) {
-			formattedData.push(['Felaktiga poster']);
+			formattedData.push(['Bristfälliga poster']);
 			aggregations.org.buckets.map(function(bucket, i) {
 				formattedData[0].push(bucket.doc_count)
 			});
@@ -177,20 +177,20 @@ var FormatAggregationUtil = {
 	 */
 	toViolationTypeDistributions: function(aggregations, orgKey) {
 		var columns = [];
-		if(aggregations.violations_per_org_per_year && aggregations.violations_per_org_per_year.buckets) {
-			var violationTypes = aggregations.violations_per_org_per_year.buckets;
-			violationTypes.forEach(function(violationType) {
-				var key = violationType.key;
-				columns.push([key]);
-				if(violationType.org && violationType.org.buckets) {
-					var orgs = violationType.org.buckets;
-					orgs.forEach(function(org) {
-						if(orgKey.length === 0 || orgKey.indexOf(org.key) !== -1) {
-							columns[columns.length-1].push(org.doc_count);
-						}
-					});					
-				}
-			});
+			if(aggregations.violations_per_org_per_year && aggregations.violations_per_org_per_year.buckets) {
+				var violationTypes = aggregations.violations_per_org_per_year.buckets;
+				violationTypes.forEach(function(violationType) {
+					var key = violationType.key;
+					columns.push([key]);
+					if(violationType.org && violationType.org.buckets) {
+						var orgs = violationType.org.buckets;
+						orgs.forEach(function(org) {
+							if(orgKey.length === 0 || orgKey.indexOf(org.key) !== -1) {
+								columns[columns.length-1].push(org.doc_count);
+							}
+						});
+					}
+				});
 		}
         // Sort the columns
         SearchFormUtil.getViolations(function(violations) { // Get grades

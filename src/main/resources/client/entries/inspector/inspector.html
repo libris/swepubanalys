@@ -13,7 +13,7 @@
 			<div style="position: relative; width: 100%;">
 				<div style="position: absolute; top: 0; width: 100%;">
 					<div v-if="loadingData" class="{{ $data._styles.Info }}">
-						<h1 class="{{ $data._styles.loading }}">Laddar visualiseringar...</h1>
+						<h1 class="{{ $data._styles.loading }}">Laddar...</h1>
 					</div>
 					<div v-if="emptyAggregations" class="{{ $data._styles.Info }}">
 						<h1>Tomt sökresultat</h1>
@@ -30,7 +30,7 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<template v-if="violationDistributionChart.getContent | visible 1 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>TOTAL ANDEL POSTER MED FEL</p>
+									<p>FÖRDELNING AV POSTER</p>
 								</div>
 								<div>
 									<chart 
@@ -75,7 +75,7 @@
 						<div class="{{ $data._styles.ChartContainer }}">
 							<div v-if="violationTypeDistributionChart.getContent | visible 3 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
-									<p>DISTRIBUTION AV FELTYPER</p>
+									<p>DISTRIBUTION AV SWEPUBS FELTYPER</p>
 								</div>
 								<chart 
 									type="donut" 
@@ -105,7 +105,7 @@
 							<template v-if="grade3ViolationChart.getContent | visible 4 visibleItems">
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>
-										ANDEL POSTER MED ALLVARLIGA FEL
+										ANDEL POSTER MED OFULLSTÄNDIG METADATA
 										<span style="font-size: x-small;">
 											(allvarlighetsgrad 3 <i class="fa fa-circle" v-bind:style="{ color: violationGrade3Color }"></i> )
 										</span>
@@ -146,23 +146,25 @@
 				</search-form>
 				<!-- Activity buttons -->
 				<!--In case of button-Look: class="btn btn-info {{ $data._styles.ActivityButton }}" -->
-				<a class="{{ $data._styles.ActivityButton }}" v-on:click="onClickViolationButton('ALL')">
-					<span class="fa fa-exclamation-circle"></span> FELTYPER 
+				<a class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="onClickViolationButton('ALL')">
+					OFULLSTÄNDIG METADATA
 				</a>
-				<a class="{{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
-					<span class="fa fa-files-o"></span> DUBBLETTKANDIDATER 
+				<a class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('LOCAL_DUPLICATES')">
+					DUBBLETTKANDIDATER
 				</a>
-				<a class="{{ $data._styles.ActivityButton }}" v-on:click="startActivity('AMBIGUITIES')">
-					<span class="fa fa-group"></span> SAMARBETSPUBLIKATIONER 
+				<a class="btn btn-info {{ $data._styles.ActivityButton }}" v-on:click="startActivity('AMBIGUITIES')">
+					SAMARBETSPUBLIKATIONER
 				</a>
 			</div>
 		</div>
-		<div class="chooseViolationSection" style="display:none;" slot="SearchResultTitle">
-			<h2>FELTYPER</h2>
+
+		<div v-if="activity === 'VIOLATIONS'" class="chooseViolationSection">
+			<h2>OFULLSTÄNDIG METADATA</h2>
 			<about-vialations></about-vialations>
+			<!--<a v-on:click="onClickExternal()" href="https://kundo.se/org/swepub/">FRAMTIDA LÄNK</a>-->
 			<violations-dropdown :on-click-option="onClickViolationOption">
 				<div style="color:#000;" slot="Title">
-					<span style="float:left;">VÄLJ</span> <span style="float:right;" class="fa fa-caret-down"></span>
+					<span style="float:left;">VÄLJ FELTYP</span> <span style="float:right;" class="fa fa-caret-down"></span>
 				</div>
 			</violations-dropdown>
 		</div>

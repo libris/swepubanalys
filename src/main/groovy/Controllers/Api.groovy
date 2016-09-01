@@ -1,25 +1,29 @@
-package Controllers
+package controllers
 
-import Clients.Elasticsearch
-import Clients.GitHub
-import Clients.Virtuoso
-import Doers.AmbiguityCase
-import Doers.SparqlResultExporter
+import clients.Elasticsearch
+import clients.GitHub
+import clients.Virtuoso
+import doers.AmbiguityCase
+import doers.QualityViolations
+import doers.SparqlResultExporter
 import groovy.json.JsonBuilder
-import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import spark.Request
 import spark.Response
+import traits.Controller
 
 /**
  * This class sits between Route configuration and actual testable use case code (Doers) for the API parts of the system
  */
 @Slf4j
-class Api {
+@CompileStatic
+class Api implements Controller {
     //TODO: Refactor so the methods are testable....
 
     static sparql(Request request, Response response) {
+        validateQueryParameters(['query', 'format'] as String[], request)
         println request.queryParams()
         def query = request.queryParams("query");
         def format = request.queryParams("format");
@@ -30,40 +34,47 @@ class Api {
     }
 
     static getDataQualityViolations(Response response) {
-        def sparql = Thread.currentThread().getContextClassLoader().getResource("sparqlQueries/DataQualityViolation.sparql").getText();
-        def resp = new Virtuoso().post(sparql, "application/json");
-        def map = [values: resp.results.bindings.collect { it -> [name: it["_label"].value, comment: it["_comment"].value, severity: it["_severity"].value] }]
         response.type("application/json");
-        return new JsonBuilder(map).toPrettyString()
+        return new JsonBuilder(QualityViolations.qualityViolations).toPrettyString()
 
     }
 
     static getStats(Response response) {
         response.type("application/json");
-        return Elasticsearch.getStats();
+        return Elasticsearch.stats;
     }
 
     static getAggregations(Request request, Response response) {
-
+        validateQueryParameters(['model'] as String[], request)
         def model = request.queryParams("model") != null ? new JsonSlurper().parseText(request.queryParams("model")) : null;
         response.type("application/json");
-        return Elasticsearch.getAggs(model);
+        return Elasticsearch.getAggregations(model);
     }
 
     static dataQuery(Request request, Response response) {
-        def exporter = new SparqlResultExporter();
+        validateQueryParameters(['query', 'format', 'email', 'zip'] as String[], request)
         response.type("application/json");
+        def exporter = new SparqlResultExporter()
         return exporter.startQueryAndDownload(request.queryParams("query"), request.queryParams("format"), request.queryParams("email"), request.queryParams("zip") == "true");
 
     }
 
-    static AmbiguityCase(Request request, Response response) {
-        response.type("application/json");
+    static ambiguityCase(Request request, Response response) {
+        response.type("application/json")
+        validateQueryParameters(['record1_id', 'record2_id', 'record1_org', 'record2_org'] as String[], request)
         def ambiguityCase = new AmbiguityCase(request.queryParams("record1_id"), request.queryParams("record2_id"), request.queryParams("record1_org"), request.queryParams("record2_org"))
-        return JsonOutput.toJson([ambiguities: ambiguityCase.ambiguities, record1: ambiguityCase.record1, record2: ambiguityCase.record2])
+        return new JsonBuilder(
+                [
+                        ambiguities    : ambiguityCase.ambiguities,
+                        record1        : ambiguityCase.record1,
+                        record2        : ambiguityCase.record2,
+                        matchWeight    : ambiguityCase.matchWeight,
+                        hasAdjudication: ambiguityCase.hasAdjudication,
+                        isDuplicate    : ambiguityCase.isDuplicate
+                ]).toPrettyString()
     }
 
-    static getTechnicalInfo(Request request, Response response) {
+    static getTechnicalInfo(Response response) {
         response.type("application/json")
         def mapToReturn = [lastIndexDate: Virtuoso.lastIndexDate, releaseInfo: GitHub.releases, currentModsVersion: '2.6']
         return new JsonBuilder(mapToReturn).toPrettyString()

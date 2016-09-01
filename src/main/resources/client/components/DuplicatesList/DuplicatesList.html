@@ -1,7 +1,7 @@
 <div class="{{ $data._resultStyles.Result }}">
 	<div class="{{ $data._resultStyles.Loading }}">
 		<div v-if="pendingUpdate === true" transition="expand" class="{{ $data._styles.PendingUpdate }}">
-			<h2><i class="fa fa-cog fa-spin"></i> Laddar...</h2>
+			<h2 class="{{ $data._styles.loading }}">Laddar...</h2>
 		</div>
 	    <div v-if="!hasNonEmptyResult()" class="{{ $data._resultStyles.PendingUpdate }}">
 	        <h2>Tomt sökresultat</h2>
@@ -20,47 +20,60 @@
 							<p>POST 2</p>
 						</th>
 						<th class="{{ $data._styles.Th }} {{ $data._styles.Col3 }}">
-							<p>Hantera</p>
+							<p>Bedöm</p>
 						</th>
 					</thead>
 					<tbody class="{{ $data._styles.Tbody }} background-light" v-on:scroll="onScrollTbody" v-el:t-body>
 						<!-- Collapsed row -->
-						<template 
-								track-by="$index" 
-								v-for="article in ambiguities" 
+						<template
+								track-by="$index"
+								v-for="article in ambiguities"
 								transition="expand">
 							<tr class="{{ $parent.$data._styles.DarkRow }} {{ $parent.$data._styles.Td }}">
 								<td class="{{ $parent.$data._styles.Col1 }}">
-									<p>{{ mapName(article._orgCode1) }}</p>
-									<p>{{ article._id1 ? article._id1.value : '' }}</p>
+									<p>{{ mapName(article._orgCode1) }} - <em>{{ article._id1 ? article._id1.value : '' }}</em></p>
 								</td>
 								<td class="{{ $parent.$data._styles.Col2 }}">
 									<div style="position: relative">
-										<p>{{ mapName(article._orgCode2) }}</p>
-										<p>{{ article._id1 ? article._id2.value : '' }}</p>
+										<p>{{ mapName(article._orgCode2) }} - <em>{{ article._id1 ? article._id2.value : '' }}</em></p>
 									</div>
 								</td>
 								<td class="{{ $parent.$data._styles.Col3 }}">
 									<div class="{{ $parent.$data._styles.ExpandButtonContainer }}">
-										<span class="{{ $parent.$data._styles.WeightSpan }}">Viktning: {{ article._total_match_weight.value }}</span>
-										<div class="btn-group" data-toggle="buttons">
-											<label class="btn btn-xs btn-default">
-												<input type="radio" name="options" id="option1" autocomplete="off"> Samma
-											</label>
-											<label class="btn btn-xs btn-default">
-												<input type="radio" name="options" id="option2" autocomplete="off"> Olika
-											</label>
-										</div>
-										<a v-on:click="setHandleArticle(article)"  style="text-decoration: none; border-radius: 0px;">
-											<i 
-												class="fa" 
-												v-bind:class="{ 'fa-plus-square': article.show !== true, 'fa-minus-square' : article.show === true }"
-												style="">
-											</i>
-											<span v-if="article.show !== true">ÖPPNA POSTER</span>
-											<span v-else>STÄNG POSTER</span>
-										</a>
+											<span class="{{ $parent.$data._styles.WeightSpan }}">Viktning: {{ parseFloat(article._total_match_weight.value).toFixed(2) }}</span>
+											<a class="pull-right" v-on:click="setHandleArticle(article)"  style="text-decoration: none; border-radius: 0px;">
+												<i
+													class="fa"
+													v-bind:class="{ 'fa-plus-square': article.show !== true, 'fa-minus-square' : article.show === true }"
+													style="">
+												</i>
+												<span v-if="article.show !== true">Visa</span>
+												<span v-else>Dölj</span>
+											</a>
 									</div>
+									<div v-if="!loggedIn">
+										<em>Logga in för att bedöma</em>
+										<!-- TODO: Buttons with popover explaining the need to log in -->
+									</div>
+									<div v-if="loggedIn && !getPermissions(article, org)">
+										<em>Du har saknar behörighet att arbeta med posterna</em>
+										<!-- TODO: Buttons with popover explaining the lack of permissions -->
+									</div>
+									<div v-if="loggedIn && getPermissions(article, org)" class="btn-group" data-toggle="buttons">
+										<button class="btn btn-default" v-bind:class="{ 'btn-success': (article._isDuplicate.value == 1 && article.pendingChange != 0) }" v-on:click="decideArticle(article, 1)">
+												<i class="fa fa-circle-thin" v-show="(!article._isDuplicate || article._isDuplicate.value != 1) && article.pendingChange != 0"></i>
+												<i class="fa fa-cog fa-spin" v-show="article.pendingChange == 1"></i>
+												<i class="fa fa-check-circle" v-show="article._isDuplicate.value == 1 && article.pendingChange != 0"></i>
+												Samma
+										</button>
+										<button class="btn btn-default" v-bind:class="{ 'btn-success': (article._isDuplicate.value == 0 && article.pendingChange != 1) }" v-on:click="decideArticle(article, 0)">
+												<i class="fa fa-circle-thin" v-show="(!article._isDuplicate || article._isDuplicate.value != 0) && article.pendingChange != 1"></i>
+												<i class="fa fa-cog fa-spin" v-show="article.pendingChange == 0"></i>
+												<i class="fa fa-check-circle" v-show="article._isDuplicate.value == 0 && article.pendingChange != 1"></i>
+												Olika
+										</button>
+									</div>
+									<span class="{{ $parent.$data._styles.Error }}" v-show="article.error != null">Kunde inte spara...</span>
 								</td>
 							</tr>
 							<!-- Expanded row -->
@@ -69,7 +82,7 @@
 								<template v-if="article.loading">
 									<td colpan="3">
 										<div class="{{ $parent.$data._styles.LoadingRow }}">
-											<h1><i class="fa fa-cog fa-spin"></i> Laddar...</h1>
+											<h1 class="{{ $data._styles.loading }}">Laddar...</h1>
 										</div>
 									</td>
 								</template>
@@ -78,19 +91,21 @@
 							<tr v-if="article.show" transition="expand" style="" class="{{ $data._styles.DarkRowRow }}">
 								<template v-if="!article.loading">
 									<td class="{{ $parent.$data._styles.IframeCol1 }}">
+										<div><p v-if="article.show" class="{{ $data._styles.Ellipsis }}" style="..."><small >Visas inte posten nedan? Länk till posten:<a href="{{article._uri1.value}}">{{article._uri1.value}}</a> </small></p></div>
 										<div class="{{ $parent.$data._styles.WindowContainer }}">
-											<iframe 
-												v-if="article._uri1" 
-												class="{{ $parent.$data._styles.Window }}" 
+											<iframe sandbox
+												v-if="article._uri1"
+												class="{{ $parent.$data._styles.Window }}"
 												v-bind:src="article._uri1.value">
 											</iframe>
 										</div>
 									</td>
 									<td class="{{ $parent.$data._styles.IframeCol2 }}">
+										<div><p v-if="article.show" class="{{ $data._styles.Ellipsis }}" style="..."><small >Visas inte posten nedan? Länk till posten:<a href="{{article._uri2.value}}">{{article._uri2.value}}</a> </small></p></div>
 										<div class="{{ $parent.$data._styles.WindowContainer }}">
-											<iframe 
-												v-if="article._uri2" 
-												class="{{ $parent.$data._styles.Window }}" 
+											<iframe sandbox
+												v-if="article._uri2"
+												class="{{ $parent.$data._styles.Window }}"
 												v-bind:src="article._uri2.value">
 											</iframe>
 										</div>

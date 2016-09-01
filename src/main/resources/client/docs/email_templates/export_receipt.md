@@ -1,6 +1,8 @@
-Hej,    
+Hej, 
 
-Vi har tagit emot din begäran om uttagsfil. En länk levereras till din e-post så snart den är skapad av servern. 
+Detta är en bekräftelse på begärt datauttag i SwePub för analys och bibliometri. En länk till uttagsfilen skickas i separat mejl så snart den är skapad.  
+
+ 
 
 
 

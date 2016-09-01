@@ -215,15 +215,15 @@ var SearchForm = {
 			var formModel = models[this.templateName].call(this);
 			console.log('*** SearchForm.generateFormModel: formModel generated:');
 			console.log(JSON.stringify(formModel));
+			
 			this.$set('fieldMemory', formModel);
-
-			//One setting memory of formfield
+			
+			//Setting memory of formfield
 			var externalPass = localStorage.getItem('externalPass');
 			if(externalPass === 'false') {
 				FormFieldMemoryUtil.setMemory(formModel);
 			}
 			else {
-
 				var schoolOrg = FormFieldMemoryUtil.getMemory().org;
 				setTimeout(function() { this.$broadcast('set-org-value', schoolOrg); }.bind(this), 1000);
 				localStorage.setItem('externalPass', false);

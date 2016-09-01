@@ -1,2 +1,1 @@
-Här söker du fram en lista med samarbetspublikationer som innehåller motstridiga metadata för export och lokal åtgärd.  
-Motstridigheter måste åtgärdas för att posterna ska kunna hanteras vidare av systemet och utgöra underlag för kvalitetssäkrade uttag.
+Samarbetspublikationer som innehåller motstridiga metadata om till exempel antal upphovspersoner, fraktionering och publiceringskanaler behöver bedömas och åtgärdas i lokala system innan de kan ingå i kvalitetssäkrade uttag. Processen för hantering av samarbetspublikationer finns beskriven i [SwePubs lathund för databearbetning](http://www.kb.se/Dokument/SwePub/Lathund.pdf#Samarbetspublikationer).  

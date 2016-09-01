@@ -1,57 +1,57 @@
+
 <div class="{{ $data._resultStyles.Result }}">
-	<div class="{{ $data._resultStyles.Loading }}">
-		<div v-if="pendingUpdate === true" transition="expand" class="{{ $data._resultStyles.PendingUpdate }}">
-			<h2>Laddar...</h2>
-		</div>
-	    <div v-if="!hasNonEmptyResult()" class="{{ $data._resultStyles.PendingUpdate }}">
-	        <h2>Tomt sökresultat</h2>
-		</div>
-	</div>
-	<div class="{{ $data._resultStyles.Container }}" v-if="hasNonEmptyResult()">
-		<div v-show="pendingUpdate !== true">
-			<div v-show="!error">
-				<div class="{{ $data._resultStyles.Item }}">
-					<slot name="SearchResultTitle"></slot>
-					<div class="row">
-						<div class="col-xs-10">
-							<slot name="SearchResultDescription"></slot>
-							<p>
-								{{ totalHits !== false ? 'Din sökning gav ' + totalHits + ' poster.' : '' }}
-							</p>
-							</p>
-								<span v-for="d in labels" class="label label-default" style="margin-right: 10px; display: inline-block; vertical-align: middle;">
+    <div class="{{ $data._resultStyles.Loading }}">
+        <div v-if="pendingUpdate === true" transition="expand" class="{{ $data._resultStyles.PendingUpdate }}">
+            <h2 class="{{ $data._styles.loading }}">Laddar...</h2>
+        </div>
+        <div v-if="!hasNonEmptyResult()" class="{{ $data._resultStyles.PendingUpdate }}">
+            <h2 class="{{ $data._styles.loading }}">Tomt sökresultat</h2>
+        </div>
+    </div>
+    <div class="{{ $data._resultStyles.Container }}" v-if="hasNonEmptyResult()">
+        <div v-show="pendingUpdate !== true">
+            <div v-show="!error">
+                <div class="{{ $data._resultStyles.Item }}">
+                    <slot name="SearchResultTitle"></slot>
+                    <div class="row">
+                        <div class="col-xs-10">
+                            <slot name="SearchResultDescription"></slot>
+                            <p>
+                                {{ totalHits !== false ? 'Din sökning gav ' + totalHits + ' poster.' : '' }} </p>                            </p>
+                            <span v-for="d in labels" class="label label-default" style="margin-right: 10px; display: inline-block; vertical-align: middle;">
 									{{ d.value }}
-								</span>
-							</p>
-						</div>
-						<div class="col-xs-2">
-							<div class="{{ $data._styles.MailExportContainer }}" v-if="selectAllFilterFields === true">
-								<mail-export :query="query"></mail-export>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div v-if="selectAllFilterFields !== true">
-					<filter-fields :filter-fields.sync="filterFields" :show-fractional="showFractional" :default-filter-fields="defaultFilterFields">
-						<div slot="Top"><mail-export :query="query"></mail-export></div>
-					</filter-fields>
-				</div>
-				<div>
-					<div style="min-height: 480px;">
-						<div v-show="pendingRefresh !== true">
-							<list-preview :result="result" :filter-fields="filterFields"></list-preview>
-						</div>
-						<div v-show="pendingRefresh == true" class="{{ $data._styles.PendingRefresh }}">
-							<h2>Laddar...</h2>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div v-show="error">
-				<div class="{{ $data._resultStyles.Error }}">
-					<h1>Problem med sökfråga<h1>
-				</div>
-			</div>
-		</div>
-	</div>
+								</span>                            </p>
+                        </div>
+                        <div class="col-xs-2">
+                            <div class="{{ $data._styles.MailExportContainer }}" v-if="selectAllFilterFields === true">
+                                <mail-export :query="query"></mail-export>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="selectAllFilterFields !== true">
+                    <filter-fields :filter-fields.sync="filterFields" :show-fractional="showFractional" :default-filter-fields="defaultFilterFields">
+                        <div slot="Top">
+                            <mail-export :query="query"></mail-export>
+                        </div>
+                    </filter-fields>
+                </div>
+                <div>
+                    <div style="min-height: 480px;">
+                        <div v-show="pendingRefresh !== true">
+                            <list-preview :result="result" :filter-fields="filterFields"></list-preview>
+                        </div>
+                        <div v-show="pendingRefresh == true" class="{{ $data._styles.PendingRefresh }}">
+                            <h2 class="{{ $data._styles.loading }}">Laddar...</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-show="error">
+                <div class="{{ $data._resultStyles.Error }}">
+                    <h1>Problem med sökfråga</h1>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

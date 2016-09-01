@@ -5,7 +5,7 @@
 			aria-haspopup="true" 
 			aria-expanded="true"
 			style="width: 250px; background-color:#f4f4f4;">
-		<slot name="Title">
+		<slot name="Title"></slot>
 	</button>
 
 	<ul class="dropdown-menu" aria-labelledby="violations">
@@ -13,7 +13,7 @@
 		<li role="separator" class="divider"></li>
 		<template v-for="violation in violations ">
 			<li>
-				<a  href="javascript:void(0);" v-if="violation.grade === 1" v-on:click="onClickOption($key, violation)">
+				<a  href="javascript:void(0);" v-if="violation.grade === 1" v-on:click="onClickOption($key, violation);">
 					{{ violation.text }} <span style="margin-top:3px; margin-left:5px; float:right; color: #52BD34;"class="fa fa-circle"></span>
 				</a>
 				<a  href="javascript:void(0);" v-if="violation.grade === 2" v-on:click="onClickOption($key, violation)">
@@ -22,7 +22,6 @@
 				<a  href="javascript:void(0);" v-if="violation.grade === 3" v-on:click="onClickOption($key, violation)">
 					{{ violation.text }} <span style="margin-top:3px; margin-left:5px; float:right; color: #f07b38;"class="fa fa-circle"></span>
 				</a>
-
 			</li>
 		</template>	
 	</ul>

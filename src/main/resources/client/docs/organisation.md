@@ -1,6 +1,5 @@
-### DEFINITION
+Här avses den organisation som har levererat data till SwePub.  
 
-Här avses den organisation som har levererat data till SwePub.
 
 
 

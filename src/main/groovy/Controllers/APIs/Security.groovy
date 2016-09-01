@@ -1,7 +1,8 @@
-package Controllers.APIs
+package controllers.APIs
 
-import Doers.Authenticator
-import Traits.ConfigConsumable
+import doers.Authenticator
+import domain.LoginStatus
+import traits.Controller
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
 import spark.Request
@@ -11,20 +12,16 @@ import spark.Response
  * Created by Theodor on 2015-12-14.
  */
 @Slf4j
-class Security implements ConfigConsumable {
+class Security implements Controller {
 
-    static def getLoginStatus(Request request, Response response) {
-        boolean isLoggedIn = Authenticator.isLoggedIn(request)
-        response.type("application/json")
-        return JsonOutput.toJson(
-                !isLoggedIn ? [isLoggedIn: false]
-                        :
-                        [
-                                isLoggedIn: true,
-                                userName  : currentConfig().mode == 'dev' ? currentConfig().security.userName : request.session().attribute("userName"),
-                                userId    : currentConfig().mode == 'dev' ? currentConfig().security.userId : request.session().attribute("userId")
-
-                        ]
-        )
+    static getLoginStatus(Request request, Response response) {
+        response.type "application/json"
+        LoginStatus loginStatus = Authenticator.getLoginStatus(request)
+        return JsonOutput.prettyPrint(JsonOutput.toJson(loginStatus))
+    }
+    static Response logout(Request request, Response response) {
+        if(request.session(true))
+            request.session().attribute('loggedIn',false)
+        response.redirect('/')
     }
 }

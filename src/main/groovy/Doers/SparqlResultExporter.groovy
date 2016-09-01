@@ -1,8 +1,8 @@
-package Doers
+package doers
 
-import Clients.SMTP
-import Clients.Virtuoso
-import Traits.ConfigConsumable
+import clients.SMTP
+import clients.Virtuoso
+import traits.ConfigConsumable
 import com.github.rjeschke.txtmark.Processor
 import groovy.util.logging.Slf4j
 import org.apache.http.HttpEntity
@@ -102,7 +102,7 @@ public class SparqlResultExporter implements ConfigConsumable {
                             config.smtp.port as String)
                 }
             }
-            sleep(3000)
+            sleep(5000)
             if (thread.isAlive()) {
                 log.info "thread is alive. Sending email."
                 SMTP.simpleMail(

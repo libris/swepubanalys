@@ -8,6 +8,7 @@ var _assign = require('lodash/object/assign');
 var ResultMixin = require('mixins/ResultMixin/ResultMixin.js');
 // Utils
 var SparqlUtil = require('utils/SparqlUtil/SparqlUtil.js');
+var AuthenticationUtil = require('utils/AuthenticationUtil/AuthenticationUtil.js');
 // CSS-modules
 var styles = _assign(
 	require('./AmbiguitiesList.css'),
@@ -39,6 +40,8 @@ var AmbiguitiesList = {
 			show: show,
 			pendingUpdate: false,
 			handleArticle: '',
+			org: '',
+			loggedIn: false,
 			_styles: styles
 		}
 	},
@@ -64,6 +67,13 @@ var AmbiguitiesList = {
 		}
 	},
 	ready: function() {
+		AuthenticationUtil.authenticate(function(authenticated) {
+			if (authenticated.isLoggedIn) {
+				this.$set('loggedIn', true);
+				this.$set('org', authenticated.organizationCode);
+				console.log(authenticated);
+			}
+		}.bind(this));
 		this.updateQuery();
 	},
 	methods: {
@@ -122,10 +132,48 @@ var AmbiguitiesList = {
 					article = _cloneDeep(article);
 					article.loading = false;
 					article.ambiguityCase = ambiguityCase;
-					article = article;
+					var a = (article.ambiguityCase.hasAdjudication == 1 && article.ambiguityCase.isDuplicate == 0 && article.pendingChange != 0)
+					/*article = article;*/
 					articles.$set(index, article);
 				}.bind(this));
 			}
+		},
+		getPermissions: function(article, org) {
+			return (article._orgCode1.value == org || article._orgCode2.value == org || org == 'kb');
+		},
+		decideArticle: function(article, decision) {
+			article.error = null;
+			if(article.ambiguityCase.isDuplicate && article.ambiguityCase.isDuplicate.value == decision) {
+				// Do nothing...
+				return;
+			}
+			var articles = this.result.results.bindings;
+			var index = articles.indexOf(article);
+			article = _cloneDeep(article);
+
+			if (!article.ambiguityCase.isDuplicate) {
+				article.ambiguityCase.isDuplicate = { value: null };
+			}
+
+			article.pendingChange = decision;
+			articles.$set(index, article);
+			var dataString = "recordId1="+article.ambiguityCase.record1.Record+"&recordId2="+article.ambiguityCase.record2.Record+"&sameOrDifferent="+decision;
+			$.ajax({
+				type: "POST",
+				url: "/api/2.0/deduplication/adjudicate",
+				data: dataString,
+				success: function(response) {
+					article.ambiguityCase.isDuplicate = decision;
+					article.ambiguityCase.hasAdjudication = 1;
+					article.pendingChange = null;
+					articles.$set(index, article);
+				},
+				error: function(response) {
+					article.error = decision;
+					article.pendingChange = null;
+					articles.$set(index, article);
+				}
+			});
 		},
 		/**
 		 * Update the query
@@ -148,7 +196,7 @@ var AmbiguitiesList = {
 };
 
 var orgs = [
-		{ value: 'bth', text: 'Blekinge Tekniska Högskola' },
+		{ value: 'bth', text: 'Blekinge tekniska högskola' },
         { value: 'cth', text: 'Chalmers tekniska högskola' },
         { value: 'esh', text: 'Ersta Sköndal högskola' },
         { value: 'fhs', text: 'Försvarshögskolan' },
@@ -163,29 +211,29 @@ var orgs = [
         { value: 'hh', text: 'Högskolan i Halmstad' },
         { value: 'hj', text: 'Högskolan i Jönköping' },
         { value: 'his', text: 'Högskolan i Skövde' },
-        { value: 'kth', text: 'Kungliga Tekniska högskolan' },
+        { value: 'kth', text: 'Kungl. Tekniska högskolan' },
         { value: 'kau', text: 'Karlstads universitet' },
-        { value: 'ki', text: 'Karolinska Institutet' },
+        { value: 'ki', text: 'Karolinska institutet' },
         { value: 'konstfack', text: 'Konstfack' },
-        { value: 'kmh', text: 'Kungliga Musikhögskolan' },
+        { value: 'kmh', text: 'Kungl. Musikhögskolan' },
         { value: 'liu', text: 'Linköpings universitet' },
         { value: 'lnu', text: 'Linnéuniversitetet' },
-        { value: 'ltu', text: 'Luleåtekniska universitet' },
+        { value: 'ltu', text: 'Luleå tekniska universitet' },
         { value: 'lu', text: 'Lunds universitet' },
-        { value: 'mah', text: 'Malmö Högskola' },
+        { value: 'mah', text: 'Malmö högskola' },
         { value: 'miun', text: 'Mittuniversitetet' },
         { value: 'mdh', text: 'Mälardalens högskola' },
         { value: 'nationalmuseum', text: 'Nationalmuseum' },
         { value: 'nrm', text: 'Naturhistoriska riksmuseet' },
         { value: 'naturvardsverket', text: 'Naturvårdsverket' },
         { value: 'nai', text: 'Nordiska Afrikainstitutet' },
-        { value: 'rkh', text: 'Röda Korsets Högskola' },
-        { value: 'shh', text: 'Sophiahemmet Högskola' },
+        { value: 'rkh', text: 'Röda korsets högskola' },
+        { value: 'shh', text: 'Sophiahemmet högskola' },
         { value: 'vti', text: 'Statens väg- och transportforskningsinstitut' },
         { value: 'su', text: 'Stockholms universitet' },
         { value: 'slu', text: 'Sveriges lantbruksuniversitet' },
         { value: 'sh', text: 'Södertörns högskola' },
-        { value: 'umu', text: 'Umeåuniversitet' },
+        { value: 'umu', text: 'Umeå universitet' },
         { value: 'uu', text: 'Uppsala universitet' },
         { value: 'oru', text: 'Örebro universitet' }
 	];

@@ -1,18 +1,20 @@
 # Max table Original data
 PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
-PREFIX mods_m: <http://swepub.kb.se/mods/model#> 
+PREFIX mods_m: <http://swepub.kb.se/mods/model#>
+PREFIX outt_m: <http://swepub.kb.se/SwePubAnalysis/OutputTypes/model#>
 PREFIX xlink: <http://www.w3.org/1999/xlink#> 
 SELECT DISTINCT
 ?_recordID #Record ID
 ?_orgCode #Organisation (*)
 ?_pubYear #Publiceringsår
 ?_status #Publiceringsstatus #-
-?_publicatType #Publikationstyp/output (*)
+?_publicatType #Publikationstyp (*)
 ?_contentType #Innehållstyp #-
+?_outputCode  #Outputtyp
 ?_OA #OA typ (*) #-
-?_hsv1 #Ämne nivå 1 (*) #-
-?_hsv3 #Ämne nivå 2 (*) 
-?_hsv5 #Ämne nivå 3 (*) #-
+?_hsv1 #Forskningsämne 1-siffernivå (*) #-
+?_hsv3 #Forskningsämne 3-siffernivå (*) 
+?_hsv5 #Forskningsämne 5-siffernivå (*) #-
 ?_titleValue #Titel (*) #-
 ?_creatorCount #Totalt antal upphovspersoner
 ?_numLocalCreator #Totalt antal lokala upphovspersoner
@@ -33,6 +35,7 @@ SELECT DISTINCT
 ?_projekt #Projekt #-
 ?_program #Program #-
 ?_contract #Kontrakt #-
+?_dubblettID # Dubblett ID
 WHERE
 {
 ?Record a mods_m:Record .
@@ -67,6 +70,13 @@ MINUS { ?TitleInfo mods_m:type 'alternative'^^xsd:string }
 OPTIONAL { ?Record swpa_m:uriFulltext ?_fulltext . }
 #END_<?_fulltext>
 
+#START_<?_outputCode>
+OPTIONAL {
+?Record swpa_m:hasOutputType ?OutputType .
+?OutputType outt_m:code ?_outputCode .
+}
+#END_<?_outputCode>
+
 #START_<?_doiValue>
 OPTIONAL
 {
@@ -74,6 +84,16 @@ OPTIONAL
 ?DOI mods_m:doiValue ?_doiValue .
 }
 #END_<?_doiValue>
+
+
+#START_<?_dubblettID>
+OPTIONAL
+{
+?Record swpa_m:possiblySameAs ?Dubblett .
+?Dubblett mods_m:hasMods ?Mods2 .
+?Mods mods_m:identifierValue ?_dubblettID .
+}
+#END_<?_dubblettID>
 
 #START_<?_isiValue>
 OPTIONAL
@@ -101,15 +121,16 @@ OPTIONAL
 
 #START_<?_isbnValue>
 OPTIONAL
-{ 
+{
 ?Mods mods_m:hasIdentifier ?ISBN .
 ?ISBN mods_m:isbnValue ?_isbnValue .
-} 
+}
 #END_<?_isbnValue>
 
 #START_<?_channel>
 OPTIONAL { ?Mods swpa_m:titleValueRelatedItem ?_channel }
 #END_<?_channel>
+
 #START_<?_issn>
 OPTIONAL { ?Mods swpa_m:issnRelatedItem ?_issn }
 #END_<?_issn>
@@ -124,7 +145,7 @@ OPTIONAL
 #END_<?_publisher>
 
 {
-SELECT DISTINCT ?Record ?Mods ?_pubYear ?_orgCode ?_publicatType ?_contentType ?_hsv1 ?_hsv3 ?_hsv5 ?_OA ?_name ?_localID ?_orcid ?_affiliation
+SELECT DISTINCT ?Record ?Mods ?_pubYear ?_orgCode ?_publicatType ?_outputCode ?_contentType ?_hsv1 ?_hsv3 ?_hsv5 ?_OA ?_name ?_localID ?_orcid ?_affiliation
 WHERE
 {
 ?Record mods_m:hasMods ?Mods .
@@ -133,10 +154,12 @@ WHERE
 
 ?Mods swpa_m:publicationYear ?_pubYear .
 ?Mods mods_m:recordContentSourceValue ?_orgCode .
-
+?Record swpa_m:hasOutputType ?OutputType .
+?OutputType outt_m:code ?_outputCode .
 ?Mods swpa_m:publicationTypeCode ?_publicatType .
 ?Mods swpa_m:contentTypeCode ?_contentType .
 ?Record swpa_m:isPublished ?_isPublished .
+?Mods mods_m:hasName ?Name .
 OPTIONAL { ?Mods swpa_m:oaType ?_OA }
 
 #START_<?_hsv1>
@@ -155,6 +178,7 @@ OPTIONAL
 }
 #END_<?_hsv3>
 
+
 #START_<?_hsv5>
 OPTIONAL
 { 
@@ -163,16 +187,19 @@ OPTIONAL
 }
 #END_<?_hsv5>
 
-?Mods mods_m:hasName ?Name . 
+
 #START_<?_name>
 ?Name foaf:name ?_name .
 #END_<?_name>
+
 #START_<?_localID>
 OPTIONAL{ ?Name xlink:href ?_localID }
 #END_<?_localID>
+
 #START_<?_orcid>
 OPTIONAL{ ?Name swpa_m:orcid ?_orcid }
 #END_<?_orcid>
+
 #START_<?_affiliation>
 OPTIONAL
 {
@@ -183,11 +210,44 @@ OPTIONAL
 #END_<?_affiliation>
 
 ###  FILTERS START ####
+
+#START_<ONE_CREATOR_NAME_FILTER>
+?Mods mods_m:hasName ?Name .
+?Name foaf:name ?_name .
+#FILTER_<?_name> ( bif:contains(?_name, <?_name> ) )
+OPTIONAL { ?Name swpa_m:orcid ?_orcid }
+#END_<ONE_CREATOR_NAME_FILTER>
+
+#START_<ONE_CREATOR_ORCID_FILTER>
+?Mods mods_m:hasName ?Name .
+?Name foaf:name ?_name .
+?Name swpa_m:orcid ?_orcid .
+#FILTER_<?_orcid> ( xsd:string(?_orcid) = <?_orcid> )
+#END_<ONE_CREATOR_ORCID_FILTER>
+
+#START_<ONE_CREATOR_TWO_FILTERS>
+{
+?Mods mods_m:hasName ?Name .
+?Name foaf:name ?_name .
+OPTIONAL { ?Name swpa_m:orcid ?_orcid }
+#FILTER_<?_name> ( bif:contains(?_name, <?_name> ) )
+}
+UNION
+{
+?Mods mods_m:hasName ?Name .
+?Name foaf:name ?_name .
+?Name swpa_m:orcid ?_orcid .
+#FILTER_<?_orcid> ( xsd:string(?_orcid) = <?_orcid> )
+}
+#END_<ONE_CREATOR_TWO_FILTERS>
+
+###  FILTERS START ####
 #FILTER_<?_orgCode> ( xsd:string(?_orgCode) IN ( <?_orgCode> ) ) 
 #FILTER_<?_pubYear_low> ( ?_pubYear >= <?_pubYear_low> ) 
 #FILTER_<?_pubYear_high> ( ?_pubYear <= <?_pubYear_high> ) 
-#FILTER_<?_publicatType> (xsd:string(?_publicatType) IN ( <?_publicatType> ) ) 
-#FILTER_<?_contentType> (xsd:string(?_contentType) IN ( <?_contentType> ) ) 
+#FILTER_<?_publicatType> (xsd:string(?_publicatType) IN ( <?_publicatType> ) )
+#FILTER_<?_outputCode> (xsd:string(?_outputCode) IN ( <?_outputCode> ) )
+#FILTER_<?_contentType> (xsd:string(?_contentType) IN ( <?_contentType> ) )
 #FILTER_<?_isPublished> ( ?_isPublished = <?_isPublished> ) 
 #FILTER_<?_hsv3> ( xsd:int(?_hsv3) IN ( <?_hsv3> ) )
 #FILTER_<?_OA> ( BOUND(?_OA ))

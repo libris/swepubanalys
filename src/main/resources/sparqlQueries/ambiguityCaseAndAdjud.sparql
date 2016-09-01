@@ -1,0 +1,85 @@
+#Ambiguity
+PREFIX swpa_m: <http://swepub.kb.se/SwePubAnalysis/model#>
+PREFIX mods_m: <http://swepub.kb.se/mods/model#>
+PREFIX bmc: <http://swepub.kb.se/bibliometric/model#>
+SELECT DISTINCT
+?_ambiguityType #Tvetydighet typ
+?_comment #Kommentar #-
+?_violatingData #Tvetydig data
+?_uri1
+?_uri2
+?_total_match_weight
+?hasAdjudication
+?_isDuplicate
+?Record1
+?Record2
+WHERE
+{
+{
+SELECT DISTINCT *
+{
+?AmbiguityCase swpa_m:ambiguityType ?AmbiguityType .
+?AmbiguityType rdfs:label ?_ambiguityType .
+?AmbiguityCase rdfs:comment ?_comment .
+?AmbiguityCase swpa_m:violatingData ?_violatingData .
+?AmbiguityCase swpa_m:localID1 "$record1"^^<http://www.w3.org/2001/XMLSchema#string> .
+?AmbiguityCase swpa_m:localID2 "$record2"^^<http://www.w3.org/2001/XMLSchema#string> .
+
+?Record1 a mods_m:Record .
+?Mods1 a mods_m:Mods .
+?Record1 mods_m:hasMods ?Mods1 .
+?Mods1 mods_m:identifierValue "$record1"^^<http://www.w3.org/2001/XMLSchema#string> .
+?Mods1 mods_m:recordContentSourceValue "$org1"^^<http://www.w3.org/2001/XMLSchema#string> .
+?Record1 swpa_m:uriRepository ?_uri1 .
+
+?Record2 a mods_m:Record .
+?Mods2 a mods_m:Mods .
+?Record2 mods_m:hasMods ?Mods2 .
+?Mods2 mods_m:identifierValue "$record2"^^<http://www.w3.org/2001/XMLSchema#string> .
+?Mods2 mods_m:recordContentSourceValue "$org2"^^<http://www.w3.org/2001/XMLSchema#string> .
+?Record2 swpa_m:uriRepository ?_uri2 .
+
+{
+SELECT DISTINCT
+sum(?_weight) as ?_total_match_weight ?Record1 ?Record2
+?_isDuplicate
+EXISTS {?Adjudication a swpa_m:Adjudication .} as ?hasAdjudication
+WHERE
+{
+?Record1 a mods_m:Record .
+?Record2 a mods_m:Record .
+OPTIONAL
+{
+?Adjudication a swpa_m:Adjudication .
+?Adjudication a swpa_m:CreativeWorkInstanceDuplicateAdjudication .
+?Adjudication swpa_m:compares ?Record1 .
+?Adjudication swpa_m:compares ?Record2 .
+?Adjudication swpa_m:isDuplicate ?_isDuplicate .
+}
+?Match swpa_m:weight ?_weight .
+{
+SELECT DISTINCT
+?Record1 ?Record2 ?Match
+WHERE
+{
+?Mods1 mods_m:identifierValue "$record1"^^<http://www.w3.org/2001/XMLSchema#string> .
+?Mods2 mods_m:identifierValue "$record2"^^<http://www.w3.org/2001/XMLSchema#string> .
+?Record1 a mods_m:Record .
+?Record1 mods_m:hasMods ?Mods1 .
+?Mods1 mods_m:recordContentSourceValue "$org1"^^<http://www.w3.org/2001/XMLSchema#string> .
+
+?Mods1 swpa_m:hasMatch ?Match .
+?Match swpa_m:hasTarget ?Mods2 .
+
+?Record2 mods_m:hasMods ?Mods2 .
+?Record2 a mods_m:Record .
+?Mods2 mods_m:recordContentSourceValue "$org2"^^<http://www.w3.org/2001/XMLSchema#string> .
+}
+}
+}
+}
+}
+}
+
+
+}

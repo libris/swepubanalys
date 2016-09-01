@@ -1,6 +1,5 @@
-import Clients.GitHub
+import clients.GitHub
 import org.junit.Test
-import wslite.json.JSONObject
 
 /**
  * Created by Theodor on 2016-02-02.

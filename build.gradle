@@ -1,5 +1,5 @@
 import org.apache.tools.ant.taskdefs.condition.Os
-
+import static groovy.json.JsonOutput.*
 import java.nio.charset.Charset
 
 import static java.util.UUID.randomUUID
@@ -15,7 +15,7 @@ def loadConfiguration() {
     project.ext.environment = environment
     def configFile = file('configValues.groovy')
     def config = new ConfigSlurper(environment).parse(configFile.toURI().toURL())
-    println config.toString()
+    println prettyPrint(toJson(config))
     config.mode = ext.environment
     config.buildStamp = (randomUUID() as String).toUpperCase()
     config.buildTimeStamp = (new Date()).format('yyyy-MM-dd HH:mm:ss')
@@ -54,6 +54,7 @@ dependencies {
              'com.sun.mail:javax.mail:1.5.4', 'com.sparkjava:spark-core:2.3',
              'com.sparkjava:spark-template-mustache:1.0.0',
              'com.github.groovy-wslite:groovy-wslite:1.1.2',
+             'commons-validator:commons-validator:1.5.1',
              'commons-validator:commons-validator:1.4.1'])
 
     testCompile group: 'junit', name: 'junit', version: '4.11'
@@ -115,7 +116,14 @@ task webpack(type: Exec) {
             println "Great success! Output is: ${output}"
         }
     }
-
+    if (project.environment == 'prod'){
+        commandLine mainCommand, '-p --display-modules'
+        println "prod"
+    }
+    else {
+        commandLine mainCommand, '--display-modules'
+        println "not prod"
+    }
 }
 
 
@@ -156,16 +164,3 @@ task downloadJarsToLibs() {
         }
     }
 }
-
-
-
-
-war.dependsOn downloadJarsToLibs, npmInstall, bowerInstall, bowerSyncComponentsForBeta, bowerSyncComponentsForQf, CopyMissingFonts, webpack
-
-
-
-
-
-
-
-

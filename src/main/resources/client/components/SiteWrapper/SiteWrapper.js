@@ -34,13 +34,14 @@ var SiteWrapperMixin = {
 		'tech-info-window': TechInfoWindow
 	},
 	events: {
-		/*
+
 		'authenticate': function() {
 			if(this.authenticated) {
 				this.$broadcast('logged-in', this.userModel);
+
 			}
 		},
-		*/
+
 		'setTextTitle': function() {
 			
 		}
@@ -55,14 +56,17 @@ var SiteWrapperMixin = {
 		}.bind(this));
 
 		// Set GitHub-image
-		this.$els.githubImage1.src = this.$els.githubImage2.src = require('octicons/svg/mark-github.svg');
+		this.$els.githubImage1.src = this.$els.githubImage2.src = require('octicons/lib/svg/mark-github.svg');
 	},
 	methods: {
 		checkLoggedInStatus: function() {
 			AuthenticationUtil.authenticate(function(authenticated) {
 				if (!authenticated.isLoggedIn) {
-					var url = '/secure?return=';
-					$(location).attr('href', url + window.location.href);
+					var path = '/secure?return=';
+					var host = window.location.host;
+					var protocol = 'https://';
+					var href = window.location.href;
+					$(location).attr('href', protocol+ host + path + href);
 				}
 			});
 		}

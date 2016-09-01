@@ -1,0 +1,26 @@
+{
+  "aggs": {
+    "matchWeight": {
+      "histogram": {
+        "field": "totalMatchWeight",
+        "interval": 1,
+        "min_doc_count": 1
+      }
+    },
+    "matchWeight_by_org": {
+      "terms": {
+        "field": "recordContentSourceValue",
+        "size": 0
+      },
+      "aggs": {
+        "mv": {
+          "histogram": {
+            "field": "totalMatchWeight",
+            "interval": 1,
+            "min_doc_count": 1
+          }
+        }
+      }
+    }
+  }
+}

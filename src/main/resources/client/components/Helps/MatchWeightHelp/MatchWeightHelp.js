@@ -12,7 +12,7 @@ var MatchWeightHelp = {
 	ready: function() {
 		this.initHelp({
 			title: 'VIKTNING',
-			content: require('docs/match_weight.md'),
+			content: '',
 			anchorToElement: this.$el
 		});
 	}
