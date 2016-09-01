@@ -47,16 +47,13 @@ var SiteWrapperMixin = {
 		}
 
 	},
-	ready: function() {	
+	ready: function() {
 		AuthenticationUtil.authenticate(function(authenticated) {
 			if (authenticated.isLoggedIn) {
 				this.$set('authenticated', true);
 				this.$set('userModel', authenticated);
-			}	
+			}
 		}.bind(this));
-
-		// Set GitHub-image
-		this.$els.githubImage1.src = this.$els.githubImage2.src = require('octicons/lib/svg/mark-github.svg');
 	},
 	methods: {
 		checkLoggedInStatus: function() {
