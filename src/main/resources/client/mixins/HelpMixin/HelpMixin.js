@@ -68,7 +68,6 @@ var HelpMixin = {
        * Handle show/hide manually
        */
       $(document).on('click', function(e) {
-        console.log("Registered click event for help popover");
         var initiatorElement = conf.initiatorElement;
         var anchorToElement = conf.anchorToElement;
         // If click on, or inside of, initiatorElement
