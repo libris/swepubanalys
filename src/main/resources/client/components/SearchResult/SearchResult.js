@@ -96,7 +96,6 @@ var SearchResult = {
                 this.$set('formModelHasChanged', false);
             }
             ;
-            console.log('1')
             if (this.formModel.templateName) {
                 // *** Post "Preview-query" if there are selected filterFields which does not exist in result
                 // *** Update list preview with result
@@ -108,13 +107,11 @@ var SearchResult = {
                     for (var i = 0; i < formModel.filterFields.length; i++) {
 
                         if (formModel.filterFields[i].checked === true) {
-                            console.log('2')
                             selectedFields++;
                             if (this.result && this.result.head && this.result.head.vars) {
                                 var index = _findIndex(this.result.head.vars, function (field) {
                                     return '?' + field === formModel.filterFields[i].field;
                                 });
-                                console.log('3')
                                 if (index === -1 || formModelChanged === true) {
                                     console.log('*** SearchResults.updateQuery: Posting query');
                                     console.log(JSON.stringify(formModel))
@@ -122,7 +119,7 @@ var SearchResult = {
                                     this.getResult(query, function () {
                                         this.$set('pendingUpdate', false);
                                         this.$set('pendingRefresh', false);
-                                        // Get total hits 
+                                        // Get total hits
                                         DataUtil.getFilterAggregations(formModel, function (aggregations) {
                                             if (aggregations && typeof aggregations.total_hits !== 'undefined') {
                                                 this.$set('totalHits', aggregations.total_hits);

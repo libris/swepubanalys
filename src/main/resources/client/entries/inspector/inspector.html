@@ -33,9 +33,9 @@
 									<p>FÖRDELNING AV POSTER</p>
 								</div>
 								<div>
-									<chart 
+									<chart
 										type="donut"
-										legend-position="bottom"  
+										legend-position="bottom"
 										:color-categories.once="colorCategories"
 										height="390"
 										:min="0.0"
@@ -54,9 +54,9 @@
 									<p>ANDEL FELFRIA POSTER PER LÄROSÄTE <span v-if="labels.length === 0">(topp 5)</span></p>
 								</div>
 								<div>
-									<chart 
-										type="bar" 
-										x-axis-type="category" 
+									<chart
+										type="bar"
+										x-axis-type="category"
 										:show-legend="false"
 										:color-categories.once="colorCategories"
 										height="373"
@@ -77,11 +77,11 @@
 								<div class="{{ $data._styles.GraphTitle }}">
 									<p>DISTRIBUTION AV SWEPUBS FELTYPER</p>
 								</div>
-								<chart 
-									type="donut" 
-									legend-position="right" 
+								<chart
+									type="donut"
+									legend-position="right"
 									:color-categories.once="violationTypeColorCategories"
-									height="390" 
+									height="390"
 									:on-click.once="onClickViolation"
 									:get-content="violationTypeDistributionChart.getContent">
 								</chart>
@@ -112,7 +112,7 @@
 									</p>
 								</div>
 								<div>
-									<chart type="line" 
+									<chart type="line"
 										height="390"
 										:color-categories.once="colorCategories"
 										tick-format="0%"
@@ -130,13 +130,13 @@
 			<!-- Search form -->
 			<h2>TRE STEG TILL HÖGRE DATAKVALITET</h2>
 			<div class="{{ $data._styles.SearchForm }}" v-el:search-form>
-				<search-form 
-						:on-change.once="onChange" 
-						from="2012" 
-						:to="new Date().getFullYear()" 
+				<search-form
+						:on-change.once="onChange"
+						from="2012"
+						:to="new Date().getFullYear()"
 						default-template="duplicates">
 					<div slot="SearchFormTitle">
-						
+
 					</div>
 					<div slot="SearchFormDescription">
 						<p>Här söker du fram ofullständig metadata om vetenskaplig output.</p>
@@ -171,10 +171,10 @@
 		<div v-show="activity">
 			<div v-el:search-result>
 				<!-- Error list activity -->
-				<search-result 
-						v-if="activity === 'VIOLATIONS'" 
-						:form-model="formData.formModel" 
-						:fields="formData.fields" 
+				<search-result
+						v-if="activity === 'VIOLATIONS'"
+						:form-model="formData.formModel"
+						:fields="formData.fields"
 						:on-result-received.once="onResultReceived"
 						:show-fractional="false">
 
@@ -184,15 +184,15 @@
 				<duplicates-tool
 					v-if="activity === 'LOCAL_DUPLICATES'"
 					:form-model="formData.formModel"
-					:fields="formData.fields" 
+					:fields="formData.fields"
 					:select-all-filter-fields.once="true"
 					:on-result-received.once="onResultReceived">
 				</duplicates-tool>
 				<!-- Duplicates activity -->
-				<ambiguities-tool 
+				<ambiguities-tool
 					v-if="activity === 'AMBIGUITIES'"
-					:form-model="formData.formModel" 
-					:fields="formData.fields" 
+					:form-model="formData.formModel"
+					:fields="formData.fields"
 					:on-result-received.once="onResultReceived">
 				</ambiguities-tool>
 			</div>

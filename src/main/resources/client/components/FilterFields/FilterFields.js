@@ -62,7 +62,7 @@ var FilterFields = {
 			this.$set('filterFields', _cloneDeep(this.defaultFilterFields));
 		}
 	},
-	ready: function() {		
+	ready: function() {
 		SearchFormUtil.getFilterFieldGroups(function(filterFieldGroups) {
 			this.filterFieldGroups = filterFieldGroups;
 		}.bind(this));

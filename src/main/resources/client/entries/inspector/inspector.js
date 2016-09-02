@@ -49,11 +49,11 @@ var Inspector = {
 			console.log('fm:' + JSON.stringify(value))
 			this._t = setTimeout(function() {
 
-				
+
 				DataUtil.getFilterAggregations(this.formModel, function(aggregations) {
 					if(!aggregations.error) {
 						SearchFormUtil.handleAggregations(aggregations);
-						this.setAggregations(aggregations);	
+						this.setAggregations(aggregations);
 						this.$set('error', false);
 					} else {
 						this.$set('error', true);
@@ -134,7 +134,7 @@ var Inspector = {
 		 * On submission of FormModel
 		 * @param {Object} formData
 		 */
-		onChange: function(formData) {			
+		onChange: function(formData) {
 			this.$set('fields', formData.fields);
 			formData.formModel.aggregate = 'inspector';
 			this.$set('formModel', formData.formModel);
@@ -151,7 +151,7 @@ var Inspector = {
 			}
 		},
 		/**
-		 * 
+		 *
 		 */
 		onCarouselNavigate: function(status) {
 			this.$set('visibleItems', status.visibleItems);
@@ -211,9 +211,9 @@ var Inspector = {
 					}]
 				});
 			}
-			
+
 			// Start error-activity
-			
+
 			this.$emit('start-activity', 'VIOLATIONS');
 		},
 		onClickViolationButton: function(violation) {
@@ -222,7 +222,7 @@ var Inspector = {
 			// Start error-activity
 			$(".chooseViolationSection").show();
 			this.$emit('start-activity', 'VIOLATIONS');
-			
+
 		},
 		/**
 		 * Gives site access to recieve the the state the user left
@@ -265,7 +265,7 @@ var Inspector = {
 		 */
 		setAggregations: function(aggregations) {
 			// *** LINE CHART *** //
-			this.setChartContent('grade3ViolationChart', FormatAggregationUtil.toGrade3ViolationRatioYearTimeSeries(aggregations, this.formModel.org.length === 0));	
+			this.setChartContent('grade3ViolationChart', FormatAggregationUtil.toGrade3ViolationRatioYearTimeSeries(aggregations, this.formModel.org.length === 0));
 			// *** BAR CHART *** //
 			this.setChartContent('orgViolations', FormatAggregationUtil.toOrgViolationRatio(aggregations, this.formModel.org.length === 0 ? 5 : 10000));
 			// *** VIOLATION TYPE DISTRIBUTION CHART *** //
@@ -298,7 +298,7 @@ var Inspector = {
 				this.$set(chartPath + '.getContent', null);
 			}
 		}
-		
+
 	}
 };
 
@@ -332,7 +332,6 @@ var l = strongColorPattern.length;
 var offset = Math.floor(strongColorPattern.length/2);
 offset = 7;
 categories.forEach(function(category, i) {
-	console.log(category)
 	if(category === 'Felfria poster') {
 		colorCategories[category] = '#FFDA60';
 	} else if(category === 'Bristfälliga poster') {
@@ -342,7 +341,7 @@ categories.forEach(function(category, i) {
 	} else {
 		colorCategories[category] = strongColorPattern[(i+offset)%l];
 	}
-	
+
 });
 
 var violationGrade3Color = '#F07B38';

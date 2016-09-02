@@ -13,7 +13,7 @@ var TechnicalInfoUtil = require('utils/TechnicalInfoUtil/TechnicalInfoUtil.js');
 
 // CSS modules
 var styles = _assign(
-	require('./SiteWrapper.css'), 
+	require('./SiteWrapper.css'),
 	require('css/modules/Colors.less')
 );
 
@@ -43,7 +43,7 @@ var SiteWrapperMixin = {
 		},
 
 		'setTextTitle': function() {
-			
+
 		}
 
 	},
