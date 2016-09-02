@@ -78,7 +78,7 @@
 							</tr>
 							<!-- Expanded row -->
 							<!-- Loading... -->
-							<tr v-if="article.show" transition="expand" class="{{ $data._styles.LightRow }}">
+							<tr v-if="article.show" class="{{ $data._styles.LightRow }}">
 								<template v-if="article.loading">
 									<td colpan="3">
 										<div class="{{ $parent.$data._styles.LoadingRow }}">
@@ -88,7 +88,7 @@
 								</template>
 							</tr>
 							<!-- Iframes -->
-							<tr v-if="article.show" transition="expand" style="" class="{{ $data._styles.DarkRowRow }}">
+							<tr v-if="article.show" style="" class="{{ $data._styles.DarkRowRow }}">
 								<template v-if="!article.loading">
 									<td class="{{ $parent.$data._styles.IframeCol1 }}">
 										<div><p v-if="article.show" class="{{ $data._styles.Ellipsis }}" style="..."><small >Visas inte posten nedan? Länk till posten:<a href="{{article._uri1.value}}">{{article._uri1.value}}</a> </small></p></div>
