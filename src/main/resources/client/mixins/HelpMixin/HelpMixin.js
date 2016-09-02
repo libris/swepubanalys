@@ -31,6 +31,10 @@ var HelpMixin = {
      */
     initHelp: function(conf) {
       var el = this.$el;
+
+      if (!conf.initiatorElement) {
+        console.log('initiatorElement not provided for help-text with title "'+conf.title+'". Defaulting to element with className \'helpInitiator\' or component root-node.');
+      }
       conf.initiatorElement = conf.initiatorElement || (el.getElementsByClassName('helpInitiator')[0] || el);
       conf.anchorToElement = conf.anchorToElement || el;
       this.createPopover(conf);
