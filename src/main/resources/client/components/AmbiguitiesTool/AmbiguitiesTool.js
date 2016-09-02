@@ -14,7 +14,7 @@ var DataUtil = require('utils/DataUtil/DataUtil.js');
 // CSS modules
 var styles = _assign(
     require('./AmbiguitiesTool.css'),
-	require('css/modules/Colors.less')	
+	require('css/modules/Colors.less')
 );
 
 

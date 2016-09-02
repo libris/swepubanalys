@@ -8,7 +8,7 @@ var _sortBy = require('lodash/collection/sortBy');
 var SearchFormUtil = require('utils/SearchFormUtil/SearchFormUtil');
 var DataUtil = require('utils/DataUtil/DataUtil.js');
 
-//var compareVal = ''; 
+//var compareVal = '';
 
 /**
  * Violations Dropdown Component
@@ -24,7 +24,7 @@ var ViolationsDropdown = {
 			selected: '',
 		}
 	},
-	
+
 	ready: function() {
 		DataUtil.getAggregations(function(data) {
  	        //console.log(data);
@@ -38,7 +38,7 @@ var ViolationsDropdown = {
 	},
 	methods: {
 	}
-	
+
 };
 
 Vue.filter('orderViolations', function(violations) {

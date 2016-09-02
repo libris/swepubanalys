@@ -62,18 +62,20 @@ var FilterFields = {
 			this.$set('filterFields', _cloneDeep(this.defaultFilterFields));
 		}
 	},
-	ready: function() {		
+	ready: function() {
 		SearchFormUtil.getFilterFieldGroups(function(filterFieldGroups) {
 			this.filterFieldGroups = filterFieldGroups;
 		}.bind(this));
-		this.initHelp({
-			title: 'FRAKTIONERAD DATA',
-			content: require('docs/fractionated_data.md'),
-			anchorToElement: this.$els.fractSymbol,
-			placement: 'top',
-			marginLeft: '3px',
-			marginTop: '-15px'
-		});
+    if (this.showFractional) {
+      this.initHelp({
+        title: 'FRAKTIONERAD DATA',
+        content: require('docs/fractionated_data.md'),
+        anchorToElement: this.$els.fractSymbol,
+        placement: 'top',
+        marginLeft: '3px',
+        marginTop: '-15px'
+      });
+    }
 	}
 };
 

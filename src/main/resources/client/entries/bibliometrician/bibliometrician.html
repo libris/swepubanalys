@@ -30,9 +30,9 @@
 					<!-- Search results -->
 					<div v-if="formData.formModel.templateName" transition="expand">
 						<div class="result">
-							<search-result 
-									:form-model="formData.formModel" 
-									:fields="formData.fields" 
+							<search-result
+									:form-model="formData.formModel"
+									:fields="formData.fields"
 									:on-result-received.once="onResultReceived"
 									:on-generate-query.once="onGenerateQuery"
 									:show-fractional="true">
@@ -61,7 +61,7 @@
 					<!-- Query results -->
 					<div v-show="inputQuery" transition="expand">
 						<div class="result">
-							<query-result 
+							<query-result
 									:input-query="inputQuery"
 									:on-result-received.once="onResultReceived">
 								<div slot="QueryResultTitle">
