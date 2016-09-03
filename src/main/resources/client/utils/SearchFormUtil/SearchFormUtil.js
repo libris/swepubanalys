@@ -396,7 +396,7 @@ var violations = {
     'swpa_m:LocalPersonIDMultipleNameVariants': {
         text: 'Upphov - olika namnvarianter',
         name: 'Multiple variants of name',
-        grade: 2
+        grade: 1
     },
     'swpa_m:MissingHSV3Violation': {text: 'Ämne saknas', name: 'missing UK\u00c4/SCB 3-digit subject code', grade: 1}
 };
