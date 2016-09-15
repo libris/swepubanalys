@@ -166,7 +166,7 @@ var formSuggestions = {
         {value: '304', text: '304 Medicinsk bioteknologi'},
         {value: '305', text: '305 Annan medicin och hälsovetenskap'},
 
-        {value: '401,402,403,404,405', text: '401-405 - Lantbruksvetenskap'},
+        {value: '401,402,403,404,405', text: '401-405 - Lantbruksvetenskap och veterinärmedicin'},
         {value: '401', text: '401 Lantbruksvetenskap, skogsbruk och fiske'},
         {value: '402', text: '402 Husdjursvetenskap'},
         {value: '403', text: '403 Veterinärmedicin'},
@@ -184,7 +184,7 @@ var formSuggestions = {
         {value: '508', text: '508 Medie- och kommunikationsvetenskap'},
         {value: '509', text: '509 Annan samhällsvetenskap'},
 
-        {value: '601,602,603,604,605', text: '601-605 - Humaniora'},
+        {value: '601,602,603,604,605', text: '601-605 - Humaniora och konst'},
         {value: '601', text: '601 Historia och arkeologi'},
         {value: '602', text: '602 Språk och litteratur'},
         {value: '603', text: '603 Filosofi, etik och religion'},
