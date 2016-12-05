@@ -91,7 +91,7 @@ OPTIONAL
 {
 ?Record swpa_m:possiblySameAs ?Dubblett .
 ?Dubblett mods_m:hasMods ?Mods2 .
-?Mods mods_m:identifierValue ?_dubblettID .
+?Mods2 mods_m:identifierValue ?_dubblettID .
 }
 #END_<?_dubblettID>
 
