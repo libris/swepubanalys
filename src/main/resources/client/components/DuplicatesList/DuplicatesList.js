@@ -215,6 +215,7 @@ var orgs = [
     {value: 'nrm', text: 'Naturhistoriska riksmuseet'},
     {value: 'naturvardsverket', text: 'Naturvårdsverket'},
     {value: 'nai', text: 'Nordiska Afrikainstitutet'},
+    {value: 'ri', text: 'RISE - Research Institutions of Sweden'},
     {value: 'rkh', text: 'Röda korsets högskola'},
     {value: 'shh', text: 'Sophiahemmet högskola'},
     {value: 'vti', text: 'Statens väg- och transportforskningsinstitut'},
