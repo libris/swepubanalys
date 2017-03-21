@@ -198,7 +198,7 @@ var AmbiguitiesList = {
 var orgs = [
     {value: 'bth', text: 'Blekinge tekniska högskola'},
     {value: 'cth', text: 'Chalmers tekniska högskola'},
-    {value: 'esh', text: 'Ersta Sköndal högskola'},
+    {value: 'esh', text: 'Ersta Sköndal Bräcke högskola'},
     {value: 'fhs', text: 'Försvarshögskolan'},
     {value: 'gih', text: 'Gymnastik- och idrottshögskolan'},
     {value: 'gu', text: 'Göteborgs universitet'},
