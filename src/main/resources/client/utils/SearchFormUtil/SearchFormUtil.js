@@ -120,7 +120,7 @@ var formSuggestions = {
         {value: 'lnu', text: 'Linnéuniversitetet'},
         {value: 'ltu', text: 'Luleå tekniska universitet'},
         {value: 'lu', text: 'Lunds universitet'},
-        {value: 'mah', text: 'Malmö högskola'},
+        {value: 'mah', text: 'Malmö universitet'},
         {value: 'miun', text: 'Mittuniversitetet'},
         {value: 'mdh', text: 'Mälardalens högskola'},
         {value: 'nationalmuseum', text: 'Nationalmuseum'},
