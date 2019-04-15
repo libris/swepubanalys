@@ -9,12 +9,20 @@ There is also a repository dedicated for direct SPARQL interaction with the data
 Please note that configuration and a few more key koncepts are not yet implemented into the solution.
 
 ### Dependencies
-* Install elasticsearch from http://elasticsearch.org/ (or use a package manager, e.g.: brew install elasticsearch).
 * Install gradle from http://gradle.org/ (or use a package manager, e.g.: brew install gradle).   
 * Install node from https://nodejs.org (or use a package manager, e.g.: brew install node).   
 * Install bower from http://bower.io/ (or use a package manager, e.g.: npm install -g bower). 
 * Install webpack from https://webpack.github.io/  (or use a package manager, e.g.: npm install webpack -g)
 * Install elasticsearch from http://elasticsearch.org/ (or use a package manager, e.g.: brew install elasticsearch).
+
+### Configuration
+Copy configValues.template.groovy to configValues.groovy and edit that according to your needs.
+
+### Building
+To build a war file for prod, run:
+
+    $ npm install && node_modules/.bin/bower install # "once"
+    $ node_modules/.bin/webpack && ./gradlew -Penv=prod clean bowerSyncComponentsForQf CopyMissingFonts war
 
 ### Running SwePub för analys och bibliometri on Tomcat
 * Download the sourcecode
