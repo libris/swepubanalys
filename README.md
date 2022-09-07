@@ -1,3 +1,8 @@
+# DEPRECATED
+
+See https://github.com/libris/swepub-redux
+
+
 # Source code for  SwePub för analys och bibliometri
 
 This is the source code for the web interface for the SwePub för analys och bibliometri service - SwePub for analysis and bibliometrics (http://bibliometri.swepub.kb.se/)
